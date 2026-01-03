@@ -25,7 +25,7 @@ def verify_and_setup(interactive: bool = True, auto_fix: bool = False) -> Dict[s
 
     Example:
         >>> from accompy.setup_utils import verify_and_setup
-        >>> status = verify_and_setup(interactive=True)
+        >>> status = verify_and_setup(interactive=False)
         >>> if all(status.values()):
         ...     print("Ready to use!")
     """
@@ -71,11 +71,12 @@ def diagnose_issues() -> List[Tuple[str, str, str]]:
     Returns:
         List of (issue, description, solution) tuples
 
-    Example:
-        >>> from accompy.setup_utils import diagnose_issues
-        >>> for issue, desc, solution in diagnose_issues():
-        ...     print(f"{issue}: {desc}")
-        ...     print(f"Solution: {solution}\n")
+    Example::
+
+        from accompy.setup_utils import diagnose_issues
+        for issue, desc, solution in diagnose_issues():
+            print(f"{issue}: {desc}")
+            print(f"Solution: {solution}")
     """
     from .accompy import check_dependencies, _default_soundfont_path, _fluidsynth_available
 
@@ -144,10 +145,11 @@ def setup_soundfont(force: bool = False) -> bool:
     Returns:
         True if successful, False otherwise
 
-    Example:
-        >>> from accompy.setup_utils import setup_soundfont
-        >>> if setup_soundfont():
-        ...     print("SoundFont configured successfully!")
+    Example::
+
+        from accompy.setup_utils import setup_soundfont
+        if setup_soundfont():
+            print("SoundFont configured successfully!")
     """
     from .accompy import _default_soundfont_path
 
@@ -222,33 +224,106 @@ def _link_soundfont(source: Path, target: Path) -> bool:
         return False
 
 
-def _download_soundfont(target_path: Path) -> bool:
-    """Download a SoundFont file from the internet."""
-    # List of SoundFont download URLs to try
-    urls = [
-        # MuseScore's GeneralUser GS (good quality, reliable host)
-        "https://ftp.osuosl.org/pub/musescore/soundfont/MuseScore_General/MuseScore_General.sf2",
-    ]
+def _download_soundfont(target_path: Path, soundfont: str = "auto") -> bool:
+    """
+    Download a SoundFont file from the internet.
+
+    Args:
+        target_path: Where to save the soundfont
+        soundfont: Which soundfont to download. Options:
+            - "auto": Try multiple sources in order
+            - "generaluser": GeneralUser GS (30MB, good quality, balanced)
+            - "musescore": MuseScore General (35MB, good all-around)
+            - Custom URL starting with http:// or https://
+
+    Returns:
+        True if successful, False otherwise
+    """
+    # Define available soundfonts with metadata
+    soundfonts = {
+        "generaluser": {
+            "url": "https://schristiancollins.com/soundfonts/GeneralUser_GS_1.471.zip",
+            "name": "GeneralUser GS v1.471",
+            "size": "~30MB",
+            "license": "GeneralUser GS License v2.0 (free for commercial use)",
+            "description": "Excellent all-around soundfont with good bass and drums",
+        },
+        "musescore": {
+            "url": "https://ftp.osuosl.org/pub/musescore/soundfont/MuseScore_General/MuseScore_General.sf2",
+            "name": "MuseScore General",
+            "size": "~35MB",
+            "license": "MIT/public domain",
+            "description": "MuseScore's default soundfont, good quality",
+        },
+    }
+
+    # Determine which soundfonts to try
+    if soundfont == "auto":
+        urls_to_try = [
+            ("generaluser", soundfonts["generaluser"]),
+            ("musescore", soundfonts["musescore"]),
+        ]
+    elif soundfont.startswith(("http://", "https://")):
+        urls_to_try = [("custom", {"url": soundfont, "name": "Custom SoundFont"})]
+    elif soundfont in soundfonts:
+        urls_to_try = [(soundfont, soundfonts[soundfont])]
+    else:
+        print(f"✗ Unknown soundfont: {soundfont}")
+        print(f"Available options: {', '.join(soundfonts.keys())}")
+        return False
 
     target_path.parent.mkdir(parents=True, exist_ok=True)
 
-    for url in urls:
+    for sf_key, sf_info in urls_to_try:
         try:
-            print(f"Attempting to download from {url}...")
+            url = sf_info["url"]
+            name = sf_info["name"]
+            print(f"\nAttempting to download {name}...")
+            if "description" in sf_info:
+                print(f"  {sf_info['description']}")
+
+            # Check if it's a zip file
+            is_zip = url.endswith(".zip")
+            download_path = target_path.with_suffix(".zip") if is_zip else target_path
 
             # Try using curl (more likely to be available than wget)
             result = subprocess.run(
-                ["curl", "-L", "-o", str(target_path), url],
+                ["curl", "-L", "-o", str(download_path), url],
                 capture_output=True,
-                timeout=300  # 5 minute timeout
+                timeout=600  # 10 minute timeout for larger files
             )
 
-            if result.returncode == 0 and target_path.exists() and target_path.stat().st_size > 1000000:
-                print(f"✓ Downloaded SoundFont to {target_path}")
-                return True
-            else:
-                print(f"✗ Download failed or file is too small")
-                if target_path.exists():
+            if result.returncode == 0 and download_path.exists():
+                # Handle zip files
+                if is_zip:
+                    print(f"  Extracting zip file...")
+                    try:
+                        import zipfile
+                        with zipfile.ZipFile(download_path, 'r') as zip_ref:
+                            # Find .sf2 file in zip
+                            sf2_files = [f for f in zip_ref.namelist() if f.endswith('.sf2')]
+                            if sf2_files:
+                                # Extract first .sf2 file
+                                zip_ref.extract(sf2_files[0], target_path.parent)
+                                extracted_path = target_path.parent / sf2_files[0]
+                                extracted_path.rename(target_path)
+                                download_path.unlink()  # Remove zip
+                            else:
+                                print(f"✗ No .sf2 file found in zip")
+                                download_path.unlink()
+                                continue
+                    except Exception as e:
+                        print(f"✗ Failed to extract zip: {e}")
+                        download_path.unlink()
+                        continue
+
+                # Verify file size
+                if target_path.stat().st_size > 1000000:  # At least 1MB
+                    print(f"✓ Downloaded {name} to {target_path}")
+                    print(f"  Size: {target_path.stat().st_size / 1024 / 1024:.1f}MB")
+                    return True
+                else:
+                    print(f"✗ Downloaded file is too small (corrupt?)")
                     target_path.unlink()
 
         except subprocess.TimeoutExpired:
@@ -257,8 +332,18 @@ def _download_soundfont(target_path: Path) -> bool:
             print(f"✗ Download failed: {e}")
 
     print("\n⚠️  Automatic download failed. Please manually download a SoundFont:")
-    print("  1. Download from: https://musical-artifacts.com/artifacts?tags=sf2")
-    print("  2. Save to: ~/.fluidsynth/default_sound_font.sf2")
+    print("\nRecommended soundfonts (copyright-free, high quality):")
+    print("\n1. GeneralUser GS (recommended for jazz/accompaniment):")
+    print("   Download: https://schristiancollins.com/generaluser.php")
+    print("   License: Free for commercial use")
+    print("   Quality: Excellent bass and drums\n")
+    print("2. Musyng Kite (larger, very high quality):")
+    print("   Download: https://www.polyphone.io/en/soundfonts/instrument-sets/258-musyng-kite")
+    print("   License: CC-BY-SA 3.0 (free, attribution required)")
+    print("   Size: 339MB compressed / 990MB uncompressed\n")
+    print("3. More options:")
+    print("   Browse: https://musical-artifacts.com/artifacts?formats=sf2")
+    print("\nAfter downloading, save as: ~/.fluidsynth/default_sound_font.sf2")
     return False
 
 

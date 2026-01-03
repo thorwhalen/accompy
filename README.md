@@ -14,9 +14,12 @@ print(f"Generated: {audio}")  # -> /tmp/xxx.wav
 
 - **Simple API**: One function to generate complete backing tracks
 - **Multiple styles**: Swing, bossa nova, rock, funk, ballad, latin, waltz, blues
-- **iReal Pro compatible**: Parse iReal Pro URLs directly
+- **Flexible chord inputs**: Strings, `Score`, iReal URLs, or `(chord, beats)` tuples
+- **Backend selector**: `backend="auto"|"mma"|"builtin"` (with backwards-compatible `use_mma`)
+- **iReal Pro compatible**: Parse iReal Pro URLs directly (with optional `pyRealParser`)
 - **Multi-instrument**: Drums, bass, piano with style-appropriate patterns
 - **Audio output**: WAV, MP3, FLAC via FluidSynth
+- **MIDI output**: Save `.mid` directly (skip audio rendering)
 - **Extensible**: Add custom patterns and styles
 
 ## Quick Start
@@ -101,6 +104,12 @@ audio = generate_accompaniment(
     repeats=4,
     output_path="my_track.wav"
 )
+
+# Generate MIDI only (skip audio rendering)
+midi = generate_accompaniment(
+   "| Dm7 | G7 | Cmaj7 | Am7 |",
+   output_path="my_track.mid",
+)
 ```
 
 ### Using Score Objects
@@ -120,6 +129,42 @@ score = Score.from_string(
 
 # Generate audio
 audio = generate_accompaniment(score, style="swing", tempo=120)
+
+### Flexible Chord Inputs
+
+`generate_accompaniment(...)` accepts several common chord progression formats.
+
+```python
+from accompy import ensure_score, generate_accompaniment
+
+# 1) iReal-style chord strings
+generate_accompaniment("| C | Am | F | G |")
+
+# 2) iReal Pro URL strings (irealbook://... or irealb://...)
+generate_accompaniment("irealbook://Autumn%20Leaves=...")
+
+# 3) List of (chord, beats) tuples (like `accompany`)
+chords = [("F#m7b5", 4), ("B7", 4), ("Em", 8)]
+score = ensure_score(chords, key="E")
+generate_accompaniment(score)
+```
+
+### Backend Selection
+
+Choose which generator to use:
+
+```python
+from accompy import generate_accompaniment
+
+# Auto: use MMA if available, else builtin
+generate_accompaniment("| Dm7 | G7 | Cmaj7 | Am7 |", backend="auto")
+
+# Force builtin generator
+generate_accompaniment("| Dm7 | G7 | Cmaj7 | Am7 |", backend="builtin")
+
+# Force MMA (errors if MMA isn't installed)
+generate_accompaniment("| Dm7 | G7 | Cmaj7 | Am7 |", backend="mma")
+```
 ```
 
 ### Chord Notation
@@ -188,7 +233,8 @@ score = Score.from_ireal_url(url)
 audio = generate_accompaniment(score, style="swing", tempo=140)
 ```
 
-**Note:** Requires `pyRealParser`: `pip install pyRealParser`
+**Note:** `pyRealParser` is optional. If installed, `Score.from_ireal_url(...)` will use it.
+If not installed, accompy uses a best-effort built-in parser.
 
 ### Advanced Configuration
 
@@ -213,7 +259,7 @@ config = AccompanimentConfig(
         "piano": 0.6,
     },
     sample_rate=44100,
-    output_format="mp3",  # wav, mp3, flac
+   output_format="mp3",  # wav, mp3, flac, midi
 )
 
 audio = generate_accompaniment(
@@ -265,26 +311,29 @@ Required:
 Recommended:
 - `mingus` — Music theory (better chord parsing)  
 - `pyRealParser` — iReal Pro URL parsing
+- `midi2audio` — Optional Python wrapper for FluidSynth (can improve portability)
 - `pydub` — Audio format conversion (if no ffmpeg)
 
 ```bash
-pip install midiutil mingus pyRealParser pydub
+pip install midiutil mingus pyRealParser midi2audio pydub
 ```
 
 ## API Reference
 
-### `generate_accompaniment(chords, *, style, tempo, repeats, output_path, config, use_mma)`
+### `generate_accompaniment(chords, *, style, tempo, repeats, output_path, output_format, config, use_mma, backend)`
 
 Generate accompaniment audio from chord progression.
 
 **Parameters:**
-- `chords` (str | Score): Chord progression
+- `chords` (str | Score | Iterable[tuple[str, int|float]] | Iterable[str] | list[list[str]]): Chord progression
 - `style` (str): "swing", "bossa", "rock", "ballad", "funk", "latin", "waltz", "blues"
 - `tempo` (int): BPM (default: 120)
 - `repeats` (int): Number of times through the form (default: 2)
 - `output_path` (str | Path): Where to save audio (default: temp file)
+- `output_format` (str | None): "wav", "mp3", "flac", "midi" (optional; inferred from `output_path`)
 - `config` (AccompanimentConfig): Full config (overrides style/tempo/repeats)
-- `use_mma` (bool): Use MMA if available (default: True)
+- `use_mma` (bool): Backwards-compatible MMA toggle (default: True)
+- `backend` (str | None): "auto", "mma", "builtin" (optional)
 
 **Returns:** Path to generated audio file
 
