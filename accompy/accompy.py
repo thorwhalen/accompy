@@ -24,6 +24,13 @@ from typing import Any, Iterable, Literal, Mapping, Optional, Union
 
 from tonal.chords import chord_to_notes as tonal_chord_to_notes
 
+from accompy.patterns import (
+    BassPattern,
+    CompingPattern,
+    DrumPattern,
+    get_patterns as get_style_patterns,
+)
+
 # Type aliases
 ChordSymbol = str
 ChordSpec = tuple[str, int | float]  # (chord_name, beats)
@@ -506,7 +513,9 @@ def print_setup_instructions():
 DFLT_CHORD_TRANSPOSE_SEMITONES = -12
 
 
-def _chord_to_notes_via_tonal(symbol: str, *, transpose: int = DFLT_CHORD_TRANSPOSE_SEMITONES) -> list[int]:
+def _chord_to_notes_via_tonal(
+    symbol: str, *, transpose: int = DFLT_CHORD_TRANSPOSE_SEMITONES
+) -> list[int]:
     """Return MIDI notes for chord symbol using `tonal`.
 
     Notes:
@@ -647,7 +656,6 @@ def _generate_builtin(score: Score, config: AccompanimentConfig) -> Path:
     except ImportError:
         raise ImportError("midiutil required. Install with: pip install midiutil")
 
-
     # Warn about unsupported instruments
     supported_instruments = {"drums", "bass", "piano"}
     unsupported = [
@@ -696,7 +704,7 @@ def _generate_builtin(score: Score, config: AccompanimentConfig) -> Path:
         track_idx += 1
 
     # Get style patterns
-    patterns = _get_style_patterns(config.style)
+    patterns = _get_style_patterns(config.style, beats_per_bar=score.time_signature[0])
 
     # Generate for each repeat
     beats_per_bar = score.time_signature[0]
@@ -824,87 +832,96 @@ def _basic_chord_to_notes(symbol: str) -> list[int]:
     return _chord_to_notes_via_tonal(symbol)
 
 
-def _get_style_patterns(style: StyleName) -> dict:
-    """Get rhythm patterns for a given style."""
-    patterns = {
-        "swing": {
-            "drums": [(0, 42, 80), (1, 42, 60), (2, 42, 80), (3, 42, 60)],  # Hi-hat
-            "bass": "walking",
-            "piano": "comping",
-        },
-        "bossa": {
-            "drums": [(0, 42, 70), (1.5, 42, 50), (3, 42, 70)],
-            "bass": "bossa",
-            "piano": "bossa",
-        },
-        "rock": {
-            "drums": [(0, 36, 100), (1, 38, 90), (2, 36, 100), (3, 38, 90)],
-            "bass": "root",
-            "piano": "block",
-        },
-        "ballad": {
-            "drums": [(0, 42, 50), (2, 42, 50)],
-            "bass": "half",
-            "piano": "arpeggiate",
-        },
-        "funk": {
-            "drums": [
-                (0, 36, 110),
-                (0.5, 38, 80),
-                (1, 36, 90),
-                (1.5, 38, 100),
-                (2, 36, 110),
-                (2.5, 38, 80),
-                (3, 36, 90),
-                (3.5, 38, 100),
-            ],
-            "bass": "syncopated",
-            "piano": "stabs",
-        },
-        "latin": {
-            "drums": [
-                (0, 36, 90),
-                (0.5, 42, 70),
-                (1, 42, 70),
-                (1.5, 38, 80),
-                (2, 36, 90),
-                (2.5, 42, 70),
-                (3, 38, 80),
-                (3.5, 42, 70),
-            ],
-            "bass": "montuno",
-            "piano": "montuno",
-        },
-        "waltz": {
-            "drums": [(0, 36, 100), (1, 42, 60), (2, 42, 60)],
-            "bass": "waltz",
-            "piano": "waltz",
-        },
-        "blues": {
-            "drums": [(0, 42, 80), (1, 42, 60), (2, 42, 80), (3, 42, 60)],
-            "bass": "shuffle",
-            "piano": "comping",
-        },
-    }
+def _get_style_patterns(
+    style: StyleName, *, beats_per_bar: Optional[int] = None
+) -> dict[str, DrumPattern | BassPattern | Optional[CompingPattern]]:
+    """Get default patterns for a given style.
 
-    return patterns.get(style, patterns["swing"])
+    Notes:
+        `accompy.patterns` is the single source of truth for pattern definitions.
+        This function selects a single drum, bass, and comping pattern for the
+        builtin renderer.
+    """
+    patterns = get_style_patterns(style)
+
+    drum_patterns: list[DrumPattern] = list(patterns["drums"])
+    bass_patterns: list[BassPattern] = list(patterns["bass"])
+    comp_patterns: list[CompingPattern] = list(patterns["comp"])
+
+    drum: DrumPattern
+    if beats_per_bar is None:
+        drum = drum_patterns[0]
+    else:
+        drum = next(
+            (p for p in drum_patterns if p.beats_per_bar == beats_per_bar),
+            drum_patterns[0],
+        )
+
+    bass = bass_patterns[0]
+    comp = comp_patterns[0] if comp_patterns else None
+
+    return {"drums": drum, "bass": bass, "piano": comp}
 
 
 def _add_drum_pattern(
-    midi, track: int, start_beat: float, duration: int, pattern: list, volume: float
+    midi,
+    track: int,
+    start_beat: float,
+    duration: int,
+    pattern: DrumPattern,
+    volume: float,
 ):
     """Add drum notes for a chord duration."""
     channel = 9  # MIDI drum channel
-    for beat_offset, drum_note, velocity in pattern:
-        if beat_offset < duration:
+    for hit in pattern.hits:
+        if hit.beat < duration:
             midi.addNote(
                 track,
                 channel,
-                drum_note,
-                start_beat + beat_offset,
+                hit.drum,
+                start_beat + hit.beat,
                 0.25,
-                int(velocity * volume),
+                int(hit.velocity * volume),
             )
+
+
+def _pitch_classes(notes: Iterable[int]) -> tuple[int, ...]:
+    """Return unique pitch classes (0-11) as a tuple."""
+    return tuple(sorted({n % 12 for n in notes}))
+
+
+def _resolve_pitch_offset(
+    *, root_pc: int, chord_pcs: tuple[int, ...], target_offset: int
+) -> int:
+    """Resolve a pitch offset against a chord.
+
+    The patterns use semitone offsets (0=root, 7=5th, etc.). When an offset
+    represents a chord tone which varies by quality (e.g. 3rd), we prefer a
+    matching chord tone from `chord_pcs`.
+
+    Examples:
+        For a minor chord, a pattern might request offset 4 ("3rd"); this
+        function will choose 3 if the chord contains a minor 3rd.
+    """
+
+    if not chord_pcs:
+        return target_offset
+
+    chord_intervals = tuple(sorted(((pc - root_pc) % 12) for pc in chord_pcs))
+    if target_offset in chord_intervals:
+        return target_offset
+
+    if target_offset in (3, 4):
+        if 3 in chord_intervals:
+            return 3
+        if 4 in chord_intervals:
+            return 4
+
+    if target_offset == 7 and chord_intervals:
+        if 7 in chord_intervals:
+            return 7
+
+    return target_offset
 
 
 def _add_bass_pattern(
@@ -914,40 +931,31 @@ def _add_bass_pattern(
     duration: int,
     root: int,
     chord_notes: list,
-    pattern_type: str,
+    pattern: BassPattern,
     volume: float,
 ):
-    """Add bass notes based on pattern type."""
+    """Add bass notes based on a `BassPattern` template."""
     channel = 0
-    velocity = int(100 * volume)
 
     # Adjust to bass range (octave 2-3)
     bass_root = (root % 12) + 36
+    root_pc = bass_root % 12
+    chord_pcs = _pitch_classes(chord_notes)
 
-    if pattern_type == "walking":
-        # Walking bass: root, 3rd, 5th, approach note
-        notes = [bass_root, bass_root + 4, bass_root + 7, bass_root + 11]
-        for i, note in enumerate(notes[:duration]):
-            midi.addNote(track, channel, note, start_beat + i, 0.9, velocity)
+    for note in pattern.notes:
+        if note.beat >= duration:
+            continue
 
-    elif pattern_type == "bossa":
-        # Bossa: root on 1, 5th on 3
-        midi.addNote(track, channel, bass_root, start_beat, 1.5, velocity)
-        if duration > 2:
-            midi.addNote(track, channel, bass_root + 7, start_beat + 2, 1.5, velocity)
+        resolved = _resolve_pitch_offset(
+            root_pc=root_pc, chord_pcs=chord_pcs, target_offset=note.pitch_offset
+        )
+        pitch = bass_root + resolved
+        vel = int(note.velocity * volume)
+        dur = min(note.duration, max(0.0, duration - note.beat))
+        if dur <= 0:
+            continue
 
-    elif pattern_type == "root":
-        # Rock: root on each beat
-        for i in range(duration):
-            midi.addNote(track, channel, bass_root, start_beat + i, 0.9, velocity)
-
-    elif pattern_type == "half":
-        # Ballad: root as half notes
-        midi.addNote(track, channel, bass_root, start_beat, 2, velocity)
-
-    else:
-        # Default: whole note
-        midi.addNote(track, channel, bass_root, start_beat, duration, velocity)
+        midi.addNote(track, channel, pitch, start_beat + note.beat, dur, vel)
 
 
 def _add_piano_pattern(
@@ -956,50 +964,43 @@ def _add_piano_pattern(
     start_beat: float,
     duration: int,
     chord_notes: list,
-    pattern_type: str,
+    pattern: Optional[CompingPattern],
     volume: float,
 ):
-    """Add piano/comping notes based on pattern type."""
+    """Add piano/comping notes based on a `CompingPattern` template."""
     channel = 1  # Channel 1 (bass uses 0, drums use 9)
-    velocity = int(90 * volume)
 
     # Move to mid-range
     notes = [(n % 12) + 60 for n in chord_notes[:4]]
 
-    if pattern_type == "comping":
-        # Jazz comping: on 2 and 4
-        if duration >= 2:
-            for note in notes:
-                midi.addNote(track, channel, note, start_beat + 1, 0.5, velocity)
-        if duration >= 4:
-            for note in notes:
-                midi.addNote(track, channel, note, start_beat + 3, 0.5, velocity)
+    if not notes:
+        return
 
-    elif pattern_type == "bossa":
-        # Bossa: syncopated
+    if pattern is None:
+        # Default: whole chord on beat 1
+        velocity = int(90 * volume)
         for note in notes:
-            midi.addNote(track, channel, note, start_beat, 0.4, velocity)
-        if duration > 1:
-            for note in notes:
-                midi.addNote(
-                    track, channel, note, start_beat + 1.5, 0.4, int(velocity * 0.8)
-                )
+            midi.addNote(track, channel, note, start_beat, duration * 0.9, velocity)
+        return
 
-    elif pattern_type == "block":
-        # Rock: on each beat
+    if not pattern.hits:
+        # Fallback: "block" chords on each beat
+        velocity = int(90 * volume)
         for i in range(min(duration, 4)):
             for note in notes:
                 midi.addNote(track, channel, note, start_beat + i, 0.9, velocity)
+        return
 
-    elif pattern_type == "arpeggiate":
-        # Ballad: arpeggiated
-        for i, note in enumerate(notes):
-            midi.addNote(track, channel, note, start_beat + (i * 0.5), 1.5, velocity)
+    for hit_beat, hit_duration, hit_velocity in pattern.hits:
+        if hit_beat >= duration:
+            continue
+        dur = min(hit_duration, max(0.0, duration - hit_beat))
+        if dur <= 0:
+            continue
 
-    else:
-        # Default: whole chord on beat 1
+        velocity = int(hit_velocity * volume)
         for note in notes:
-            midi.addNote(track, channel, note, start_beat, duration * 0.9, velocity)
+            midi.addNote(track, channel, note, start_beat + hit_beat, dur, velocity)
 
 
 # =============================================================================
