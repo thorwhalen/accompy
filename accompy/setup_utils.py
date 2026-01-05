@@ -12,7 +12,9 @@ from pathlib import Path
 from typing import Optional, Dict, List, Tuple
 
 
-def verify_and_setup(interactive: bool = True, auto_fix: bool = False) -> Dict[str, bool]:
+def verify_and_setup(
+    interactive: bool = True, auto_fix: bool = False
+) -> Dict[str, bool]:
     """
     Verify all dependencies and optionally auto-configure.
 
@@ -48,7 +50,9 @@ def verify_and_setup(interactive: bool = True, auto_fix: bool = False) -> Dict[s
     if deps["fluidsynth"] and not deps["soundfont"]:
         if interactive:
             print("\n⚠️  SoundFont file not found (required for instrument sounds)")
-            if _prompt_yes_no("Would you like to download and configure a SoundFont now?"):
+            if _prompt_yes_no(
+                "Would you like to download and configure a SoundFont now?"
+            ):
                 deps["soundfont"] = _setup_soundfont()
         elif auto_fix:
             deps["soundfont"] = _setup_soundfont()
@@ -78,27 +82,35 @@ def diagnose_issues() -> List[Tuple[str, str, str]]:
             print(f"{issue}: {desc}")
             print(f"Solution: {solution}")
     """
-    from .accompy import check_dependencies, _default_soundfont_path, _fluidsynth_available
+    from .accompy import (
+        check_dependencies,
+        _default_soundfont_path,
+        _fluidsynth_available,
+    )
 
     issues = []
     deps = check_dependencies()
 
     # Check FluidSynth
     if not deps["fluidsynth"]:
-        issues.append((
-            "FluidSynth not installed",
-            "FluidSynth is required to render MIDI files to audio",
-            _get_fluidsynth_install_command()
-        ))
+        issues.append(
+            (
+                "FluidSynth not installed",
+                "FluidSynth is required to render MIDI files to audio",
+                _get_fluidsynth_install_command(),
+            )
+        )
 
     # Check SoundFont
     if not deps["soundfont"]:
         sf_path = _default_soundfont_path()
-        issues.append((
-            "SoundFont file not found",
-            f"Checked: {Path.home() / '.fluidsynth' / 'default_sound_font.sf2'}",
-            "Run: python -c \"from accompy.setup_utils import setup_soundfont; setup_soundfont()\""
-        ))
+        issues.append(
+            (
+                "SoundFont file not found",
+                f"Checked: {Path.home() / '.fluidsynth' / 'default_sound_font.sf2'}",
+                "Run: python -c \"from accompy.setup_utils import setup_soundfont; setup_soundfont()\"",
+            )
+        )
 
     # Check FluidSynth version compatibility
     if deps["fluidsynth"]:
@@ -111,26 +123,23 @@ def diagnose_issues() -> List[Tuple[str, str, str]]:
         sf_path = _default_soundfont_path()
         if sf_path and sf_path.exists():
             if sf_path.stat().st_size < 1000:  # Less than 1KB is suspicious
-                issues.append((
-                    "SoundFont file appears corrupted",
-                    f"File at {sf_path} is only {sf_path.stat().st_size} bytes",
-                    "Delete the file and run setup again to download a valid SoundFont"
-                ))
+                issues.append(
+                    (
+                        "SoundFont file appears corrupted",
+                        f"File at {sf_path} is only {sf_path.stat().st_size} bytes",
+                        "Delete the file and run setup again to download a valid SoundFont",
+                    )
+                )
 
     # Check Python dependencies
     if not deps["midiutil"]:
-        issues.append((
-            "midiutil not installed",
-            "midiutil is required for MIDI file generation",
-            f"{sys.executable} -m pip install midiutil"
-        ))
-
-    if not deps["mingus"]:
-        issues.append((
-            "mingus not installed (optional)",
-            "mingus provides better chord parsing and music theory support",
-            f"{sys.executable} -m pip install mingus"
-        ))
+        issues.append(
+            (
+                "midiutil not installed",
+                "midiutil is required for MIDI file generation",
+                f"{sys.executable} -m pip install midiutil",
+            )
+        )
 
     return issues
 
@@ -194,7 +203,10 @@ def _find_bundled_soundfont() -> Optional[Path]:
                 continue
             # Prefer files with "vintage", "dreams", "fluid" or "GM" in name
             name_lower = sf_file.name.lower()
-            if any(keyword in name_lower for keyword in ["vintage", "dreams", "fluid", "gm"]):
+            if any(
+                keyword in name_lower
+                for keyword in ["vintage", "dreams", "fluid", "gm"]
+            ):
                 return sf_file
 
         # If no preferred file found, return any valid .sf2 file
@@ -290,7 +302,7 @@ def _download_soundfont(target_path: Path, soundfont: str = "auto") -> bool:
             result = subprocess.run(
                 ["curl", "-L", "-o", str(download_path), url],
                 capture_output=True,
-                timeout=600  # 10 minute timeout for larger files
+                timeout=600,  # 10 minute timeout for larger files
             )
 
             if result.returncode == 0 and download_path.exists():
@@ -299,9 +311,12 @@ def _download_soundfont(target_path: Path, soundfont: str = "auto") -> bool:
                     print(f"  Extracting zip file...")
                     try:
                         import zipfile
+
                         with zipfile.ZipFile(download_path, 'r') as zip_ref:
                             # Find .sf2 file in zip
-                            sf2_files = [f for f in zip_ref.namelist() if f.endswith('.sf2')]
+                            sf2_files = [
+                                f for f in zip_ref.namelist() if f.endswith('.sf2')
+                            ]
                             if sf2_files:
                                 # Extract first .sf2 file
                                 zip_ref.extract(sf2_files[0], target_path.parent)
@@ -338,7 +353,9 @@ def _download_soundfont(target_path: Path, soundfont: str = "auto") -> bool:
     print("   License: Free for commercial use")
     print("   Quality: Excellent bass and drums\n")
     print("2. Musyng Kite (larger, very high quality):")
-    print("   Download: https://www.polyphone.io/en/soundfonts/instrument-sets/258-musyng-kite")
+    print(
+        "   Download: https://www.polyphone.io/en/soundfonts/instrument-sets/258-musyng-kite"
+    )
     print("   License: CC-BY-SA 3.0 (free, attribution required)")
     print("   Size: 339MB compressed / 990MB uncompressed\n")
     print("3. More options:")
@@ -355,9 +372,7 @@ def _install_fluidsynth() -> bool:
         if system == "darwin":  # macOS
             print("Installing FluidSynth via Homebrew...")
             result = subprocess.run(
-                ["brew", "install", "fluid-synth"],
-                capture_output=True,
-                text=True
+                ["brew", "install", "fluid-synth"], capture_output=True, text=True
             )
             if result.returncode == 0:
                 print("✓ FluidSynth installed successfully")
@@ -371,7 +386,7 @@ def _install_fluidsynth() -> bool:
             result = subprocess.run(
                 ["sudo", "apt-get", "install", "-y", "fluidsynth"],
                 capture_output=True,
-                text=True
+                text=True,
             )
             if result.returncode == 0:
                 print("✓ FluidSynth installed successfully")
@@ -387,7 +402,9 @@ def _install_fluidsynth() -> bool:
 
     except FileNotFoundError as e:
         print(f"✗ Package manager not found: {e}")
-        print(f"Please install FluidSynth manually: {_get_fluidsynth_install_command()}")
+        print(
+            f"Please install FluidSynth manually: {_get_fluidsynth_install_command()}"
+        )
         return False
 
 
@@ -398,7 +415,7 @@ def _install_python_package(package_name: str) -> bool:
         result = subprocess.run(
             [sys.executable, "-m", "pip", "install", package_name],
             capture_output=True,
-            text=True
+            text=True,
         )
         if result.returncode == 0:
             print(f"✓ {package_name} installed successfully")
@@ -429,9 +446,7 @@ def _check_fluidsynth_version() -> Optional[Tuple[str, str, str]]:
     """Check if FluidSynth version is compatible."""
     try:
         result = subprocess.run(
-            ["fluidsynth", "--version"],
-            capture_output=True,
-            text=True
+            ["fluidsynth", "--version"], capture_output=True, text=True
         )
         # Version check could be added here if needed
         return None

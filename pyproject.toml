@@ -1,7 +1,5 @@
 [build-system]
-requires = [
-    "hatchling",
-]
+requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
@@ -10,11 +8,10 @@ version = "0.0.4"
 description = "Generate backing track audio from chord charts"
 readme = "README.md"
 requires-python = ">=3.10"
-authors = [
-    { name = "Thor Whalen" },
-]
+authors = [{ name = "Thor Whalen" }]
 dependencies = [
-    "midiutil",
+    "midiutil", 
+    "tonal",
 ]
 keywords = [
     "music",
@@ -48,15 +45,8 @@ text = "mit"
 Homepage = "https://github.com/thorwhalen/accompy"
 
 [project.optional-dependencies]
-dev = [
-    "pytest>=7.0",
-    "pytest-cov>=4.0",
-    "ruff>=0.1.0",
-]
-docs = [
-    "sphinx>=6.0",
-    "sphinx-rtd-theme>=1.0",
-]
+dev = ["pytest>=7.0", "pytest-cov>=4.0", "ruff>=0.1.0"]
+docs = ["sphinx>=6.0", "sphinx-rtd-theme>=1.0"]
 
 [tool.ruff]
 line-length = 88
@@ -73,38 +63,21 @@ exclude = [
 ]
 
 [tool.ruff.lint]
-select = [
-    "D100",
-]
-ignore = [
-    "D203",
-    "E501",
-    "B905",
-]
+select = ["D100"]
+ignore = ["D203", "E501", "B905"]
 
 [tool.ruff.lint.pydocstyle]
 convention = "google"
 
 [tool.ruff.lint.per-file-ignores]
-"**/tests/*" = [
-    "D",
-]
-"**/examples/*" = [
-    "D",
-]
-"**/scrap/*" = [
-    "D",
-]
+"**/tests/*" = ["D"]
+"**/examples/*" = ["D"]
+"**/scrap/*" = ["D"]
 
 [tool.pytest.ini_options]
 minversion = "6.0"
-testpaths = [
-    "tests",
-]
-doctest_optionflags = [
-    "NORMALIZE_WHITESPACE",
-    "ELLIPSIS",
-]
+testpaths = ["tests"]
+doctest_optionflags = ["NORMALIZE_WHITESPACE", "ELLIPSIS"]
 
 [tool.wads.ci]
 project_name = ""
@@ -133,24 +106,12 @@ enabled = false
 enabled = false
 
 [tool.wads.ci.testing]
-python_versions = [
-    "3.10",
-    "3.12",
-]
-pytest_args = [
-    "-v",
-    "--tb=short",
-]
+python_versions = ["3.10", "3.12"]
+pytest_args = ["-v", "--tb=short"]
 coverage_enabled = true
 coverage_threshold = 0
-coverage_report_format = [
-    "term",
-    "xml",
-]
-exclude_paths = [
-    "examples",
-    "scrap",
-]
+coverage_report_format = ["term", "xml"]
+exclude_paths = ["examples", "scrap"]
 test_on_windows = true
 
 [tool.wads.ci.metrics]
@@ -170,8 +131,4 @@ enabled = true
 [tool.wads.ci.docs]
 enabled = true
 builder = "epythet"
-ignore_paths = [
-    "tests/",
-    "scrap/",
-    "examples/",
-]
+ignore_paths = ["tests/", "scrap/", "examples/"]

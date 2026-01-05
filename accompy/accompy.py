@@ -17,9 +17,12 @@ import subprocess
 import tempfile
 from urllib.parse import unquote
 import re
+import sys
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any, Iterable, Literal, Mapping, Optional, Union
+
+from tonal.chords import chord_to_notes as tonal_chord_to_notes
 
 # Type aliases
 ChordSymbol = str
@@ -453,7 +456,6 @@ def check_dependencies() -> dict[str, bool]:
         "fluidsynth": _fluidsynth_available(),
         "soundfont": _default_soundfont_path() is not None,
         "midiutil": _check_import("midiutil"),
-        "mingus": _check_import("mingus"),
         "midi2audio": _check_import("midi2audio"),
     }
 
@@ -492,10 +494,6 @@ def print_setup_instructions():
         print("midiutil (for MIDI generation):")
         print("  pip install midiutil\n")
 
-    if not deps["mingus"]:
-        print("mingus (for music theory/chord parsing):")
-        print("  pip install mingus\n")
-
     if not deps["midi2audio"]:
         print("midi2audio (optional Python wrapper for FluidSynth):")
         print("  pip install midi2audio\n")
@@ -504,6 +502,22 @@ def print_setup_instructions():
 # =============================================================================
 # Chord Parsing
 # =============================================================================
+
+DFLT_CHORD_TRANSPOSE_SEMITONES = -12
+
+
+def _chord_to_notes_via_tonal(symbol: str, *, transpose: int = DFLT_CHORD_TRANSPOSE_SEMITONES) -> list[int]:
+    """Return MIDI notes for chord symbol using `tonal`.
+
+    Notes:
+        `tonal` roots are anchored around C4=60; accompy historically voiced chords
+        closer to C3=48. We keep a default -12 semitone transpose so existing
+        accompaniments stay in a similar register.
+    """
+    notes = list(tonal_chord_to_notes(symbol))
+    if transpose:
+        notes = [n + transpose for n in notes]
+    return notes
 
 
 def _normalize_chord_symbol(symbol: str) -> str:
@@ -633,10 +647,6 @@ def _generate_builtin(score: Score, config: AccompanimentConfig) -> Path:
     except ImportError:
         raise ImportError("midiutil required. Install with: pip install midiutil")
 
-    try:
-        from mingus.core import chords as mingus_chords
-    except ImportError:
-        mingus_chords = None
 
     # Warn about unsupported instruments
     supported_instruments = {"drums", "bass", "piano"}
@@ -704,7 +714,7 @@ def _generate_builtin(score: Score, config: AccompanimentConfig) -> Path:
                     continue
 
                 # Get chord notes
-                notes = _chord_to_notes(chord_symbol, mingus_chords)
+                notes = _chord_to_notes(chord_symbol)
                 root = notes[0] if notes else 48  # C3 default
 
                 # Add drums
@@ -800,82 +810,18 @@ def _score_from_chord_specs(
     return Score(measures=measures, title=title, key=key, time_signature=time_signature)
 
 
-def _chord_to_notes(symbol: str, mingus_chords) -> list[int]:
+def _chord_to_notes(symbol: str) -> list[int]:
     """Convert chord symbol to MIDI note numbers."""
-    if mingus_chords:
-        try:
-            # Extract root and quality
-            root, quality = _split_chord_symbol(symbol)
-            chord_notes = mingus_chords.from_shorthand(f"{root}{quality}")
-            return [_note_to_midi(n) for n in chord_notes]
-        except Exception:
-            pass
-
-    # Fallback: basic parsing
-    return _basic_chord_to_notes(symbol)
-
-
-def _split_chord_symbol(symbol: str) -> tuple[str, str]:
-    """Split chord symbol into root and quality."""
-    if len(symbol) < 1:
-        return "C", ""
-
-    if len(symbol) >= 2 and symbol[1] in ('#', 'b'):
-        root = symbol[:2]
-        quality = symbol[2:]
-    else:
-        root = symbol[0]
-        quality = symbol[1:]
-
-    return root, quality
-
-
-def _note_to_midi(note_name: str, octave: int = 4) -> int:
-    """Convert note name to MIDI number."""
-    note_map = {'C': 0, 'D': 2, 'E': 4, 'F': 5, 'G': 7, 'A': 9, 'B': 11}
-
-    if not note_name:
-        return 60
-
-    base = note_map.get(note_name[0].upper(), 0)
-
-    if len(note_name) > 1:
-        if note_name[1] == '#':
-            base += 1
-        elif note_name[1] == 'b':
-            base -= 1
-
-    return base + (octave + 1) * 12
+    return _chord_to_notes_via_tonal(symbol)
 
 
 def _basic_chord_to_notes(symbol: str) -> list[int]:
-    """Basic chord parsing without mingus."""
-    root, quality = _split_chord_symbol(symbol)
-    root_midi = _note_to_midi(root, 3)  # Start at octave 3
+    """Basic chord parsing.
 
-    # Default intervals for common chord types
-    intervals = {
-        '': [0, 4, 7],  # Major triad
-        '-': [0, 3, 7],  # Minor
-        '-7': [0, 3, 7, 10],  # Minor 7
-        '7': [0, 4, 7, 10],  # Dominant 7
-        '^7': [0, 4, 7, 11],  # Major 7
-        '^': [0, 4, 7],  # Major
-        'o': [0, 3, 6],  # Diminished
-        'o7': [0, 3, 6, 9],  # Diminished 7
-        'h7': [0, 3, 6, 10],  # Half-diminished
-        'sus': [0, 5, 7],  # Sus4
-        'sus2': [0, 2, 7],  # Sus2
-        '+': [0, 4, 8],  # Augmented
-        '9': [0, 4, 7, 10, 14],  # Dominant 9
-        '-9': [0, 3, 7, 10, 14],  # Minor 9
-        '^9': [0, 4, 7, 11, 14],  # Major 9
-    }
-
-    # Try to match quality
-    chord_intervals = intervals.get(quality, [0, 4, 7])
-
-    return [root_midi + i for i in chord_intervals]
+    This is intentionally a thin wrapper around `tonal`, kept for internal use
+    and tests.
+    """
+    return _chord_to_notes_via_tonal(symbol)
 
 
 def _get_style_patterns(style: StyleName) -> dict:
