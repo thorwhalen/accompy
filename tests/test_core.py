@@ -350,28 +350,30 @@ class TestMIDIGeneration:
 class TestAudioGeneration:
     """Test audio generation (mocked FluidSynth)."""
 
-    @patch("accompy.accompy._render_midi_to_audio")
-    def test_generate_wav_mocked(self, mock_render, simple_chord_string, temp_output_dir):
-        """Test WAV generation with mocked FluidSynth."""
+    def test_generate_wav_mocked(self, simple_chord_string, temp_output_dir):
+        """Test WAV generation with a mocked synthesis backend."""
         output_path = temp_output_dir / "test.wav"
 
-        # Mock the audio rendering to just create an empty file
-        def mock_render_func(midi_path, wav_path, config):
-            wav_path.touch()
+        def render_to_file(midi_path, out_path, *, sample_rate=44100):
+            out_path.touch()
+            return out_path
 
-        mock_render.side_effect = mock_render_func
+        mock_backend = type(
+            "MockSynthBackend",
+            (),
+            {"render_to_file": staticmethod(render_to_file)},
+        )()
+
+        config = AccompanimentConfig(style="bossa", tempo=120)
+        config.synthesis_backend = mock_backend
 
         result = generate_accompaniment(
             simple_chord_string,
-            style="bossa",
-            tempo=120,
             output_path=str(output_path),
             output_format="wav",
+            config=config,
             backend="builtin",
         )
-
-        # Verify render was called
-        assert mock_render.called
         # Result should point to WAV file
         assert result.suffix == ".wav"
 

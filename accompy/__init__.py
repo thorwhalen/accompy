@@ -33,7 +33,7 @@ Advanced Usage (Extensibility):
 __version__ = "0.2.0"  # Bumped for architectural refactoring
 
 # =============================================================================
-# Main API (backward compatible)
+# Main API
 # =============================================================================
 
 from .main import (
@@ -92,13 +92,12 @@ from .realtime import RealtimeAccompaniment
 
 
 __all__ = [
-    # Main API (backward compatible)
+    # Main API
     "generate_accompaniment",
     "ensure_score",
     "play_audio",
     "check_dependencies",
     "print_setup_instructions",
-
     # Data structures
     "Score",
     "ChordEvent",
@@ -106,7 +105,6 @@ __all__ = [
     "MidiEvent",
     "BackendType",
     "StyleName",
-
     # Pattern types and registry
     "DrumPattern",
     "BassPattern",
@@ -116,13 +114,11 @@ __all__ = [
     "get_patterns",
     "get_pattern_registry",
     "register_style",
-
     # Setup utilities
     "verify_and_setup",
     "setup_soundfont",
     "diagnose_issues",
     "print_diagnostic_report",
-
     # Advanced/Extensibility API
     "chord_to_notes",
     "get_chord_resolver",
@@ -138,6 +134,7 @@ __all__ = [
 # =============================================================================
 # Import-time dependency check (can be disabled)
 # =============================================================================
+
 
 def _check_setup_on_import():
     """
@@ -163,6 +160,7 @@ def _check_setup_on_import():
 
     if critical_missing:
         import warnings
+
         warnings.warn(
             f"\naccompy setup incomplete - missing: {', '.join(critical_missing)}\n"
             f"Run: python -c \"from accompy.setup_utils import verify_and_setup; verify_and_setup()\"\n"

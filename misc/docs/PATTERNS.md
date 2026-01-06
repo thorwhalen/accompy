@@ -4,8 +4,9 @@ This document explains the **builtin accompaniment pattern** system.
 
 The core goal is separation of concerns:
 
-- Pattern *definitions* live in `accompy/patterns.py`.
-- Pattern *rendering* (turning patterns into MIDI events) lives in `accompy/accompy.py`.
+- Pattern *definitions* live in the `accompy/patterns/` package (see `accompy/patterns/builtin.py`).
+- Pattern *data structures* live in `accompy/patterns/dataclasses.py`.
+- Pattern *rendering* (turning patterns into MIDI events) lives in `accompy/renderers/midi.py`.
 
 ## What is a pattern?
 
@@ -52,7 +53,7 @@ The builtin renderer chooses the first pattern of each category as the default f
 
 ## How patterns are rendered
 
-Rendering happens in the builtin MIDI generator in `accompy/accompy.py`:
+Rendering happens in the builtin MIDI generator in `accompy/renderers/midi.py`:
 
 - `_add_drum_pattern(...)` consumes a `DrumPattern`.
 - `_add_bass_pattern(...)` consumes a `BassPattern` and uses `chord_notes` to pick chord-appropriate tones.
@@ -62,12 +63,12 @@ Rendering happens in the builtin MIDI generator in `accompy/accompy.py`:
 
 To add a new style or groove:
 
-1. Add new `DrumPattern` / `BassPattern` / `CompingPattern` objects in `accompy/patterns.py`.
+1. Add new `DrumPattern` / `BassPattern` / `CompingPattern` objects in `accompy/patterns/builtin.py`.
 2. Register them in `DRUM_PATTERNS`, `BASS_PATTERNS`, and `COMP_PATTERNS`.
 3. (Optional) Add tests in `tests/test_patterns.py` if you introduce new invariants (e.g. time signature, velocity range).
 
 Design guidance:
 
 - Keep pattern data small and declarative.
-- Avoid embedding MIDI rendering logic in `patterns.py`.
+- Avoid embedding MIDI rendering logic in `accompy/patterns/builtin.py`.
 - Prefer using `pitch_offset` values that describe musical intent (root/3rd/5th/7th/approach), letting the renderer adapt to chord quality.

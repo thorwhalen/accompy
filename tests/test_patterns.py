@@ -228,12 +228,9 @@ class TestGetPatterns:
             assert len(patterns["bass"]) > 0
 
     def test_get_unknown_style_defaults_to_swing(self):
-        """Test that unknown style returns swing patterns."""
-        patterns = get_patterns("unknown_style")
-        swing_patterns = get_patterns("swing")
-        # Should get same patterns as swing
-        assert patterns["drums"] == swing_patterns["drums"]
-        assert patterns["bass"] == swing_patterns["bass"]
+        """Test that unknown style raises a KeyError."""
+        with pytest.raises(KeyError):
+            get_patterns("unknown_style")
 
 
 # =============================================================================

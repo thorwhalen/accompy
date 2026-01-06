@@ -36,6 +36,16 @@ from .dataclasses import (
 # Import pattern collections
 from .builtin import DRUM_PATTERNS, BASS_PATTERNS, COMP_PATTERNS
 
+# Common built-in patterns (public API convenience exports)
+from .builtin import (
+    SWING_DRUMS_BASIC,
+    SWING_BASS_WALKING,
+    BOSSA_DRUMS,
+    BOSSA_BASS,
+    ROCK_DRUMS_BASIC,
+    WALTZ_DRUMS,
+)
+
 
 class PatternRegistry(MutableMapping[str, dict]):
     """
@@ -130,7 +140,7 @@ def get_pattern_registry() -> PatternRegistry:
 
 def get_patterns(style: str) -> dict:
     """
-    Get all patterns for a given style (backward compatible).
+    Get all patterns for a given style.
 
     Returns:
         Dict with 'drums', 'bass', 'comp' keys containing pattern lists
@@ -193,4 +203,11 @@ __all__ = [
     "COWBELL",
     "CLAVES",
     "SHAKER",
+    # Convenience exports for common built-in patterns
+    "SWING_DRUMS_BASIC",
+    "SWING_BASS_WALKING",
+    "BOSSA_DRUMS",
+    "BOSSA_BASS",
+    "ROCK_DRUMS_BASIC",
+    "WALTZ_DRUMS",
 ]

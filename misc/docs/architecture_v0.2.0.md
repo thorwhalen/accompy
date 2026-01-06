@@ -2,7 +2,7 @@
 
 ## Overview
 
-Version 0.2.0 represents a major architectural refactoring of accompy, transforming it from a monolithic module into a modular, extensible system while maintaining 100% backward compatibility.
+Version 0.2.0 represents a major architectural refactoring of accompy, transforming it from a monolithic module into a modular, extensible system. This refactor prioritizes a clean internal architecture over strict backward compatibility.
 
 ## Key Improvements
 
@@ -23,7 +23,7 @@ Version 0.2.0 represents a major architectural refactoring of accompy, transform
 
 ```
 accompy/
-├── __init__.py              # Public API (backward compatible + new features)
+├── __init__.py              # Public API
 ├── base.py                  # Core domain models (Score, Config, MidiEvent)
 ├── util.py                  # Chord parsing and normalization utilities
 ├── patterns/
@@ -42,7 +42,7 @@ accompy/
 ├── realtime.py              # Real-time event generation foundation
 ├── main.py                  # Main generation logic (refactored)
 ├── setup_utils.py           # Dependency checking (unchanged)
-└── accompy.py               # Legacy file (to be deprecated)
+└── accompy.py               # Older implementation (kept as reference)
 ```
 
 ## Design Patterns
@@ -209,18 +209,10 @@ chord_string
 - Testable (mockable dependencies)
 - Replaceable (protocols define contracts)
 
-## Backward Compatibility
+## Compatibility
 
-All v0.1.0 APIs remain functional:
-
-```python
-# v0.1.0 code still works
-from accompy import generate_accompaniment, Score, get_patterns
-
-score = Score.from_string("| C | Am | F | G |")
-audio = generate_accompaniment(score, style="bossa", tempo=120)
-patterns = get_patterns("swing")
-```
+This refactor may introduce breaking changes while the architecture stabilizes.
+The docs and tests are the source of truth for the current API.
 
 ## Extensibility Examples
 
@@ -281,7 +273,7 @@ audio = generate_accompaniment("| C | G | Am | F |", config=config)
 
 ### Integration Tests
 - **End-to-end**: Verify `generate_accompaniment()` with all backends
-- **Backward compatibility**: Ensure v0.1.0 examples still work
+- **End-to-end**: Ensure the current examples work
 
 ### Property-Based Tests
 - **Chord parsing**: `ensure_score()` handles all input formats
@@ -335,14 +327,14 @@ def generate_backing_track(chords: str, style: str, tempo: int):
 ## Migration Guide
 
 ### For Users
-No action needed! All v0.1.0 code continues to work.
+Expect occasional breaking changes until the API stabilizes.
 
 ### For Developers
 If you've created custom extensions:
 
 **Before (custom patterns):**
 ```python
-# Had to modify accompy/patterns.py directly
+# Had to modify builtin pattern tables directly
 DRUM_PATTERNS['custom'] = [...]
 ```
 

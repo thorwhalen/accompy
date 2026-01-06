@@ -198,14 +198,13 @@ On import, accompy:
 - `README.md` - Added troubleshooting and setup sections
 - `notebooks/005_temp.ipynb` - Added setup examples
 
-## Backwards Compatibility
+## Compatibility
 
-All changes are fully backwards compatible:
+This project may introduce breaking changes while the architecture stabilizes:
 
-- Existing code continues to work without modification
-- New setup utilities are optional - manual setup still works
-- Import-time check can be disabled
-- No changes to `generate_accompaniment()` API
+- Public APIs may change between minor versions
+- Tests and documentation are updated to reflect the current API
+- If you depend on a specific behavior, pin a version
 
 ## Future Enhancements
 

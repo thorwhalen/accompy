@@ -10,7 +10,7 @@ Key features: Simple API, flexible inputs (strings/Score/tuples/URLs), custom pa
 
 - README.md: Usage, install, chord notation, examples.
 - accompy/__init__.py: generate_accompaniment, Score, ensure_score.
-- patterns.py: get_patterns(style) -> dict[drums/bass/comp], constants (KICK/SNARE/etc).
+- accompy/patterns/: pattern registry API (`__init__.py`), pattern data (`builtin.py`), and dataclasses/constants (`dataclasses.py`).
 - tests/test_patterns.py: Unit tests for patterns/validation.
 
 ## Key Functions/Classes
@@ -22,7 +22,7 @@ Key features: Simple API, flexible inputs (strings/Score/tuples/URLs), custom pa
 - def ensure_score(input: various) -> Score: Convert to Score.
 
 - def get_patterns(style: str) -> dict[str, list[Pattern]]: 
-  """Patterns for style. Returns {'drums': [...], 'bass': [...], 'comp': [...]}. Defaults to swing if unknown."""
+  """Patterns for style. Returns {'drums': [...], 'bass': [...], 'comp': [...]}. Raises KeyError if unknown."""
   Params: style (swing/bossa/etc). Returns: dict of Pattern lists (hits/notes per bar).
 
 - def verify_and_setup(): Interactive dependency setup.

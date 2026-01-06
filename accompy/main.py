@@ -160,6 +160,7 @@ def generate_accompaniment(
     if config.output_format == "midi":
         if midi_path != output_path:
             import shutil
+
             shutil.move(str(midi_path), str(output_path))
 
         if autoplay:
@@ -202,6 +203,7 @@ def play_audio(audio_path: Union[str, Path]) -> bool:
     audio_path = Path(audio_path)
     if not audio_path.exists():
         import warnings
+
         warnings.warn(f"Audio file not found: {audio_path}", UserWarning)
         return False
 
@@ -228,6 +230,7 @@ def play_audio(audio_path: Union[str, Path]) -> bool:
                 except FileNotFoundError:
                     continue
             import warnings
+
             warnings.warn(
                 "No audio player found. Install: paplay, aplay, ffplay, mpg123, or sox",
                 UserWarning,
@@ -243,10 +246,12 @@ def play_audio(audio_path: Union[str, Path]) -> bool:
             return True
         else:
             import warnings
+
             warnings.warn(f"Auto-play not supported on {system}", UserWarning)
             return False
     except Exception as e:
         import warnings
+
         warnings.warn(f"Failed to play audio: {e}", UserWarning)
         return False
 
