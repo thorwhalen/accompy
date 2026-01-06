@@ -269,6 +269,141 @@ audio = generate_accompaniment(
 )
 ```
 
+### Extensibility & Custom Patterns
+
+**New in v0.2.0**: accompy now supports extensive customization through a protocol-based architecture.
+
+#### Custom Chord Voicings
+
+Provide your own chord-to-notes resolver:
+
+```python
+from accompy import set_chord_resolver, generate_accompaniment
+
+def jazz_voicing_resolver(symbol: str) -> list[int]:
+    """Custom jazz voicings with rootless chords, tensions, etc."""
+    # Your custom chord resolution logic
+    # Return list of MIDI note numbers
+    return [55, 59, 62, 65, 69]  # Example: Dm9 voicing
+
+# Set as default resolver
+set_chord_resolver(jazz_voicing_resolver)
+
+# Now all accompaniments use your custom voicings
+audio = generate_accompaniment("| Dm7 | G7 | Cmaj7 |")
+```
+
+#### Custom Patterns
+
+Register your own accompaniment patterns:
+
+```python
+from accompy import register_style, DrumPattern, BassPattern, DrumHit, NoteEvent, KICK, SNARE, CLOSED_HIHAT
+
+# Define custom drum pattern
+my_drum = DrumPattern(
+    name="my_funk",
+    beats_per_bar=4,
+    hits=[
+        DrumHit(0, KICK, 110),
+        DrumHit(0.75, KICK, 85),
+        DrumHit(1, SNARE, 105),
+        DrumHit(2, KICK, 110),
+        DrumHit(3, SNARE, 105),
+        # ... more hits
+    ]
+)
+
+# Define custom bass pattern
+my_bass = BassPattern(
+    name="my_funk",
+    notes=[
+        NoteEvent(0, 0, 0.4, 110),      # Root, short
+        NoteEvent(0.75, 0, 0.2, 80),    # Root, ghostNote
+        NoteEvent(1.5, 7, 0.3, 90),      # 5th
+        # ... more notes
+    ]
+)
+
+# Register the custom style
+register_style('my_funk', drums=[my_drum], bass=[my_bass], comp=[])
+
+# Use it
+audio = generate_accompaniment("| C7 | F7 | C7 | G7 |", style="my_funk")
+```
+
+#### Pattern Registry
+
+The pattern registry is a `MutableMapping`, making it Pythonic and extensible:
+
+```python
+from accompy import get_pattern_registry
+
+registry = get_pattern_registry()
+
+# Check available styles
+print(registry.available_styles())  # ['swing', 'bossa', 'rock', ...]
+
+# Access patterns like a dict
+swing_patterns = registry['swing']
+print(swing_patterns['drums'])  # List of DrumPattern objects
+
+# Add/modify styles at runtime
+registry['custom_groove'] = {
+    'drums': [custom_drum_pattern],
+    'bass': [custom_bass_pattern],
+    'comp': [custom_comp_pattern]
+}
+```
+
+#### Real-Time Event Generation
+
+For advanced use cases (future integration with `hum`/`pyo` for real-time synthesis):
+
+```python
+from accompy import RealtimeAccompaniment, AccompanimentConfig
+
+# Create real-time player
+config = AccompanimentConfig(tempo=120, style='swing')
+player = RealtimeAccompaniment(config)
+
+# Set chord progression
+player.set_chords("| Dm7 | G7 | Cmaj7 | A7 |")
+
+# Get event iterator (for future real-time playback)
+for event in player.events():
+    # event.time, event.note, event.velocity, event.duration
+    # Future: send to real-time synth like hum/pyo
+    pass
+```
+
+#### Protocol-Based Architecture
+
+All major components implement protocols for maximum flexibility:
+
+```python
+from accompy.protocols import ChordResolver, PatternSource, SynthesizerBackend
+
+# Implement custom components that satisfy these protocols
+# See accompy/protocols.py for full definitions
+
+# Example: Custom synthesis backend
+class MySynthBackend(SynthesizerBackend):
+    def render_to_file(self, midi_path, output_path, *, sample_rate=44100):
+        # Your custom synthesis logic (e.g., using hum, pyo, etc.)
+        pass
+
+    @classmethod
+    def is_available(cls):
+        return True  # Check if dependencies are available
+
+# Use with dependency injection
+from accompy import AccompanimentConfig, generate_accompaniment
+
+config = AccompanimentConfig(synthesis_backend=MySynthBackend())
+audio = generate_accompaniment("| C | G | Am | F |", config=config)
+```
+
 ### Command Line
 
 ```bash

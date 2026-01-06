@@ -15,29 +15,53 @@ Example:
     >>> path = generate_accompaniment(score, style="swing", tempo=160, repeats=4)  # doctest: +SKIP
 
 Available styles: swing, bossa, rock, ballad, funk, latin, waltz, blues
+
+Advanced Usage (Extensibility):
+    >>> # Register custom patterns
+    >>> from accompy import get_pattern_registry
+    >>> registry = get_pattern_registry()
+    >>> # registry['my_style'] = {'drums': [...], 'bass': [...], 'comp': [...]}
+    >>>
+    >>> # Use custom chord resolver
+    >>> from accompy import set_chord_resolver
+    >>> # set_chord_resolver(my_custom_resolver)
+    >>>
+    >>> # Access protocol definitions for custom implementations
+    >>> from accompy.protocols import ChordResolver, PatternSource, SynthesizerBackend
 """
 
-__version__ = "0.1.0"
+__version__ = "0.2.0"  # Bumped for architectural refactoring
 
-from .accompy import (
-    # Main API
+# =============================================================================
+# Main API (backward compatible)
+# =============================================================================
+
+from .main import (
     generate_accompaniment,
-    ensure_score,
     play_audio,
     check_dependencies,
     print_setup_instructions,
-    # Data classes
+)
+
+from .base import (
     Score,
     ChordEvent,
     AccompanimentConfig,
+    MidiEvent,
+    ensure_score,
     BackendType,
+    StyleName,
 )
 
 from .patterns import (
     DrumPattern,
     BassPattern,
     CompingPattern,
+    DrumHit,
+    NoteEvent,
     get_patterns,
+    get_pattern_registry,
+    register_style,
 )
 
 from .setup_utils import (
@@ -47,26 +71,107 @@ from .setup_utils import (
     print_diagnostic_report,
 )
 
+# =============================================================================
+# Advanced/Extensibility API (new)
+# =============================================================================
+
+from .chord_resolution import (
+    chord_to_notes,
+    get_chord_resolver,
+    set_chord_resolver,
+    tonal_resolver,
+)
+
+from .protocols import (
+    ChordResolver,
+    PatternSource,
+    SynthesizerBackend,
+)
+
+from .realtime import RealtimeAccompaniment
+
+
 __all__ = [
-    # Core functions
+    # Main API (backward compatible)
     "generate_accompaniment",
     "ensure_score",
     "play_audio",
+    "check_dependencies",
+    "print_setup_instructions",
+
     # Data structures
     "Score",
     "ChordEvent",
     "AccompanimentConfig",
+    "MidiEvent",
     "BackendType",
-    # Pattern types
+    "StyleName",
+
+    # Pattern types and registry
     "DrumPattern",
     "BassPattern",
     "CompingPattern",
+    "DrumHit",
+    "NoteEvent",
     "get_patterns",
+    "get_pattern_registry",
+    "register_style",
+
     # Setup utilities
-    "check_dependencies",
-    "print_setup_instructions",
     "verify_and_setup",
     "setup_soundfont",
     "diagnose_issues",
     "print_diagnostic_report",
+
+    # Advanced/Extensibility API
+    "chord_to_notes",
+    "get_chord_resolver",
+    "set_chord_resolver",
+    "tonal_resolver",
+    "ChordResolver",
+    "PatternSource",
+    "SynthesizerBackend",
+    "RealtimeAccompaniment",
 ]
+
+
+# =============================================================================
+# Import-time dependency check (can be disabled)
+# =============================================================================
+
+def _check_setup_on_import():
+    """
+    Verify dependencies on import and warn user if setup is incomplete.
+
+    Set ACCOMPY_SKIP_SETUP_CHECK=1 to disable this check.
+    """
+    import os
+
+    if os.environ.get("ACCOMPY_SKIP_SETUP_CHECK"):
+        return
+
+    deps = check_dependencies()
+
+    # Check critical dependencies
+    critical_missing = []
+    if not deps["fluidsynth"]:
+        critical_missing.append("fluidsynth")
+    if not deps["soundfont"]:
+        critical_missing.append("soundfont")
+    if not deps["midiutil"]:
+        critical_missing.append("midiutil")
+
+    if critical_missing:
+        import warnings
+        warnings.warn(
+            f"\naccompy setup incomplete - missing: {', '.join(critical_missing)}\n"
+            f"Run: python -c \"from accompy.setup_utils import verify_and_setup; verify_and_setup()\"\n"
+            f"Or: python -m accompy --check-deps\n"
+            f"To disable this warning: export ACCOMPY_SKIP_SETUP_CHECK=1",
+            category=UserWarning,
+            stacklevel=2,
+        )
+
+
+# Check dependencies on import (can be disabled via env var)
+_check_setup_on_import()
