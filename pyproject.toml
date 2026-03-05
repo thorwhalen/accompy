@@ -13,6 +13,13 @@ dependencies = [
     "midiutil",
     "tonal",
     "config2py",
+    "pychord",
+    "pretty_midi",
+    "mingus",
+    "mido",
+    "music21",
+    "numpy",
+    "pyRealParser",
 ]
 keywords = [
     "music",

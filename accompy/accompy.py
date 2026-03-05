@@ -455,8 +455,8 @@ def check_dependencies() -> dict[str, bool]:
 
     Example:
         >>> deps = check_dependencies()
-        >>> if not deps['fluidsynth']:
-        ...     print("Install FluidSynth: brew install fluidsynth")
+        >>> isinstance(deps, dict)
+        True
     """
     return {
         "mma": _mma_available(),
