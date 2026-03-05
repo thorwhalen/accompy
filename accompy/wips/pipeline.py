@@ -173,8 +173,8 @@ def chords_to_audio(
     Returns:
         AudioData with waveform and sample rate
 
-    >>> # audio = chords_to_audio("| C | Am | F | G |")  # doctest: +SKIP
-    >>> # audio.write("output.wav")  # doctest: +SKIP
+    >>> audio = chords_to_audio("| C | Am | F | G |")  # doctest: +SKIP
+    >>> audio.write("output.wav")  # doctest: +SKIP
     """
     md = chords_to_midi(chords, resolver=resolver, midi_gen=midi_gen, tempo=tempo)
 
@@ -210,7 +210,7 @@ def midi_to_audio(
     Returns:
         AudioData
 
-    >>> # audio = midi_to_audio(some_midi_data)  # doctest: +SKIP
+    >>> audio = midi_to_audio(some_midi_data)  # doctest: +SKIP
     """
     render_fn = converter.get(MidiData, AudioData, audio_renderer)
     kwargs = {"sr": sr}
@@ -263,9 +263,9 @@ def file_to_audio(
 
     Example::
 
-        >>> # file_to_audio("/path/to/song.html")  # doctest: +SKIP
-        >>> # file_to_audio("/path/to/song.html", n_repeats=40)  # doctest: +SKIP
-        >>> # file_to_audio("/path/to/song.html", transpose=5)  # doctest: +SKIP
+        >>> file_to_audio("/path/to/song.html")  # doctest: +SKIP
+        >>> file_to_audio("/path/to/song.html", n_repeats=40)  # doctest: +SKIP
+        >>> file_to_audio("/path/to/song.html", transpose=5)  # doctest: +SKIP
     """
     from pathlib import Path as _Path
 
