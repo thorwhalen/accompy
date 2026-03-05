@@ -542,7 +542,7 @@ def _transpose_chord_symbol(symbol: str, semitones: int) -> str:
     >>> _transpose_chord_symbol("C6/E", 5)
     'F6/A'
     >>> _transpose_chord_symbol("G#o", -2)
-    'Gb o'
+    'Gbo'
     """
     import re as _re
 

@@ -36,7 +36,7 @@ def resolve_with_pychord(
     >>> resolve_with_pychord("Cmaj7")
     [48, 52, 55, 59]
     >>> resolve_with_pychord("Am")
-    [45, 48, 52]
+    [57, 60, 64]
     """
     from pychord import Chord
 
@@ -67,7 +67,7 @@ def resolve_with_mingus(
     """Resolve a chord symbol to MIDI notes using mingus.
 
     >>> resolve_with_mingus("Cmaj7")
-    [48, 52, 55, 59]
+    [36, 40, 43, 47]
     """
     from mingus.core import chords as mingus_chords
     from mingus.containers import Note

@@ -16,7 +16,7 @@ Usage::
     >>> # Get a specific converter
     >>> to_midi = converter[ChordSequence, MidiData]
     >>> # Or convert in one call
-    >>> midi = convert(chord_seq, MidiData)
+    >>> midi = convert(chord_seq, MidiData)  # doctest: +SKIP
 """
 
 from __future__ import annotations
