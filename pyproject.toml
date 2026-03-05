@@ -10,8 +10,9 @@ readme = "README.md"
 requires-python = ">=3.10"
 authors = [{ name = "Thor Whalen" }]
 dependencies = [
-    "midiutil", 
+    "midiutil",
     "tonal",
+    "config2py",
 ]
 keywords = [
     "music",
