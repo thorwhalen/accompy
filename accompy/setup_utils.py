@@ -31,7 +31,7 @@ def verify_and_setup(
         >>> if all(status.values()):
         ...     print("Ready to use!")
     """
-    from .accompy import check_dependencies
+    from .main import check_dependencies
 
     deps = check_dependencies()
 
@@ -470,7 +470,7 @@ def _prompt_yes_no(question: str, default: bool = True) -> bool:
 
 def print_diagnostic_report():
     """Print a comprehensive diagnostic report."""
-    from .accompy import check_dependencies
+    from .main import check_dependencies
 
     print("=" * 60)
     print("accompy Diagnostic Report")
