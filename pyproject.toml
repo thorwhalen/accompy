@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "accompy"
-version = "0.0.4"
+version = "0.3.0"
 description = "Generate backing track audio from chord charts"
 readme = "README.md"
 requires-python = ">=3.10"
@@ -55,6 +55,8 @@ Homepage = "https://github.com/thorwhalen/accompy"
 [project.optional-dependencies]
 dev = ["pytest>=7.0", "pytest-cov>=4.0", "ruff>=0.1.0"]
 docs = ["sphinx>=6.0", "sphinx-rtd-theme>=1.0"]
+vst = ["dawdreamer"]
+ai = ["audiocraft"]
 
 [tool.ruff]
 line-length = 88

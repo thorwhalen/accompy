@@ -14,12 +14,10 @@ from accompy import (
     generate_accompaniment,
     ensure_score,
 )
-from accompy.accompy import (
-    _normalize_chord_symbol,
-    _parse_chord_string,
-    _chord_to_notes,
-    _basic_chord_to_notes,
-)
+from accompy.util import normalize_chord_symbol as _normalize_chord_symbol
+from accompy.util import parse_chord_string as _parse_chord_string
+from accompy.chord_resolution import chord_to_notes as _chord_to_notes
+from accompy.chord_resolution import _basic_chord_to_notes
 
 
 # =============================================================================

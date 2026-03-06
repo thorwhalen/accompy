@@ -132,3 +132,7 @@ def chord_to_notes(symbol: str) -> list[int]:
         True
     """
     return _default_resolver(symbol)
+
+
+# Backward-compatible alias used in tests
+_basic_chord_to_notes = tonal_resolver

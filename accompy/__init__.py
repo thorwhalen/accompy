@@ -16,6 +16,14 @@ Example:
 
 Available styles: swing, bossa, rock, ballad, funk, latin, waltz, blues
 
+Converter Pipeline:
+    >>> from accompy import converter, ChordSequence, MidiData, convert
+    >>> # List available converters for a given step
+    >>> converter.list_converters(ChordSequence, MidiData)  # doctest: +SKIP
+    >>> # Convert using the default or a named converter
+    >>> midi = convert(chord_seq, MidiData)  # doctest: +SKIP
+    >>> midi = convert(chord_seq, MidiData, via="midiutil")  # doctest: +SKIP
+
 Advanced Usage (Extensibility):
     >>> # Register custom patterns
     >>> from accompy import get_pattern_registry
@@ -30,10 +38,10 @@ Advanced Usage (Extensibility):
     >>> from accompy.protocols import ChordResolver, PatternSource, SynthesizerBackend
 """
 
-__version__ = "0.2.0"  # Bumped for architectural refactoring
+__version__ = "0.3.0"
 
 # =============================================================================
-# Main API
+# Main API — pattern-based accompaniment
 # =============================================================================
 
 from .main import (
@@ -72,7 +80,37 @@ from .setup_utils import (
 )
 
 # =============================================================================
-# Advanced/Extensibility API (new)
+# Converter pipeline — types, registry, and high-level functions
+# =============================================================================
+
+from .converters import (
+    ChordSequence,
+    NoteSequence,
+    MidiData,
+    AudioData,
+    ChordSheet,
+    ConverterRegistry,
+    converter,
+    convert,
+)
+
+from .pipeline import (
+    chords_to_sequence,
+    chords_to_notes,
+    chords_to_midi,
+    chords_to_audio,
+    midi_to_audio,
+    list_available_converters,
+)
+
+# Import converter registration modules so converters are registered on import
+import accompy.chord_parsers as _chord_parsers  # noqa: F401
+import accompy.chord_resolvers as _chord_resolvers  # noqa: F401
+import accompy.midi_generators as _midi_generators  # noqa: F401
+import accompy.audio_renderers as _audio_renderers  # noqa: F401
+
+# =============================================================================
+# Advanced/Extensibility API
 # =============================================================================
 
 from .chord_resolution import (
@@ -98,13 +136,30 @@ __all__ = [
     "play_audio",
     "check_dependencies",
     "print_setup_instructions",
-    # Data structures
+    # Data structures — original
     "Score",
     "ChordEvent",
     "AccompanimentConfig",
     "MidiEvent",
     "BackendType",
     "StyleName",
+    # Data structures — converter pipeline
+    "ChordSequence",
+    "NoteSequence",
+    "MidiData",
+    "AudioData",
+    "ChordSheet",
+    # Converter registry
+    "ConverterRegistry",
+    "converter",
+    "convert",
+    # High-level pipeline functions
+    "chords_to_sequence",
+    "chords_to_notes",
+    "chords_to_midi",
+    "chords_to_audio",
+    "midi_to_audio",
+    "list_available_converters",
     # Pattern types and registry
     "DrumPattern",
     "BassPattern",

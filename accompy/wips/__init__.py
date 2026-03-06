@@ -1,26 +1,18 @@
 """
-WIP modules for accompy - exploring chord-to-audio pipeline architecture.
+Backward-compatibility shim — wips modules have moved to accompy top level.
 
-The core idea: there are various *types* on the path from chords to audio,
-and multiple *converters* between them. We make the types explicit and
-organize the converters in a registry so they can be discovered and swapped.
-
-Type pipeline::
-
-    ChordSheet (text formats: ChordPro, iReal URL, plain text, MusicXML)
-        |
-        v
-    ChordSequence (list of (chord_symbol, duration_beats) pairs)
-        |
-        v
-    NoteSequence (list of (midi_notes, duration_beats) pairs - resolved chords)
-        |
-        v
-    MidiData (MIDI file bytes or pretty_midi.PrettyMIDI object)
-        |
-        v
-    AudioData (numpy array of audio samples or WAV bytes)
-
-Each arrow is a converter function. Some converters skip steps
-(e.g., chord_sheet -> audio directly via MusicGen-Chord).
+Import from ``accompy.converters``, ``accompy.chord_parsers``, etc. instead.
 """
+
+import warnings as _warnings
+
+_warnings.warn(
+    "accompy.wips is deprecated. Import from accompy directly "
+    "(e.g., accompy.converters, accompy.pipeline).",
+    DeprecationWarning,
+    stacklevel=2,
+)
+
+# Re-export so existing imports don't break immediately
+from accompy.converters import *  # noqa: F401,F403
+from accompy.converters import converter, convert  # noqa: F401

@@ -122,6 +122,35 @@ class Score:
         from .util import parse_ireal_url
         return parse_ireal_url(url)
 
+    def to_chord_sequence(self, *, tempo: int = 120):
+        """Convert Score to a ChordSequence (from the converter pipeline).
+
+        Each chord gets a duration proportional to its share of the bar.
+
+        Example:
+            >>> score = Score.from_string("| Dm7 | G7 | C^7 |")
+            >>> cs = score.to_chord_sequence(tempo=160)
+            >>> len(cs)
+            3
+        """
+        from .converters import ChordSequence
+
+        beats_per_bar = self.time_signature[0]
+        chords: list[tuple[str, float]] = []
+        for measure in self.measures:
+            if not measure:
+                continue
+            beats_each = beats_per_bar / len(measure)
+            for sym in measure:
+                chords.append((sym, float(beats_each)))
+        return ChordSequence(
+            chords=chords,
+            title=self.title,
+            key=self.key,
+            tempo=tempo,
+            time_signature=self.time_signature,
+        )
+
     def __iter__(self) -> Iterable[list[str]]:
         return iter(self.measures)
 
