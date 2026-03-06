@@ -1,0 +1,377 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>accompy.converters &mdash; accompy 0.3.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=e259d695"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../_static/toggleprompt.js?v=d7ede5d2"></script>
+      <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="accompy.main" href="main.html" />
+    <link rel="prev" title="accompy.chord_resolvers" href="chord_resolvers.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            accompy
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../accompy.html">accompy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="audio_renderers.html">accompy.audio_renderers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="base.html">accompy.base</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chord_parsers.html">accompy.chord_parsers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chord_resolution.html">accompy.chord_resolution</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chord_resolvers.html">accompy.chord_resolvers</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">accompy.converters</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#accompy.converters.AudioData"><code class="docutils literal notranslate"><span class="pre">AudioData</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#accompy.converters.AudioData.to_wav_bytes"><code class="docutils literal notranslate"><span class="pre">AudioData.to_wav_bytes()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#accompy.converters.AudioData.write"><code class="docutils literal notranslate"><span class="pre">AudioData.write()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#accompy.converters.ChordSequence"><code class="docutils literal notranslate"><span class="pre">ChordSequence</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#accompy.converters.ChordSequence.durations"><code class="docutils literal notranslate"><span class="pre">ChordSequence.durations</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#accompy.converters.ChordSequence.symbols"><code class="docutils literal notranslate"><span class="pre">ChordSequence.symbols</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#accompy.converters.ChordSequence.to_score"><code class="docutils literal notranslate"><span class="pre">ChordSequence.to_score()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#accompy.converters.ConverterRegistry"><code class="docutils literal notranslate"><span class="pre">ConverterRegistry</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#accompy.converters.ConverterRegistry.get"><code class="docutils literal notranslate"><span class="pre">ConverterRegistry.get()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#accompy.converters.ConverterRegistry.list_converters"><code class="docutils literal notranslate"><span class="pre">ConverterRegistry.list_converters()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#accompy.converters.ConverterRegistry.list_pairs"><code class="docutils literal notranslate"><span class="pre">ConverterRegistry.list_pairs()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#accompy.converters.ConverterRegistry.register"><code class="docutils literal notranslate"><span class="pre">ConverterRegistry.register()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#accompy.converters.ConverterRegistry.set_default"><code class="docutils literal notranslate"><span class="pre">ConverterRegistry.set_default()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#accompy.converters.MidiData"><code class="docutils literal notranslate"><span class="pre">MidiData</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#accompy.converters.MidiData.to_bytes"><code class="docutils literal notranslate"><span class="pre">MidiData.to_bytes()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#accompy.converters.MidiData.to_pretty_midi"><code class="docutils literal notranslate"><span class="pre">MidiData.to_pretty_midi()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#accompy.converters.MidiData.write"><code class="docutils literal notranslate"><span class="pre">MidiData.write()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#accompy.converters.NoteSequence"><code class="docutils literal notranslate"><span class="pre">NoteSequence</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#accompy.converters.convert"><code class="docutils literal notranslate"><span class="pre">convert()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="main.html">accompy.main</a></li>
+<li class="toctree-l1"><a class="reference internal" href="midi_generators.html">accompy.midi_generators</a></li>
+<li class="toctree-l1"><a class="reference internal" href="patterns.html">accompy.patterns</a></li>
+<li class="toctree-l1"><a class="reference internal" href="patterns/builtin.html">accompy.patterns.builtin</a></li>
+<li class="toctree-l1"><a class="reference internal" href="patterns/dataclasses.html">accompy.patterns.dataclasses</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pipeline.html">accompy.pipeline</a></li>
+<li class="toctree-l1"><a class="reference internal" href="protocols.html">accompy.protocols</a></li>
+<li class="toctree-l1"><a class="reference internal" href="realtime.html">accompy.realtime</a></li>
+<li class="toctree-l1"><a class="reference internal" href="renderers.html">accompy.renderers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="renderers/midi.html">accompy.renderers.midi</a></li>
+<li class="toctree-l1"><a class="reference internal" href="setup_utils.html">accompy.setup_utils</a></li>
+<li class="toctree-l1"><a class="reference internal" href="synthesis.html">accompy.synthesis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="synthesis/fluidsynth.html">accompy.synthesis.fluidsynth</a></li>
+<li class="toctree-l1"><a class="reference internal" href="util.html">accompy.util</a></li>
+<li class="toctree-l1"><a class="reference internal" href="wips.html">accompy.wips</a></li>
+<li class="toctree-l1"><a class="reference internal" href="wips/audio_renderers.html">accompy.wips.audio_renderers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="wips/chord_parsers.html">accompy.wips.chord_parsers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="wips/chord_resolvers.html">accompy.wips.chord_resolvers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="wips/midi_generators.html">accompy.wips.midi_generators</a></li>
+<li class="toctree-l1"><a class="reference internal" href="wips/pipeline.html">accompy.wips.pipeline</a></li>
+<li class="toctree-l1"><a class="reference internal" href="wips/types.html">accompy.wips.types</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">accompy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">accompy.converters</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/module_docs/accompy/converters.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-accompy.converters">
+<span id="accompy-converters"></span><h1>accompy.converters<a class="headerlink" href="#module-accompy.converters" title="Link to this heading"></a></h1>
+<p>Core types for the chord-to-audio pipeline.</p>
+<p>Defines the data types that flow through the pipeline, plus a converter
+registry that maps (source_type, target_type) pairs to converter functions.</p>
+<p>The key types form a DAG:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ChordSheet</span> <span class="o">--&gt;</span> <span class="n">ChordSequence</span> <span class="o">--&gt;</span> <span class="n">NoteSequence</span> <span class="o">--&gt;</span> <span class="n">MidiData</span> <span class="o">--&gt;</span> <span class="n">AudioData</span>
+
+<span class="p">(</span><span class="n">Plus</span> <span class="n">shortcut</span> <span class="n">converters</span> <span class="n">that</span> <span class="n">skip</span> <span class="n">intermediate</span> <span class="n">steps</span><span class="o">.</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Usage:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">accompy.wips.types</span><span class="w"> </span><span class="kn">import</span> <span class="n">converter</span><span class="p">,</span> <span class="n">ChordSequence</span><span class="p">,</span> <span class="n">MidiData</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Get a specific converter</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">to_midi</span> <span class="o">=</span> <span class="n">converter</span><span class="p">[</span><span class="n">ChordSequence</span><span class="p">,</span> <span class="n">MidiData</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Or convert in one call</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">midi</span> <span class="o">=</span> <span class="n">convert</span><span class="p">(</span><span class="n">chord_seq</span><span class="p">,</span> <span class="n">MidiData</span><span class="p">)</span>  
+</pre></div>
+</div>
+<dl class="py class">
+<dt class="sig sig-object py" id="accompy.converters.AudioData">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">accompy.converters.</span></span><span class="sig-name descname"><span class="pre">AudioData</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">waveform</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sr</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">44100</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/accompy/converters.html#AudioData"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#accompy.converters.AudioData" title="Link to this definition"></a></dt>
+<dd><p>Container for audio data — numpy array + sample rate.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ad</span> <span class="o">=</span> <span class="n">AudioData</span><span class="p">(</span><span class="n">waveform</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">44100</span><span class="p">),</span> <span class="n">sr</span><span class="o">=</span><span class="mi">44100</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ad</span><span class="o">.</span><span class="n">duration_seconds</span>
+<span class="go">1.0</span>
+</pre></div>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="accompy.converters.AudioData.to_wav_bytes">
+<span class="sig-name descname"><span class="pre">to_wav_bytes</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bytes</span></span></span><a class="reference internal" href="../../_modules/accompy/converters.html#AudioData.to_wav_bytes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#accompy.converters.AudioData.to_wav_bytes" title="Link to this definition"></a></dt>
+<dd><p>Convert to WAV file bytes.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="accompy.converters.AudioData.write">
+<span class="sig-name descname"><span class="pre">write</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="../../_modules/accompy/converters.html#AudioData.write"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#accompy.converters.AudioData.write" title="Link to this definition"></a></dt>
+<dd><p>Write audio to a WAV file. Returns the path.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="accompy.converters.ChordSequence">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">accompy.converters.</span></span><span class="sig-name descname"><span class="pre">ChordSequence</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">chords</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'C'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tempo</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">120</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time_signature</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">(4,</span> <span class="pre">4)</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/accompy/converters.html#ChordSequence"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#accompy.converters.ChordSequence" title="Link to this definition"></a></dt>
+<dd><p>Ordered sequence of (chord_symbol, duration_beats) pairs with metadata.</p>
+<p>This is the canonical internal representation of a chord progression.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">cs</span> <span class="o">=</span> <span class="n">ChordSequence</span><span class="p">([(</span><span class="s2">&quot;Dm7&quot;</span><span class="p">,</span> <span class="mf">4.0</span><span class="p">),</span> <span class="p">(</span><span class="s2">&quot;G7&quot;</span><span class="p">,</span> <span class="mf">4.0</span><span class="p">),</span> <span class="p">(</span><span class="s2">&quot;Cmaj7&quot;</span><span class="p">,</span> <span class="mf">8.0</span><span class="p">)])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">len</span><span class="p">(</span><span class="n">cs</span><span class="p">)</span>
+<span class="go">3</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="go">(&#39;Dm7&#39;, 4.0)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cs</span><span class="o">.</span><span class="n">total_beats</span>
+<span class="go">16.0</span>
+</pre></div>
+</div>
+<dl class="py property">
+<dt class="sig sig-object py" id="accompy.converters.ChordSequence.durations">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">durations</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#accompy.converters.ChordSequence.durations" title="Link to this definition"></a></dt>
+<dd><p>Just the durations, without symbols.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="accompy.converters.ChordSequence.symbols">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">symbols</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#accompy.converters.ChordSequence.symbols" title="Link to this definition"></a></dt>
+<dd><p>Just the chord symbols, without durations.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="accompy.converters.ChordSequence.to_score">
+<span class="sig-name descname"><span class="pre">to_score</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/accompy/converters.html#ChordSequence.to_score"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#accompy.converters.ChordSequence.to_score" title="Link to this definition"></a></dt>
+<dd><p>Convert to an accompy Score for pattern-based accompaniment.</p>
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">cs</span> <span class="o">=</span> <span class="n">ChordSequence</span><span class="p">([(</span><span class="s2">&quot;Dm7&quot;</span><span class="p">,</span> <span class="mf">4.0</span><span class="p">),</span> <span class="p">(</span><span class="s2">&quot;G7&quot;</span><span class="p">,</span> <span class="mf">4.0</span><span class="p">)])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">score</span> <span class="o">=</span> <span class="n">cs</span><span class="o">.</span><span class="n">to_score</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">len</span><span class="p">(</span><span class="n">score</span><span class="p">)</span>
+<span class="go">2</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="accompy.converters.ConverterRegistry">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">accompy.converters.</span></span><span class="sig-name descname"><span class="pre">ConverterRegistry</span></span><a class="reference internal" href="../../_modules/accompy/converters.html#ConverterRegistry"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#accompy.converters.ConverterRegistry" title="Link to this definition"></a></dt>
+<dd><p>Registry mapping (source_type, target_type) to named converter functions.</p>
+<p>Supports multiple converters for the same type pair, distinguished by name.
+The first registered converter becomes the default.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">reg</span> <span class="o">=</span> <span class="n">ConverterRegistry</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">reg</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;builtin&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">reg</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">](</span><span class="s1">&#39;42&#39;</span><span class="p">)</span>
+<span class="go">42</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">reg</span><span class="o">.</span><span class="n">list_converters</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span>
+<span class="go">[&#39;builtin&#39;]</span>
+</pre></div>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="accompy.converters.ConverterRegistry.get">
+<span class="sig-name descname"><span class="pre">get</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Callable</span></span></span><a class="reference internal" href="../../_modules/accompy/converters.html#ConverterRegistry.get"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#accompy.converters.ConverterRegistry.get" title="Link to this definition"></a></dt>
+<dd><p>Get a specific named converter, or the default if name is None.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="accompy.converters.ConverterRegistry.list_converters">
+<span class="sig-name descname"><span class="pre">list_converters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">type</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/accompy/converters.html#ConverterRegistry.list_converters"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#accompy.converters.ConverterRegistry.list_converters" title="Link to this definition"></a></dt>
+<dd><p>List available converter names for a type pair.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="accompy.converters.ConverterRegistry.list_pairs">
+<span class="sig-name descname"><span class="pre">list_pairs</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/accompy/converters.html#ConverterRegistry.list_pairs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#accompy.converters.ConverterRegistry.list_pairs" title="Link to this definition"></a></dt>
+<dd><p>List all registered (source, target) type name pairs.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="accompy.converters.ConverterRegistry.register">
+<span class="sig-name descname"><span class="pre">register</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">func</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Callable</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_default</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../../_modules/accompy/converters.html#ConverterRegistry.register"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#accompy.converters.ConverterRegistry.register" title="Link to this definition"></a></dt>
+<dd><p>Register a converter function.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>source_type</strong> – The input type</p></li>
+<li><p><strong>target_type</strong> – The output type</p></li>
+<li><p><strong>func</strong> – The converter function (source -&gt; target)</p></li>
+<li><p><strong>name</strong> – Name for this converter (defaults to func.__name__)</p></li>
+<li><p><strong>is_default</strong> – If True, make this the default converter for this pair</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="accompy.converters.ConverterRegistry.set_default">
+<span class="sig-name descname"><span class="pre">set_default</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../../_modules/accompy/converters.html#ConverterRegistry.set_default"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#accompy.converters.ConverterRegistry.set_default" title="Link to this definition"></a></dt>
+<dd><p>Change the default converter for a type pair.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="accompy.converters.MidiData">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">accompy.converters.</span></span><span class="sig-name descname"><span class="pre">MidiData</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bytes_</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bytes</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pretty_midi_obj</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tempo</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">120</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time_signature</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">(4,</span> <span class="pre">4)</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/accompy/converters.html#MidiData"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#accompy.converters.MidiData" title="Link to this definition"></a></dt>
+<dd><p>Container for MIDI data — either as bytes or as a pretty_midi object.</p>
+<p>Wraps MIDI content so converters have a uniform interface regardless
+of which MIDI library produced the data.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">io</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">md</span> <span class="o">=</span> <span class="n">MidiData</span><span class="p">(</span><span class="n">bytes_</span><span class="o">=</span><span class="sa">b</span><span class="s1">&#39;MThd...&#39;</span><span class="p">,</span> <span class="n">tempo</span><span class="o">=</span><span class="mi">120</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">md</span><span class="o">.</span><span class="n">has_bytes</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="accompy.converters.MidiData.to_bytes">
+<span class="sig-name descname"><span class="pre">to_bytes</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bytes</span></span></span><a class="reference internal" href="../../_modules/accompy/converters.html#MidiData.to_bytes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#accompy.converters.MidiData.to_bytes" title="Link to this definition"></a></dt>
+<dd><p>Get MIDI as bytes, converting from pretty_midi if needed.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="accompy.converters.MidiData.to_pretty_midi">
+<span class="sig-name descname"><span class="pre">to_pretty_midi</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/accompy/converters.html#MidiData.to_pretty_midi"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#accompy.converters.MidiData.to_pretty_midi" title="Link to this definition"></a></dt>
+<dd><p>Get as pretty_midi.PrettyMIDI, converting from bytes if needed.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="accompy.converters.MidiData.write">
+<span class="sig-name descname"><span class="pre">write</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="../../_modules/accompy/converters.html#MidiData.write"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#accompy.converters.MidiData.write" title="Link to this definition"></a></dt>
+<dd><p>Write MIDI to a file. Returns the path.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="accompy.converters.NoteSequence">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">accompy.converters.</span></span><span class="sig-name descname"><span class="pre">NoteSequence</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">notes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tempo</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">120</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time_signature</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">(4,</span> <span class="pre">4)</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/accompy/converters.html#NoteSequence"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#accompy.converters.NoteSequence" title="Link to this definition"></a></dt>
+<dd><p>Ordered sequence of (midi_notes, duration_beats) with metadata.</p>
+<p>Represents resolved chords — chord symbols have been converted to
+concrete MIDI note numbers.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ns</span> <span class="o">=</span> <span class="n">NoteSequence</span><span class="p">([([</span><span class="mi">60</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">67</span><span class="p">],</span> <span class="mf">4.0</span><span class="p">),</span> <span class="p">([</span><span class="mi">62</span><span class="p">,</span> <span class="mi">65</span><span class="p">,</span> <span class="mi">69</span><span class="p">],</span> <span class="mf">4.0</span><span class="p">)])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ns</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="go">([60, 64, 67], 4.0)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="accompy.converters.convert">
+<span class="sig-prename descclassname"><span class="pre">accompy.converters.</span></span><span class="sig-name descname"><span class="pre">convert</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">type</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">via</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Any</span></span></span><a class="reference internal" href="../../_modules/accompy/converters.html#convert"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#accompy.converters.convert" title="Link to this definition"></a></dt>
+<dd><p>Convert source to target_type using the registered converter.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>source</strong> – The source data</p></li>
+<li><p><strong>target_type</strong> – The desired output type</p></li>
+<li><p><strong>via</strong> – Optional converter name (uses default if None)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Converted data of target_type</p>
+</dd>
+</dl>
+<p>Example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># After converters are registered:</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># audio = convert(chord_seq, AudioData)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="chord_resolvers.html" class="btn btn-neutral float-left" title="accompy.chord_resolvers" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="main.html" class="btn btn-neutral float-right" title="accompy.main" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright NO COPYRIGHT.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

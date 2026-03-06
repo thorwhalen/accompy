@@ -1,0 +1,4 @@
+accompy.chord_parsers
+=====================
+.. automodule:: accompy.chord_parsers
+   :members:

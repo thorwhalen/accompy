@@ -1,0 +1,352 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>accompy.protocols &mdash; accompy 0.3.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=e259d695"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../_static/toggleprompt.js?v=d7ede5d2"></script>
+      <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="accompy.realtime" href="realtime.html" />
+    <link rel="prev" title="accompy.pipeline" href="pipeline.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            accompy
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../accompy.html">accompy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="audio_renderers.html">accompy.audio_renderers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="base.html">accompy.base</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chord_parsers.html">accompy.chord_parsers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chord_resolution.html">accompy.chord_resolution</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chord_resolvers.html">accompy.chord_resolvers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="converters.html">accompy.converters</a></li>
+<li class="toctree-l1"><a class="reference internal" href="main.html">accompy.main</a></li>
+<li class="toctree-l1"><a class="reference internal" href="midi_generators.html">accompy.midi_generators</a></li>
+<li class="toctree-l1"><a class="reference internal" href="patterns.html">accompy.patterns</a></li>
+<li class="toctree-l1"><a class="reference internal" href="patterns/builtin.html">accompy.patterns.builtin</a></li>
+<li class="toctree-l1"><a class="reference internal" href="patterns/dataclasses.html">accompy.patterns.dataclasses</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pipeline.html">accompy.pipeline</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">accompy.protocols</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#accompy.protocols.AudioRenderer"><code class="docutils literal notranslate"><span class="pre">AudioRenderer</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#accompy.protocols.AudioRenderer.render"><code class="docutils literal notranslate"><span class="pre">AudioRenderer.render()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#accompy.protocols.AudioRenderer.render_to_file"><code class="docutils literal notranslate"><span class="pre">AudioRenderer.render_to_file()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#accompy.protocols.ChordResolver"><code class="docutils literal notranslate"><span class="pre">ChordResolver</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#accompy.protocols.MidiEventGenerator"><code class="docutils literal notranslate"><span class="pre">MidiEventGenerator</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#accompy.protocols.MidiEventGenerator.generate"><code class="docutils literal notranslate"><span class="pre">MidiEventGenerator.generate()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#accompy.protocols.PatternSource"><code class="docutils literal notranslate"><span class="pre">PatternSource</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#accompy.protocols.PatternSource.available_styles"><code class="docutils literal notranslate"><span class="pre">PatternSource.available_styles()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#accompy.protocols.PatternSource.get_patterns"><code class="docutils literal notranslate"><span class="pre">PatternSource.get_patterns()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#accompy.protocols.SynthesizerBackend"><code class="docutils literal notranslate"><span class="pre">SynthesizerBackend</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#accompy.protocols.SynthesizerBackend.is_available"><code class="docutils literal notranslate"><span class="pre">SynthesizerBackend.is_available()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#accompy.protocols.SynthesizerBackend.render_to_bytes"><code class="docutils literal notranslate"><span class="pre">SynthesizerBackend.render_to_bytes()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#accompy.protocols.SynthesizerBackend.render_to_file"><code class="docutils literal notranslate"><span class="pre">SynthesizerBackend.render_to_file()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="realtime.html">accompy.realtime</a></li>
+<li class="toctree-l1"><a class="reference internal" href="renderers.html">accompy.renderers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="renderers/midi.html">accompy.renderers.midi</a></li>
+<li class="toctree-l1"><a class="reference internal" href="setup_utils.html">accompy.setup_utils</a></li>
+<li class="toctree-l1"><a class="reference internal" href="synthesis.html">accompy.synthesis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="synthesis/fluidsynth.html">accompy.synthesis.fluidsynth</a></li>
+<li class="toctree-l1"><a class="reference internal" href="util.html">accompy.util</a></li>
+<li class="toctree-l1"><a class="reference internal" href="wips.html">accompy.wips</a></li>
+<li class="toctree-l1"><a class="reference internal" href="wips/audio_renderers.html">accompy.wips.audio_renderers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="wips/chord_parsers.html">accompy.wips.chord_parsers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="wips/chord_resolvers.html">accompy.wips.chord_resolvers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="wips/midi_generators.html">accompy.wips.midi_generators</a></li>
+<li class="toctree-l1"><a class="reference internal" href="wips/pipeline.html">accompy.wips.pipeline</a></li>
+<li class="toctree-l1"><a class="reference internal" href="wips/types.html">accompy.wips.types</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">accompy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">accompy.protocols</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/module_docs/accompy/protocols.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-accompy.protocols">
+<span id="accompy-protocols"></span><h1>accompy.protocols<a class="headerlink" href="#module-accompy.protocols" title="Link to this heading"></a></h1>
+<p>Protocols defining extensibility contracts for accompy.</p>
+<p>These protocols (structural interfaces) enable dependency injection and
+allow users to provide custom implementations of core components.</p>
+<p>Key protocols:
+- ChordResolver: Convert chord symbols to MIDI notes
+- PatternSource: Provide patterns for styles
+- MidiEventGenerator: Generate MIDI events from scores
+- AudioRenderer: Render MIDI to audio</p>
+<p>See PEP 544 for more on Protocol types.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="accompy.protocols.AudioRenderer">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">accompy.protocols.</span></span><span class="sig-name descname"><span class="pre">AudioRenderer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/accompy/protocols.html#AudioRenderer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#accompy.protocols.AudioRenderer" title="Link to this definition"></a></dt>
+<dd><p>Renders MIDI events to audio.</p>
+<p>This protocol abstracts audio synthesis, enabling:
+- Different synthesis backends (FluidSynth, Pyo, etc.)
+- Real-time vs. batch rendering
+- Alternative output formats</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="accompy.protocols.AudioRenderer.render">
+<span class="sig-name descname"><span class="pre">render</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">events</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Iterator</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="../accompy.html#accompy.MidiEvent" title="accompy.MidiEvent"><span class="pre">MidiEvent</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../accompy.html#accompy.AccompanimentConfig" title="accompy.AccompanimentConfig"><span class="pre">AccompanimentConfig</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bytes</span></span></span><a class="reference internal" href="../../_modules/accompy/protocols.html#AudioRenderer.render"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#accompy.protocols.AudioRenderer.render" title="Link to this definition"></a></dt>
+<dd><p>Render MIDI events to PCM audio data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>events</strong> – Iterator of MIDI events</p></li>
+<li><p><strong>config</strong> – Rendering configuration (tempo, sample rate, etc.)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Raw PCM audio bytes</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="accompy.protocols.AudioRenderer.render_to_file">
+<span class="sig-name descname"><span class="pre">render_to_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">events</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Iterator</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="../accompy.html#accompy.MidiEvent" title="accompy.MidiEvent"><span class="pre">MidiEvent</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../accompy.html#accompy.AccompanimentConfig" title="accompy.AccompanimentConfig"><span class="pre">AccompanimentConfig</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Path</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Path</span></span></span><a class="reference internal" href="../../_modules/accompy/protocols.html#AudioRenderer.render_to_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#accompy.protocols.AudioRenderer.render_to_file" title="Link to this definition"></a></dt>
+<dd><p>Render MIDI events directly to an audio file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>events</strong> – Iterator of MIDI events</p></li>
+<li><p><strong>config</strong> – Rendering configuration</p></li>
+<li><p><strong>output_path</strong> – Where to save the audio file</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Path to the created file</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="accompy.protocols.ChordResolver">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">accompy.protocols.</span></span><span class="sig-name descname"><span class="pre">ChordResolver</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/accompy/protocols.html#ChordResolver"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#accompy.protocols.ChordResolver" title="Link to this definition"></a></dt>
+<dd><p>Convert chord symbols to MIDI note numbers.</p>
+<dl>
+<dt>Example implementation:</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">def</span><span class="w"> </span><span class="nf">my_resolver</span><span class="p">(</span><span class="n">symbol</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
+<span class="gp">... </span>    <span class="c1"># Return MIDI notes for chord</span>
+<span class="gp">... </span>    <span class="k">return</span> <span class="p">[</span><span class="mi">60</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">67</span><span class="p">]</span>  <span class="c1"># C major</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="accompy.protocols.MidiEventGenerator">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">accompy.protocols.</span></span><span class="sig-name descname"><span class="pre">MidiEventGenerator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/accompy/protocols.html#MidiEventGenerator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#accompy.protocols.MidiEventGenerator" title="Link to this definition"></a></dt>
+<dd><p>Generates MIDI events from score and patterns.</p>
+<p>This protocol enables alternative MIDI generation strategies
+(e.g., more sophisticated voicings, real-time adaptation).</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="accompy.protocols.MidiEventGenerator.generate">
+<span class="sig-name descname"><span class="pre">generate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">score</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../accompy.html#accompy.Score" title="accompy.Score"><span class="pre">Score</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../accompy.html#accompy.AccompanimentConfig" title="accompy.AccompanimentConfig"><span class="pre">AccompanimentConfig</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chord_resolver</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#accompy.protocols.ChordResolver" title="accompy.protocols.ChordResolver"><span class="pre">ChordResolver</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">pattern_source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#accompy.protocols.PatternSource" title="accompy.protocols.PatternSource"><span class="pre">PatternSource</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Iterator</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="../accompy.html#accompy.MidiEvent" title="accompy.MidiEvent"><span class="pre">MidiEvent</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/accompy/protocols.html#MidiEventGenerator.generate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#accompy.protocols.MidiEventGenerator.generate" title="Link to this definition"></a></dt>
+<dd><p>Generate MIDI events from a score.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>score</strong> – Musical score with chord progression</p></li>
+<li><p><strong>config</strong> – Accompaniment configuration</p></li>
+<li><p><strong>chord_resolver</strong> – Function to resolve chords to notes</p></li>
+<li><p><strong>pattern_source</strong> – Source of musical patterns</p></li>
+</ul>
+</dd>
+<dt class="field-even">Yields<span class="colon">:</span></dt>
+<dd class="field-even"><p>MidiEvent objects in time order</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="accompy.protocols.PatternSource">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">accompy.protocols.</span></span><span class="sig-name descname"><span class="pre">PatternSource</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/accompy/protocols.html#PatternSource"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#accompy.protocols.PatternSource" title="Link to this definition"></a></dt>
+<dd><p>Provides musical patterns for a given style.</p>
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">class</span><span class="w"> </span><span class="nc">MyPatternSource</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="k">def</span><span class="w"> </span><span class="nf">get_patterns</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">style</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="gp">... </span>        <span class="k">return</span> <span class="p">{</span><span class="s1">&#39;drums&#39;</span><span class="p">:</span> <span class="p">[</span><span class="o">...</span><span class="p">],</span> <span class="s1">&#39;bass&#39;</span><span class="p">:</span> <span class="p">[</span><span class="o">...</span><span class="p">],</span> <span class="s1">&#39;comp&#39;</span><span class="p">:</span> <span class="p">[</span><span class="o">...</span><span class="p">]}</span>
+<span class="gp">... </span>    <span class="k">def</span><span class="w"> </span><span class="nf">available_styles</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="gp">... </span>        <span class="k">return</span> <span class="p">[</span><span class="s1">&#39;swing&#39;</span><span class="p">,</span> <span class="s1">&#39;bossa&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="accompy.protocols.PatternSource.available_styles">
+<span class="sig-name descname"><span class="pre">available_styles</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/accompy/protocols.html#PatternSource.available_styles"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#accompy.protocols.PatternSource.available_styles" title="Link to this definition"></a></dt>
+<dd><p>List all available style names.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>List of style names</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="accompy.protocols.PatternSource.get_patterns">
+<span class="sig-name descname"><span class="pre">get_patterns</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">style</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/accompy/protocols.html#PatternSource.get_patterns"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#accompy.protocols.PatternSource.get_patterns" title="Link to this definition"></a></dt>
+<dd><p>Get patterns for a style.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>style</strong> – Style name (e.g., “swing”, “bossa”, “rock”)</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Dict with ‘drums’, ‘bass’, ‘comp’ keys containing pattern lists</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="accompy.protocols.SynthesizerBackend">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">accompy.protocols.</span></span><span class="sig-name descname"><span class="pre">SynthesizerBackend</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/accompy/protocols.html#SynthesizerBackend"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#accompy.protocols.SynthesizerBackend" title="Link to this definition"></a></dt>
+<dd><p>Audio synthesis backend.</p>
+<p>Simpler protocol than AudioRenderer, focused just on synthesis.
+Used by the synthesis module.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="accompy.protocols.SynthesizerBackend.is_available">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">is_available</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="../../_modules/accompy/protocols.html#SynthesizerBackend.is_available"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#accompy.protocols.SynthesizerBackend.is_available" title="Link to this definition"></a></dt>
+<dd><p>Check if this backend’s dependencies are installed.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>True if the backend can be used</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="accompy.protocols.SynthesizerBackend.render_to_bytes">
+<span class="sig-name descname"><span class="pre">render_to_bytes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">midi_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Path</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_rate</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">44100</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bytes</span></span></span><a class="reference internal" href="../../_modules/accompy/protocols.html#SynthesizerBackend.render_to_bytes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#accompy.protocols.SynthesizerBackend.render_to_bytes" title="Link to this definition"></a></dt>
+<dd><p>Render a MIDI file to PCM bytes (for streaming).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>midi_path</strong> – Path to MIDI file</p></li>
+<li><p><strong>sample_rate</strong> – Audio sample rate</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Raw PCM audio bytes</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="accompy.protocols.SynthesizerBackend.render_to_file">
+<span class="sig-name descname"><span class="pre">render_to_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">midi_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Path</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_rate</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">44100</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Path</span></span></span><a class="reference internal" href="../../_modules/accompy/protocols.html#SynthesizerBackend.render_to_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#accompy.protocols.SynthesizerBackend.render_to_file" title="Link to this definition"></a></dt>
+<dd><p>Render a MIDI file to audio.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>midi_path</strong> – Path to MIDI file</p></li>
+<li><p><strong>output_path</strong> – Where to save audio</p></li>
+<li><p><strong>sample_rate</strong> – Audio sample rate</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Path to the created audio file</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="pipeline.html" class="btn btn-neutral float-left" title="accompy.pipeline" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="realtime.html" class="btn btn-neutral float-right" title="accompy.realtime" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright NO COPYRIGHT.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

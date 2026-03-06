@@ -1,0 +1,474 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>accompy.base &mdash; accompy 0.3.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=e259d695"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../_static/toggleprompt.js?v=d7ede5d2"></script>
+      <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="accompy.chord_parsers" href="chord_parsers.html" />
+    <link rel="prev" title="accompy.audio_renderers" href="audio_renderers.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            accompy
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../accompy.html">accompy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="audio_renderers.html">accompy.audio_renderers</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">accompy.base</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#accompy.base.AccompanimentConfig"><code class="docutils literal notranslate"><span class="pre">AccompanimentConfig</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#accompy.base.AccompanimentConfig.style"><code class="docutils literal notranslate"><span class="pre">AccompanimentConfig.style</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#accompy.base.AccompanimentConfig.tempo"><code class="docutils literal notranslate"><span class="pre">AccompanimentConfig.tempo</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#accompy.base.AccompanimentConfig.repeats"><code class="docutils literal notranslate"><span class="pre">AccompanimentConfig.repeats</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#accompy.base.AccompanimentConfig.instruments"><code class="docutils literal notranslate"><span class="pre">AccompanimentConfig.instruments</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#accompy.base.AccompanimentConfig.volumes"><code class="docutils literal notranslate"><span class="pre">AccompanimentConfig.volumes</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#accompy.base.AccompanimentConfig.soundfont"><code class="docutils literal notranslate"><span class="pre">AccompanimentConfig.soundfont</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#accompy.base.AccompanimentConfig.sample_rate"><code class="docutils literal notranslate"><span class="pre">AccompanimentConfig.sample_rate</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#accompy.base.AccompanimentConfig.output_format"><code class="docutils literal notranslate"><span class="pre">AccompanimentConfig.output_format</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#accompy.base.AccompanimentConfig.chord_resolver"><code class="docutils literal notranslate"><span class="pre">AccompanimentConfig.chord_resolver</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#accompy.base.AccompanimentConfig.pattern_source"><code class="docutils literal notranslate"><span class="pre">AccompanimentConfig.pattern_source</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#accompy.base.AccompanimentConfig.synthesis_backend"><code class="docutils literal notranslate"><span class="pre">AccompanimentConfig.synthesis_backend</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#accompy.base.AccompanimentConfig.with_overrides"><code class="docutils literal notranslate"><span class="pre">AccompanimentConfig.with_overrides()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#accompy.base.ChordEvent"><code class="docutils literal notranslate"><span class="pre">ChordEvent</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#accompy.base.MidiEvent"><code class="docutils literal notranslate"><span class="pre">MidiEvent</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#accompy.base.MidiEvent.time"><code class="docutils literal notranslate"><span class="pre">MidiEvent.time</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#accompy.base.MidiEvent.channel"><code class="docutils literal notranslate"><span class="pre">MidiEvent.channel</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#accompy.base.MidiEvent.note"><code class="docutils literal notranslate"><span class="pre">MidiEvent.note</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#accompy.base.MidiEvent.velocity"><code class="docutils literal notranslate"><span class="pre">MidiEvent.velocity</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#accompy.base.MidiEvent.duration"><code class="docutils literal notranslate"><span class="pre">MidiEvent.duration</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#accompy.base.Score"><code class="docutils literal notranslate"><span class="pre">Score</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#accompy.base.Score.from_ireal_url"><code class="docutils literal notranslate"><span class="pre">Score.from_ireal_url()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#accompy.base.Score.from_string"><code class="docutils literal notranslate"><span class="pre">Score.from_string()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#accompy.base.Score.to_chord_sequence"><code class="docutils literal notranslate"><span class="pre">Score.to_chord_sequence()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#accompy.base.ensure_score"><code class="docutils literal notranslate"><span class="pre">ensure_score()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="chord_parsers.html">accompy.chord_parsers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chord_resolution.html">accompy.chord_resolution</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chord_resolvers.html">accompy.chord_resolvers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="converters.html">accompy.converters</a></li>
+<li class="toctree-l1"><a class="reference internal" href="main.html">accompy.main</a></li>
+<li class="toctree-l1"><a class="reference internal" href="midi_generators.html">accompy.midi_generators</a></li>
+<li class="toctree-l1"><a class="reference internal" href="patterns.html">accompy.patterns</a></li>
+<li class="toctree-l1"><a class="reference internal" href="patterns/builtin.html">accompy.patterns.builtin</a></li>
+<li class="toctree-l1"><a class="reference internal" href="patterns/dataclasses.html">accompy.patterns.dataclasses</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pipeline.html">accompy.pipeline</a></li>
+<li class="toctree-l1"><a class="reference internal" href="protocols.html">accompy.protocols</a></li>
+<li class="toctree-l1"><a class="reference internal" href="realtime.html">accompy.realtime</a></li>
+<li class="toctree-l1"><a class="reference internal" href="renderers.html">accompy.renderers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="renderers/midi.html">accompy.renderers.midi</a></li>
+<li class="toctree-l1"><a class="reference internal" href="setup_utils.html">accompy.setup_utils</a></li>
+<li class="toctree-l1"><a class="reference internal" href="synthesis.html">accompy.synthesis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="synthesis/fluidsynth.html">accompy.synthesis.fluidsynth</a></li>
+<li class="toctree-l1"><a class="reference internal" href="util.html">accompy.util</a></li>
+<li class="toctree-l1"><a class="reference internal" href="wips.html">accompy.wips</a></li>
+<li class="toctree-l1"><a class="reference internal" href="wips/audio_renderers.html">accompy.wips.audio_renderers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="wips/chord_parsers.html">accompy.wips.chord_parsers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="wips/chord_resolvers.html">accompy.wips.chord_resolvers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="wips/midi_generators.html">accompy.wips.midi_generators</a></li>
+<li class="toctree-l1"><a class="reference internal" href="wips/pipeline.html">accompy.wips.pipeline</a></li>
+<li class="toctree-l1"><a class="reference internal" href="wips/types.html">accompy.wips.types</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">accompy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">accompy.base</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/module_docs/accompy/base.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-accompy.base">
+<span id="accompy-base"></span><h1>accompy.base<a class="headerlink" href="#module-accompy.base" title="Link to this heading"></a></h1>
+<p>Core domain models for accompy.</p>
+<p>Contains Score, ChordEvent, AccompanimentConfig and related data structures.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="accompy.base.AccompanimentConfig">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">accompy.base.</span></span><span class="sig-name descname"><span class="pre">AccompanimentConfig</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">style:</span> <span class="pre">~typing.Literal['swing'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'bossa'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'rock'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'ballad'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'funk'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'latin'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'waltz'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'blues']</span> <span class="pre">=</span> <span class="pre">'swing'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tempo:</span> <span class="pre">int</span> <span class="pre">=</span> <span class="pre">120</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">repeats:</span> <span class="pre">int</span> <span class="pre">=</span> <span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">instruments:</span> <span class="pre">dict[str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bool]</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">volumes:</span> <span class="pre">dict[str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">float]</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">soundfont:</span> <span class="pre">~pathlib.Path</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_rate:</span> <span class="pre">int</span> <span class="pre">=</span> <span class="pre">44100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_format:</span> <span class="pre">~typing.Literal['wav'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'mp3'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'flac'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'midi']</span> <span class="pre">=</span> <span class="pre">'wav'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chord_resolver:</span> <span class="pre">~typing.Any</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pattern_source:</span> <span class="pre">~typing.Any</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">synthesis_backend:</span> <span class="pre">~typing.Any</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/accompy/base.html#AccompanimentConfig"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#accompy.base.AccompanimentConfig" title="Link to this definition"></a></dt>
+<dd><p>Configuration for accompaniment generation.</p>
+<p>This is the single source of truth for all configuration options,
+including dependency injection hooks for extensibility.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="accompy.base.AccompanimentConfig.style">
+<span class="sig-name descname"><span class="pre">style</span></span><a class="headerlink" href="#accompy.base.AccompanimentConfig.style" title="Link to this definition"></a></dt>
+<dd><p>Musical style (swing, bossa, rock, etc.)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Literal[‘swing’, ‘bossa’, ‘rock’, ‘ballad’, ‘funk’, ‘latin’, ‘waltz’, ‘blues’]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="accompy.base.AccompanimentConfig.tempo">
+<span class="sig-name descname"><span class="pre">tempo</span></span><a class="headerlink" href="#accompy.base.AccompanimentConfig.tempo" title="Link to this definition"></a></dt>
+<dd><p>Beats per minute</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="accompy.base.AccompanimentConfig.repeats">
+<span class="sig-name descname"><span class="pre">repeats</span></span><a class="headerlink" href="#accompy.base.AccompanimentConfig.repeats" title="Link to this definition"></a></dt>
+<dd><p>Number of times to play through the form</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="accompy.base.AccompanimentConfig.instruments">
+<span class="sig-name descname"><span class="pre">instruments</span></span><a class="headerlink" href="#accompy.base.AccompanimentConfig.instruments" title="Link to this definition"></a></dt>
+<dd><p>Which instruments to include</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict[str, bool]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="accompy.base.AccompanimentConfig.volumes">
+<span class="sig-name descname"><span class="pre">volumes</span></span><a class="headerlink" href="#accompy.base.AccompanimentConfig.volumes" title="Link to this definition"></a></dt>
+<dd><p>Relative volume for each instrument (0.0-1.0)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict[str, float]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="accompy.base.AccompanimentConfig.soundfont">
+<span class="sig-name descname"><span class="pre">soundfont</span></span><a class="headerlink" href="#accompy.base.AccompanimentConfig.soundfont" title="Link to this definition"></a></dt>
+<dd><p>Path to SoundFont file for synthesis</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>pathlib.Path | None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="accompy.base.AccompanimentConfig.sample_rate">
+<span class="sig-name descname"><span class="pre">sample_rate</span></span><a class="headerlink" href="#accompy.base.AccompanimentConfig.sample_rate" title="Link to this definition"></a></dt>
+<dd><p>Audio sample rate</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="accompy.base.AccompanimentConfig.output_format">
+<span class="sig-name descname"><span class="pre">output_format</span></span><a class="headerlink" href="#accompy.base.AccompanimentConfig.output_format" title="Link to this definition"></a></dt>
+<dd><p>Output file format</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Literal[‘wav’, ‘mp3’, ‘flac’, ‘midi’]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="accompy.base.AccompanimentConfig.chord_resolver">
+<span class="sig-name descname"><span class="pre">chord_resolver</span></span><a class="headerlink" href="#accompy.base.AccompanimentConfig.chord_resolver" title="Link to this definition"></a></dt>
+<dd><p>Optional custom chord resolution function</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Any | None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="accompy.base.AccompanimentConfig.pattern_source">
+<span class="sig-name descname"><span class="pre">pattern_source</span></span><a class="headerlink" href="#accompy.base.AccompanimentConfig.pattern_source" title="Link to this definition"></a></dt>
+<dd><p>Optional custom pattern provider</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Any | None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="accompy.base.AccompanimentConfig.synthesis_backend">
+<span class="sig-name descname"><span class="pre">synthesis_backend</span></span><a class="headerlink" href="#accompy.base.AccompanimentConfig.synthesis_backend" title="Link to this definition"></a></dt>
+<dd><p>Optional custom synthesis backend</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Any | None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="accompy.base.AccompanimentConfig.with_overrides">
+<span class="sig-name descname"><span class="pre">with_overrides</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#accompy.base.AccompanimentConfig" title="accompy.base.AccompanimentConfig"><span class="pre">AccompanimentConfig</span></a></span></span><a class="reference internal" href="../../_modules/accompy/base.html#AccompanimentConfig.with_overrides"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#accompy.base.AccompanimentConfig.with_overrides" title="Link to this definition"></a></dt>
+<dd><p>Create a new config with specified overrides.</p>
+<p>This enables immutable updates to configuration.</p>
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">config</span> <span class="o">=</span> <span class="n">AccompanimentConfig</span><span class="p">(</span><span class="n">tempo</span><span class="o">=</span><span class="mi">120</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">fast_config</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">with_overrides</span><span class="p">(</span><span class="n">tempo</span><span class="o">=</span><span class="mi">180</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">config</span><span class="o">.</span><span class="n">tempo</span><span class="p">,</span> <span class="n">fast_config</span><span class="o">.</span><span class="n">tempo</span>
+<span class="go">(120, 180)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="accompy.base.ChordEvent">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">accompy.base.</span></span><span class="sig-name descname"><span class="pre">ChordEvent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">symbol</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">beats</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">4</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/accompy/base.html#ChordEvent"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#accompy.base.ChordEvent" title="Link to this definition"></a></dt>
+<dd><p>A chord at a specific position in the progression.</p>
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">event</span> <span class="o">=</span> <span class="n">ChordEvent</span><span class="p">(</span><span class="s2">&quot;Dm7&quot;</span><span class="p">,</span> <span class="n">beats</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">event</span><span class="o">.</span><span class="n">symbol</span>
+<span class="go">&#39;D-7&#39;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="accompy.base.MidiEvent">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">accompy.base.</span></span><span class="sig-name descname"><span class="pre">MidiEvent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">channel</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">note</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">velocity</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">duration</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/accompy/base.html#MidiEvent"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#accompy.base.MidiEvent" title="Link to this definition"></a></dt>
+<dd><p>A single MIDI event.</p>
+<p>Used for event-based MIDI generation that enables both batch file creation
+and future real-time streaming.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="accompy.base.MidiEvent.time">
+<span class="sig-name descname"><span class="pre">time</span></span><a class="headerlink" href="#accompy.base.MidiEvent.time" title="Link to this definition"></a></dt>
+<dd><p>Event time in beats</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="accompy.base.MidiEvent.channel">
+<span class="sig-name descname"><span class="pre">channel</span></span><a class="headerlink" href="#accompy.base.MidiEvent.channel" title="Link to this definition"></a></dt>
+<dd><p>MIDI channel (0-15)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="accompy.base.MidiEvent.note">
+<span class="sig-name descname"><span class="pre">note</span></span><a class="headerlink" href="#accompy.base.MidiEvent.note" title="Link to this definition"></a></dt>
+<dd><p>MIDI note number (0-127)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="accompy.base.MidiEvent.velocity">
+<span class="sig-name descname"><span class="pre">velocity</span></span><a class="headerlink" href="#accompy.base.MidiEvent.velocity" title="Link to this definition"></a></dt>
+<dd><p>Note velocity (0-127)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="accompy.base.MidiEvent.duration">
+<span class="sig-name descname"><span class="pre">duration</span></span><a class="headerlink" href="#accompy.base.MidiEvent.duration" title="Link to this definition"></a></dt>
+<dd><p>Note duration in beats</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="accompy.base.Score">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">accompy.base.</span></span><span class="sig-name descname"><span class="pre">Score</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">measures</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'Untitled'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">composer</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'C'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time_signature</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">(4,</span> <span class="pre">4)</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/accompy/base.html#Score"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#accompy.base.Score" title="Link to this definition"></a></dt>
+<dd><p>A musical score containing chord events and metadata.</p>
+<p>This is the domain model for chord progressions. It provides a unified
+representation regardless of input format (string, iReal URL, tuples, etc.).</p>
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">score</span> <span class="o">=</span> <span class="n">Score</span><span class="o">.</span><span class="n">from_string</span><span class="p">(</span><span class="s2">&quot;| C | Am | F | G |&quot;</span><span class="p">,</span> <span class="n">time_signature</span><span class="o">=</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">list</span><span class="p">(</span><span class="n">score</span><span class="o">.</span><span class="n">measures</span><span class="p">)</span>
+<span class="go">[[&#39;C&#39;], [&#39;A-&#39;], [&#39;F&#39;], [&#39;G&#39;]]</span>
+</pre></div>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="accompy.base.Score.from_ireal_url">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_ireal_url</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">url</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#accompy.base.Score" title="accompy.base.Score"><span class="pre">Score</span></a></span></span><a class="reference internal" href="../../_modules/accompy/base.html#Score.from_ireal_url"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#accompy.base.Score.from_ireal_url" title="Link to this definition"></a></dt>
+<dd><p>Parse an iReal Pro URL into a Score.</p>
+<dl class="simple">
+<dt>Example::</dt><dd><p>url = “irealb://Autumn%20Leaves=…”
+score = Score.from_ireal_url(url)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="accompy.base.Score.from_string">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_string</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">chord_string</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'Untitled'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'C'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time_signature</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">(4,</span> <span class="pre">4)</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#accompy.base.Score" title="accompy.base.Score"><span class="pre">Score</span></a></span></span><a class="reference internal" href="../../_modules/accompy/base.html#Score.from_string"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#accompy.base.Score.from_string" title="Link to this definition"></a></dt>
+<dd><p>Parse a chord string into a Score.</p>
+<p>Supports formats:
+- Simple: “C Am F G” (space-separated, one chord per bar)
+- Bar lines: “| C | Am | F | G <a href="#id5"><span class="problematic" id="id6">|&quot;
+- Multi-chord bars: &quot;|</span></a> C Am | F G <a href="#id1"><span class="problematic" id="id2">|</span></a>” (chords split evenly)
+- iReal-style: “C-7 F7 | Bb^7 | Eh7 A7b9 <a href="#id3"><span class="problematic" id="id4">|</span></a>”</p>
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">Score</span><span class="o">.</span><span class="n">from_string</span><span class="p">(</span><span class="s2">&quot;| Dm7 | G7 | C^7 | % |&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">measures</span>  <span class="c1"># % means repeat</span>
+<span class="go">[[&#39;D-7&#39;], [&#39;G7&#39;], [&#39;C^7&#39;], [&#39;C^7&#39;]]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="accompy.base.Score.to_chord_sequence">
+<span class="sig-name descname"><span class="pre">to_chord_sequence</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tempo</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">120</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/accompy/base.html#Score.to_chord_sequence"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#accompy.base.Score.to_chord_sequence" title="Link to this definition"></a></dt>
+<dd><p>Convert Score to a ChordSequence (from the converter pipeline).</p>
+<p>Each chord gets a duration proportional to its share of the bar.</p>
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">score</span> <span class="o">=</span> <span class="n">Score</span><span class="o">.</span><span class="n">from_string</span><span class="p">(</span><span class="s2">&quot;| Dm7 | G7 | C^7 |&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cs</span> <span class="o">=</span> <span class="n">score</span><span class="o">.</span><span class="n">to_chord_sequence</span><span class="p">(</span><span class="n">tempo</span><span class="o">=</span><span class="mi">160</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">len</span><span class="p">(</span><span class="n">cs</span><span class="p">)</span>
+<span class="go">3</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="accompy.base.ensure_score">
+<span class="sig-prename descclassname"><span class="pre">accompy.base.</span></span><span class="sig-name descname"><span class="pre">ensure_score</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">chords</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'Untitled'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'C'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time_signature</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">(4,</span> <span class="pre">4)</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#accompy.base.Score" title="accompy.base.Score"><span class="pre">Score</span></a></span></span><a class="reference internal" href="../../_modules/accompy/base.html#ensure_score"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#accompy.base.ensure_score" title="Link to this definition"></a></dt>
+<dd><p>Coerce common chord-progression formats into a <cite>Score</cite>.</p>
+<p>Supported inputs:
+- <cite>Score</cite>: returned as-is
+- <cite>str</cite>: chord string (e.g. <cite>“| C | Am | F | G |”</cite>) OR iReal URL (<cite>irealbook://…</cite>)
+- <cite>Iterable[tuple[str, int|float]]</cite>: list of <cite>(chord, beats)</cite> like in <cite>accompany</cite>
+- <cite>Iterable[str]</cite>: chord symbols, one per bar
+- <cite>list[list[str]]</cite>: already-parsed measures</p>
+<p>Notes:
+- <cite>Score.measures</cite> in <cite>accompy</cite> does not encode per-chord durations within a bar.</p>
+<blockquote>
+<div><p>For <cite>(chord, beats)</cite> inputs, durations not equal to whole bars are approximated
+by grouping chords into bars.</p>
+</div></blockquote>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ensure_score</span><span class="p">(</span><span class="s2">&quot;| C | Am | F | G |&quot;</span><span class="p">,</span> <span class="n">time_signature</span><span class="o">=</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span><span class="o">.</span><span class="n">measures</span>
+<span class="go">[[&#39;C&#39;], [&#39;A-&#39;], [&#39;F&#39;], [&#39;G&#39;]]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ensure_score</span><span class="p">([(</span><span class="s2">&quot;F#m7b5&quot;</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="p">(</span><span class="s2">&quot;B7&quot;</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="p">(</span><span class="s2">&quot;Em&quot;</span><span class="p">,</span> <span class="mi">8</span><span class="p">)],</span> <span class="n">key</span><span class="o">=</span><span class="s2">&quot;E&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">measures</span><span class="p">[:</span><span class="mi">3</span><span class="p">]</span>
+<span class="go">[[&#39;F#h7&#39;], [&#39;B7&#39;], [&#39;E-&#39;]]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="audio_renderers.html" class="btn btn-neutral float-left" title="accompy.audio_renderers" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="chord_parsers.html" class="btn btn-neutral float-right" title="accompy.chord_parsers" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright NO COPYRIGHT.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

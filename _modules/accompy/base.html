@@ -1,0 +1,468 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>accompy.base &mdash; accompy 0.3.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=e259d695"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../_static/toggleprompt.js?v=d7ede5d2"></script>
+      <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            accompy
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy.html">accompy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/audio_renderers.html">accompy.audio_renderers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/base.html">accompy.base</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/chord_parsers.html">accompy.chord_parsers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/chord_resolution.html">accompy.chord_resolution</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/chord_resolvers.html">accompy.chord_resolvers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/converters.html">accompy.converters</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/main.html">accompy.main</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/midi_generators.html">accompy.midi_generators</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/patterns.html">accompy.patterns</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/patterns/builtin.html">accompy.patterns.builtin</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/patterns/dataclasses.html">accompy.patterns.dataclasses</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/pipeline.html">accompy.pipeline</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/protocols.html">accompy.protocols</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/realtime.html">accompy.realtime</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/renderers.html">accompy.renderers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/renderers/midi.html">accompy.renderers.midi</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/setup_utils.html">accompy.setup_utils</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/synthesis.html">accompy.synthesis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/synthesis/fluidsynth.html">accompy.synthesis.fluidsynth</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/util.html">accompy.util</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/wips.html">accompy.wips</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/wips/audio_renderers.html">accompy.wips.audio_renderers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/wips/chord_parsers.html">accompy.wips.chord_parsers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/wips/chord_resolvers.html">accompy.wips.chord_resolvers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/wips/midi_generators.html">accompy.wips.midi_generators</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/wips/pipeline.html">accompy.wips.pipeline</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/wips/types.html">accompy.wips.types</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">accompy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">accompy.base</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for accompy.base</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Core domain models for accompy.</span>
+
+<span class="sd">Contains Score, ChordEvent, AccompanimentConfig and related data structures.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataclass</span><span class="p">,</span> <span class="n">field</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">Literal</span><span class="p">,</span> <span class="n">Mapping</span><span class="p">,</span> <span class="n">Optional</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">types</span><span class="w"> </span><span class="kn">import</span> <span class="n">MappingProxyType</span>
+
+<span class="c1"># Type aliases</span>
+<span class="n">ChordSymbol</span> <span class="o">=</span> <span class="nb">str</span>
+<span class="n">ChordSpec</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span> <span class="o">|</span> <span class="nb">float</span><span class="p">]</span>  <span class="c1"># (chord_name, beats)</span>
+<span class="n">StyleName</span> <span class="o">=</span> <span class="n">Literal</span><span class="p">[</span>
+    <span class="s2">&quot;swing&quot;</span><span class="p">,</span> <span class="s2">&quot;bossa&quot;</span><span class="p">,</span> <span class="s2">&quot;rock&quot;</span><span class="p">,</span> <span class="s2">&quot;ballad&quot;</span><span class="p">,</span> <span class="s2">&quot;funk&quot;</span><span class="p">,</span> <span class="s2">&quot;latin&quot;</span><span class="p">,</span> <span class="s2">&quot;waltz&quot;</span><span class="p">,</span> <span class="s2">&quot;blues&quot;</span>
+<span class="p">]</span>
+<span class="n">BackendType</span> <span class="o">=</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;auto&quot;</span><span class="p">,</span> <span class="s2">&quot;mma&quot;</span><span class="p">,</span> <span class="s2">&quot;builtin&quot;</span><span class="p">]</span>
+
+
+<div class="viewcode-block" id="MidiEvent">
+<a class="viewcode-back" href="../../module_docs/accompy/base.html#accompy.MidiEvent">[docs]</a>
+<span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">MidiEvent</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A single MIDI event.</span>
+
+<span class="sd">    Used for event-based MIDI generation that enables both batch file creation</span>
+<span class="sd">    and future real-time streaming.</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        time: Event time in beats</span>
+<span class="sd">        channel: MIDI channel (0-15)</span>
+<span class="sd">        note: MIDI note number (0-127)</span>
+<span class="sd">        velocity: Note velocity (0-127)</span>
+<span class="sd">        duration: Note duration in beats</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">time</span><span class="p">:</span> <span class="nb">float</span>
+    <span class="n">channel</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">note</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">velocity</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">duration</span><span class="p">:</span> <span class="nb">float</span></div>
+
+
+
+<div class="viewcode-block" id="ChordEvent">
+<a class="viewcode-back" href="../../module_docs/accompy/base.html#accompy.ChordEvent">[docs]</a>
+<span class="nd">@dataclass</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">ChordEvent</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A chord at a specific position in the progression.</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">        &gt;&gt;&gt; event = ChordEvent(&quot;Dm7&quot;, beats=4)</span>
+<span class="sd">        &gt;&gt;&gt; event.symbol</span>
+<span class="sd">        &#39;D-7&#39;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">symbol</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">beats</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">4</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">__post_init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">.util</span><span class="w"> </span><span class="kn">import</span> <span class="n">normalize_chord_symbol</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">symbol</span> <span class="o">=</span> <span class="n">normalize_chord_symbol</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">symbol</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="Score">
+<a class="viewcode-back" href="../../module_docs/accompy/base.html#accompy.Score">[docs]</a>
+<span class="nd">@dataclass</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Score</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A musical score containing chord events and metadata.</span>
+
+<span class="sd">    This is the domain model for chord progressions. It provides a unified</span>
+<span class="sd">    representation regardless of input format (string, iReal URL, tuples, etc.).</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">        &gt;&gt;&gt; score = Score.from_string(&quot;| C | Am | F | G |&quot;, time_signature=(4, 4))</span>
+<span class="sd">        &gt;&gt;&gt; list(score.measures)</span>
+<span class="sd">        [[&#39;C&#39;], [&#39;A-&#39;], [&#39;F&#39;], [&#39;G&#39;]]</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">measures</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span>
+    <span class="n">title</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;Untitled&quot;</span>
+    <span class="n">composer</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+    <span class="n">key</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;C&quot;</span>
+    <span class="n">time_signature</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+
+<div class="viewcode-block" id="Score.from_string">
+<a class="viewcode-back" href="../../module_docs/accompy/base.html#accompy.Score.from_string">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">from_string</span><span class="p">(</span>
+        <span class="bp">cls</span><span class="p">,</span>
+        <span class="n">chord_string</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="o">*</span><span class="p">,</span>
+        <span class="n">title</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;Untitled&quot;</span><span class="p">,</span>
+        <span class="n">key</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;C&quot;</span><span class="p">,</span>
+        <span class="n">time_signature</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Score&quot;</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Parse a chord string into a Score.</span>
+
+<span class="sd">        Supports formats:</span>
+<span class="sd">        - Simple: &quot;C Am F G&quot; (space-separated, one chord per bar)</span>
+<span class="sd">        - Bar lines: &quot;| C | Am | F | G |&quot;</span>
+<span class="sd">        - Multi-chord bars: &quot;| C Am | F G |&quot; (chords split evenly)</span>
+<span class="sd">        - iReal-style: &quot;C-7 F7 | Bb^7 | Eh7 A7b9 |&quot;</span>
+
+<span class="sd">        Example:</span>
+<span class="sd">            &gt;&gt;&gt; Score.from_string(&quot;| Dm7 | G7 | C^7 | % |&quot;).measures  # % means repeat</span>
+<span class="sd">            [[&#39;D-7&#39;], [&#39;G7&#39;], [&#39;C^7&#39;], [&#39;C^7&#39;]]</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">.util</span><span class="w"> </span><span class="kn">import</span> <span class="n">parse_chord_string</span>
+        <span class="n">measures</span> <span class="o">=</span> <span class="n">parse_chord_string</span><span class="p">(</span><span class="n">chord_string</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span>
+            <span class="n">measures</span><span class="o">=</span><span class="n">measures</span><span class="p">,</span>
+            <span class="n">title</span><span class="o">=</span><span class="n">title</span><span class="p">,</span>
+            <span class="n">key</span><span class="o">=</span><span class="n">key</span><span class="p">,</span>
+            <span class="n">time_signature</span><span class="o">=</span><span class="n">time_signature</span><span class="p">,</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Score.from_ireal_url">
+<a class="viewcode-back" href="../../module_docs/accompy/base.html#accompy.Score.from_ireal_url">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">from_ireal_url</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">url</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Score&quot;</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Parse an iReal Pro URL into a Score.</span>
+
+<span class="sd">        Example::</span>
+<span class="sd">            url = &quot;irealb://Autumn%20Leaves=...&quot;</span>
+<span class="sd">            score = Score.from_ireal_url(url)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">.util</span><span class="w"> </span><span class="kn">import</span> <span class="n">parse_ireal_url</span>
+        <span class="k">return</span> <span class="n">parse_ireal_url</span><span class="p">(</span><span class="n">url</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Score.to_chord_sequence">
+<a class="viewcode-back" href="../../module_docs/accompy/base.html#accompy.Score.to_chord_sequence">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">to_chord_sequence</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">tempo</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">120</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Convert Score to a ChordSequence (from the converter pipeline).</span>
+
+<span class="sd">        Each chord gets a duration proportional to its share of the bar.</span>
+
+<span class="sd">        Example:</span>
+<span class="sd">            &gt;&gt;&gt; score = Score.from_string(&quot;| Dm7 | G7 | C^7 |&quot;)</span>
+<span class="sd">            &gt;&gt;&gt; cs = score.to_chord_sequence(tempo=160)</span>
+<span class="sd">            &gt;&gt;&gt; len(cs)</span>
+<span class="sd">            3</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">.converters</span><span class="w"> </span><span class="kn">import</span> <span class="n">ChordSequence</span>
+
+        <span class="n">beats_per_bar</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">time_signature</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">chords</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">measure</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">measures</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">measure</span><span class="p">:</span>
+                <span class="k">continue</span>
+            <span class="n">beats_each</span> <span class="o">=</span> <span class="n">beats_per_bar</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">measure</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">sym</span> <span class="ow">in</span> <span class="n">measure</span><span class="p">:</span>
+                <span class="n">chords</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">sym</span><span class="p">,</span> <span class="nb">float</span><span class="p">(</span><span class="n">beats_each</span><span class="p">)))</span>
+        <span class="k">return</span> <span class="n">ChordSequence</span><span class="p">(</span>
+            <span class="n">chords</span><span class="o">=</span><span class="n">chords</span><span class="p">,</span>
+            <span class="n">title</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">title</span><span class="p">,</span>
+            <span class="n">key</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">key</span><span class="p">,</span>
+            <span class="n">tempo</span><span class="o">=</span><span class="n">tempo</span><span class="p">,</span>
+            <span class="n">time_signature</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">time_signature</span><span class="p">,</span>
+        <span class="p">)</span></div>
+
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]]:</span>
+        <span class="k">return</span> <span class="nb">iter</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">measures</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">measures</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="AccompanimentConfig">
+<a class="viewcode-back" href="../../module_docs/accompy/base.html#accompy.AccompanimentConfig">[docs]</a>
+<span class="nd">@dataclass</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">AccompanimentConfig</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Configuration for accompaniment generation.</span>
+
+<span class="sd">    This is the single source of truth for all configuration options,</span>
+<span class="sd">    including dependency injection hooks for extensibility.</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        style: Musical style (swing, bossa, rock, etc.)</span>
+<span class="sd">        tempo: Beats per minute</span>
+<span class="sd">        repeats: Number of times to play through the form</span>
+<span class="sd">        instruments: Which instruments to include</span>
+<span class="sd">        volumes: Relative volume for each instrument (0.0-1.0)</span>
+<span class="sd">        soundfont: Path to SoundFont file for synthesis</span>
+<span class="sd">        sample_rate: Audio sample rate</span>
+<span class="sd">        output_format: Output file format</span>
+<span class="sd">        chord_resolver: Optional custom chord resolution function</span>
+<span class="sd">        pattern_source: Optional custom pattern provider</span>
+<span class="sd">        synthesis_backend: Optional custom synthesis backend</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Core settings</span>
+    <span class="n">style</span><span class="p">:</span> <span class="n">StyleName</span> <span class="o">=</span> <span class="s2">&quot;swing&quot;</span>
+    <span class="n">tempo</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">120</span>
+    <span class="n">repeats</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">2</span>
+    <span class="n">instruments</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">bool</span><span class="p">]</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span>
+        <span class="n">default_factory</span><span class="o">=</span><span class="k">lambda</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">&quot;drums&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+            <span class="s2">&quot;bass&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+            <span class="s2">&quot;piano&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+            <span class="s2">&quot;guitar&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="p">}</span>
+    <span class="p">)</span>
+    <span class="n">volumes</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span>
+        <span class="n">default_factory</span><span class="o">=</span><span class="k">lambda</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">&quot;drums&quot;</span><span class="p">:</span> <span class="mf">0.8</span><span class="p">,</span>
+            <span class="s2">&quot;bass&quot;</span><span class="p">:</span> <span class="mf">0.9</span><span class="p">,</span>
+            <span class="s2">&quot;piano&quot;</span><span class="p">:</span> <span class="mf">0.7</span><span class="p">,</span>
+        <span class="p">}</span>
+    <span class="p">)</span>
+
+    <span class="c1"># Synthesis settings</span>
+    <span class="n">soundfont</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Path</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">sample_rate</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">44100</span>
+    <span class="n">output_format</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;wav&quot;</span><span class="p">,</span> <span class="s2">&quot;mp3&quot;</span><span class="p">,</span> <span class="s2">&quot;flac&quot;</span><span class="p">,</span> <span class="s2">&quot;midi&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;wav&quot;</span>
+
+    <span class="c1"># Extensibility hooks (dependency injection)</span>
+    <span class="c1"># NOTE: These are populated at runtime to avoid circular imports</span>
+    <span class="n">chord_resolver</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># ChordResolver protocol</span>
+    <span class="n">pattern_source</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># PatternSource protocol</span>
+    <span class="n">synthesis_backend</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># SynthesizerBackend protocol</span>
+
+<div class="viewcode-block" id="AccompanimentConfig.with_overrides">
+<a class="viewcode-back" href="../../module_docs/accompy/base.html#accompy.AccompanimentConfig.with_overrides">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">with_overrides</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;AccompanimentConfig&quot;</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Create a new config with specified overrides.</span>
+
+<span class="sd">        This enables immutable updates to configuration.</span>
+
+<span class="sd">        Example:</span>
+<span class="sd">            &gt;&gt;&gt; config = AccompanimentConfig(tempo=120)</span>
+<span class="sd">            &gt;&gt;&gt; fast_config = config.with_overrides(tempo=180)</span>
+<span class="sd">            &gt;&gt;&gt; config.tempo, fast_config.tempo</span>
+<span class="sd">            (120, 180)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">replace</span>
+        <span class="k">return</span> <span class="n">replace</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="ensure_score">
+<a class="viewcode-back" href="../../module_docs/accompy/base.html#accompy.ensure_score">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">ensure_score</span><span class="p">(</span>
+    <span class="n">chords</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
+    <span class="o">*</span><span class="p">,</span>
+    <span class="n">title</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;Untitled&quot;</span><span class="p">,</span>
+    <span class="n">key</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;C&quot;</span><span class="p">,</span>
+    <span class="n">time_signature</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Score</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Coerce common chord-progression formats into a `Score`.</span>
+
+<span class="sd">    Supported inputs:</span>
+<span class="sd">    - `Score`: returned as-is</span>
+<span class="sd">    - `str`: chord string (e.g. `&quot;| C | Am | F | G |&quot;`) OR iReal URL (`irealbook://...`)</span>
+<span class="sd">    - `Iterable[tuple[str, int|float]]`: list of `(chord, beats)` like in `accompany`</span>
+<span class="sd">    - `Iterable[str]`: chord symbols, one per bar</span>
+<span class="sd">    - `list[list[str]]`: already-parsed measures</span>
+
+<span class="sd">    Notes:</span>
+<span class="sd">    - `Score.measures` in `accompy` does not encode per-chord durations within a bar.</span>
+<span class="sd">      For `(chord, beats)` inputs, durations not equal to whole bars are approximated</span>
+<span class="sd">      by grouping chords into bars.</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">        &gt;&gt;&gt; ensure_score(&quot;| C | Am | F | G |&quot;, time_signature=(4, 4)).measures</span>
+<span class="sd">        [[&#39;C&#39;], [&#39;A-&#39;], [&#39;F&#39;], [&#39;G&#39;]]</span>
+<span class="sd">        &gt;&gt;&gt; ensure_score([(&quot;F#m7b5&quot;, 4), (&quot;B7&quot;, 4), (&quot;Em&quot;, 8)], key=&quot;E&quot;).measures[:3]</span>
+<span class="sd">        [[&#39;F#h7&#39;], [&#39;B7&#39;], [&#39;E-&#39;]]</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">.util</span><span class="w"> </span><span class="kn">import</span> <span class="n">normalize_chord_symbol</span><span class="p">,</span> <span class="n">score_from_chord_specs</span>
+
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">chords</span><span class="p">,</span> <span class="n">Score</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">chords</span>
+
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">chords</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="n">chords</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">s</span><span class="o">.</span><span class="n">startswith</span><span class="p">((</span><span class="s2">&quot;irealbook://&quot;</span><span class="p">,</span> <span class="s2">&quot;irealb://&quot;</span><span class="p">)):</span>
+            <span class="k">return</span> <span class="n">Score</span><span class="o">.</span><span class="n">from_ireal_url</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">Score</span><span class="o">.</span><span class="n">from_string</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="n">title</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="n">key</span><span class="p">,</span> <span class="n">time_signature</span><span class="o">=</span><span class="n">time_signature</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="p">(</span>
+        <span class="nb">isinstance</span><span class="p">(</span><span class="n">chords</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span>
+        <span class="ow">and</span> <span class="n">chords</span>
+        <span class="ow">and</span> <span class="nb">all</span><span class="p">(</span>
+            <span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">))</span> <span class="ow">and</span> <span class="nb">all</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">x</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">chords</span>
+        <span class="p">)</span>
+    <span class="p">):</span>
+        <span class="n">measures</span> <span class="o">=</span> <span class="p">[[</span><span class="n">normalize_chord_symbol</span><span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">measure</span><span class="p">]</span> <span class="k">for</span> <span class="n">measure</span> <span class="ow">in</span> <span class="n">chords</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">Score</span><span class="p">(</span>
+            <span class="n">measures</span><span class="o">=</span><span class="n">measures</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="n">title</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="n">key</span><span class="p">,</span> <span class="n">time_signature</span><span class="o">=</span><span class="n">time_signature</span>
+        <span class="p">)</span>
+
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">chords</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">):</span>
+        <span class="n">items</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">chords</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">items</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">Score</span><span class="p">(</span>
+                <span class="n">measures</span><span class="o">=</span><span class="p">[],</span> <span class="n">title</span><span class="o">=</span><span class="n">title</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="n">key</span><span class="p">,</span> <span class="n">time_signature</span><span class="o">=</span><span class="n">time_signature</span>
+            <span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">all</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">items</span><span class="p">):</span>
+            <span class="n">measures</span> <span class="o">=</span> <span class="p">[[</span><span class="n">normalize_chord_symbol</span><span class="p">(</span><span class="n">x</span><span class="p">)]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">items</span><span class="p">]</span>
+            <span class="k">return</span> <span class="n">Score</span><span class="p">(</span>
+                <span class="n">measures</span><span class="o">=</span><span class="n">measures</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="n">title</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="n">key</span><span class="p">,</span> <span class="n">time_signature</span><span class="o">=</span><span class="n">time_signature</span>
+            <span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">all</span><span class="p">(</span>
+            <span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">))</span>
+            <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span>
+            <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nb">str</span><span class="p">)</span>
+            <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">))</span>
+            <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">items</span>
+        <span class="p">):</span>
+            <span class="k">return</span> <span class="n">score_from_chord_specs</span><span class="p">(</span>
+                <span class="n">items</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="n">title</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="n">key</span><span class="p">,</span> <span class="n">time_signature</span><span class="o">=</span><span class="n">time_signature</span>
+            <span class="p">)</span>
+
+    <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+        <span class="s2">&quot;Unsupported chords input. Expected Score, chord string, iReal URL, &quot;</span>
+        <span class="s2">&quot;list of (chord, beats) tuples, iterable of chord symbols, or measures list.&quot;</span>
+    <span class="p">)</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright NO COPYRIGHT.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,4 @@
+accompy.wips.pipeline
+=====================
+.. automodule:: accompy.wips.pipeline
+   :members:

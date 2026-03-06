@@ -1,0 +1,391 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>accompy.protocols &mdash; accompy 0.3.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=e259d695"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../_static/toggleprompt.js?v=d7ede5d2"></script>
+      <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            accompy
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy.html">accompy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/audio_renderers.html">accompy.audio_renderers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/base.html">accompy.base</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/chord_parsers.html">accompy.chord_parsers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/chord_resolution.html">accompy.chord_resolution</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/chord_resolvers.html">accompy.chord_resolvers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/converters.html">accompy.converters</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/main.html">accompy.main</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/midi_generators.html">accompy.midi_generators</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/patterns.html">accompy.patterns</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/patterns/builtin.html">accompy.patterns.builtin</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/patterns/dataclasses.html">accompy.patterns.dataclasses</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/pipeline.html">accompy.pipeline</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/protocols.html">accompy.protocols</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/realtime.html">accompy.realtime</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/renderers.html">accompy.renderers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/renderers/midi.html">accompy.renderers.midi</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/setup_utils.html">accompy.setup_utils</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/synthesis.html">accompy.synthesis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/synthesis/fluidsynth.html">accompy.synthesis.fluidsynth</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/util.html">accompy.util</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/wips.html">accompy.wips</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/wips/audio_renderers.html">accompy.wips.audio_renderers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/wips/chord_parsers.html">accompy.wips.chord_parsers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/wips/chord_resolvers.html">accompy.wips.chord_resolvers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/wips/midi_generators.html">accompy.wips.midi_generators</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/wips/pipeline.html">accompy.wips.pipeline</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/wips/types.html">accompy.wips.types</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">accompy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">accompy.protocols</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for accompy.protocols</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Protocols defining extensibility contracts for accompy.</span>
+
+<span class="sd">These protocols (structural interfaces) enable dependency injection and</span>
+<span class="sd">allow users to provide custom implementations of core components.</span>
+
+<span class="sd">Key protocols:</span>
+<span class="sd">- ChordResolver: Convert chord symbols to MIDI notes</span>
+<span class="sd">- PatternSource: Provide patterns for styles</span>
+<span class="sd">- MidiEventGenerator: Generate MIDI events from scores</span>
+<span class="sd">- AudioRenderer: Render MIDI to audio</span>
+
+<span class="sd">See PEP 544 for more on Protocol types.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Protocol</span><span class="p">,</span> <span class="n">Iterator</span><span class="p">,</span> <span class="n">runtime_checkable</span><span class="p">,</span> <span class="n">TYPE_CHECKING</span>
+
+<span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">Score</span><span class="p">,</span> <span class="n">AccompanimentConfig</span><span class="p">,</span> <span class="n">MidiEvent</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
+
+
+<div class="viewcode-block" id="ChordResolver">
+<a class="viewcode-back" href="../../module_docs/accompy/protocols.html#accompy.ChordResolver">[docs]</a>
+<span class="nd">@runtime_checkable</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">ChordResolver</span><span class="p">(</span><span class="n">Protocol</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Convert chord symbols to MIDI note numbers.</span>
+
+<span class="sd">    Example implementation:</span>
+<span class="sd">        &gt;&gt;&gt; def my_resolver(symbol: str) -&gt; list[int]:</span>
+<span class="sd">        ...     # Return MIDI notes for chord</span>
+<span class="sd">        ...     return [60, 64, 67]  # C major</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">symbol</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Resolve a chord symbol to MIDI notes.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            symbol: Chord symbol (e.g., &quot;Dm7&quot;, &quot;G7&quot;, &quot;Cmaj7&quot;)</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            List of MIDI note numbers (0-127)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="o">...</span></div>
+
+
+
+<div class="viewcode-block" id="PatternSource">
+<a class="viewcode-back" href="../../module_docs/accompy/protocols.html#accompy.PatternSource">[docs]</a>
+<span class="nd">@runtime_checkable</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">PatternSource</span><span class="p">(</span><span class="n">Protocol</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Provides musical patterns for a given style.</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">        &gt;&gt;&gt; class MyPatternSource:</span>
+<span class="sd">        ...     def get_patterns(self, style: str) -&gt; dict:</span>
+<span class="sd">        ...         return {&#39;drums&#39;: [...], &#39;bass&#39;: [...], &#39;comp&#39;: [...]}</span>
+<span class="sd">        ...     def available_styles(self) -&gt; list[str]:</span>
+<span class="sd">        ...         return [&#39;swing&#39;, &#39;bossa&#39;]</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="PatternSource.get_patterns">
+<a class="viewcode-back" href="../../module_docs/accompy/protocols.html#accompy.PatternSource.get_patterns">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_patterns</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">style</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">list</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get patterns for a style.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            style: Style name (e.g., &quot;swing&quot;, &quot;bossa&quot;, &quot;rock&quot;)</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Dict with &#39;drums&#39;, &#39;bass&#39;, &#39;comp&#39; keys containing pattern lists</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="o">...</span></div>
+
+
+<div class="viewcode-block" id="PatternSource.available_styles">
+<a class="viewcode-back" href="../../module_docs/accompy/protocols.html#accompy.PatternSource.available_styles">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">available_styles</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        List all available style names.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            List of style names</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="o">...</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="MidiEventGenerator">
+<a class="viewcode-back" href="../../module_docs/accompy/protocols.html#accompy.MidiEventGenerator">[docs]</a>
+<span class="nd">@runtime_checkable</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">MidiEventGenerator</span><span class="p">(</span><span class="n">Protocol</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Generates MIDI events from score and patterns.</span>
+
+<span class="sd">    This protocol enables alternative MIDI generation strategies</span>
+<span class="sd">    (e.g., more sophisticated voicings, real-time adaptation).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="MidiEventGenerator.generate">
+<a class="viewcode-back" href="../../module_docs/accompy/protocols.html#accompy.MidiEventGenerator.generate">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">generate</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">score</span><span class="p">:</span> <span class="n">Score</span><span class="p">,</span>
+        <span class="n">config</span><span class="p">:</span> <span class="n">AccompanimentConfig</span><span class="p">,</span>
+        <span class="o">*</span><span class="p">,</span>
+        <span class="n">chord_resolver</span><span class="p">:</span> <span class="n">ChordResolver</span><span class="p">,</span>
+        <span class="n">pattern_source</span><span class="p">:</span> <span class="n">PatternSource</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">MidiEvent</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Generate MIDI events from a score.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            score: Musical score with chord progression</span>
+<span class="sd">            config: Accompaniment configuration</span>
+<span class="sd">            chord_resolver: Function to resolve chords to notes</span>
+<span class="sd">            pattern_source: Source of musical patterns</span>
+
+<span class="sd">        Yields:</span>
+<span class="sd">            MidiEvent objects in time order</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="o">...</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="AudioRenderer">
+<a class="viewcode-back" href="../../module_docs/accompy/protocols.html#accompy.AudioRenderer">[docs]</a>
+<span class="nd">@runtime_checkable</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">AudioRenderer</span><span class="p">(</span><span class="n">Protocol</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Renders MIDI events to audio.</span>
+
+<span class="sd">    This protocol abstracts audio synthesis, enabling:</span>
+<span class="sd">    - Different synthesis backends (FluidSynth, Pyo, etc.)</span>
+<span class="sd">    - Real-time vs. batch rendering</span>
+<span class="sd">    - Alternative output formats</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="AudioRenderer.render">
+<a class="viewcode-back" href="../../module_docs/accompy/protocols.html#accompy.AudioRenderer.render">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">render</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">events</span><span class="p">:</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">MidiEvent</span><span class="p">],</span>
+        <span class="n">config</span><span class="p">:</span> <span class="n">AccompanimentConfig</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bytes</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Render MIDI events to PCM audio data.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            events: Iterator of MIDI events</span>
+<span class="sd">            config: Rendering configuration (tempo, sample rate, etc.)</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Raw PCM audio bytes</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="o">...</span></div>
+
+
+<div class="viewcode-block" id="AudioRenderer.render_to_file">
+<a class="viewcode-back" href="../../module_docs/accompy/protocols.html#accompy.AudioRenderer.render_to_file">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">render_to_file</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">events</span><span class="p">:</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">MidiEvent</span><span class="p">],</span>
+        <span class="n">config</span><span class="p">:</span> <span class="n">AccompanimentConfig</span><span class="p">,</span>
+        <span class="n">output_path</span><span class="p">:</span> <span class="n">Path</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Path</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Render MIDI events directly to an audio file.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            events: Iterator of MIDI events</span>
+<span class="sd">            config: Rendering configuration</span>
+<span class="sd">            output_path: Where to save the audio file</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Path to the created file</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="o">...</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="SynthesizerBackend">
+<a class="viewcode-back" href="../../module_docs/accompy/protocols.html#accompy.SynthesizerBackend">[docs]</a>
+<span class="nd">@runtime_checkable</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">SynthesizerBackend</span><span class="p">(</span><span class="n">Protocol</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Audio synthesis backend.</span>
+
+<span class="sd">    Simpler protocol than AudioRenderer, focused just on synthesis.</span>
+<span class="sd">    Used by the synthesis module.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="SynthesizerBackend.render_to_file">
+<a class="viewcode-back" href="../../module_docs/accompy/protocols.html#accompy.SynthesizerBackend.render_to_file">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">render_to_file</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">midi_path</span><span class="p">:</span> <span class="n">Path</span><span class="p">,</span>
+        <span class="n">output_path</span><span class="p">:</span> <span class="n">Path</span><span class="p">,</span>
+        <span class="o">*</span><span class="p">,</span>
+        <span class="n">sample_rate</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">44100</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Path</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Render a MIDI file to audio.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            midi_path: Path to MIDI file</span>
+<span class="sd">            output_path: Where to save audio</span>
+<span class="sd">            sample_rate: Audio sample rate</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Path to the created audio file</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="o">...</span></div>
+
+
+<div class="viewcode-block" id="SynthesizerBackend.render_to_bytes">
+<a class="viewcode-back" href="../../module_docs/accompy/protocols.html#accompy.SynthesizerBackend.render_to_bytes">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">render_to_bytes</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">midi_path</span><span class="p">:</span> <span class="n">Path</span><span class="p">,</span>
+        <span class="o">*</span><span class="p">,</span>
+        <span class="n">sample_rate</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">44100</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bytes</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Render a MIDI file to PCM bytes (for streaming).</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            midi_path: Path to MIDI file</span>
+<span class="sd">            sample_rate: Audio sample rate</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Raw PCM audio bytes</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="o">...</span></div>
+
+
+<div class="viewcode-block" id="SynthesizerBackend.is_available">
+<a class="viewcode-back" href="../../module_docs/accompy/protocols.html#accompy.SynthesizerBackend.is_available">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">is_available</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Check if this backend&#39;s dependencies are installed.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            True if the backend can be used</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="o">...</span></div>
+</div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright NO COPYRIGHT.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

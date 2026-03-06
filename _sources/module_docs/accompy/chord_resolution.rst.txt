@@ -1,0 +1,4 @@
+accompy.chord_resolution
+========================
+.. automodule:: accompy.chord_resolution
+   :members:

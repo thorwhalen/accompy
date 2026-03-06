@@ -1,0 +1,425 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>accompy.patterns &mdash; accompy 0.3.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=e259d695"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../_static/toggleprompt.js?v=d7ede5d2"></script>
+      <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="accompy.patterns.builtin" href="patterns/builtin.html" />
+    <link rel="prev" title="accompy.midi_generators" href="midi_generators.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            accompy
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../accompy.html">accompy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="audio_renderers.html">accompy.audio_renderers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="base.html">accompy.base</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chord_parsers.html">accompy.chord_parsers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chord_resolution.html">accompy.chord_resolution</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chord_resolvers.html">accompy.chord_resolvers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="converters.html">accompy.converters</a></li>
+<li class="toctree-l1"><a class="reference internal" href="main.html">accompy.main</a></li>
+<li class="toctree-l1"><a class="reference internal" href="midi_generators.html">accompy.midi_generators</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">accompy.patterns</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#accompy.patterns.BassPattern"><code class="docutils literal notranslate"><span class="pre">BassPattern</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#accompy.patterns.CompingPattern"><code class="docutils literal notranslate"><span class="pre">CompingPattern</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#accompy.patterns.CompingPattern.name"><code class="docutils literal notranslate"><span class="pre">CompingPattern.name</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#accompy.patterns.CompingPattern.hits"><code class="docutils literal notranslate"><span class="pre">CompingPattern.hits</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#accompy.patterns.DrumHit"><code class="docutils literal notranslate"><span class="pre">DrumHit</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#accompy.patterns.DrumHit.beat"><code class="docutils literal notranslate"><span class="pre">DrumHit.beat</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#accompy.patterns.DrumHit.drum"><code class="docutils literal notranslate"><span class="pre">DrumHit.drum</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#accompy.patterns.DrumHit.velocity"><code class="docutils literal notranslate"><span class="pre">DrumHit.velocity</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#accompy.patterns.DrumPattern"><code class="docutils literal notranslate"><span class="pre">DrumPattern</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#accompy.patterns.DrumPattern.at_tempo"><code class="docutils literal notranslate"><span class="pre">DrumPattern.at_tempo()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#accompy.patterns.NoteEvent"><code class="docutils literal notranslate"><span class="pre">NoteEvent</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#accompy.patterns.NoteEvent.beat"><code class="docutils literal notranslate"><span class="pre">NoteEvent.beat</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#accompy.patterns.NoteEvent.pitch_offset"><code class="docutils literal notranslate"><span class="pre">NoteEvent.pitch_offset</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#accompy.patterns.NoteEvent.duration"><code class="docutils literal notranslate"><span class="pre">NoteEvent.duration</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#accompy.patterns.NoteEvent.velocity"><code class="docutils literal notranslate"><span class="pre">NoteEvent.velocity</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#accompy.patterns.PatternRegistry"><code class="docutils literal notranslate"><span class="pre">PatternRegistry</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#accompy.patterns.PatternRegistry.available_styles"><code class="docutils literal notranslate"><span class="pre">PatternRegistry.available_styles()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#accompy.patterns.PatternRegistry.get_patterns"><code class="docutils literal notranslate"><span class="pre">PatternRegistry.get_patterns()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#accompy.patterns.PatternRegistry.register_builtin_patterns"><code class="docutils literal notranslate"><span class="pre">PatternRegistry.register_builtin_patterns()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#accompy.patterns.get_pattern_registry"><code class="docutils literal notranslate"><span class="pre">get_pattern_registry()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#accompy.patterns.get_patterns"><code class="docutils literal notranslate"><span class="pre">get_patterns()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#accompy.patterns.register_style"><code class="docutils literal notranslate"><span class="pre">register_style()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="patterns/builtin.html">accompy.patterns.builtin</a></li>
+<li class="toctree-l1"><a class="reference internal" href="patterns/dataclasses.html">accompy.patterns.dataclasses</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pipeline.html">accompy.pipeline</a></li>
+<li class="toctree-l1"><a class="reference internal" href="protocols.html">accompy.protocols</a></li>
+<li class="toctree-l1"><a class="reference internal" href="realtime.html">accompy.realtime</a></li>
+<li class="toctree-l1"><a class="reference internal" href="renderers.html">accompy.renderers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="renderers/midi.html">accompy.renderers.midi</a></li>
+<li class="toctree-l1"><a class="reference internal" href="setup_utils.html">accompy.setup_utils</a></li>
+<li class="toctree-l1"><a class="reference internal" href="synthesis.html">accompy.synthesis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="synthesis/fluidsynth.html">accompy.synthesis.fluidsynth</a></li>
+<li class="toctree-l1"><a class="reference internal" href="util.html">accompy.util</a></li>
+<li class="toctree-l1"><a class="reference internal" href="wips.html">accompy.wips</a></li>
+<li class="toctree-l1"><a class="reference internal" href="wips/audio_renderers.html">accompy.wips.audio_renderers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="wips/chord_parsers.html">accompy.wips.chord_parsers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="wips/chord_resolvers.html">accompy.wips.chord_resolvers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="wips/midi_generators.html">accompy.wips.midi_generators</a></li>
+<li class="toctree-l1"><a class="reference internal" href="wips/pipeline.html">accompy.wips.pipeline</a></li>
+<li class="toctree-l1"><a class="reference internal" href="wips/types.html">accompy.wips.types</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">accompy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">accompy.patterns</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/module_docs/accompy/patterns.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-accompy.patterns">
+<span id="accompy-patterns"></span><h1>accompy.patterns<a class="headerlink" href="#module-accompy.patterns" title="Link to this heading"></a></h1>
+<p>Pattern registry and access for accompany patterns.</p>
+<p>This module provides access to musical patterns (drums, bass, comping) for
+different styles. Includes a MutableMapping-based PatternRegistry for
+runtime pattern registration.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="accompy.patterns.BassPattern">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">accompy.patterns.</span></span><span class="sig-name descname"><span class="pre">BassPattern</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">notes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="patterns/dataclasses.html#accompy.patterns.dataclasses.NoteEvent" title="accompy.patterns.dataclasses.NoteEvent"><span class="pre">NoteEvent</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/accompy/patterns/dataclasses.html#BassPattern"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#accompy.patterns.BassPattern" title="Link to this definition"></a></dt>
+<dd><p>A bass pattern template.</p>
+<p>Uses pitch_offset in NoteEvent to specify intervals from the chord root.
+The actual pitches are determined when the pattern is applied to specific chords.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="accompy.patterns.CompingPattern">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">accompy.patterns.</span></span><span class="sig-name descname"><span class="pre">CompingPattern</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hits</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/accompy/patterns/dataclasses.html#CompingPattern"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#accompy.patterns.CompingPattern" title="Link to this definition"></a></dt>
+<dd><p>A piano/guitar comping (accompaniment) pattern.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="accompy.patterns.CompingPattern.name">
+<span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#accompy.patterns.CompingPattern.name" title="Link to this definition"></a></dt>
+<dd><p>Pattern identifier</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="accompy.patterns.CompingPattern.hits">
+<span class="sig-name descname"><span class="pre">hits</span></span><a class="headerlink" href="#accompy.patterns.CompingPattern.hits" title="Link to this definition"></a></dt>
+<dd><p>Sequence of (beat, duration, velocity) tuples</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Sequence[tuple[float, float, int]]</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="accompy.patterns.DrumHit">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">accompy.patterns.</span></span><span class="sig-name descname"><span class="pre">DrumHit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">beat</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">drum</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">velocity</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/accompy/patterns/dataclasses.html#DrumHit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#accompy.patterns.DrumHit" title="Link to this definition"></a></dt>
+<dd><p>A single drum hit in a pattern.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="accompy.patterns.DrumHit.beat">
+<span class="sig-name descname"><span class="pre">beat</span></span><a class="headerlink" href="#accompy.patterns.DrumHit.beat" title="Link to this definition"></a></dt>
+<dd><p>Beat position (0-based within measure)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="accompy.patterns.DrumHit.drum">
+<span class="sig-name descname"><span class="pre">drum</span></span><a class="headerlink" href="#accompy.patterns.DrumHit.drum" title="Link to this definition"></a></dt>
+<dd><p>MIDI note number for the drum sound</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="accompy.patterns.DrumHit.velocity">
+<span class="sig-name descname"><span class="pre">velocity</span></span><a class="headerlink" href="#accompy.patterns.DrumHit.velocity" title="Link to this definition"></a></dt>
+<dd><p>Hit velocity (0-127)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="accompy.patterns.DrumPattern">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">accompy.patterns.</span></span><span class="sig-name descname"><span class="pre">DrumPattern</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">beats_per_bar</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hits</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="patterns/dataclasses.html#accompy.patterns.dataclasses.DrumHit" title="accompy.patterns.dataclasses.DrumHit"><span class="pre">DrumHit</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/accompy/patterns/dataclasses.html#DrumPattern"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#accompy.patterns.DrumPattern" title="Link to this definition"></a></dt>
+<dd><p>A drum pattern for one or more measures.</p>
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">pattern</span> <span class="o">=</span> <span class="n">DrumPattern</span><span class="p">(</span><span class="s2">&quot;rock&quot;</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="p">[</span><span class="n">DrumHit</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">KICK</span><span class="p">,</span> <span class="mi">100</span><span class="p">)])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pattern</span><span class="o">.</span><span class="n">beats_per_bar</span>
+<span class="go">4</span>
+</pre></div>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="accompy.patterns.DrumPattern.at_tempo">
+<span class="sig-name descname"><span class="pre">at_tempo</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tempo</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="reference internal" href="../../_modules/accompy/patterns/dataclasses.html#DrumPattern.at_tempo"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#accompy.patterns.DrumPattern.at_tempo" title="Link to this definition"></a></dt>
+<dd><p>Return pattern duration in seconds at a given tempo.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="accompy.patterns.NoteEvent">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">accompy.patterns.</span></span><span class="sig-name descname"><span class="pre">NoteEvent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">beat</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pitch_offset</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">duration</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">velocity</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/accompy/patterns/dataclasses.html#NoteEvent"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#accompy.patterns.NoteEvent" title="Link to this definition"></a></dt>
+<dd><p>A melodic note event for bass or other instruments.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="accompy.patterns.NoteEvent.beat">
+<span class="sig-name descname"><span class="pre">beat</span></span><a class="headerlink" href="#accompy.patterns.NoteEvent.beat" title="Link to this definition"></a></dt>
+<dd><p>Beat position within measure</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="accompy.patterns.NoteEvent.pitch_offset">
+<span class="sig-name descname"><span class="pre">pitch_offset</span></span><a class="headerlink" href="#accompy.patterns.NoteEvent.pitch_offset" title="Link to this definition"></a></dt>
+<dd><p>Offset from chord root in semitones (0=root, 7=5th, etc.)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="accompy.patterns.NoteEvent.duration">
+<span class="sig-name descname"><span class="pre">duration</span></span><a class="headerlink" href="#accompy.patterns.NoteEvent.duration" title="Link to this definition"></a></dt>
+<dd><p>Note duration in beats</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="accompy.patterns.NoteEvent.velocity">
+<span class="sig-name descname"><span class="pre">velocity</span></span><a class="headerlink" href="#accompy.patterns.NoteEvent.velocity" title="Link to this definition"></a></dt>
+<dd><p>Note velocity (0-127)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="accompy.patterns.PatternRegistry">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">accompy.patterns.</span></span><span class="sig-name descname"><span class="pre">PatternRegistry</span></span><a class="reference internal" href="../../_modules/accompy/patterns.html#PatternRegistry"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#accompy.patterns.PatternRegistry" title="Link to this definition"></a></dt>
+<dd><p>Registry of accompaniment patterns by style.</p>
+<dl class="simple">
+<dt>Implements MutableMapping for intuitive access:</dt><dd><p>registry[‘bossa’]  # Get patterns
+registry[‘my_style’] = {…}  # Register custom
+del registry[‘my_style’]  # Remove</p>
+</dd>
+</dl>
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">registry</span> <span class="o">=</span> <span class="n">PatternRegistry</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">registry</span><span class="o">.</span><span class="n">register_builtin_patterns</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="s1">&#39;swing&#39;</span> <span class="ow">in</span> <span class="n">registry</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">registry</span><span class="p">[</span><span class="s1">&#39;swing&#39;</span><span class="p">][</span><span class="s1">&#39;drums&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">name</span>
+<span class="go">&#39;swing_basic&#39;</span>
+</pre></div>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="accompy.patterns.PatternRegistry.available_styles">
+<span class="sig-name descname"><span class="pre">available_styles</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/accompy/patterns.html#PatternRegistry.available_styles"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#accompy.patterns.PatternRegistry.available_styles" title="Link to this definition"></a></dt>
+<dd><p>Get list of all available style names.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="accompy.patterns.PatternRegistry.get_patterns">
+<span class="sig-name descname"><span class="pre">get_patterns</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">style</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="reference internal" href="../../_modules/accompy/patterns.html#PatternRegistry.get_patterns"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#accompy.patterns.PatternRegistry.get_patterns" title="Link to this definition"></a></dt>
+<dd><p>Get patterns for a style (PatternSource protocol method).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>style</strong> – Style name</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Dict with ‘drums’, ‘bass’, ‘comp’ keys</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="accompy.patterns.PatternRegistry.register_builtin_patterns">
+<span class="sig-name descname"><span class="pre">register_builtin_patterns</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../../_modules/accompy/patterns.html#PatternRegistry.register_builtin_patterns"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#accompy.patterns.PatternRegistry.register_builtin_patterns" title="Link to this definition"></a></dt>
+<dd><p>Load all built-in patterns.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="accompy.patterns.get_pattern_registry">
+<span class="sig-prename descclassname"><span class="pre">accompy.patterns.</span></span><span class="sig-name descname"><span class="pre">get_pattern_registry</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#accompy.patterns.PatternRegistry" title="accompy.patterns.PatternRegistry"><span class="pre">PatternRegistry</span></a></span></span><a class="reference internal" href="../../_modules/accompy/patterns.html#get_pattern_registry"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#accompy.patterns.get_pattern_registry" title="Link to this definition"></a></dt>
+<dd><p>Get the global pattern registry, initializing if needed.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The global PatternRegistry instance</p>
+</dd>
+</dl>
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">registry</span> <span class="o">=</span> <span class="n">get_pattern_registry</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="s1">&#39;swing&#39;</span> <span class="ow">in</span> <span class="n">registry</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="accompy.patterns.get_patterns">
+<span class="sig-prename descclassname"><span class="pre">accompy.patterns.</span></span><span class="sig-name descname"><span class="pre">get_patterns</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">style</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="reference internal" href="../../_modules/accompy/patterns.html#get_patterns"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#accompy.patterns.get_patterns" title="Link to this definition"></a></dt>
+<dd><p>Get all patterns for a given style.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Dict with ‘drums’, ‘bass’, ‘comp’ keys containing pattern lists</p>
+</dd>
+</dl>
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">patterns</span> <span class="o">=</span> <span class="n">get_patterns</span><span class="p">(</span><span class="s2">&quot;bossa&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">drums</span> <span class="o">=</span> <span class="n">patterns</span><span class="p">[</span><span class="s2">&quot;drums&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">drums</span><span class="o">.</span><span class="n">name</span>
+<span class="go">&#39;bossa&#39;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="accompy.patterns.register_style">
+<span class="sig-prename descclassname"><span class="pre">accompy.patterns.</span></span><span class="sig-name descname"><span class="pre">register_style</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">style</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">drums</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bass</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">comp</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../../_modules/accompy/patterns.html#register_style"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#accompy.patterns.register_style" title="Link to this definition"></a></dt>
+<dd><p>Register a custom style with the global registry.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>style</strong> – Style name</p></li>
+<li><p><strong>drums</strong> – List of DrumPattern objects</p></li>
+<li><p><strong>bass</strong> – List of BassPattern objects</p></li>
+<li><p><strong>comp</strong> – List of CompingPattern objects</p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">registry</span> <span class="o">=</span> <span class="n">get_pattern_registry</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">register_style</span><span class="p">(</span><span class="s1">&#39;my_funk&#39;</span><span class="p">,</span> <span class="p">[</span><span class="n">my_drum_pattern</span><span class="p">],</span> <span class="p">[</span><span class="n">my_bass_pattern</span><span class="p">],</span> <span class="p">[])</span>  
+</pre></div>
+</div>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="midi_generators.html" class="btn btn-neutral float-left" title="accompy.midi_generators" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="patterns/builtin.html" class="btn btn-neutral float-right" title="accompy.patterns.builtin" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright NO COPYRIGHT.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

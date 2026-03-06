@@ -1,0 +1,311 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>accompy.realtime &mdash; accompy 0.3.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=e259d695"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../_static/toggleprompt.js?v=d7ede5d2"></script>
+      <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            accompy
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy.html">accompy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/audio_renderers.html">accompy.audio_renderers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/base.html">accompy.base</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/chord_parsers.html">accompy.chord_parsers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/chord_resolution.html">accompy.chord_resolution</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/chord_resolvers.html">accompy.chord_resolvers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/converters.html">accompy.converters</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/main.html">accompy.main</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/midi_generators.html">accompy.midi_generators</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/patterns.html">accompy.patterns</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/patterns/builtin.html">accompy.patterns.builtin</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/patterns/dataclasses.html">accompy.patterns.dataclasses</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/pipeline.html">accompy.pipeline</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/protocols.html">accompy.protocols</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/realtime.html">accompy.realtime</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/renderers.html">accompy.renderers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/renderers/midi.html">accompy.renderers.midi</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/setup_utils.html">accompy.setup_utils</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/synthesis.html">accompy.synthesis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/synthesis/fluidsynth.html">accompy.synthesis.fluidsynth</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/util.html">accompy.util</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/wips.html">accompy.wips</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/wips/audio_renderers.html">accompy.wips.audio_renderers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/wips/chord_parsers.html">accompy.wips.chord_parsers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/wips/chord_resolvers.html">accompy.wips.chord_resolvers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/wips/midi_generators.html">accompy.wips.midi_generators</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/wips/pipeline.html">accompy.wips.pipeline</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/wips/types.html">accompy.wips.types</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">accompy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">accompy.realtime</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for accompy.realtime</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Real-time accompaniment support (foundation).</span>
+
+<span class="sd">This module provides the foundation for real-time accompaniment playback,</span>
+<span class="sd">separating event scheduling from synthesis. This enables integration with</span>
+<span class="sd">real-time audio systems like hum/pyo in the future.</span>
+
+<span class="sd">NOTE: This is scaffolding for future work. Current implementation focuses on</span>
+<span class="sd">event generation infrastructure. Real-time audio synthesis integration</span>
+<span class="sd">with hum/pyo is planned for a future release.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Iterator</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Any</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">Score</span><span class="p">,</span> <span class="n">AccompanimentConfig</span><span class="p">,</span> <span class="n">MidiEvent</span><span class="p">,</span> <span class="n">ensure_score</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.renderers.midi</span><span class="w"> </span><span class="kn">import</span> <span class="n">generate_midi_events</span>
+
+
+<div class="viewcode-block" id="RealtimeAccompaniment">
+<a class="viewcode-back" href="../../module_docs/accompy/realtime.html#accompy.RealtimeAccompaniment">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">RealtimeAccompaniment</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Real-time accompaniment player (foundation for future work).</span>
+
+<span class="sd">    This class separates event scheduling from synthesis, enabling integration</span>
+<span class="sd">    with real-time audio systems. Current implementation generates events;</span>
+<span class="sd">    future versions will integrate with hum/pyo for actual audio synthesis.</span>
+
+<span class="sd">    Example (current usage):</span>
+<span class="sd">        &gt;&gt;&gt; from accompy import AccompanimentConfig</span>
+<span class="sd">        &gt;&gt;&gt; config = AccompanimentConfig(tempo=120, style=&#39;swing&#39;)</span>
+<span class="sd">        &gt;&gt;&gt; player = RealtimeAccompaniment(config)</span>
+<span class="sd">        &gt;&gt;&gt; player.set_chords([(&#39;Dm7&#39;, 4), (&#39;G7&#39;, 4), (&#39;Cmaj7&#39;, 8)])</span>
+<span class="sd">        &gt;&gt;&gt; events_iter = player.events()  # Get event iterator</span>
+<span class="sd">        &gt;&gt;&gt; # Future: for event in events_iter: synth.play(event.note, event.velocity)</span>
+
+<span class="sd">    Future usage (with hum integration):</span>
+<span class="sd">        &gt;&gt;&gt; from hum.pyo_util import Synth  # doctest: +SKIP</span>
+<span class="sd">        &gt;&gt;&gt; def on_event(event: MidiEvent):  # doctest: +SKIP</span>
+<span class="sd">        ...     # Send MIDI event to synth in real-time</span>
+<span class="sd">        ...     synth.send_note(event.note, event.velocity, event.duration)</span>
+<span class="sd">        &gt;&gt;&gt; player = RealtimeAccompaniment(config, on_event=on_event)  # doctest: +SKIP</span>
+<span class="sd">        &gt;&gt;&gt; player.play()  # doctest: +SKIP</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">config</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">AccompanimentConfig</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="o">*</span><span class="p">,</span>
+        <span class="n">on_event</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Callable</span><span class="p">[[</span><span class="n">MidiEvent</span><span class="p">],</span> <span class="kc">None</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initialize real-time accompaniment player.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            config: Accompaniment configuration (tempo, style, etc.)</span>
+<span class="sd">            on_event: Optional callback for each MIDI event (for real-time playback)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">config</span> <span class="o">=</span> <span class="n">config</span> <span class="ow">or</span> <span class="n">AccompanimentConfig</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_on_event</span> <span class="o">=</span> <span class="n">on_event</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_score</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Score</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+
+<div class="viewcode-block" id="RealtimeAccompaniment.set_chords">
+<a class="viewcode-back" href="../../module_docs/accompy/realtime.html#accompy.RealtimeAccompaniment.set_chords">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">set_chords</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">chords</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Update the chord progression.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            chords: Chord progression in any supported format</span>
+<span class="sd">                   (string, Score, list of tuples, etc.)</span>
+
+<span class="sd">        Example:</span>
+<span class="sd">            &gt;&gt;&gt; player = RealtimeAccompaniment()</span>
+<span class="sd">            &gt;&gt;&gt; player.set_chords(&quot;| Dm7 | G7 | Cmaj7 |&quot;)</span>
+<span class="sd">            &gt;&gt;&gt; player._score is not None</span>
+<span class="sd">            True</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_score</span> <span class="o">=</span> <span class="n">ensure_score</span><span class="p">(</span><span class="n">chords</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="RealtimeAccompaniment.events">
+<a class="viewcode-back" href="../../module_docs/accompy/realtime.html#accompy.RealtimeAccompaniment.events">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">events</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">MidiEvent</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Generate events for current chord progression.</span>
+
+<span class="sd">        Yields:</span>
+<span class="sd">            MidiEvent objects in chronological order</span>
+
+<span class="sd">        Example:</span>
+<span class="sd">            &gt;&gt;&gt; player = RealtimeAccompaniment()</span>
+<span class="sd">            &gt;&gt;&gt; player.set_chords([(&#39;C&#39;, 4)])</span>
+<span class="sd">            &gt;&gt;&gt; events = list(player.events())</span>
+<span class="sd">            &gt;&gt;&gt; len(events) &gt; 0</span>
+<span class="sd">            True</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_score</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span>
+
+        <span class="c1"># Get dependencies (with defaults)</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">.patterns</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_pattern_registry</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">.chord_resolution</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_chord_resolver</span>
+
+        <span class="n">pattern_source</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">pattern_source</span> <span class="ow">or</span> <span class="n">get_pattern_registry</span><span class="p">()</span>
+        <span class="n">chord_resolver</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">chord_resolver</span> <span class="ow">or</span> <span class="n">get_chord_resolver</span><span class="p">()</span>
+
+        <span class="c1"># Generate and yield events</span>
+        <span class="k">for</span> <span class="n">event</span> <span class="ow">in</span> <span class="n">generate_midi_events</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_score</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">,</span>
+            <span class="n">pattern_source</span><span class="o">=</span><span class="n">pattern_source</span><span class="p">,</span>
+            <span class="n">chord_resolver</span><span class="o">=</span><span class="n">chord_resolver</span><span class="p">,</span>
+        <span class="p">):</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_on_event</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_on_event</span><span class="p">(</span><span class="n">event</span><span class="p">)</span>
+            <span class="k">yield</span> <span class="n">event</span></div>
+
+
+<div class="viewcode-block" id="RealtimeAccompaniment.play">
+<a class="viewcode-back" href="../../module_docs/accompy/realtime.html#accompy.RealtimeAccompaniment.play">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">play</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Play the accompaniment (future implementation).</span>
+
+<span class="sd">        This will integrate with a real-time synthesis backend (hum/pyo)</span>
+<span class="sd">        to actually play audio. Current implementation is a placeholder.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            NotImplementedError: Real-time playback not yet implemented</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span>
+            <span class="s2">&quot;Real-time playback is planned for a future release.</span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="s2">&quot;This will integrate with the hum package for real-time synthesis.</span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="s2">&quot;For now, use generate_accompaniment() for file-based output.&quot;</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="RealtimeAccompaniment.stop">
+<a class="viewcode-back" href="../../module_docs/accompy/realtime.html#accompy.RealtimeAccompaniment.stop">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">stop</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Stop playback (future implementation).</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            NotImplementedError: Real-time playback not yet implemented</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span>
+            <span class="s2">&quot;Real-time playback control is planned for a future release.&quot;</span>
+        <span class="p">)</span></div>
+</div>
+
+
+
+<span class="c1"># Future integration points for hum/pyo:</span>
+<span class="c1">#</span>
+<span class="c1"># class PyoRealtimePlayer(RealtimeAccompaniment):</span>
+<span class="c1">#     &quot;&quot;&quot;Real-time player using Pyo synthesis (future).&quot;&quot;&quot;</span>
+<span class="c1">#</span>
+<span class="c1">#     def __init__(self, config=None):</span>
+<span class="c1">#         super().__init__(config)</span>
+<span class="c1">#         from hum.pyo_util import Synth</span>
+<span class="c1">#         # Initialize synth with appropriate settings</span>
+<span class="c1">#         self.synth = Synth(...)</span>
+<span class="c1">#</span>
+<span class="c1">#     def play(self):</span>
+<span class="c1">#         &quot;&quot;&quot;Start real-time playback using Pyo.&quot;&quot;&quot;</span>
+<span class="c1">#         # Schedule MIDI events in real-time</span>
+<span class="c1">#         # Use event times to sync with audio clock</span>
+<span class="c1">#         for event in self.events():</span>
+<span class="c1">#             self.synth.schedule_note(</span>
+<span class="c1">#                 event.note,</span>
+<span class="c1">#                 event.velocity,</span>
+<span class="c1">#                 event.duration,</span>
+<span class="c1">#                 at_time=event.time</span>
+<span class="c1">#             )</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright NO COPYRIGHT.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

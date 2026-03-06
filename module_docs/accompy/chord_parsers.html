@@ -1,0 +1,315 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>accompy.chord_parsers &mdash; accompy 0.3.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=e259d695"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../_static/toggleprompt.js?v=d7ede5d2"></script>
+      <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="accompy.chord_resolution" href="chord_resolution.html" />
+    <link rel="prev" title="accompy.base" href="base.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            accompy
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../accompy.html">accompy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="audio_renderers.html">accompy.audio_renderers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="base.html">accompy.base</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">accompy.chord_parsers</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#accompy.chord_parsers.parse_chord_sheet"><code class="docutils literal notranslate"><span class="pre">parse_chord_sheet()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#accompy.chord_parsers.parse_chordpro"><code class="docutils literal notranslate"><span class="pre">parse_chordpro()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#accompy.chord_parsers.parse_ireal_url"><code class="docutils literal notranslate"><span class="pre">parse_ireal_url()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#accompy.chord_parsers.parse_musicgen_chord_format"><code class="docutils literal notranslate"><span class="pre">parse_musicgen_chord_format()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#accompy.chord_parsers.parse_nashville"><code class="docutils literal notranslate"><span class="pre">parse_nashville()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#accompy.chord_parsers.parse_plain_text"><code class="docutils literal notranslate"><span class="pre">parse_plain_text()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#accompy.chord_parsers.parse_roman_numeral"><code class="docutils literal notranslate"><span class="pre">parse_roman_numeral()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="chord_resolution.html">accompy.chord_resolution</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chord_resolvers.html">accompy.chord_resolvers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="converters.html">accompy.converters</a></li>
+<li class="toctree-l1"><a class="reference internal" href="main.html">accompy.main</a></li>
+<li class="toctree-l1"><a class="reference internal" href="midi_generators.html">accompy.midi_generators</a></li>
+<li class="toctree-l1"><a class="reference internal" href="patterns.html">accompy.patterns</a></li>
+<li class="toctree-l1"><a class="reference internal" href="patterns/builtin.html">accompy.patterns.builtin</a></li>
+<li class="toctree-l1"><a class="reference internal" href="patterns/dataclasses.html">accompy.patterns.dataclasses</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pipeline.html">accompy.pipeline</a></li>
+<li class="toctree-l1"><a class="reference internal" href="protocols.html">accompy.protocols</a></li>
+<li class="toctree-l1"><a class="reference internal" href="realtime.html">accompy.realtime</a></li>
+<li class="toctree-l1"><a class="reference internal" href="renderers.html">accompy.renderers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="renderers/midi.html">accompy.renderers.midi</a></li>
+<li class="toctree-l1"><a class="reference internal" href="setup_utils.html">accompy.setup_utils</a></li>
+<li class="toctree-l1"><a class="reference internal" href="synthesis.html">accompy.synthesis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="synthesis/fluidsynth.html">accompy.synthesis.fluidsynth</a></li>
+<li class="toctree-l1"><a class="reference internal" href="util.html">accompy.util</a></li>
+<li class="toctree-l1"><a class="reference internal" href="wips.html">accompy.wips</a></li>
+<li class="toctree-l1"><a class="reference internal" href="wips/audio_renderers.html">accompy.wips.audio_renderers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="wips/chord_parsers.html">accompy.wips.chord_parsers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="wips/chord_resolvers.html">accompy.wips.chord_resolvers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="wips/midi_generators.html">accompy.wips.midi_generators</a></li>
+<li class="toctree-l1"><a class="reference internal" href="wips/pipeline.html">accompy.wips.pipeline</a></li>
+<li class="toctree-l1"><a class="reference internal" href="wips/types.html">accompy.wips.types</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">accompy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">accompy.chord_parsers</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/module_docs/accompy/chord_parsers.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-accompy.chord_parsers">
+<span id="accompy-chord-parsers"></span><h1>accompy.chord_parsers<a class="headerlink" href="#module-accompy.chord_parsers" title="Link to this heading"></a></h1>
+<p>Chord sheet parsers — convert various text formats to ChordSequence.</p>
+<p>Registered converters: ChordSheet -&gt; ChordSequence</p>
+<p>Supported formats:
+- Plain text: “C Am F G” or “| Dm7 | G7 | Cmaj7 <a href="#id1"><span class="problematic" id="id2">|</span></a>”
+- iReal Pro URLs: “irealb://…”
+- ChordPro: “[C]lyrics [Am]more lyrics”
+- MusicGen-Chord format: “C D:min G:7 C” (space-separated bars)</p>
+<p>Each parser is registered in the global converter registry so you can do:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">accompy.wips.types</span><span class="w"> </span><span class="kn">import</span> <span class="n">convert</span><span class="p">,</span> <span class="n">ChordSheet</span><span class="p">,</span> <span class="n">ChordSequence</span>
+<span class="n">cs</span> <span class="o">=</span> <span class="n">convert</span><span class="p">(</span><span class="n">ChordSheet</span><span class="p">(</span><span class="s2">&quot;| Dm7 | G7 | Cmaj7 |&quot;</span><span class="p">),</span> <span class="n">ChordSequence</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="py function">
+<dt class="sig sig-object py" id="accompy.chord_parsers.parse_chord_sheet">
+<span class="sig-prename descclassname"><span class="pre">accompy.chord_parsers.</span></span><span class="sig-name descname"><span class="pre">parse_chord_sheet</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sheet</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">ChordSheet</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">beats_per_bar</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">4</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tempo</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">120</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'C'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time_signature</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">(4,</span> <span class="pre">4)</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="converters.html#accompy.converters.ChordSequence" title="accompy.converters.ChordSequence"><span class="pre">ChordSequence</span></a></span></span><a class="reference internal" href="../../_modules/accompy/chord_parsers.html#parse_chord_sheet"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#accompy.chord_parsers.parse_chord_sheet" title="Link to this definition"></a></dt>
+<dd><p>Auto-detect format and parse a chord sheet into ChordSequence.</p>
+<p>Detects:
+- iReal Pro URLs (starts with ‘irealb://’ or ‘irealbook://’)
+- ChordPro (contains ‘[’ chord brackets AND text between them)
+- MusicGen-Chord format (contains ‘:’ colons in chord symbols)
+- Roman numeral notation (tokens like I, ii, V7, bVII)
+- Nashville number system (tokens like 1, 2m7, 5, b7)
+- Plain text (everything else)</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">cs</span> <span class="o">=</span> <span class="n">parse_chord_sheet</span><span class="p">(</span><span class="s2">&quot;| Dm7 | G7 | Cmaj7 |&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cs</span><span class="o">.</span><span class="n">symbols</span>
+<span class="go">[&#39;Dm7&#39;, &#39;G7&#39;, &#39;Cmaj7&#39;]</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">cs</span> <span class="o">=</span> <span class="n">parse_chord_sheet</span><span class="p">(</span><span class="s2">&quot;[Am]Hello [G]world&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cs</span><span class="o">.</span><span class="n">symbols</span>
+<span class="go">[&#39;Am&#39;, &#39;G&#39;]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="accompy.chord_parsers.parse_chordpro">
+<span class="sig-prename descclassname"><span class="pre">accompy.chord_parsers.</span></span><span class="sig-name descname"><span class="pre">parse_chordpro</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sheet</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">ChordSheet</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">beats_per_bar</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">4</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tempo</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">120</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="converters.html#accompy.converters.ChordSequence" title="accompy.converters.ChordSequence"><span class="pre">ChordSequence</span></a></span></span><a class="reference internal" href="../../_modules/accompy/chord_parsers.html#parse_chordpro"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#accompy.chord_parsers.parse_chordpro" title="Link to this definition"></a></dt>
+<dd><p>Parse ChordPro format into a ChordSequence.</p>
+<p>ChordPro embeds chords in brackets within lyrics:
+“[Am]Hello [G]world [C]”</p>
+<p>Extracts just the chord symbols, one per bar by default.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">cs</span> <span class="o">=</span> <span class="n">parse_chordpro</span><span class="p">(</span><span class="s2">&quot;[Am]Hello [G]world [C]&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cs</span><span class="o">.</span><span class="n">symbols</span>
+<span class="go">[&#39;Am&#39;, &#39;G&#39;, &#39;C&#39;]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="accompy.chord_parsers.parse_ireal_url">
+<span class="sig-prename descclassname"><span class="pre">accompy.chord_parsers.</span></span><span class="sig-name descname"><span class="pre">parse_ireal_url</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">url</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">ChordSheet</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">beats_per_bar</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">4</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="converters.html#accompy.converters.ChordSequence" title="accompy.converters.ChordSequence"><span class="pre">ChordSequence</span></a></span></span><a class="reference internal" href="../../_modules/accompy/chord_parsers.html#parse_ireal_url"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#accompy.chord_parsers.parse_ireal_url" title="Link to this definition"></a></dt>
+<dd><p>Parse an iReal Pro URL into a ChordSequence.</p>
+<p>Uses pyRealParser if available, falls back to basic extraction.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Can&#39;t test without real URL, but structure is tested</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="accompy.chord_parsers.parse_musicgen_chord_format">
+<span class="sig-prename descclassname"><span class="pre">accompy.chord_parsers.</span></span><span class="sig-name descname"><span class="pre">parse_musicgen_chord_format</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sheet</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">ChordSheet</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">beats_per_bar</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">4</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tempo</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">120</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="converters.html#accompy.converters.ChordSequence" title="accompy.converters.ChordSequence"><span class="pre">ChordSequence</span></a></span></span><a class="reference internal" href="../../_modules/accompy/chord_parsers.html#parse_musicgen_chord_format"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#accompy.chord_parsers.parse_musicgen_chord_format" title="Link to this definition"></a></dt>
+<dd><p>Parse MusicGen-Chord text format into ChordSequence.</p>
+<p>MusicGen-Chord uses space-separated bars with colon for quality:
+“C D:min G:7 C” means C | Dm | G7 | C</p>
+<p>Within a bar, comma separates chords:
+“C:maj,G:maj E:min,A:min” means C G | Em Am</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">cs</span> <span class="o">=</span> <span class="n">parse_musicgen_chord_format</span><span class="p">(</span><span class="s2">&quot;C D:min G:7 C&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cs</span><span class="o">.</span><span class="n">symbols</span>
+<span class="go">[&#39;C&#39;, &#39;D:min&#39;, &#39;G:7&#39;, &#39;C&#39;]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cs</span><span class="o">.</span><span class="n">durations</span>
+<span class="go">[4.0, 4.0, 4.0, 4.0]</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">cs</span> <span class="o">=</span> <span class="n">parse_musicgen_chord_format</span><span class="p">(</span><span class="s2">&quot;C:maj,G:maj E:min&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">len</span><span class="p">(</span><span class="n">cs</span><span class="p">)</span>
+<span class="go">3</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="accompy.chord_parsers.parse_nashville">
+<span class="sig-prename descclassname"><span class="pre">accompy.chord_parsers.</span></span><span class="sig-name descname"><span class="pre">parse_nashville</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sheet</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">ChordSheet</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'C'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">beats_per_bar</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">4</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tempo</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">120</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time_signature</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">(4,</span> <span class="pre">4)</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="converters.html#accompy.converters.ChordSequence" title="accompy.converters.ChordSequence"><span class="pre">ChordSequence</span></a></span></span><a class="reference internal" href="../../_modules/accompy/chord_parsers.html#parse_nashville"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#accompy.chord_parsers.parse_nashville" title="Link to this definition"></a></dt>
+<dd><p>Parse Nashville number system notation into a ChordSequence.</p>
+<p>Nashville numbers use scale degree numbers instead of note names:
+- “1 4 5 1” in C = C F G C
+- Quality suffixes: “2m7 5 1maj7”
+- Accidentals: “b7” = flat seventh scale degree
+- Bar lines supported: “| 2m7 | 5 | 1maj7 <a href="#id3"><span class="problematic" id="id4">|</span></a>”</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">cs</span> <span class="o">=</span> <span class="n">parse_nashville</span><span class="p">(</span><span class="s2">&quot;| 2m7 | 5 | 1maj7 |&quot;</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="s2">&quot;C&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cs</span><span class="o">.</span><span class="n">symbols</span>
+<span class="go">[&#39;Dm7&#39;, &#39;G&#39;, &#39;Cmaj7&#39;]</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">cs</span> <span class="o">=</span> <span class="n">parse_nashville</span><span class="p">(</span><span class="s2">&quot;1 4 5 1&quot;</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="s2">&quot;G&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cs</span><span class="o">.</span><span class="n">symbols</span>
+<span class="go">[&#39;G&#39;, &#39;C&#39;, &#39;D&#39;, &#39;G&#39;]</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">cs</span> <span class="o">=</span> <span class="n">parse_nashville</span><span class="p">(</span><span class="s2">&quot;| 2m7 | 57 | 1maj7 |&quot;</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="s2">&quot;Bb&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cs</span><span class="o">.</span><span class="n">symbols</span>
+<span class="go">[&#39;Cm7&#39;, &#39;F7&#39;, &#39;Bbmaj7&#39;]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="accompy.chord_parsers.parse_plain_text">
+<span class="sig-prename descclassname"><span class="pre">accompy.chord_parsers.</span></span><span class="sig-name descname"><span class="pre">parse_plain_text</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sheet</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">ChordSheet</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">beats_per_bar</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">4</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tempo</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">120</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'C'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time_signature</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">(4,</span> <span class="pre">4)</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="converters.html#accompy.converters.ChordSequence" title="accompy.converters.ChordSequence"><span class="pre">ChordSequence</span></a></span></span><a class="reference internal" href="../../_modules/accompy/chord_parsers.html#parse_plain_text"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#accompy.chord_parsers.parse_plain_text" title="Link to this definition"></a></dt>
+<dd><p>Parse a plain-text chord sheet into a ChordSequence.</p>
+<p>Supports:
+- Bar-line format: “| C | Am | F | G <a href="#id9"><span class="problematic" id="id10">|&quot;
+- Multi-chord bars: &quot;|</span></a> C Am | F G <a href="#id5"><span class="problematic" id="id6">|</span></a>”
+- Space-separated: “C Am F G”
+- Repeat markers: “%” repeats previous chord/bar</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">cs</span> <span class="o">=</span> <span class="n">parse_plain_text</span><span class="p">(</span><span class="s2">&quot;| Dm7 | G7 | Cmaj7 |&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cs</span><span class="o">.</span><span class="n">symbols</span>
+<span class="go">[&#39;Dm7&#39;, &#39;G7&#39;, &#39;Cmaj7&#39;]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cs</span><span class="o">.</span><span class="n">durations</span>
+<span class="go">[4.0, 4.0, 4.0]</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">cs</span> <span class="o">=</span> <span class="n">parse_plain_text</span><span class="p">(</span><span class="s2">&quot;| C Am | F G |&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cs</span><span class="o">.</span><span class="n">symbols</span>
+<span class="go">[&#39;C&#39;, &#39;Am&#39;, &#39;F&#39;, &#39;G&#39;]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cs</span><span class="o">.</span><span class="n">durations</span>
+<span class="go">[2.0, 2.0, 2.0, 2.0]</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">cs</span> <span class="o">=</span> <span class="n">parse_plain_text</span><span class="p">(</span><span class="s2">&quot;C Am F G&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">len</span><span class="p">(</span><span class="n">cs</span><span class="p">)</span>
+<span class="go">4</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="accompy.chord_parsers.parse_roman_numeral">
+<span class="sig-prename descclassname"><span class="pre">accompy.chord_parsers.</span></span><span class="sig-name descname"><span class="pre">parse_roman_numeral</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sheet</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">ChordSheet</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'C'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">beats_per_bar</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">4</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tempo</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">120</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time_signature</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">(4,</span> <span class="pre">4)</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="converters.html#accompy.converters.ChordSequence" title="accompy.converters.ChordSequence"><span class="pre">ChordSequence</span></a></span></span><a class="reference internal" href="../../_modules/accompy/chord_parsers.html#parse_roman_numeral"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#accompy.chord_parsers.parse_roman_numeral" title="Link to this definition"></a></dt>
+<dd><p>Parse Roman numeral notation into a ChordSequence.</p>
+<p>Supports:
+- Upper case for major: I, IV, V
+- Lower case for minor: ii, vi, iii
+- Quality suffixes: ii7, V7, Imaj7, viidim, viio, iim7b5
+- Accidentals: bVII, #IV
+- Bar lines: “| ii7 | V7 | Imaj7 <a href="#id7"><span class="problematic" id="id8">|</span></a>”
+- Space-separated: “I IV V I”</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">cs</span> <span class="o">=</span> <span class="n">parse_roman_numeral</span><span class="p">(</span><span class="s2">&quot;| ii7 | V7 | Imaj7 |&quot;</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="s2">&quot;C&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cs</span><span class="o">.</span><span class="n">symbols</span>
+<span class="go">[&#39;Dm7&#39;, &#39;G7&#39;, &#39;Cmaj7&#39;]</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">cs</span> <span class="o">=</span> <span class="n">parse_roman_numeral</span><span class="p">(</span><span class="s2">&quot;I IV V I&quot;</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="s2">&quot;G&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cs</span><span class="o">.</span><span class="n">symbols</span>
+<span class="go">[&#39;G&#39;, &#39;C&#39;, &#39;D&#39;, &#39;G&#39;]</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">cs</span> <span class="o">=</span> <span class="n">parse_roman_numeral</span><span class="p">(</span><span class="s2">&quot;| ii7 | V7 | Imaj7 |&quot;</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="s2">&quot;F&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cs</span><span class="o">.</span><span class="n">symbols</span>
+<span class="go">[&#39;Gm7&#39;, &#39;C7&#39;, &#39;Fmaj7&#39;]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="base.html" class="btn btn-neutral float-left" title="accompy.base" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="chord_resolution.html" class="btn btn-neutral float-right" title="accompy.chord_resolution" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright NO COPYRIGHT.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,367 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>accompy.patterns &mdash; accompy 0.3.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=e259d695"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../_static/toggleprompt.js?v=d7ede5d2"></script>
+      <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            accompy
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy.html">accompy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/audio_renderers.html">accompy.audio_renderers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/base.html">accompy.base</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/chord_parsers.html">accompy.chord_parsers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/chord_resolution.html">accompy.chord_resolution</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/chord_resolvers.html">accompy.chord_resolvers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/converters.html">accompy.converters</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/main.html">accompy.main</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/midi_generators.html">accompy.midi_generators</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/patterns.html">accompy.patterns</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/patterns/builtin.html">accompy.patterns.builtin</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/patterns/dataclasses.html">accompy.patterns.dataclasses</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/pipeline.html">accompy.pipeline</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/protocols.html">accompy.protocols</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/realtime.html">accompy.realtime</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/renderers.html">accompy.renderers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/renderers/midi.html">accompy.renderers.midi</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/setup_utils.html">accompy.setup_utils</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/synthesis.html">accompy.synthesis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/synthesis/fluidsynth.html">accompy.synthesis.fluidsynth</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/util.html">accompy.util</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/wips.html">accompy.wips</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/wips/audio_renderers.html">accompy.wips.audio_renderers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/wips/chord_parsers.html">accompy.wips.chord_parsers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/wips/chord_resolvers.html">accompy.wips.chord_resolvers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/wips/midi_generators.html">accompy.wips.midi_generators</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/wips/pipeline.html">accompy.wips.pipeline</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/wips/types.html">accompy.wips.types</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">accompy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">accompy.patterns</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for accompy.patterns</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Pattern registry and access for accompany patterns.</span>
+
+<span class="sd">This module provides access to musical patterns (drums, bass, comping) for</span>
+<span class="sd">different styles. Includes a MutableMapping-based PatternRegistry for</span>
+<span class="sd">runtime pattern registration.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">collections.abc</span><span class="w"> </span><span class="kn">import</span> <span class="n">MutableMapping</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Iterator</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">.dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">DrumPattern</span><span class="p">,</span>
+    <span class="n">BassPattern</span><span class="p">,</span>
+    <span class="n">CompingPattern</span><span class="p">,</span>
+    <span class="n">DrumHit</span><span class="p">,</span>
+    <span class="n">NoteEvent</span><span class="p">,</span>
+    <span class="c1"># MIDI drum constants</span>
+    <span class="n">KICK</span><span class="p">,</span>
+    <span class="n">SNARE</span><span class="p">,</span>
+    <span class="n">SIDE_STICK</span><span class="p">,</span>
+    <span class="n">CLOSED_HIHAT</span><span class="p">,</span>
+    <span class="n">OPEN_HIHAT</span><span class="p">,</span>
+    <span class="n">PEDAL_HIHAT</span><span class="p">,</span>
+    <span class="n">RIDE</span><span class="p">,</span>
+    <span class="n">RIDE_BELL</span><span class="p">,</span>
+    <span class="n">CRASH</span><span class="p">,</span>
+    <span class="n">LOW_TOM</span><span class="p">,</span>
+    <span class="n">MID_TOM</span><span class="p">,</span>
+    <span class="n">HIGH_TOM</span><span class="p">,</span>
+    <span class="n">COWBELL</span><span class="p">,</span>
+    <span class="n">CLAVES</span><span class="p">,</span>
+    <span class="n">SHAKER</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="c1"># Import pattern collections</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.builtin</span><span class="w"> </span><span class="kn">import</span> <span class="n">DRUM_PATTERNS</span><span class="p">,</span> <span class="n">BASS_PATTERNS</span><span class="p">,</span> <span class="n">COMP_PATTERNS</span>
+
+<span class="c1"># Common built-in patterns (public API convenience exports)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.builtin</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">SWING_DRUMS_BASIC</span><span class="p">,</span>
+    <span class="n">SWING_BASS_WALKING</span><span class="p">,</span>
+    <span class="n">BOSSA_DRUMS</span><span class="p">,</span>
+    <span class="n">BOSSA_BASS</span><span class="p">,</span>
+    <span class="n">ROCK_DRUMS_BASIC</span><span class="p">,</span>
+    <span class="n">WALTZ_DRUMS</span><span class="p">,</span>
+<span class="p">)</span>
+
+
+<div class="viewcode-block" id="PatternRegistry">
+<a class="viewcode-back" href="../../module_docs/accompy/patterns.html#accompy.PatternRegistry">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">PatternRegistry</span><span class="p">(</span><span class="n">MutableMapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">dict</span><span class="p">]):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Registry of accompaniment patterns by style.</span>
+
+<span class="sd">    Implements MutableMapping for intuitive access:</span>
+<span class="sd">        registry[&#39;bossa&#39;]  # Get patterns</span>
+<span class="sd">        registry[&#39;my_style&#39;] = {...}  # Register custom</span>
+<span class="sd">        del registry[&#39;my_style&#39;]  # Remove</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">        &gt;&gt;&gt; registry = PatternRegistry()</span>
+<span class="sd">        &gt;&gt;&gt; registry.register_builtin_patterns()</span>
+<span class="sd">        &gt;&gt;&gt; &#39;swing&#39; in registry</span>
+<span class="sd">        True</span>
+<span class="sd">        &gt;&gt;&gt; registry[&#39;swing&#39;][&#39;drums&#39;][0].name</span>
+<span class="sd">        &#39;swing_basic&#39;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_patterns</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">dict</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">style</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">style</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_patterns</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unknown style: </span><span class="si">{</span><span class="n">style</span><span class="si">}</span><span class="s2">. Available: </span><span class="si">{</span><span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_patterns</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_patterns</span><span class="p">[</span><span class="n">style</span><span class="p">]</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__setitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">style</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">patterns</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="c1"># Validate structure</span>
+        <span class="n">required_keys</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;drums&#39;</span><span class="p">,</span> <span class="s1">&#39;bass&#39;</span><span class="p">,</span> <span class="s1">&#39;comp&#39;</span><span class="p">}</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">required_keys</span><span class="o">.</span><span class="n">issubset</span><span class="p">(</span><span class="n">patterns</span><span class="o">.</span><span class="n">keys</span><span class="p">()):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Pattern dict must have keys: </span><span class="si">{</span><span class="n">required_keys</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_patterns</span><span class="p">[</span><span class="n">style</span><span class="p">]</span> <span class="o">=</span> <span class="n">patterns</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__delitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">style</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">_patterns</span><span class="p">[</span><span class="n">style</span><span class="p">]</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="nb">iter</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_patterns</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_patterns</span><span class="p">)</span>
+
+<div class="viewcode-block" id="PatternRegistry.register_builtin_patterns">
+<a class="viewcode-back" href="../../module_docs/accompy/patterns.html#accompy.PatternRegistry.register_builtin_patterns">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">register_builtin_patterns</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Load all built-in patterns.&quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">style</span> <span class="ow">in</span> <span class="n">DRUM_PATTERNS</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_patterns</span><span class="p">[</span><span class="n">style</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s1">&#39;drums&#39;</span><span class="p">:</span> <span class="n">DRUM_PATTERNS</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">style</span><span class="p">,</span> <span class="p">[]),</span>
+                <span class="s1">&#39;bass&#39;</span><span class="p">:</span> <span class="n">BASS_PATTERNS</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">style</span><span class="p">,</span> <span class="p">[]),</span>
+                <span class="s1">&#39;comp&#39;</span><span class="p">:</span> <span class="n">COMP_PATTERNS</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">style</span><span class="p">,</span> <span class="p">[]),</span>
+            <span class="p">}</span></div>
+
+
+<div class="viewcode-block" id="PatternRegistry.available_styles">
+<a class="viewcode-back" href="../../module_docs/accompy/patterns.html#accompy.PatternRegistry.available_styles">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">available_styles</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get list of all available style names.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_patterns</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span></div>
+
+
+<div class="viewcode-block" id="PatternRegistry.get_patterns">
+<a class="viewcode-back" href="../../module_docs/accompy/patterns.html#accompy.PatternRegistry.get_patterns">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_patterns</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">style</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get patterns for a style (PatternSource protocol method).</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            style: Style name</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Dict with &#39;drums&#39;, &#39;bass&#39;, &#39;comp&#39; keys</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="p">[</span><span class="n">style</span><span class="p">]</span></div>
+</div>
+
+
+
+<span class="c1"># Global registry (lazy-loaded)</span>
+<span class="n">_registry</span><span class="p">:</span> <span class="n">PatternRegistry</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+
+
+<div class="viewcode-block" id="get_pattern_registry">
+<a class="viewcode-back" href="../../module_docs/accompy/patterns.html#accompy.get_pattern_registry">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_pattern_registry</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">PatternRegistry</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Get the global pattern registry, initializing if needed.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        The global PatternRegistry instance</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">        &gt;&gt;&gt; registry = get_pattern_registry()</span>
+<span class="sd">        &gt;&gt;&gt; &#39;swing&#39; in registry</span>
+<span class="sd">        True</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">global</span> <span class="n">_registry</span>
+    <span class="k">if</span> <span class="n">_registry</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">_registry</span> <span class="o">=</span> <span class="n">PatternRegistry</span><span class="p">()</span>
+        <span class="n">_registry</span><span class="o">.</span><span class="n">register_builtin_patterns</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">_registry</span></div>
+
+
+
+<div class="viewcode-block" id="get_patterns">
+<a class="viewcode-back" href="../../module_docs/accompy/patterns.html#accompy.get_patterns">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_patterns</span><span class="p">(</span><span class="n">style</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Get all patterns for a given style.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Dict with &#39;drums&#39;, &#39;bass&#39;, &#39;comp&#39; keys containing pattern lists</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">        &gt;&gt;&gt; patterns = get_patterns(&quot;bossa&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; drums = patterns[&quot;drums&quot;][0]</span>
+<span class="sd">        &gt;&gt;&gt; drums.name</span>
+<span class="sd">        &#39;bossa&#39;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">get_pattern_registry</span><span class="p">()</span><span class="o">.</span><span class="n">get_patterns</span><span class="p">(</span><span class="n">style</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="register_style">
+<a class="viewcode-back" href="../../module_docs/accompy/patterns.html#accompy.register_style">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">register_style</span><span class="p">(</span><span class="n">style</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">drums</span><span class="p">:</span> <span class="nb">list</span><span class="p">,</span> <span class="n">bass</span><span class="p">:</span> <span class="nb">list</span><span class="p">,</span> <span class="n">comp</span><span class="p">:</span> <span class="nb">list</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Register a custom style with the global registry.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        style: Style name</span>
+<span class="sd">        drums: List of DrumPattern objects</span>
+<span class="sd">        bass: List of BassPattern objects</span>
+<span class="sd">        comp: List of CompingPattern objects</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">        &gt;&gt;&gt; registry = get_pattern_registry()</span>
+<span class="sd">        &gt;&gt;&gt; register_style(&#39;my_funk&#39;, [my_drum_pattern], [my_bass_pattern], [])  # doctest: +SKIP</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">get_pattern_registry</span><span class="p">()[</span><span class="n">style</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;drums&#39;</span><span class="p">:</span> <span class="n">drums</span><span class="p">,</span>
+        <span class="s1">&#39;bass&#39;</span><span class="p">:</span> <span class="n">bass</span><span class="p">,</span>
+        <span class="s1">&#39;comp&#39;</span><span class="p">:</span> <span class="n">comp</span><span class="p">,</span>
+    <span class="p">}</span></div>
+
+
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="c1"># Data classes</span>
+    <span class="s2">&quot;DrumPattern&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;BassPattern&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;CompingPattern&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;DrumHit&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;NoteEvent&quot;</span><span class="p">,</span>
+    <span class="c1"># Pattern registry</span>
+    <span class="s2">&quot;PatternRegistry&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;get_pattern_registry&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;get_patterns&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;register_style&quot;</span><span class="p">,</span>
+    <span class="c1"># MIDI drum constants</span>
+    <span class="s2">&quot;KICK&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;SNARE&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;SIDE_STICK&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;CLOSED_HIHAT&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;OPEN_HIHAT&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;PEDAL_HIHAT&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;RIDE&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;RIDE_BELL&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;CRASH&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;LOW_TOM&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;MID_TOM&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;HIGH_TOM&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;COWBELL&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;CLAVES&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;SHAKER&quot;</span><span class="p">,</span>
+    <span class="c1"># Convenience exports for common built-in patterns</span>
+    <span class="s2">&quot;SWING_DRUMS_BASIC&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;SWING_BASS_WALKING&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;BOSSA_DRUMS&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;BOSSA_BASS&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;ROCK_DRUMS_BASIC&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;WALTZ_DRUMS&quot;</span><span class="p">,</span>
+<span class="p">]</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright NO COPYRIGHT.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

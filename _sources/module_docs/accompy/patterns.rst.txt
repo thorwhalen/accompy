@@ -1,0 +1,4 @@
+accompy.patterns
+================
+.. automodule:: accompy.patterns
+   :members:

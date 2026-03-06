@@ -1,0 +1,4 @@
+accompy.main
+============
+.. automodule:: accompy.main
+   :members:

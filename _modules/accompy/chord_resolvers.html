@@ -1,0 +1,343 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>accompy.chord_resolvers &mdash; accompy 0.3.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=e259d695"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../_static/toggleprompt.js?v=d7ede5d2"></script>
+      <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            accompy
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy.html">accompy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/audio_renderers.html">accompy.audio_renderers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/base.html">accompy.base</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/chord_parsers.html">accompy.chord_parsers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/chord_resolution.html">accompy.chord_resolution</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/chord_resolvers.html">accompy.chord_resolvers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/converters.html">accompy.converters</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/main.html">accompy.main</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/midi_generators.html">accompy.midi_generators</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/patterns.html">accompy.patterns</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/patterns/builtin.html">accompy.patterns.builtin</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/patterns/dataclasses.html">accompy.patterns.dataclasses</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/pipeline.html">accompy.pipeline</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/protocols.html">accompy.protocols</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/realtime.html">accompy.realtime</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/renderers.html">accompy.renderers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/renderers/midi.html">accompy.renderers.midi</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/setup_utils.html">accompy.setup_utils</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/synthesis.html">accompy.synthesis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/synthesis/fluidsynth.html">accompy.synthesis.fluidsynth</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/util.html">accompy.util</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/wips.html">accompy.wips</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/wips/audio_renderers.html">accompy.wips.audio_renderers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/wips/chord_parsers.html">accompy.wips.chord_parsers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/wips/chord_resolvers.html">accompy.wips.chord_resolvers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/wips/midi_generators.html">accompy.wips.midi_generators</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/wips/pipeline.html">accompy.wips.pipeline</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/wips/types.html">accompy.wips.types</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">accompy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">accompy.chord_resolvers</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for accompy.chord_resolvers</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Chord resolvers — convert chord symbols to MIDI note numbers.</span>
+
+<span class="sd">Registered converters: ChordSequence -&gt; NoteSequence</span>
+
+<span class="sd">Multiple backends, each wrapping a different music theory library:</span>
+<span class="sd">- pychord: lightweight, good coverage of standard chord types</span>
+<span class="sd">- music21: comprehensive, heavyweight, handles edge cases well</span>
+<span class="sd">- mingus: pure Python music theory, no C dependencies</span>
+<span class="sd">- tonal: the existing accompy dependency (thorwhalen/tonal)</span>
+
+<span class="sd">Each resolver is a function: chord_symbol (str) -&gt; list[int] (MIDI notes).</span>
+<span class="sd">We also provide converters that operate on whole ChordSequences.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Callable</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">.converters</span><span class="w"> </span><span class="kn">import</span> <span class="n">ChordSequence</span><span class="p">,</span> <span class="n">NoteSequence</span><span class="p">,</span> <span class="n">converter</span>
+
+<span class="c1"># Type alias: a single-chord resolver</span>
+<span class="n">ChordResolver</span> <span class="o">=</span> <span class="n">Callable</span><span class="p">[[</span><span class="nb">str</span><span class="p">],</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">]]</span>
+
+
+<span class="c1"># ---------------------------------------------------------------------------</span>
+<span class="c1"># Individual chord resolvers (str -&gt; list[int])</span>
+<span class="c1"># ---------------------------------------------------------------------------</span>
+
+
+<div class="viewcode-block" id="resolve_with_pychord">
+<a class="viewcode-back" href="../../module_docs/accompy/chord_resolvers.html#accompy.chord_resolvers.resolve_with_pychord">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">resolve_with_pychord</span><span class="p">(</span>
+    <span class="n">symbol</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">root_octave</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">3</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Resolve a chord symbol to MIDI notes using pychord.</span>
+
+<span class="sd">    &gt;&gt;&gt; resolve_with_pychord(&quot;Cmaj7&quot;)</span>
+<span class="sd">    [48, 52, 55, 59]</span>
+<span class="sd">    &gt;&gt;&gt; resolve_with_pychord(&quot;Am&quot;)</span>
+<span class="sd">    [57, 60, 64]</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pychord</span><span class="w"> </span><span class="kn">import</span> <span class="n">Chord</span>
+
+    <span class="n">c</span> <span class="o">=</span> <span class="n">Chord</span><span class="p">(</span><span class="n">symbol</span><span class="p">)</span>
+    <span class="n">note_names</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">components_with_pitch</span><span class="p">(</span><span class="n">root_pitch</span><span class="o">=</span><span class="n">root_octave</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">[</span><span class="n">_name_to_midi</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">note_names</span><span class="p">]</span></div>
+
+
+
+<div class="viewcode-block" id="resolve_with_music21">
+<a class="viewcode-back" href="../../module_docs/accompy/chord_resolvers.html#accompy.chord_resolvers.resolve_with_music21">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">resolve_with_music21</span><span class="p">(</span>
+    <span class="n">symbol</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">root_octave</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">3</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Resolve a chord symbol to MIDI notes using music21.</span>
+
+<span class="sd">    Handles the widest range of chord types including altered chords.</span>
+
+<span class="sd">    &gt;&gt;&gt; resolve_with_music21(&quot;Cmaj7&quot;)</span>
+<span class="sd">    [48, 52, 55, 59]</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">music21</span><span class="w"> </span><span class="kn">import</span> <span class="n">harmony</span>
+
+    <span class="n">cs</span> <span class="o">=</span> <span class="n">harmony</span><span class="o">.</span><span class="n">ChordSymbol</span><span class="p">(</span><span class="n">symbol</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">[</span><span class="n">p</span><span class="o">.</span><span class="n">midi</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">cs</span><span class="o">.</span><span class="n">pitches</span><span class="p">]</span></div>
+
+
+
+<div class="viewcode-block" id="resolve_with_mingus">
+<a class="viewcode-back" href="../../module_docs/accompy/chord_resolvers.html#accompy.chord_resolvers.resolve_with_mingus">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">resolve_with_mingus</span><span class="p">(</span>
+    <span class="n">symbol</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">root_octave</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">3</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Resolve a chord symbol to MIDI notes using mingus.</span>
+
+<span class="sd">    &gt;&gt;&gt; resolve_with_mingus(&quot;Cmaj7&quot;)</span>
+<span class="sd">    [36, 40, 43, 47]</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">mingus.core</span><span class="w"> </span><span class="kn">import</span> <span class="n">chords</span> <span class="k">as</span> <span class="n">mingus_chords</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">mingus.containers</span><span class="w"> </span><span class="kn">import</span> <span class="n">Note</span>
+
+    <span class="n">note_names</span> <span class="o">=</span> <span class="n">mingus_chords</span><span class="o">.</span><span class="n">from_shorthand</span><span class="p">(</span><span class="n">symbol</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">Note</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">root_octave</span><span class="p">))</span> <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">note_names</span><span class="p">]</span></div>
+
+
+
+<div class="viewcode-block" id="resolve_with_tonal">
+<a class="viewcode-back" href="../../module_docs/accompy/chord_resolvers.html#accompy.chord_resolvers.resolve_with_tonal">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">resolve_with_tonal</span><span class="p">(</span>
+    <span class="n">symbol</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">transpose</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="o">-</span><span class="mi">12</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Resolve a chord symbol to MIDI notes using the tonal package.</span>
+
+<span class="sd">    This is accompy&#39;s existing default resolver.</span>
+
+<span class="sd">    &gt;&gt;&gt; resolve_with_tonal(&quot;Cmaj7&quot;)</span>
+<span class="sd">    [48, 52, 55, 59]</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">tonal.chords</span><span class="w"> </span><span class="kn">import</span> <span class="n">chord_to_notes</span>
+
+    <span class="n">notes</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">chord_to_notes</span><span class="p">(</span><span class="n">symbol</span><span class="p">))</span>
+    <span class="k">if</span> <span class="n">transpose</span><span class="p">:</span>
+        <span class="n">notes</span> <span class="o">=</span> <span class="p">[</span><span class="n">n</span> <span class="o">+</span> <span class="n">transpose</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">notes</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">notes</span></div>
+
+
+
+<span class="c1"># ---------------------------------------------------------------------------</span>
+<span class="c1"># Helper: note name -&gt; MIDI number</span>
+<span class="c1"># ---------------------------------------------------------------------------</span>
+
+<span class="n">_NOTE_MAP</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;C&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;D&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s2">&quot;E&quot;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span> <span class="s2">&quot;F&quot;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span> <span class="s2">&quot;G&quot;</span><span class="p">:</span> <span class="mi">7</span><span class="p">,</span> <span class="s2">&quot;A&quot;</span><span class="p">:</span> <span class="mi">9</span><span class="p">,</span> <span class="s2">&quot;B&quot;</span><span class="p">:</span> <span class="mi">11</span><span class="p">,</span>
+<span class="p">}</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_name_to_midi</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Convert a note name like &#39;C#3&#39; or &#39;Eb4&#39; to MIDI number.</span>
+
+<span class="sd">    &gt;&gt;&gt; _name_to_midi(&#39;C4&#39;)</span>
+<span class="sd">    60</span>
+<span class="sd">    &gt;&gt;&gt; _name_to_midi(&#39;A3&#39;)</span>
+<span class="sd">    57</span>
+<span class="sd">    &gt;&gt;&gt; _name_to_midi(&#39;Bb3&#39;)</span>
+<span class="sd">    58</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Parse: letter + optional accidental + octave</span>
+    <span class="n">letter</span> <span class="o">=</span> <span class="n">name</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
+    <span class="n">rest</span> <span class="o">=</span> <span class="n">name</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
+
+    <span class="n">accidental</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">while</span> <span class="n">rest</span> <span class="ow">and</span> <span class="n">rest</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;#&quot;</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">rest</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;#&quot;</span><span class="p">:</span>
+            <span class="n">accidental</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">accidental</span> <span class="o">-=</span> <span class="mi">1</span>
+        <span class="n">rest</span> <span class="o">=</span> <span class="n">rest</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
+
+    <span class="n">octave</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">rest</span><span class="p">)</span> <span class="k">if</span> <span class="n">rest</span> <span class="k">else</span> <span class="mi">4</span>
+    <span class="k">return</span> <span class="n">_NOTE_MAP</span><span class="p">[</span><span class="n">letter</span><span class="p">]</span> <span class="o">+</span> <span class="n">accidental</span> <span class="o">+</span> <span class="p">(</span><span class="n">octave</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="mi">12</span>
+
+
+<span class="c1"># ---------------------------------------------------------------------------</span>
+<span class="c1"># Whole-sequence converters: ChordSequence -&gt; NoteSequence</span>
+<span class="c1"># ---------------------------------------------------------------------------</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_make_sequence_converter</span><span class="p">(</span>
+    <span class="n">resolver</span><span class="p">:</span> <span class="n">ChordResolver</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">ChordSequence</span><span class="p">],</span> <span class="n">NoteSequence</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Factory: wrap a single-chord resolver into a ChordSequence converter.&quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">convert_sequence</span><span class="p">(</span><span class="n">cs</span><span class="p">:</span> <span class="n">ChordSequence</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">NoteSequence</span><span class="p">:</span>
+        <span class="n">notes</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">symbol</span><span class="p">,</span> <span class="n">duration</span> <span class="ow">in</span> <span class="n">cs</span><span class="o">.</span><span class="n">chords</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">midi_notes</span> <span class="o">=</span> <span class="n">resolver</span><span class="p">(</span><span class="n">symbol</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+                <span class="n">midi_notes</span> <span class="o">=</span> <span class="p">[</span><span class="mi">60</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">67</span><span class="p">]</span>  <span class="c1"># C major fallback</span>
+            <span class="n">notes</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">midi_notes</span><span class="p">,</span> <span class="n">duration</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">NoteSequence</span><span class="p">(</span>
+            <span class="n">notes</span><span class="o">=</span><span class="n">notes</span><span class="p">,</span>
+            <span class="n">tempo</span><span class="o">=</span><span class="n">cs</span><span class="o">.</span><span class="n">tempo</span><span class="p">,</span>
+            <span class="n">time_signature</span><span class="o">=</span><span class="n">cs</span><span class="o">.</span><span class="n">time_signature</span><span class="p">,</span>
+        <span class="p">)</span>
+
+    <span class="n">convert_sequence</span><span class="o">.</span><span class="vm">__name__</span> <span class="o">=</span> <span class="n">name</span>
+    <span class="n">convert_sequence</span><span class="o">.</span><span class="vm">__doc__</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;Convert ChordSequence to NoteSequence using </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">.&quot;</span>
+    <span class="k">return</span> <span class="n">convert_sequence</span>
+
+
+<span class="c1"># Create the sequence-level converters</span>
+<span class="n">chordseq_to_noteseq_pychord</span> <span class="o">=</span> <span class="n">_make_sequence_converter</span><span class="p">(</span>
+    <span class="n">resolve_with_pychord</span><span class="p">,</span> <span class="s2">&quot;pychord&quot;</span>
+<span class="p">)</span>
+<span class="n">chordseq_to_noteseq_music21</span> <span class="o">=</span> <span class="n">_make_sequence_converter</span><span class="p">(</span>
+    <span class="n">resolve_with_music21</span><span class="p">,</span> <span class="s2">&quot;music21&quot;</span>
+<span class="p">)</span>
+<span class="n">chordseq_to_noteseq_mingus</span> <span class="o">=</span> <span class="n">_make_sequence_converter</span><span class="p">(</span>
+    <span class="n">resolve_with_mingus</span><span class="p">,</span> <span class="s2">&quot;mingus&quot;</span>
+<span class="p">)</span>
+<span class="n">chordseq_to_noteseq_tonal</span> <span class="o">=</span> <span class="n">_make_sequence_converter</span><span class="p">(</span>
+    <span class="n">resolve_with_tonal</span><span class="p">,</span> <span class="s2">&quot;tonal&quot;</span>
+<span class="p">)</span>
+
+
+<span class="c1"># ---------------------------------------------------------------------------</span>
+<span class="c1"># Register converters</span>
+<span class="c1"># ---------------------------------------------------------------------------</span>
+
+<span class="n">converter</span><span class="o">.</span><span class="n">register</span><span class="p">(</span>
+    <span class="n">ChordSequence</span><span class="p">,</span>
+    <span class="n">NoteSequence</span><span class="p">,</span>
+    <span class="n">chordseq_to_noteseq_pychord</span><span class="p">,</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;pychord&quot;</span><span class="p">,</span>
+    <span class="n">is_default</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">converter</span><span class="o">.</span><span class="n">register</span><span class="p">(</span>
+    <span class="n">ChordSequence</span><span class="p">,</span> <span class="n">NoteSequence</span><span class="p">,</span> <span class="n">chordseq_to_noteseq_music21</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;music21&quot;</span>
+<span class="p">)</span>
+
+<span class="n">converter</span><span class="o">.</span><span class="n">register</span><span class="p">(</span>
+    <span class="n">ChordSequence</span><span class="p">,</span> <span class="n">NoteSequence</span><span class="p">,</span> <span class="n">chordseq_to_noteseq_mingus</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;mingus&quot;</span>
+<span class="p">)</span>
+
+<span class="n">converter</span><span class="o">.</span><span class="n">register</span><span class="p">(</span>
+    <span class="n">ChordSequence</span><span class="p">,</span> <span class="n">NoteSequence</span><span class="p">,</span> <span class="n">chordseq_to_noteseq_tonal</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;tonal&quot;</span>
+<span class="p">)</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright NO COPYRIGHT.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

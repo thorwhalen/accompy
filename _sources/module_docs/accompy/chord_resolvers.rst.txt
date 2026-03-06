@@ -1,0 +1,4 @@
+accompy.chord_resolvers
+=======================
+.. automodule:: accompy.chord_resolvers
+   :members:

@@ -1,0 +1,568 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>accompy.main &mdash; accompy 0.3.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=e259d695"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../_static/toggleprompt.js?v=d7ede5d2"></script>
+      <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            accompy
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy.html">accompy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/audio_renderers.html">accompy.audio_renderers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/base.html">accompy.base</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/chord_parsers.html">accompy.chord_parsers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/chord_resolution.html">accompy.chord_resolution</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/chord_resolvers.html">accompy.chord_resolvers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/converters.html">accompy.converters</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/main.html">accompy.main</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/midi_generators.html">accompy.midi_generators</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/patterns.html">accompy.patterns</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/patterns/builtin.html">accompy.patterns.builtin</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/patterns/dataclasses.html">accompy.patterns.dataclasses</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/pipeline.html">accompy.pipeline</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/protocols.html">accompy.protocols</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/realtime.html">accompy.realtime</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/renderers.html">accompy.renderers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/renderers/midi.html">accompy.renderers.midi</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/setup_utils.html">accompy.setup_utils</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/synthesis.html">accompy.synthesis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/synthesis/fluidsynth.html">accompy.synthesis.fluidsynth</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/util.html">accompy.util</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/wips.html">accompy.wips</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/wips/audio_renderers.html">accompy.wips.audio_renderers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/wips/chord_parsers.html">accompy.wips.chord_parsers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/wips/chord_resolvers.html">accompy.wips.chord_resolvers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/wips/midi_generators.html">accompy.wips.midi_generators</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/wips/pipeline.html">accompy.wips.pipeline</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/wips/types.html">accompy.wips.types</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">accompy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">accompy.main</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for accompy.main</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Main accompaniment generation module.</span>
+
+<span class="sd">Integrates all components (patterns, chord resolution, MIDI rendering,</span>
+<span class="sd">synthesis) to provide the main accompy API.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">subprocess</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">tempfile</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Literal</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">Score</span><span class="p">,</span> <span class="n">AccompanimentConfig</span><span class="p">,</span> <span class="n">ensure_score</span><span class="p">,</span> <span class="n">BackendType</span><span class="p">,</span> <span class="n">StyleName</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.patterns</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_pattern_registry</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.chord_resolution</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_chord_resolver</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.renderers.midi</span><span class="w"> </span><span class="kn">import</span> <span class="n">generate_builtin_midi</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.synthesis</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_default_backend</span>
+
+
+<span class="c1"># Default values</span>
+<span class="n">DFLT_STYLE</span><span class="p">:</span> <span class="n">StyleName</span> <span class="o">=</span> <span class="s2">&quot;swing&quot;</span>
+<span class="n">DFLT_TEMPO</span> <span class="o">=</span> <span class="mi">120</span>
+<span class="n">DFLT_REPEATS</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">DFLT_USE_MMA</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="n">DFLT_AUTOPLAY</span> <span class="o">=</span> <span class="kc">False</span>
+
+
+<div class="viewcode-block" id="generate_accompaniment">
+<a class="viewcode-back" href="../../module_docs/accompy/main.html#accompy.generate_accompaniment">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">generate_accompaniment</span><span class="p">(</span>
+    <span class="n">chords</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
+    <span class="o">*</span><span class="p">,</span>
+    <span class="n">style</span><span class="p">:</span> <span class="n">StyleName</span> <span class="o">=</span> <span class="n">DFLT_STYLE</span><span class="p">,</span>
+    <span class="n">tempo</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">DFLT_TEMPO</span><span class="p">,</span>
+    <span class="n">repeats</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">DFLT_REPEATS</span><span class="p">,</span>
+    <span class="n">output_path</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Path</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">output_format</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;wav&quot;</span><span class="p">,</span> <span class="s2">&quot;mp3&quot;</span><span class="p">,</span> <span class="s2">&quot;flac&quot;</span><span class="p">,</span> <span class="s2">&quot;midi&quot;</span><span class="p">,</span> <span class="s2">&quot;mid&quot;</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">config</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">AccompanimentConfig</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">use_mma</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="n">DFLT_USE_MMA</span><span class="p">,</span>
+    <span class="n">backend</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">BackendType</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">autoplay</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="n">DFLT_AUTOPLAY</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Path</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Generate an accompaniment audio file from a chord progression.</span>
+
+<span class="sd">    This is the main entry point for accompy. It generates backing tracks</span>
+<span class="sd">    with bass, drums, and piano from chord progressions.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        chords: Chord progression (string, Score, list of tuples, iReal URL)</span>
+<span class="sd">        style: Musical style (swing, bossa, rock, ballad, funk, latin, waltz, blues)</span>
+<span class="sd">        tempo: Tempo in BPM</span>
+<span class="sd">        repeats: Number of times to repeat the progression</span>
+<span class="sd">        output_path: Where to save the file (None = temp file)</span>
+<span class="sd">        output_format: Output format (wav, mp3, flac, midi)</span>
+<span class="sd">        config: Full configuration object (overrides other params if provided)</span>
+<span class="sd">        use_mma: If True and MMA available, use MMA backend</span>
+<span class="sd">        backend: Explicitly select backend (&#39;auto&#39;, &#39;mma&#39;, &#39;builtin&#39;)</span>
+<span class="sd">        autoplay: If True, automatically play the generated audio</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Path to the generated audio/MIDI file</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">        &gt;&gt;&gt; from accompy import generate_accompaniment</span>
+<span class="sd">        &gt;&gt;&gt; path = generate_accompaniment(&quot;| C | Am | F | G |&quot;, style=&quot;bossa&quot;, tempo=140)  # doctest: +SKIP</span>
+<span class="sd">        &gt;&gt;&gt; print(f&quot;Generated: {path}&quot;)  # doctest: +SKIP</span>
+
+<span class="sd">    Note:</span>
+<span class="sd">        Requires FluidSynth and a SoundFont for audio rendering.</span>
+<span class="sd">        For MIDI-only output, use output_format=&quot;midi&quot;.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Build config</span>
+    <span class="k">if</span> <span class="n">config</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">config</span> <span class="o">=</span> <span class="n">AccompanimentConfig</span><span class="p">(</span><span class="n">style</span><span class="o">=</span><span class="n">style</span><span class="p">,</span> <span class="n">tempo</span><span class="o">=</span><span class="n">tempo</span><span class="p">,</span> <span class="n">repeats</span><span class="o">=</span><span class="n">repeats</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># If config provided, override with explicit params if given</span>
+        <span class="k">if</span> <span class="n">style</span> <span class="o">!=</span> <span class="n">DFLT_STYLE</span><span class="p">:</span>
+            <span class="n">config</span><span class="o">.</span><span class="n">style</span> <span class="o">=</span> <span class="n">style</span>
+        <span class="k">if</span> <span class="n">tempo</span> <span class="o">!=</span> <span class="n">DFLT_TEMPO</span><span class="p">:</span>
+            <span class="n">config</span><span class="o">.</span><span class="n">tempo</span> <span class="o">=</span> <span class="n">tempo</span>
+        <span class="k">if</span> <span class="n">repeats</span> <span class="o">!=</span> <span class="n">DFLT_REPEATS</span><span class="p">:</span>
+            <span class="n">config</span><span class="o">.</span><span class="n">repeats</span> <span class="o">=</span> <span class="n">repeats</span>
+
+    <span class="c1"># Determine output format from path or argument</span>
+    <span class="k">if</span> <span class="n">output_path</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">out_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">output_path</span><span class="p">)</span>
+        <span class="n">suffix</span> <span class="o">=</span> <span class="n">out_path</span><span class="o">.</span><span class="n">suffix</span><span class="o">.</span><span class="n">lstrip</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">output_format</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">suffix</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;wav&quot;</span><span class="p">,</span> <span class="s2">&quot;mp3&quot;</span><span class="p">,</span> <span class="s2">&quot;flac&quot;</span><span class="p">):</span>
+                <span class="n">output_format</span> <span class="o">=</span> <span class="n">suffix</span>  <span class="c1"># type: ignore[assignment]</span>
+            <span class="k">elif</span> <span class="n">suffix</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;mid&quot;</span><span class="p">,</span> <span class="s2">&quot;midi&quot;</span><span class="p">):</span>
+                <span class="n">output_format</span> <span class="o">=</span> <span class="s2">&quot;midi&quot;</span>
+
+    <span class="k">if</span> <span class="n">output_format</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">output_format</span> <span class="o">==</span> <span class="s2">&quot;mid&quot;</span><span class="p">:</span>
+            <span class="n">output_format</span> <span class="o">=</span> <span class="s2">&quot;midi&quot;</span>
+        <span class="n">config</span><span class="o">.</span><span class="n">output_format</span> <span class="o">=</span> <span class="n">output_format</span>  <span class="c1"># type: ignore[assignment]</span>
+
+    <span class="c1"># Ensure Score object</span>
+    <span class="n">score</span> <span class="o">=</span> <span class="n">ensure_score</span><span class="p">(</span><span class="n">chords</span><span class="p">)</span>
+
+    <span class="c1"># Determine output path</span>
+    <span class="k">if</span> <span class="n">output_path</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">suffix</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="s2">&quot;.mid&quot;</span> <span class="k">if</span> <span class="n">config</span><span class="o">.</span><span class="n">output_format</span> <span class="o">==</span> <span class="s2">&quot;midi&quot;</span> <span class="k">else</span> <span class="sa">f</span><span class="s2">&quot;.</span><span class="si">{</span><span class="n">config</span><span class="o">.</span><span class="n">output_format</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="p">)</span>
+        <span class="n">fd</span><span class="p">,</span> <span class="n">tmp_path</span> <span class="o">=</span> <span class="n">tempfile</span><span class="o">.</span><span class="n">mkstemp</span><span class="p">(</span><span class="n">suffix</span><span class="o">=</span><span class="n">suffix</span><span class="p">)</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">close</span><span class="p">(</span><span class="n">fd</span><span class="p">)</span>
+        <span class="n">output_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">tmp_path</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">output_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">output_path</span><span class="p">)</span>
+
+    <span class="c1"># Normalize file extension</span>
+    <span class="n">known_suffixes</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;.wav&quot;</span><span class="p">,</span> <span class="s2">&quot;.mp3&quot;</span><span class="p">,</span> <span class="s2">&quot;.flac&quot;</span><span class="p">,</span> <span class="s2">&quot;.mid&quot;</span><span class="p">,</span> <span class="s2">&quot;.midi&quot;</span><span class="p">}</span>
+    <span class="k">if</span> <span class="n">output_path</span><span class="o">.</span><span class="n">suffix</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">known_suffixes</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">config</span><span class="o">.</span><span class="n">output_format</span> <span class="o">==</span> <span class="s2">&quot;midi&quot;</span><span class="p">:</span>
+            <span class="n">output_path</span> <span class="o">=</span> <span class="n">output_path</span><span class="o">.</span><span class="n">with_suffix</span><span class="p">(</span><span class="s2">&quot;.mid&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">output_path</span> <span class="o">=</span> <span class="n">output_path</span><span class="o">.</span><span class="n">with_suffix</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;.</span><span class="si">{</span><span class="n">config</span><span class="o">.</span><span class="n">output_format</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="c1"># If MIDI requested, ensure MIDI extension</span>
+    <span class="k">if</span> <span class="n">config</span><span class="o">.</span><span class="n">output_format</span> <span class="o">==</span> <span class="s2">&quot;midi&quot;</span> <span class="ow">and</span> <span class="n">output_path</span><span class="o">.</span><span class="n">suffix</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span>
+        <span class="s2">&quot;.mid&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;.midi&quot;</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="n">output_path</span> <span class="o">=</span> <span class="n">output_path</span><span class="o">.</span><span class="n">with_suffix</span><span class="p">(</span><span class="s2">&quot;.mid&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Select backend</span>
+    <span class="n">selected_backend</span><span class="p">:</span> <span class="n">BackendType</span>
+    <span class="k">if</span> <span class="n">backend</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">selected_backend</span> <span class="o">=</span> <span class="s2">&quot;mma&quot;</span> <span class="k">if</span> <span class="p">(</span><span class="n">use_mma</span> <span class="ow">and</span> <span class="n">_mma_available</span><span class="p">())</span> <span class="k">else</span> <span class="s2">&quot;builtin&quot;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">selected_backend</span> <span class="o">=</span> <span class="n">backend</span>
+        <span class="k">if</span> <span class="n">selected_backend</span> <span class="o">==</span> <span class="s2">&quot;auto&quot;</span><span class="p">:</span>
+            <span class="n">selected_backend</span> <span class="o">=</span> <span class="s2">&quot;mma&quot;</span> <span class="k">if</span> <span class="n">_mma_available</span><span class="p">()</span> <span class="k">else</span> <span class="s2">&quot;builtin&quot;</span>
+        <span class="k">elif</span> <span class="n">selected_backend</span> <span class="o">==</span> <span class="s2">&quot;mma&quot;</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">_mma_available</span><span class="p">():</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
+                <span class="s2">&quot;MMA backend requested but MMA is not available. &quot;</span>
+                <span class="s2">&quot;Install MMA (see https://www.mellowood.ca/mma/) or use backend=&#39;builtin&#39;.&quot;</span>
+            <span class="p">)</span>
+
+    <span class="c1"># Generate MIDI</span>
+    <span class="k">if</span> <span class="n">selected_backend</span> <span class="o">==</span> <span class="s2">&quot;mma&quot;</span><span class="p">:</span>
+        <span class="n">midi_path</span> <span class="o">=</span> <span class="n">_generate_via_mma</span><span class="p">(</span><span class="n">score</span><span class="p">,</span> <span class="n">config</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># Use new modular renderer</span>
+        <span class="n">pattern_source</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">pattern_source</span> <span class="ow">or</span> <span class="n">get_pattern_registry</span><span class="p">()</span>
+        <span class="n">chord_resolver</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">chord_resolver</span> <span class="ow">or</span> <span class="n">get_chord_resolver</span><span class="p">()</span>
+
+        <span class="n">midi_path</span> <span class="o">=</span> <span class="n">generate_builtin_midi</span><span class="p">(</span>
+            <span class="n">score</span><span class="p">,</span>
+            <span class="n">config</span><span class="p">,</span>
+            <span class="n">pattern_source</span><span class="o">=</span><span class="n">pattern_source</span><span class="p">,</span>
+            <span class="n">chord_resolver</span><span class="o">=</span><span class="n">chord_resolver</span><span class="p">,</span>
+        <span class="p">)</span>
+
+    <span class="c1"># MIDI-only output</span>
+    <span class="k">if</span> <span class="n">config</span><span class="o">.</span><span class="n">output_format</span> <span class="o">==</span> <span class="s2">&quot;midi&quot;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">midi_path</span> <span class="o">!=</span> <span class="n">output_path</span><span class="p">:</span>
+            <span class="kn">import</span><span class="w"> </span><span class="nn">shutil</span>
+
+            <span class="n">shutil</span><span class="o">.</span><span class="n">move</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">midi_path</span><span class="p">),</span> <span class="nb">str</span><span class="p">(</span><span class="n">output_path</span><span class="p">))</span>
+
+        <span class="k">if</span> <span class="n">autoplay</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;autoplay=True is only supported for audio outputs, not MIDI&quot;</span>
+            <span class="p">)</span>
+        <span class="k">return</span> <span class="n">output_path</span>
+
+    <span class="c1"># Render MIDI to audio</span>
+    <span class="n">synth_backend</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">synthesis_backend</span> <span class="ow">or</span> <span class="n">get_default_backend</span><span class="p">()</span>
+    <span class="n">synth_backend</span><span class="o">.</span><span class="n">render_to_file</span><span class="p">(</span><span class="n">midi_path</span><span class="p">,</span> <span class="n">output_path</span><span class="p">,</span> <span class="n">sample_rate</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">sample_rate</span><span class="p">)</span>
+
+    <span class="c1"># Clean up temp MIDI file</span>
+    <span class="k">if</span> <span class="n">midi_path</span><span class="o">.</span><span class="n">exists</span><span class="p">()</span> <span class="ow">and</span> <span class="n">midi_path</span> <span class="o">!=</span> <span class="n">output_path</span><span class="p">:</span>
+        <span class="n">midi_path</span><span class="o">.</span><span class="n">unlink</span><span class="p">()</span>
+
+    <span class="c1"># Auto-play if requested</span>
+    <span class="k">if</span> <span class="n">autoplay</span><span class="p">:</span>
+        <span class="n">play_audio</span><span class="p">(</span><span class="n">output_path</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">output_path</span></div>
+
+
+
+<div class="viewcode-block" id="play_audio">
+<a class="viewcode-back" href="../../module_docs/accompy/main.html#accompy.play_audio">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">play_audio</span><span class="p">(</span><span class="n">audio_path</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Path</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Play an audio file using the system&#39;s default audio player.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        audio_path: Path to the audio file</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        True if playback started successfully, False otherwise</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">        &gt;&gt;&gt; from accompy import play_audio</span>
+<span class="sd">        &gt;&gt;&gt; play_audio(&quot;/path/to/audio.wav&quot;)  # doctest: +SKIP</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">platform</span>
+
+    <span class="n">audio_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">audio_path</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">audio_path</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+        <span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
+
+        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Audio file not found: </span><span class="si">{</span><span class="n">audio_path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="ne">UserWarning</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">False</span>
+
+    <span class="n">system</span> <span class="o">=</span> <span class="n">platform</span><span class="o">.</span><span class="n">system</span><span class="p">()</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">system</span> <span class="o">==</span> <span class="s2">&quot;darwin&quot;</span><span class="p">:</span>  <span class="c1"># macOS</span>
+            <span class="n">subprocess</span><span class="o">.</span><span class="n">Popen</span><span class="p">(</span>
+                <span class="p">[</span><span class="s2">&quot;afplay&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">audio_path</span><span class="p">)],</span>
+                <span class="n">stdout</span><span class="o">=</span><span class="n">subprocess</span><span class="o">.</span><span class="n">DEVNULL</span><span class="p">,</span>
+                <span class="n">stderr</span><span class="o">=</span><span class="n">subprocess</span><span class="o">.</span><span class="n">DEVNULL</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">elif</span> <span class="n">system</span> <span class="o">==</span> <span class="s2">&quot;linux&quot;</span><span class="p">:</span>
+            <span class="c1"># Try common Linux audio players</span>
+            <span class="k">for</span> <span class="n">player</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;paplay&quot;</span><span class="p">,</span> <span class="s2">&quot;aplay&quot;</span><span class="p">,</span> <span class="s2">&quot;ffplay&quot;</span><span class="p">,</span> <span class="s2">&quot;mpg123&quot;</span><span class="p">,</span> <span class="s2">&quot;play&quot;</span><span class="p">]:</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">subprocess</span><span class="o">.</span><span class="n">Popen</span><span class="p">(</span>
+                        <span class="p">[</span><span class="n">player</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">audio_path</span><span class="p">)],</span>
+                        <span class="n">stdout</span><span class="o">=</span><span class="n">subprocess</span><span class="o">.</span><span class="n">DEVNULL</span><span class="p">,</span>
+                        <span class="n">stderr</span><span class="o">=</span><span class="n">subprocess</span><span class="o">.</span><span class="n">DEVNULL</span><span class="p">,</span>
+                    <span class="p">)</span>
+                    <span class="k">return</span> <span class="kc">True</span>
+                <span class="k">except</span> <span class="ne">FileNotFoundError</span><span class="p">:</span>
+                    <span class="k">continue</span>
+            <span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
+
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+                <span class="s2">&quot;No audio player found. Install: paplay, aplay, ffplay, mpg123, or sox&quot;</span><span class="p">,</span>
+                <span class="ne">UserWarning</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">elif</span> <span class="n">system</span> <span class="o">==</span> <span class="s2">&quot;windows&quot;</span><span class="p">:</span>
+            <span class="n">subprocess</span><span class="o">.</span><span class="n">Popen</span><span class="p">(</span>
+                <span class="p">[</span><span class="s2">&quot;start&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">audio_path</span><span class="p">)],</span>
+                <span class="n">shell</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                <span class="n">stdout</span><span class="o">=</span><span class="n">subprocess</span><span class="o">.</span><span class="n">DEVNULL</span><span class="p">,</span>
+                <span class="n">stderr</span><span class="o">=</span><span class="n">subprocess</span><span class="o">.</span><span class="n">DEVNULL</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
+
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Auto-play not supported on </span><span class="si">{</span><span class="n">system</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="ne">UserWarning</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">False</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
+
+        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Failed to play audio: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="ne">UserWarning</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">False</span></div>
+
+
+
+<div class="viewcode-block" id="check_dependencies">
+<a class="viewcode-back" href="../../module_docs/accompy/main.html#accompy.check_dependencies">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">check_dependencies</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">bool</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Check which dependencies are available.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Dict mapping dependency name to availability status</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">        &gt;&gt;&gt; deps = check_dependencies()</span>
+<span class="sd">        &gt;&gt;&gt; &#39;midiutil&#39; in deps</span>
+<span class="sd">        True</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">.synthesis.fluidsynth</span><span class="w"> </span><span class="kn">import</span> <span class="n">FluidSynthBackend</span><span class="p">,</span> <span class="n">find_default_soundfont</span>
+
+    <span class="k">return</span> <span class="p">{</span>
+        <span class="s2">&quot;mma&quot;</span><span class="p">:</span> <span class="n">_mma_available</span><span class="p">(),</span>
+        <span class="s2">&quot;fluidsynth&quot;</span><span class="p">:</span> <span class="n">FluidSynthBackend</span><span class="o">.</span><span class="n">is_available</span><span class="p">(),</span>
+        <span class="s2">&quot;soundfont&quot;</span><span class="p">:</span> <span class="n">find_default_soundfont</span><span class="p">()</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="s2">&quot;midiutil&quot;</span><span class="p">:</span> <span class="n">_check_import</span><span class="p">(</span><span class="s2">&quot;midiutil&quot;</span><span class="p">),</span>
+        <span class="s2">&quot;midi2audio&quot;</span><span class="p">:</span> <span class="n">_check_import</span><span class="p">(</span><span class="s2">&quot;midi2audio&quot;</span><span class="p">),</span>
+    <span class="p">}</span></div>
+
+
+
+<div class="viewcode-block" id="print_setup_instructions">
+<a class="viewcode-back" href="../../module_docs/accompy/main.html#accompy.print_setup_instructions">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">print_setup_instructions</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Print installation instructions for missing dependencies.&quot;&quot;&quot;</span>
+    <span class="n">deps</span> <span class="o">=</span> <span class="n">check_dependencies</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="nb">all</span><span class="p">(</span><span class="n">deps</span><span class="o">.</span><span class="n">values</span><span class="p">()):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;✓ All dependencies installed!&quot;</span><span class="p">)</span>
+        <span class="k">return</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;=== Missing Dependencies ===</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">deps</span><span class="p">[</span><span class="s2">&quot;fluidsynth&quot;</span><span class="p">]:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;FluidSynth (required for audio rendering):&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;  macOS:  brew install fluidsynth&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;  Ubuntu: sudo apt-get install fluidsynth&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span>
+            <span class="s2">&quot;  Windows: Download from https://github.com/FluidSynth/fluidsynth/releases</span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">deps</span><span class="p">[</span><span class="s2">&quot;soundfont&quot;</span><span class="p">]:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;SoundFont (required for instrument sounds):&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;  Download FluidR3_GM.sf2 from:&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;  https://member.keymusician.com/Member/FluidR3_GM/index.html&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;  Place in: ~/.fluidsynth/default_sound_font.sf2</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">deps</span><span class="p">[</span><span class="s2">&quot;mma&quot;</span><span class="p">]:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;MMA - Musical MIDI Accompaniment (recommended for realistic tracks):&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;  pip install mma  # or&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;  git clone https://github.com/infojunkie/mma&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;  (See https://www.mellowood.ca/mma/ for details)</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">deps</span><span class="p">[</span><span class="s2">&quot;midiutil&quot;</span><span class="p">]:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;midiutil (for MIDI generation):&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;  pip install midiutil</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">deps</span><span class="p">[</span><span class="s2">&quot;midi2audio&quot;</span><span class="p">]:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;midi2audio (optional Python wrapper for FluidSynth):&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;  pip install midi2audio</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span></div>
+
+
+
+<span class="c1"># =============================================================================</span>
+<span class="c1"># MMA Backend (extracted from original accompy.py)</span>
+<span class="c1"># =============================================================================</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_generate_via_mma</span><span class="p">(</span><span class="n">score</span><span class="p">:</span> <span class="n">Score</span><span class="p">,</span> <span class="n">config</span><span class="p">:</span> <span class="n">AccompanimentConfig</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Path</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Generate MIDI using MMA (Musical MIDI Accompaniment).&quot;&quot;&quot;</span>
+    <span class="c1"># Create MMA file content</span>
+    <span class="n">mma_content</span> <span class="o">=</span> <span class="n">_score_to_mma</span><span class="p">(</span><span class="n">score</span><span class="p">,</span> <span class="n">config</span><span class="p">)</span>
+
+    <span class="c1"># Write to temp file</span>
+    <span class="n">mma_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">tempfile</span><span class="o">.</span><span class="n">mktemp</span><span class="p">(</span><span class="n">suffix</span><span class="o">=</span><span class="s2">&quot;.mma&quot;</span><span class="p">))</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">mma_path</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">mma_content</span><span class="p">)</span>
+
+    <span class="c1"># Run MMA</span>
+    <span class="n">midi_path</span> <span class="o">=</span> <span class="n">mma_path</span><span class="o">.</span><span class="n">with_suffix</span><span class="p">(</span><span class="s1">&#39;.mid&#39;</span><span class="p">)</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">subprocess</span><span class="o">.</span><span class="n">run</span><span class="p">(</span>
+            <span class="p">[</span><span class="s1">&#39;mma&#39;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">mma_path</span><span class="p">),</span> <span class="s1">&#39;-f&#39;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">midi_path</span><span class="p">)],</span>
+            <span class="n">capture_output</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="n">text</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="n">check</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="p">)</span>
+    <span class="k">except</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">CalledProcessError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;MMA failed: </span><span class="si">{</span><span class="n">e</span><span class="o">.</span><span class="n">stderr</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">FileNotFoundError</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">&quot;MMA not found. Install from https://www.mellowood.ca/mma/&quot;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">midi_path</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_score_to_mma</span><span class="p">(</span><span class="n">score</span><span class="p">:</span> <span class="n">Score</span><span class="p">,</span> <span class="n">config</span><span class="p">:</span> <span class="n">AccompanimentConfig</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Convert Score to MMA format.&quot;&quot;&quot;</span>
+    <span class="n">lines</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="sa">f</span><span class="s2">&quot;// Generated by accompy&quot;</span><span class="p">,</span>
+        <span class="sa">f</span><span class="s2">&quot;// </span><span class="si">{</span><span class="n">score</span><span class="o">.</span><span class="n">title</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;&quot;</span><span class="p">,</span>
+        <span class="sa">f</span><span class="s2">&quot;Tempo </span><span class="si">{</span><span class="n">config</span><span class="o">.</span><span class="n">tempo</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+        <span class="sa">f</span><span class="s2">&quot;TimeSig </span><span class="si">{</span><span class="n">score</span><span class="o">.</span><span class="n">time_signature</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">score</span><span class="o">.</span><span class="n">time_signature</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+        <span class="sa">f</span><span class="s2">&quot;KeySig </span><span class="si">{</span><span class="n">score</span><span class="o">.</span><span class="n">key</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;&quot;</span><span class="p">,</span>
+        <span class="sa">f</span><span class="s2">&quot;Groove </span><span class="si">{</span><span class="n">_style_to_groove</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">style</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="p">]</span>
+
+    <span class="c1"># Volume adjustments</span>
+    <span class="k">for</span> <span class="n">inst</span><span class="p">,</span> <span class="n">vol</span> <span class="ow">in</span> <span class="n">config</span><span class="o">.</span><span class="n">volumes</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="k">if</span> <span class="n">config</span><span class="o">.</span><span class="n">instruments</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">inst</span><span class="p">,</span> <span class="kc">False</span><span class="p">):</span>
+            <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">inst</span><span class="o">.</span><span class="n">capitalize</span><span class="p">()</span><span class="si">}</span><span class="s2">Volume </span><span class="si">{</span><span class="nb">int</span><span class="p">(</span><span class="n">vol</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">100</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Add measures</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">measure</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">score</span><span class="o">.</span><span class="n">measures</span><span class="p">,</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="n">chords</span> <span class="o">=</span> <span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">measure</span><span class="p">)</span> <span class="k">if</span> <span class="n">measure</span> <span class="k">else</span> <span class="s1">&#39;z&#39;</span>  <span class="c1"># &#39;z&#39; = rest</span>
+        <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">chords</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Repeats</span>
+    <span class="k">if</span> <span class="n">config</span><span class="o">.</span><span class="n">repeats</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+        <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Repeat </span><span class="si">{</span><span class="n">config</span><span class="o">.</span><span class="n">repeats</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">lines</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_style_to_groove</span><span class="p">(</span><span class="n">style</span><span class="p">:</span> <span class="n">StyleName</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Map style name to MMA groove name.&quot;&quot;&quot;</span>
+    <span class="n">groove_map</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;swing&quot;</span><span class="p">:</span> <span class="s2">&quot;Swing&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;bossa&quot;</span><span class="p">:</span> <span class="s2">&quot;BossaNova&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;rock&quot;</span><span class="p">:</span> <span class="s2">&quot;Rock&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;ballad&quot;</span><span class="p">:</span> <span class="s2">&quot;Ballad&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;funk&quot;</span><span class="p">:</span> <span class="s2">&quot;Funk&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;latin&quot;</span><span class="p">:</span> <span class="s2">&quot;Latin&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;waltz&quot;</span><span class="p">:</span> <span class="s2">&quot;Waltz&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;blues&quot;</span><span class="p">:</span> <span class="s2">&quot;Blues&quot;</span><span class="p">,</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">groove_map</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">style</span><span class="p">,</span> <span class="s2">&quot;Swing&quot;</span><span class="p">)</span>
+
+
+<span class="c1"># =============================================================================</span>
+<span class="c1"># Helper Functions</span>
+<span class="c1"># =============================================================================</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_mma_available</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Check if MMA is available.&quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">run</span><span class="p">([</span><span class="s1">&#39;mma&#39;</span><span class="p">,</span> <span class="s1">&#39;-v&#39;</span><span class="p">],</span> <span class="n">capture_output</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">result</span><span class="o">.</span><span class="n">returncode</span> <span class="o">==</span> <span class="mi">0</span>
+    <span class="k">except</span> <span class="p">(</span><span class="ne">FileNotFoundError</span><span class="p">,</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">TimeoutExpired</span><span class="p">):</span>
+        <span class="k">return</span> <span class="kc">False</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_check_import</span><span class="p">(</span><span class="n">module_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Check if a Python module can be imported.&quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="nb">__import__</span><span class="p">(</span><span class="n">module_name</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">True</span>
+    <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">False</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright NO COPYRIGHT.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

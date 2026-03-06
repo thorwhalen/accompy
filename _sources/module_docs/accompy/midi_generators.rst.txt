@@ -1,0 +1,4 @@
+accompy.midi_generators
+=======================
+.. automodule:: accompy.midi_generators
+   :members:

@@ -1,0 +1,4 @@
+accompy.renderers.midi
+======================
+.. automodule:: accompy.renderers.midi
+   :members:

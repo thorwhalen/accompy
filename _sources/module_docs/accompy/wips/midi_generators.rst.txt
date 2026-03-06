@@ -1,0 +1,4 @@
+accompy.wips.midi_generators
+============================
+.. automodule:: accompy.wips.midi_generators
+   :members:

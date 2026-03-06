@@ -1,0 +1,536 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>accompy.renderers.midi &mdash; accompy 0.3.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=e259d695"></script>
+      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../../_static/toggleprompt.js?v=d7ede5d2"></script>
+      <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            accompy
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/accompy.html">accompy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/accompy/audio_renderers.html">accompy.audio_renderers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/accompy/base.html">accompy.base</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/accompy/chord_parsers.html">accompy.chord_parsers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/accompy/chord_resolution.html">accompy.chord_resolution</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/accompy/chord_resolvers.html">accompy.chord_resolvers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/accompy/converters.html">accompy.converters</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/accompy/main.html">accompy.main</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/accompy/midi_generators.html">accompy.midi_generators</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/accompy/patterns.html">accompy.patterns</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/accompy/patterns/builtin.html">accompy.patterns.builtin</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/accompy/patterns/dataclasses.html">accompy.patterns.dataclasses</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/accompy/pipeline.html">accompy.pipeline</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/accompy/protocols.html">accompy.protocols</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/accompy/realtime.html">accompy.realtime</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/accompy/renderers.html">accompy.renderers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/accompy/renderers/midi.html">accompy.renderers.midi</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/accompy/setup_utils.html">accompy.setup_utils</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/accompy/synthesis.html">accompy.synthesis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/accompy/synthesis/fluidsynth.html">accompy.synthesis.fluidsynth</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/accompy/util.html">accompy.util</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/accompy/wips.html">accompy.wips</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/accompy/wips/audio_renderers.html">accompy.wips.audio_renderers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/accompy/wips/chord_parsers.html">accompy.wips.chord_parsers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/accompy/wips/chord_resolvers.html">accompy.wips.chord_resolvers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/accompy/wips/midi_generators.html">accompy.wips.midi_generators</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/accompy/wips/pipeline.html">accompy.wips.pipeline</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/accompy/wips/types.html">accompy.wips.types</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">accompy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">accompy.renderers.midi</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for accompy.renderers.midi</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">MIDI event generation (stateless, iterator-based).</span>
+
+<span class="sd">This module provides event-based MIDI generation that separates event creation</span>
+<span class="sd">from file writing, enabling both batch file creation and future real-time streaming.</span>
+
+<span class="sd">Key functions:</span>
+<span class="sd">- generate_midi_events: Pure function that yields MIDI events</span>
+<span class="sd">- events_to_midi_file: Side-effect function that writes events to a file</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">tempfile</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Iterator</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Iterable</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">..base</span><span class="w"> </span><span class="kn">import</span> <span class="n">Score</span><span class="p">,</span> <span class="n">AccompanimentConfig</span><span class="p">,</span> <span class="n">MidiEvent</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">..patterns.dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">DrumPattern</span><span class="p">,</span> <span class="n">BassPattern</span><span class="p">,</span> <span class="n">CompingPattern</span>
+
+
+<div class="viewcode-block" id="generate_midi_events">
+<a class="viewcode-back" href="../../../module_docs/accompy/renderers/midi.html#accompy.renderers.generate_midi_events">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">generate_midi_events</span><span class="p">(</span>
+    <span class="n">score</span><span class="p">:</span> <span class="n">Score</span><span class="p">,</span>
+    <span class="n">config</span><span class="p">:</span> <span class="n">AccompanimentConfig</span><span class="p">,</span>
+    <span class="o">*</span><span class="p">,</span>
+    <span class="n">pattern_source</span><span class="p">,</span>  <span class="c1"># PatternSource protocol</span>
+    <span class="n">chord_resolver</span><span class="p">,</span>  <span class="c1"># ChordResolver protocol</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">MidiEvent</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Generate MIDI events from score.</span>
+
+<span class="sd">    Yields events in time order. Does NOT write files.</span>
+<span class="sd">    This enables real-time streaming or batch file creation.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        score: Musical score with chord progression</span>
+<span class="sd">        config: Accompaniment configuration</span>
+<span class="sd">        pattern_source: Source providing patterns (must have get_patterns method)</span>
+<span class="sd">        chord_resolver: Function to convert chord symbols to MIDI notes</span>
+
+<span class="sd">    Yields:</span>
+<span class="sd">        MidiEvent objects in chronological order</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">        &gt;&gt;&gt; from accompy.base import Score, AccompanimentConfig</span>
+<span class="sd">        &gt;&gt;&gt; from accompy.patterns import get_patterns</span>
+<span class="sd">        &gt;&gt;&gt; from accompy.chord_resolution import chord_to_notes</span>
+<span class="sd">        &gt;&gt;&gt; score = Score.from_string(&quot;| C | Am | F | G |&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; config = AccompanimentConfig()</span>
+<span class="sd">        &gt;&gt;&gt; events = generate_midi_events(score, config,</span>
+<span class="sd">        ...     pattern_source=type(&#39;PS&#39;, (), {&#39;get_patterns&#39;: get_patterns})(),</span>
+<span class="sd">        ...     chord_resolver=chord_to_notes)</span>
+<span class="sd">        &gt;&gt;&gt; first_event = next(events)  # doctest: +SKIP</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Get patterns for the style</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">patterns_dict</span> <span class="o">=</span> <span class="n">pattern_source</span><span class="o">.</span><span class="n">get_patterns</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">style</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+        <span class="c1"># Fallback for simple dict/function interface</span>
+        <span class="n">patterns_dict</span> <span class="o">=</span> <span class="n">pattern_source</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">style</span><span class="p">)</span> <span class="k">if</span> <span class="nb">callable</span><span class="p">(</span><span class="n">pattern_source</span><span class="p">)</span> <span class="k">else</span> <span class="n">pattern_source</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">style</span><span class="p">,</span> <span class="p">{})</span>
+
+    <span class="c1"># Select specific patterns (first of each type)</span>
+    <span class="n">drum_patterns</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="n">patterns_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;drums&quot;</span><span class="p">,</span> <span class="p">[])</span>
+    <span class="n">bass_patterns</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="n">patterns_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;bass&quot;</span><span class="p">,</span> <span class="p">[])</span>
+    <span class="n">comp_patterns</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="n">patterns_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;comp&quot;</span><span class="p">,</span> <span class="p">[])</span>
+
+    <span class="n">beats_per_bar</span> <span class="o">=</span> <span class="n">score</span><span class="o">.</span><span class="n">time_signature</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="c1"># Select patterns based on time signature</span>
+    <span class="n">drum_pattern</span> <span class="o">=</span> <span class="n">_select_pattern</span><span class="p">(</span><span class="n">drum_patterns</span><span class="p">,</span> <span class="n">beats_per_bar</span><span class="p">)</span>
+    <span class="n">bass_pattern</span> <span class="o">=</span> <span class="n">bass_patterns</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">if</span> <span class="n">bass_patterns</span> <span class="k">else</span> <span class="kc">None</span>
+    <span class="n">comp_pattern</span> <span class="o">=</span> <span class="n">comp_patterns</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">if</span> <span class="n">comp_patterns</span> <span class="k">else</span> <span class="kc">None</span>
+
+    <span class="c1"># Generate events for each repeat</span>
+    <span class="k">for</span> <span class="n">repeat</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">repeats</span><span class="p">):</span>
+        <span class="n">current_beat</span> <span class="o">=</span> <span class="n">repeat</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">score</span><span class="o">.</span><span class="n">measures</span><span class="p">)</span> <span class="o">*</span> <span class="n">beats_per_bar</span>
+
+        <span class="k">for</span> <span class="n">measure</span> <span class="ow">in</span> <span class="n">score</span><span class="o">.</span><span class="n">measures</span><span class="p">:</span>
+            <span class="n">chords_in_bar</span> <span class="o">=</span> <span class="n">measure</span>
+            <span class="n">beats_per_chord</span> <span class="o">=</span> <span class="n">beats_per_bar</span> <span class="o">//</span> <span class="nb">len</span><span class="p">(</span><span class="n">chords_in_bar</span><span class="p">)</span> <span class="k">if</span> <span class="n">chords_in_bar</span> <span class="k">else</span> <span class="n">beats_per_bar</span>
+
+            <span class="k">for</span> <span class="n">chord_idx</span><span class="p">,</span> <span class="n">chord_symbol</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">chords_in_bar</span><span class="p">):</span>
+                <span class="n">chord_start</span> <span class="o">=</span> <span class="n">current_beat</span> <span class="o">+</span> <span class="p">(</span><span class="n">chord_idx</span> <span class="o">*</span> <span class="n">beats_per_chord</span><span class="p">)</span>
+
+                <span class="k">if</span> <span class="n">chord_symbol</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;n&#39;</span><span class="p">,</span> <span class="s1">&#39;N.C.&#39;</span><span class="p">,</span> <span class="s1">&#39;NC&#39;</span><span class="p">):</span>
+                    <span class="k">continue</span>
+
+                <span class="c1"># Get chord notes</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">notes</span> <span class="o">=</span> <span class="n">chord_resolver</span><span class="p">(</span><span class="n">chord_symbol</span><span class="p">)</span>
+                <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+                    <span class="c1"># Fallback for simple chords</span>
+                    <span class="n">notes</span> <span class="o">=</span> <span class="p">[</span><span class="mi">48</span><span class="p">,</span> <span class="mi">52</span><span class="p">,</span> <span class="mi">55</span><span class="p">]</span>  <span class="c1"># C minor default</span>
+
+                <span class="n">root</span> <span class="o">=</span> <span class="n">notes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">if</span> <span class="n">notes</span> <span class="k">else</span> <span class="mi">48</span>
+
+                <span class="c1"># Yield drum events</span>
+                <span class="k">if</span> <span class="n">config</span><span class="o">.</span><span class="n">instruments</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;drums&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span> <span class="ow">and</span> <span class="n">drum_pattern</span><span class="p">:</span>
+                    <span class="k">yield from</span> <span class="n">_drum_events</span><span class="p">(</span>
+                        <span class="n">drum_pattern</span><span class="p">,</span>
+                        <span class="n">chord_start</span><span class="p">,</span>
+                        <span class="n">beats_per_chord</span><span class="p">,</span>
+                        <span class="n">config</span><span class="o">.</span><span class="n">volumes</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;drums&quot;</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">)</span>
+                    <span class="p">)</span>
+
+                <span class="c1"># Yield bass events</span>
+                <span class="k">if</span> <span class="n">config</span><span class="o">.</span><span class="n">instruments</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;bass&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span> <span class="ow">and</span> <span class="n">bass_pattern</span><span class="p">:</span>
+                    <span class="k">yield from</span> <span class="n">_bass_events</span><span class="p">(</span>
+                        <span class="n">bass_pattern</span><span class="p">,</span>
+                        <span class="n">chord_start</span><span class="p">,</span>
+                        <span class="n">beats_per_chord</span><span class="p">,</span>
+                        <span class="n">root</span><span class="p">,</span>
+                        <span class="n">notes</span><span class="p">,</span>
+                        <span class="n">config</span><span class="o">.</span><span class="n">volumes</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;bass&quot;</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">)</span>
+                    <span class="p">)</span>
+
+                <span class="c1"># Yield comping events</span>
+                <span class="k">if</span> <span class="n">config</span><span class="o">.</span><span class="n">instruments</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;piano&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">):</span>
+                    <span class="k">yield from</span> <span class="n">_comp_events</span><span class="p">(</span>
+                        <span class="n">comp_pattern</span><span class="p">,</span>
+                        <span class="n">chord_start</span><span class="p">,</span>
+                        <span class="n">beats_per_chord</span><span class="p">,</span>
+                        <span class="n">notes</span><span class="p">,</span>
+                        <span class="n">config</span><span class="o">.</span><span class="n">volumes</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;piano&quot;</span><span class="p">,</span> <span class="mf">0.7</span><span class="p">)</span>
+                    <span class="p">)</span>
+
+            <span class="n">current_beat</span> <span class="o">+=</span> <span class="n">beats_per_bar</span></div>
+
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_select_pattern</span><span class="p">(</span><span class="n">patterns</span><span class="p">:</span> <span class="nb">list</span><span class="p">,</span> <span class="n">beats_per_bar</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Select a pattern matching the time signature, or use the first one.&quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">patterns</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">None</span>
+    <span class="c1"># Try to find a matching pattern</span>
+    <span class="k">for</span> <span class="n">pattern</span> <span class="ow">in</span> <span class="n">patterns</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">pattern</span><span class="p">,</span> <span class="s1">&#39;beats_per_bar&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">pattern</span><span class="o">.</span><span class="n">beats_per_bar</span> <span class="o">==</span> <span class="n">beats_per_bar</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">pattern</span>
+    <span class="c1"># Default to first pattern</span>
+    <span class="k">return</span> <span class="n">patterns</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_drum_events</span><span class="p">(</span>
+    <span class="n">pattern</span><span class="p">:</span> <span class="n">DrumPattern</span><span class="p">,</span>
+    <span class="n">start_beat</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">duration</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">volume</span><span class="p">:</span> <span class="nb">float</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">MidiEvent</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Generate drum MIDI events.&quot;&quot;&quot;</span>
+    <span class="n">channel</span> <span class="o">=</span> <span class="mi">9</span>  <span class="c1"># MIDI drum channel</span>
+    <span class="k">for</span> <span class="n">hit</span> <span class="ow">in</span> <span class="n">pattern</span><span class="o">.</span><span class="n">hits</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">hit</span><span class="o">.</span><span class="n">beat</span> <span class="o">&lt;</span> <span class="n">duration</span><span class="p">:</span>
+            <span class="k">yield</span> <span class="n">MidiEvent</span><span class="p">(</span>
+                <span class="n">time</span><span class="o">=</span><span class="n">start_beat</span> <span class="o">+</span> <span class="n">hit</span><span class="o">.</span><span class="n">beat</span><span class="p">,</span>
+                <span class="n">channel</span><span class="o">=</span><span class="n">channel</span><span class="p">,</span>
+                <span class="n">note</span><span class="o">=</span><span class="n">hit</span><span class="o">.</span><span class="n">drum</span><span class="p">,</span>
+                <span class="n">velocity</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">hit</span><span class="o">.</span><span class="n">velocity</span> <span class="o">*</span> <span class="n">volume</span><span class="p">),</span>
+                <span class="n">duration</span><span class="o">=</span><span class="mf">0.25</span>  <span class="c1"># Short drum hits</span>
+            <span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_bass_events</span><span class="p">(</span>
+    <span class="n">pattern</span><span class="p">:</span> <span class="n">BassPattern</span><span class="p">,</span>
+    <span class="n">start_beat</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">duration</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">root</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">chord_notes</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span>
+    <span class="n">volume</span><span class="p">:</span> <span class="nb">float</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">MidiEvent</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Generate bass MIDI events.&quot;&quot;&quot;</span>
+    <span class="n">channel</span> <span class="o">=</span> <span class="mi">0</span>  <span class="c1"># Bass channel</span>
+
+    <span class="c1"># Adjust to bass range (octave 2-3)</span>
+    <span class="n">bass_root</span> <span class="o">=</span> <span class="p">(</span><span class="n">root</span> <span class="o">%</span> <span class="mi">12</span><span class="p">)</span> <span class="o">+</span> <span class="mi">36</span>
+    <span class="n">root_pc</span> <span class="o">=</span> <span class="n">bass_root</span> <span class="o">%</span> <span class="mi">12</span>
+    <span class="n">chord_pcs</span> <span class="o">=</span> <span class="n">_pitch_classes</span><span class="p">(</span><span class="n">chord_notes</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">note</span> <span class="ow">in</span> <span class="n">pattern</span><span class="o">.</span><span class="n">notes</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">note</span><span class="o">.</span><span class="n">beat</span> <span class="o">&gt;=</span> <span class="n">duration</span><span class="p">:</span>
+            <span class="k">continue</span>
+
+        <span class="n">resolved</span> <span class="o">=</span> <span class="n">_resolve_pitch_offset</span><span class="p">(</span>
+            <span class="n">root_pc</span><span class="o">=</span><span class="n">root_pc</span><span class="p">,</span>
+            <span class="n">chord_pcs</span><span class="o">=</span><span class="n">chord_pcs</span><span class="p">,</span>
+            <span class="n">target_offset</span><span class="o">=</span><span class="n">note</span><span class="o">.</span><span class="n">pitch_offset</span>
+        <span class="p">)</span>
+        <span class="n">pitch</span> <span class="o">=</span> <span class="n">bass_root</span> <span class="o">+</span> <span class="n">resolved</span>
+        <span class="n">vel</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">note</span><span class="o">.</span><span class="n">velocity</span> <span class="o">*</span> <span class="n">volume</span><span class="p">)</span>
+        <span class="n">dur</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">note</span><span class="o">.</span><span class="n">duration</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">duration</span> <span class="o">-</span> <span class="n">note</span><span class="o">.</span><span class="n">beat</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">dur</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">continue</span>
+
+        <span class="k">yield</span> <span class="n">MidiEvent</span><span class="p">(</span>
+            <span class="n">time</span><span class="o">=</span><span class="n">start_beat</span> <span class="o">+</span> <span class="n">note</span><span class="o">.</span><span class="n">beat</span><span class="p">,</span>
+            <span class="n">channel</span><span class="o">=</span><span class="n">channel</span><span class="p">,</span>
+            <span class="n">note</span><span class="o">=</span><span class="n">pitch</span><span class="p">,</span>
+            <span class="n">velocity</span><span class="o">=</span><span class="n">vel</span><span class="p">,</span>
+            <span class="n">duration</span><span class="o">=</span><span class="n">dur</span>
+        <span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_comp_events</span><span class="p">(</span>
+    <span class="n">pattern</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">CompingPattern</span><span class="p">],</span>
+    <span class="n">start_beat</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">duration</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">chord_notes</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span>
+    <span class="n">volume</span><span class="p">:</span> <span class="nb">float</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">MidiEvent</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Generate piano/comping MIDI events.&quot;&quot;&quot;</span>
+    <span class="n">channel</span> <span class="o">=</span> <span class="mi">1</span>  <span class="c1"># Piano channel</span>
+
+    <span class="c1"># Move to mid-range</span>
+    <span class="n">notes</span> <span class="o">=</span> <span class="p">[(</span><span class="n">n</span> <span class="o">%</span> <span class="mi">12</span><span class="p">)</span> <span class="o">+</span> <span class="mi">60</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">chord_notes</span><span class="p">[:</span><span class="mi">4</span><span class="p">]]</span> <span class="k">if</span> <span class="n">chord_notes</span> <span class="k">else</span> <span class="p">[</span><span class="mi">60</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">67</span><span class="p">]</span>
+
+    <span class="k">if</span> <span class="n">pattern</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">pattern</span><span class="o">.</span><span class="n">hits</span><span class="p">:</span>
+        <span class="c1"># Default: block chords on each beat</span>
+        <span class="n">velocity</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="mi">90</span> <span class="o">*</span> <span class="n">volume</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">duration</span><span class="p">),</span> <span class="mi">4</span><span class="p">)):</span>
+            <span class="k">for</span> <span class="n">note</span> <span class="ow">in</span> <span class="n">notes</span><span class="p">:</span>
+                <span class="k">yield</span> <span class="n">MidiEvent</span><span class="p">(</span>
+                    <span class="n">time</span><span class="o">=</span><span class="n">start_beat</span> <span class="o">+</span> <span class="n">i</span><span class="p">,</span>
+                    <span class="n">channel</span><span class="o">=</span><span class="n">channel</span><span class="p">,</span>
+                    <span class="n">note</span><span class="o">=</span><span class="n">note</span><span class="p">,</span>
+                    <span class="n">velocity</span><span class="o">=</span><span class="n">velocity</span><span class="p">,</span>
+                    <span class="n">duration</span><span class="o">=</span><span class="mf">0.9</span>
+                <span class="p">)</span>
+        <span class="k">return</span>
+
+    <span class="c1"># Use pattern</span>
+    <span class="k">for</span> <span class="n">hit_beat</span><span class="p">,</span> <span class="n">hit_duration</span><span class="p">,</span> <span class="n">hit_velocity</span> <span class="ow">in</span> <span class="n">pattern</span><span class="o">.</span><span class="n">hits</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">hit_beat</span> <span class="o">&gt;=</span> <span class="n">duration</span><span class="p">:</span>
+            <span class="k">continue</span>
+        <span class="n">dur</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">hit_duration</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">duration</span> <span class="o">-</span> <span class="n">hit_beat</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">dur</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">continue</span>
+
+        <span class="n">velocity</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">hit_velocity</span> <span class="o">*</span> <span class="n">volume</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">note</span> <span class="ow">in</span> <span class="n">notes</span><span class="p">:</span>
+            <span class="k">yield</span> <span class="n">MidiEvent</span><span class="p">(</span>
+                <span class="n">time</span><span class="o">=</span><span class="n">start_beat</span> <span class="o">+</span> <span class="n">hit_beat</span><span class="p">,</span>
+                <span class="n">channel</span><span class="o">=</span><span class="n">channel</span><span class="p">,</span>
+                <span class="n">note</span><span class="o">=</span><span class="n">note</span><span class="p">,</span>
+                <span class="n">velocity</span><span class="o">=</span><span class="n">velocity</span><span class="p">,</span>
+                <span class="n">duration</span><span class="o">=</span><span class="n">dur</span>
+            <span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_pitch_classes</span><span class="p">(</span><span class="n">notes</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">int</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="o">...</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return unique pitch classes (0-11) as a tuple.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="nb">sorted</span><span class="p">({</span><span class="n">n</span> <span class="o">%</span> <span class="mi">12</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">notes</span><span class="p">}))</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_resolve_pitch_offset</span><span class="p">(</span>
+    <span class="o">*</span><span class="p">,</span> <span class="n">root_pc</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">chord_pcs</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="o">...</span><span class="p">],</span> <span class="n">target_offset</span><span class="p">:</span> <span class="nb">int</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Resolve a pitch offset against a chord.</span>
+
+<span class="sd">    The patterns use semitone offsets (0=root, 7=5th, etc.). When an offset</span>
+<span class="sd">    represents a chord tone which varies by quality (e.g. 3rd), we prefer a</span>
+<span class="sd">    matching chord tone from `chord_pcs`.</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">        For a minor chord, a pattern might request offset 4 (&quot;3rd&quot;); this</span>
+<span class="sd">        function will choose 3 if the chord contains a minor 3rd.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">chord_pcs</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">target_offset</span>
+
+    <span class="n">chord_intervals</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(((</span><span class="n">pc</span> <span class="o">-</span> <span class="n">root_pc</span><span class="p">)</span> <span class="o">%</span> <span class="mi">12</span><span class="p">)</span> <span class="k">for</span> <span class="n">pc</span> <span class="ow">in</span> <span class="n">chord_pcs</span><span class="p">))</span>
+    <span class="k">if</span> <span class="n">target_offset</span> <span class="ow">in</span> <span class="n">chord_intervals</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">target_offset</span>
+
+    <span class="c1"># Special case: major vs minor 3rd</span>
+    <span class="k">if</span> <span class="n">target_offset</span> <span class="ow">in</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">):</span>
+        <span class="k">if</span> <span class="mi">3</span> <span class="ow">in</span> <span class="n">chord_intervals</span><span class="p">:</span>
+            <span class="k">return</span> <span class="mi">3</span>
+        <span class="k">if</span> <span class="mi">4</span> <span class="ow">in</span> <span class="n">chord_intervals</span><span class="p">:</span>
+            <span class="k">return</span> <span class="mi">4</span>
+
+    <span class="c1"># Special case: perfect 5th</span>
+    <span class="k">if</span> <span class="n">target_offset</span> <span class="o">==</span> <span class="mi">7</span> <span class="ow">and</span> <span class="n">chord_intervals</span><span class="p">:</span>
+        <span class="k">if</span> <span class="mi">7</span> <span class="ow">in</span> <span class="n">chord_intervals</span><span class="p">:</span>
+            <span class="k">return</span> <span class="mi">7</span>
+
+    <span class="k">return</span> <span class="n">target_offset</span>
+
+
+<div class="viewcode-block" id="events_to_midi_file">
+<a class="viewcode-back" href="../../../module_docs/accompy/renderers/midi.html#accompy.renderers.events_to_midi_file">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">events_to_midi_file</span><span class="p">(</span>
+    <span class="n">events</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">MidiEvent</span><span class="p">],</span>
+    <span class="n">path</span><span class="p">:</span> <span class="n">Path</span><span class="p">,</span>
+    <span class="n">tempo</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">time_signature</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Path</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Write MIDI events to a MIDI file.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        events: Sequence of MIDI events (must be subscriptable, not just iterable)</span>
+<span class="sd">        path: Output file path</span>
+<span class="sd">        tempo: Tempo in BPM</span>
+<span class="sd">        time_signature: Time signature (numerator, denominator)</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Path to the created MIDI file</span>
+
+<span class="sd">    Note:</span>
+<span class="sd">        Requires midiutil: pip install midiutil</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">midiutil</span><span class="w"> </span><span class="kn">import</span> <span class="n">MIDIFile</span>
+
+    <span class="c1"># Determine number of tracks</span>
+    <span class="n">channels_used</span> <span class="o">=</span> <span class="p">{</span><span class="n">event</span><span class="o">.</span><span class="n">channel</span> <span class="k">for</span> <span class="n">event</span> <span class="ow">in</span> <span class="n">events</span><span class="p">}</span>
+    <span class="n">num_tracks</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">channels_used</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">num_tracks</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="c1"># Create empty MIDI file</span>
+        <span class="n">num_tracks</span> <span class="o">=</span> <span class="mi">1</span>
+
+    <span class="n">midi</span> <span class="o">=</span> <span class="n">MIDIFile</span><span class="p">(</span><span class="n">num_tracks</span><span class="p">)</span>
+
+    <span class="c1"># Create channel to track mapping</span>
+    <span class="n">channel_to_track</span> <span class="o">=</span> <span class="p">{</span><span class="n">ch</span><span class="p">:</span> <span class="n">idx</span> <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">ch</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">channels_used</span><span class="p">))}</span>
+
+    <span class="c1"># Set up tracks</span>
+    <span class="k">for</span> <span class="n">channel</span><span class="p">,</span> <span class="n">track</span> <span class="ow">in</span> <span class="n">channel_to_track</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="n">midi</span><span class="o">.</span><span class="n">addTempo</span><span class="p">(</span><span class="n">track</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">tempo</span><span class="p">)</span>
+        <span class="n">midi</span><span class="o">.</span><span class="n">addTimeSignature</span><span class="p">(</span><span class="n">track</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">time_signature</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">time_signature</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="mi">24</span><span class="p">)</span>
+
+        <span class="c1"># Set program (instrument) for the track</span>
+        <span class="k">if</span> <span class="n">channel</span> <span class="o">==</span> <span class="mi">9</span><span class="p">:</span>
+            <span class="c1"># Drums (channel 9) - no program change needed</span>
+            <span class="n">midi</span><span class="o">.</span><span class="n">addTrackName</span><span class="p">(</span><span class="n">track</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;Drums&quot;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">channel</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">midi</span><span class="o">.</span><span class="n">addTrackName</span><span class="p">(</span><span class="n">track</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;Bass&quot;</span><span class="p">)</span>
+            <span class="n">midi</span><span class="o">.</span><span class="n">addProgramChange</span><span class="p">(</span><span class="n">track</span><span class="p">,</span> <span class="n">channel</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">33</span><span class="p">)</span>  <span class="c1"># Acoustic Bass</span>
+        <span class="k">elif</span> <span class="n">channel</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">midi</span><span class="o">.</span><span class="n">addTrackName</span><span class="p">(</span><span class="n">track</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;Piano&quot;</span><span class="p">)</span>
+            <span class="n">midi</span><span class="o">.</span><span class="n">addProgramChange</span><span class="p">(</span><span class="n">track</span><span class="p">,</span> <span class="n">channel</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>  <span class="c1"># Acoustic Grand Piano</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">midi</span><span class="o">.</span><span class="n">addTrackName</span><span class="p">(</span><span class="n">track</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;Track </span><span class="si">{</span><span class="n">channel</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Add all events</span>
+    <span class="k">for</span> <span class="n">event</span> <span class="ow">in</span> <span class="n">events</span><span class="p">:</span>
+        <span class="n">track</span> <span class="o">=</span> <span class="n">channel_to_track</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">event</span><span class="o">.</span><span class="n">channel</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="n">midi</span><span class="o">.</span><span class="n">addNote</span><span class="p">(</span>
+            <span class="n">track</span><span class="p">,</span>
+            <span class="n">event</span><span class="o">.</span><span class="n">channel</span><span class="p">,</span>
+            <span class="n">event</span><span class="o">.</span><span class="n">note</span><span class="p">,</span>
+            <span class="n">event</span><span class="o">.</span><span class="n">time</span><span class="p">,</span>
+            <span class="n">event</span><span class="o">.</span><span class="n">duration</span><span class="p">,</span>
+            <span class="n">event</span><span class="o">.</span><span class="n">velocity</span>
+        <span class="p">)</span>
+
+    <span class="c1"># Write to file</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s1">&#39;wb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="n">midi</span><span class="o">.</span><span class="n">writeFile</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">path</span></div>
+
+
+
+<div class="viewcode-block" id="generate_builtin_midi">
+<a class="viewcode-back" href="../../../module_docs/accompy/renderers/midi.html#accompy.renderers.generate_builtin_midi">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">generate_builtin_midi</span><span class="p">(</span>
+    <span class="n">score</span><span class="p">:</span> <span class="n">Score</span><span class="p">,</span>
+    <span class="n">config</span><span class="p">:</span> <span class="n">AccompanimentConfig</span><span class="p">,</span>
+    <span class="o">*</span><span class="p">,</span>
+    <span class="n">pattern_source</span><span class="p">,</span>
+    <span class="n">chord_resolver</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Path</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Generate a MIDI file using the built-in renderer.</span>
+
+<span class="sd">    This is a convenience function that combines event generation and file writing.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        score: Musical score</span>
+<span class="sd">        config: Configuration</span>
+<span class="sd">        pattern_source: Pattern provider</span>
+<span class="sd">        chord_resolver: Chord resolution function</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Path to the generated MIDI file</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Generate events</span>
+    <span class="n">events</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">generate_midi_events</span><span class="p">(</span>
+        <span class="n">score</span><span class="p">,</span>
+        <span class="n">config</span><span class="p">,</span>
+        <span class="n">pattern_source</span><span class="o">=</span><span class="n">pattern_source</span><span class="p">,</span>
+        <span class="n">chord_resolver</span><span class="o">=</span><span class="n">chord_resolver</span>
+    <span class="p">))</span>
+
+    <span class="c1"># Write to temp file</span>
+    <span class="n">midi_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">tempfile</span><span class="o">.</span><span class="n">mktemp</span><span class="p">(</span><span class="n">suffix</span><span class="o">=</span><span class="s2">&quot;.mid&quot;</span><span class="p">))</span>
+    <span class="n">events_to_midi_file</span><span class="p">(</span><span class="n">events</span><span class="p">,</span> <span class="n">midi_path</span><span class="p">,</span> <span class="n">config</span><span class="o">.</span><span class="n">tempo</span><span class="p">,</span> <span class="n">score</span><span class="o">.</span><span class="n">time_signature</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">midi_path</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright NO COPYRIGHT.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

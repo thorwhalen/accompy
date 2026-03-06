@@ -1,0 +1,497 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>accompy.midi_generators &mdash; accompy 0.3.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=e259d695"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../_static/toggleprompt.js?v=d7ede5d2"></script>
+      <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            accompy
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy.html">accompy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/audio_renderers.html">accompy.audio_renderers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/base.html">accompy.base</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/chord_parsers.html">accompy.chord_parsers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/chord_resolution.html">accompy.chord_resolution</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/chord_resolvers.html">accompy.chord_resolvers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/converters.html">accompy.converters</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/main.html">accompy.main</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/midi_generators.html">accompy.midi_generators</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/patterns.html">accompy.patterns</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/patterns/builtin.html">accompy.patterns.builtin</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/patterns/dataclasses.html">accompy.patterns.dataclasses</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/pipeline.html">accompy.pipeline</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/protocols.html">accompy.protocols</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/realtime.html">accompy.realtime</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/renderers.html">accompy.renderers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/renderers/midi.html">accompy.renderers.midi</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/setup_utils.html">accompy.setup_utils</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/synthesis.html">accompy.synthesis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/synthesis/fluidsynth.html">accompy.synthesis.fluidsynth</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/util.html">accompy.util</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/wips.html">accompy.wips</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/wips/audio_renderers.html">accompy.wips.audio_renderers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/wips/chord_parsers.html">accompy.wips.chord_parsers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/wips/chord_resolvers.html">accompy.wips.chord_resolvers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/wips/midi_generators.html">accompy.wips.midi_generators</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/wips/pipeline.html">accompy.wips.pipeline</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/wips/types.html">accompy.wips.types</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">accompy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">accompy.midi_generators</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for accompy.midi_generators</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">MIDI generators — convert NoteSequence to MidiData.</span>
+
+<span class="sd">Registered converters: NoteSequence -&gt; MidiData</span>
+
+<span class="sd">Multiple backends:</span>
+<span class="sd">- pretty_midi: most Pythonic API, good for programmatic construction</span>
+<span class="sd">- midiutil: accompy&#39;s existing dependency, simpler</span>
+<span class="sd">- mido: lowest-level, message-based</span>
+
+<span class="sd">Also provides ChordSequence -&gt; MidiData shortcut converters that</span>
+<span class="sd">combine chord resolution + MIDI generation in one step.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">io</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Callable</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">.converters</span><span class="w"> </span><span class="kn">import</span> <span class="n">ChordSequence</span><span class="p">,</span> <span class="n">MidiData</span><span class="p">,</span> <span class="n">NoteSequence</span><span class="p">,</span> <span class="n">converter</span>
+
+
+<span class="c1"># ---------------------------------------------------------------------------</span>
+<span class="c1"># NoteSequence -&gt; MidiData via pretty_midi</span>
+<span class="c1"># ---------------------------------------------------------------------------</span>
+
+
+<div class="viewcode-block" id="noteseq_to_midi_pretty_midi">
+<a class="viewcode-back" href="../../module_docs/accompy/midi_generators.html#accompy.midi_generators.noteseq_to_midi_pretty_midi">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">noteseq_to_midi_pretty_midi</span><span class="p">(</span>
+    <span class="n">ns</span><span class="p">:</span> <span class="n">NoteSequence</span><span class="p">,</span>
+    <span class="o">*</span><span class="p">,</span>
+    <span class="n">program</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="n">instrument_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;Piano&quot;</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">MidiData</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Convert NoteSequence to MidiData using pretty_midi.</span>
+
+<span class="sd">    Renders each chord as a block of simultaneous notes.</span>
+
+<span class="sd">    &gt;&gt;&gt; ns = NoteSequence([([60, 64, 67], 4.0)], tempo=120)</span>
+<span class="sd">    &gt;&gt;&gt; md = noteseq_to_midi_pretty_midi(ns)</span>
+<span class="sd">    &gt;&gt;&gt; md.has_pretty_midi</span>
+<span class="sd">    True</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">pretty_midi</span>
+
+    <span class="n">pm</span> <span class="o">=</span> <span class="n">pretty_midi</span><span class="o">.</span><span class="n">PrettyMIDI</span><span class="p">(</span><span class="n">initial_tempo</span><span class="o">=</span><span class="n">ns</span><span class="o">.</span><span class="n">tempo</span><span class="p">)</span>
+    <span class="n">inst</span> <span class="o">=</span> <span class="n">pretty_midi</span><span class="o">.</span><span class="n">Instrument</span><span class="p">(</span><span class="n">program</span><span class="o">=</span><span class="n">program</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">instrument_name</span><span class="p">)</span>
+
+    <span class="c1"># Convert beats to seconds</span>
+    <span class="n">beat_duration</span> <span class="o">=</span> <span class="mf">60.0</span> <span class="o">/</span> <span class="n">ns</span><span class="o">.</span><span class="n">tempo</span>
+    <span class="n">current_beat</span> <span class="o">=</span> <span class="mf">0.0</span>
+
+    <span class="k">for</span> <span class="n">midi_notes</span><span class="p">,</span> <span class="n">duration_beats</span> <span class="ow">in</span> <span class="n">ns</span><span class="o">.</span><span class="n">notes</span><span class="p">:</span>
+        <span class="n">start_sec</span> <span class="o">=</span> <span class="n">current_beat</span> <span class="o">*</span> <span class="n">beat_duration</span>
+        <span class="n">end_sec</span> <span class="o">=</span> <span class="p">(</span><span class="n">current_beat</span> <span class="o">+</span> <span class="n">duration_beats</span><span class="p">)</span> <span class="o">*</span> <span class="n">beat_duration</span>
+        <span class="k">for</span> <span class="n">pitch</span> <span class="ow">in</span> <span class="n">midi_notes</span><span class="p">:</span>
+            <span class="n">note</span> <span class="o">=</span> <span class="n">pretty_midi</span><span class="o">.</span><span class="n">Note</span><span class="p">(</span>
+                <span class="n">velocity</span><span class="o">=</span><span class="mi">90</span><span class="p">,</span>
+                <span class="n">pitch</span><span class="o">=</span><span class="n">pitch</span><span class="p">,</span>
+                <span class="n">start</span><span class="o">=</span><span class="n">start_sec</span><span class="p">,</span>
+                <span class="n">end</span><span class="o">=</span><span class="n">end_sec</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="n">inst</span><span class="o">.</span><span class="n">notes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">note</span><span class="p">)</span>
+        <span class="n">current_beat</span> <span class="o">+=</span> <span class="n">duration_beats</span>
+
+    <span class="n">pm</span><span class="o">.</span><span class="n">instruments</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">inst</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">MidiData</span><span class="p">(</span>
+        <span class="n">pretty_midi_obj</span><span class="o">=</span><span class="n">pm</span><span class="p">,</span>
+        <span class="n">tempo</span><span class="o">=</span><span class="n">ns</span><span class="o">.</span><span class="n">tempo</span><span class="p">,</span>
+        <span class="n">time_signature</span><span class="o">=</span><span class="n">ns</span><span class="o">.</span><span class="n">time_signature</span><span class="p">,</span>
+    <span class="p">)</span></div>
+
+
+
+<span class="c1"># ---------------------------------------------------------------------------</span>
+<span class="c1"># NoteSequence -&gt; MidiData via midiutil</span>
+<span class="c1"># ---------------------------------------------------------------------------</span>
+
+
+<div class="viewcode-block" id="noteseq_to_midi_midiutil">
+<a class="viewcode-back" href="../../module_docs/accompy/midi_generators.html#accompy.midi_generators.noteseq_to_midi_midiutil">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">noteseq_to_midi_midiutil</span><span class="p">(</span><span class="n">ns</span><span class="p">:</span> <span class="n">NoteSequence</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">MidiData</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Convert NoteSequence to MidiData using midiutil (MIDIFile).</span>
+
+<span class="sd">    &gt;&gt;&gt; ns = NoteSequence([([60, 64, 67], 4.0)], tempo=120)</span>
+<span class="sd">    &gt;&gt;&gt; md = noteseq_to_midi_midiutil(ns)</span>
+<span class="sd">    &gt;&gt;&gt; md.has_bytes</span>
+<span class="sd">    True</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">midiutil</span><span class="w"> </span><span class="kn">import</span> <span class="n">MIDIFile</span>
+
+    <span class="n">midi</span> <span class="o">=</span> <span class="n">MIDIFile</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">track</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">channel</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">midi</span><span class="o">.</span><span class="n">addTempo</span><span class="p">(</span><span class="n">track</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">ns</span><span class="o">.</span><span class="n">tempo</span><span class="p">)</span>
+    <span class="n">midi</span><span class="o">.</span><span class="n">addTimeSignature</span><span class="p">(</span>
+        <span class="n">track</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">ns</span><span class="o">.</span><span class="n">time_signature</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">ns</span><span class="o">.</span><span class="n">time_signature</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="mi">24</span>
+    <span class="p">)</span>
+    <span class="n">midi</span><span class="o">.</span><span class="n">addProgramChange</span><span class="p">(</span><span class="n">track</span><span class="p">,</span> <span class="n">channel</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>  <span class="c1"># Piano</span>
+
+    <span class="n">current_beat</span> <span class="o">=</span> <span class="mf">0.0</span>
+    <span class="k">for</span> <span class="n">midi_notes</span><span class="p">,</span> <span class="n">duration_beats</span> <span class="ow">in</span> <span class="n">ns</span><span class="o">.</span><span class="n">notes</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">pitch</span> <span class="ow">in</span> <span class="n">midi_notes</span><span class="p">:</span>
+            <span class="n">midi</span><span class="o">.</span><span class="n">addNote</span><span class="p">(</span>
+                <span class="n">track</span><span class="p">,</span> <span class="n">channel</span><span class="p">,</span> <span class="n">pitch</span><span class="p">,</span> <span class="n">current_beat</span><span class="p">,</span> <span class="n">duration_beats</span><span class="p">,</span> <span class="mi">90</span>
+            <span class="p">)</span>
+        <span class="n">current_beat</span> <span class="o">+=</span> <span class="n">duration_beats</span>
+
+    <span class="n">buf</span> <span class="o">=</span> <span class="n">io</span><span class="o">.</span><span class="n">BytesIO</span><span class="p">()</span>
+    <span class="n">midi</span><span class="o">.</span><span class="n">writeFile</span><span class="p">(</span><span class="n">buf</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">MidiData</span><span class="p">(</span>
+        <span class="n">bytes_</span><span class="o">=</span><span class="n">buf</span><span class="o">.</span><span class="n">getvalue</span><span class="p">(),</span>
+        <span class="n">tempo</span><span class="o">=</span><span class="n">ns</span><span class="o">.</span><span class="n">tempo</span><span class="p">,</span>
+        <span class="n">time_signature</span><span class="o">=</span><span class="n">ns</span><span class="o">.</span><span class="n">time_signature</span><span class="p">,</span>
+    <span class="p">)</span></div>
+
+
+
+<span class="c1"># ---------------------------------------------------------------------------</span>
+<span class="c1"># NoteSequence -&gt; MidiData via mido</span>
+<span class="c1"># ---------------------------------------------------------------------------</span>
+
+
+<div class="viewcode-block" id="noteseq_to_midi_mido">
+<a class="viewcode-back" href="../../module_docs/accompy/midi_generators.html#accompy.midi_generators.noteseq_to_midi_mido">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">noteseq_to_midi_mido</span><span class="p">(</span><span class="n">ns</span><span class="p">:</span> <span class="n">NoteSequence</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">MidiData</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Convert NoteSequence to MidiData using mido.</span>
+
+<span class="sd">    &gt;&gt;&gt; ns = NoteSequence([([60, 64, 67], 4.0)], tempo=120)</span>
+<span class="sd">    &gt;&gt;&gt; md = noteseq_to_midi_mido(ns)</span>
+<span class="sd">    &gt;&gt;&gt; md.has_bytes</span>
+<span class="sd">    True</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">mido</span>
+
+    <span class="n">mid</span> <span class="o">=</span> <span class="n">mido</span><span class="o">.</span><span class="n">MidiFile</span><span class="p">(</span><span class="n">ticks_per_beat</span><span class="o">=</span><span class="mi">480</span><span class="p">)</span>
+    <span class="n">track</span> <span class="o">=</span> <span class="n">mido</span><span class="o">.</span><span class="n">MidiTrack</span><span class="p">()</span>
+    <span class="n">mid</span><span class="o">.</span><span class="n">tracks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">track</span><span class="p">)</span>
+
+    <span class="c1"># Set tempo</span>
+    <span class="n">track</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">mido</span><span class="o">.</span><span class="n">MetaMessage</span><span class="p">(</span><span class="s2">&quot;set_tempo&quot;</span><span class="p">,</span> <span class="n">tempo</span><span class="o">=</span><span class="n">mido</span><span class="o">.</span><span class="n">bpm2tempo</span><span class="p">(</span><span class="n">ns</span><span class="o">.</span><span class="n">tempo</span><span class="p">)))</span>
+
+    <span class="c1"># Convert notes</span>
+    <span class="n">ticks_per_beat</span> <span class="o">=</span> <span class="mi">480</span>
+    <span class="n">current_tick</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">events</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># (tick, type, note, velocity)</span>
+
+    <span class="n">beat_pos</span> <span class="o">=</span> <span class="mf">0.0</span>
+    <span class="k">for</span> <span class="n">midi_notes</span><span class="p">,</span> <span class="n">duration_beats</span> <span class="ow">in</span> <span class="n">ns</span><span class="o">.</span><span class="n">notes</span><span class="p">:</span>
+        <span class="n">start_tick</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">beat_pos</span> <span class="o">*</span> <span class="n">ticks_per_beat</span><span class="p">)</span>
+        <span class="n">end_tick</span> <span class="o">=</span> <span class="nb">int</span><span class="p">((</span><span class="n">beat_pos</span> <span class="o">+</span> <span class="n">duration_beats</span><span class="p">)</span> <span class="o">*</span> <span class="n">ticks_per_beat</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">pitch</span> <span class="ow">in</span> <span class="n">midi_notes</span><span class="p">:</span>
+            <span class="n">events</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">start_tick</span><span class="p">,</span> <span class="s2">&quot;note_on&quot;</span><span class="p">,</span> <span class="n">pitch</span><span class="p">,</span> <span class="mi">90</span><span class="p">))</span>
+            <span class="n">events</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">end_tick</span><span class="p">,</span> <span class="s2">&quot;note_off&quot;</span><span class="p">,</span> <span class="n">pitch</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+        <span class="n">beat_pos</span> <span class="o">+=</span> <span class="n">duration_beats</span>
+
+    <span class="c1"># Sort by tick, then note_off before note_on at same tick</span>
+    <span class="n">events</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">e</span><span class="p">:</span> <span class="p">(</span><span class="n">e</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">0</span> <span class="k">if</span> <span class="n">e</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;note_off&quot;</span> <span class="k">else</span> <span class="mi">1</span><span class="p">))</span>
+
+    <span class="n">prev_tick</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">tick</span><span class="p">,</span> <span class="n">msg_type</span><span class="p">,</span> <span class="n">pitch</span><span class="p">,</span> <span class="n">vel</span> <span class="ow">in</span> <span class="n">events</span><span class="p">:</span>
+        <span class="n">delta</span> <span class="o">=</span> <span class="n">tick</span> <span class="o">-</span> <span class="n">prev_tick</span>
+        <span class="n">track</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">mido</span><span class="o">.</span><span class="n">Message</span><span class="p">(</span><span class="n">msg_type</span><span class="p">,</span> <span class="n">note</span><span class="o">=</span><span class="n">pitch</span><span class="p">,</span> <span class="n">velocity</span><span class="o">=</span><span class="n">vel</span><span class="p">,</span> <span class="n">time</span><span class="o">=</span><span class="n">delta</span><span class="p">))</span>
+        <span class="n">prev_tick</span> <span class="o">=</span> <span class="n">tick</span>
+
+    <span class="n">buf</span> <span class="o">=</span> <span class="n">io</span><span class="o">.</span><span class="n">BytesIO</span><span class="p">()</span>
+    <span class="n">mid</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">file</span><span class="o">=</span><span class="n">buf</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">MidiData</span><span class="p">(</span>
+        <span class="n">bytes_</span><span class="o">=</span><span class="n">buf</span><span class="o">.</span><span class="n">getvalue</span><span class="p">(),</span>
+        <span class="n">tempo</span><span class="o">=</span><span class="n">ns</span><span class="o">.</span><span class="n">tempo</span><span class="p">,</span>
+        <span class="n">time_signature</span><span class="o">=</span><span class="n">ns</span><span class="o">.</span><span class="n">time_signature</span><span class="p">,</span>
+    <span class="p">)</span></div>
+
+
+
+<span class="c1"># ---------------------------------------------------------------------------</span>
+<span class="c1"># Register NoteSequence -&gt; MidiData converters</span>
+<span class="c1"># ---------------------------------------------------------------------------</span>
+
+<span class="n">converter</span><span class="o">.</span><span class="n">register</span><span class="p">(</span>
+    <span class="n">NoteSequence</span><span class="p">,</span>
+    <span class="n">MidiData</span><span class="p">,</span>
+    <span class="n">noteseq_to_midi_pretty_midi</span><span class="p">,</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;pretty_midi&quot;</span><span class="p">,</span>
+    <span class="n">is_default</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">converter</span><span class="o">.</span><span class="n">register</span><span class="p">(</span>
+    <span class="n">NoteSequence</span><span class="p">,</span> <span class="n">MidiData</span><span class="p">,</span> <span class="n">noteseq_to_midi_midiutil</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;midiutil&quot;</span>
+<span class="p">)</span>
+
+<span class="n">converter</span><span class="o">.</span><span class="n">register</span><span class="p">(</span>
+    <span class="n">NoteSequence</span><span class="p">,</span> <span class="n">MidiData</span><span class="p">,</span> <span class="n">noteseq_to_midi_mido</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;mido&quot;</span>
+<span class="p">)</span>
+
+
+<span class="c1"># ---------------------------------------------------------------------------</span>
+<span class="c1"># Shortcut: ChordSequence -&gt; MidiData (combining resolution + MIDI gen)</span>
+<span class="c1"># ---------------------------------------------------------------------------</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_make_chordseq_to_midi</span><span class="p">(</span>
+    <span class="n">resolver_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">midi_gen_name</span><span class="p">:</span> <span class="nb">str</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">ChordSequence</span><span class="p">],</span> <span class="n">MidiData</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Factory for ChordSequence -&gt; MidiData shortcuts.&quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">convert_fn</span><span class="p">(</span><span class="n">cs</span><span class="p">:</span> <span class="n">ChordSequence</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">MidiData</span><span class="p">:</span>
+        <span class="n">resolve_fn</span> <span class="o">=</span> <span class="n">converter</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">ChordSequence</span><span class="p">,</span> <span class="n">NoteSequence</span><span class="p">,</span> <span class="n">resolver_name</span><span class="p">)</span>
+        <span class="n">midi_fn</span> <span class="o">=</span> <span class="n">converter</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">NoteSequence</span><span class="p">,</span> <span class="n">MidiData</span><span class="p">,</span> <span class="n">midi_gen_name</span><span class="p">)</span>
+        <span class="n">ns</span> <span class="o">=</span> <span class="n">resolve_fn</span><span class="p">(</span><span class="n">cs</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">midi_fn</span><span class="p">(</span><span class="n">ns</span><span class="p">)</span>
+
+    <span class="n">name</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">resolver_name</span><span class="si">}</span><span class="s2">+</span><span class="si">{</span><span class="n">midi_gen_name</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="n">convert_fn</span><span class="o">.</span><span class="vm">__name__</span> <span class="o">=</span> <span class="n">name</span>
+    <span class="k">return</span> <span class="n">convert_fn</span>
+
+
+<span class="c1"># Register the most useful shortcuts</span>
+<span class="n">converter</span><span class="o">.</span><span class="n">register</span><span class="p">(</span>
+    <span class="n">ChordSequence</span><span class="p">,</span>
+    <span class="n">MidiData</span><span class="p">,</span>
+    <span class="n">_make_chordseq_to_midi</span><span class="p">(</span><span class="s2">&quot;pychord&quot;</span><span class="p">,</span> <span class="s2">&quot;pretty_midi&quot;</span><span class="p">),</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;pychord+pretty_midi&quot;</span><span class="p">,</span>
+    <span class="n">is_default</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">converter</span><span class="o">.</span><span class="n">register</span><span class="p">(</span>
+    <span class="n">ChordSequence</span><span class="p">,</span>
+    <span class="n">MidiData</span><span class="p">,</span>
+    <span class="n">_make_chordseq_to_midi</span><span class="p">(</span><span class="s2">&quot;tonal&quot;</span><span class="p">,</span> <span class="s2">&quot;midiutil&quot;</span><span class="p">),</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;tonal+midiutil&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">converter</span><span class="o">.</span><span class="n">register</span><span class="p">(</span>
+    <span class="n">ChordSequence</span><span class="p">,</span>
+    <span class="n">MidiData</span><span class="p">,</span>
+    <span class="n">_make_chordseq_to_midi</span><span class="p">(</span><span class="s2">&quot;music21&quot;</span><span class="p">,</span> <span class="s2">&quot;pretty_midi&quot;</span><span class="p">),</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;music21+pretty_midi&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+
+
+<span class="c1"># ---------------------------------------------------------------------------</span>
+<span class="c1"># Builtin accompaniment: ChordSequence -&gt; MidiData with drums/bass/piano</span>
+<span class="c1"># ---------------------------------------------------------------------------</span>
+
+
+<div class="viewcode-block" id="chordseq_to_midi_builtin_accompaniment">
+<a class="viewcode-back" href="../../module_docs/accompy/midi_generators.html#accompy.midi_generators.chordseq_to_midi_builtin_accompaniment">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">chordseq_to_midi_builtin_accompaniment</span><span class="p">(</span>
+    <span class="n">cs</span><span class="p">:</span> <span class="n">ChordSequence</span><span class="p">,</span>
+    <span class="o">*</span><span class="p">,</span>
+    <span class="n">style</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;swing&quot;</span><span class="p">,</span>
+    <span class="n">repeats</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">MidiData</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Convert ChordSequence to multi-track MIDI using accompy&#39;s pattern engine.</span>
+
+<span class="sd">    This bridges the converter pipeline to the existing pattern-based</span>
+<span class="sd">    accompaniment engine (drums, bass, piano).</span>
+
+<span class="sd">    &gt;&gt;&gt; cs = ChordSequence([(&quot;Dm7&quot;, 4.0), (&quot;G7&quot;, 4.0), (&quot;Cmaj7&quot;, 4.0)])</span>
+<span class="sd">    &gt;&gt;&gt; md = chordseq_to_midi_builtin_accompaniment(cs, style=&quot;swing&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; md.has_bytes</span>
+<span class="sd">    True</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">AccompanimentConfig</span><span class="p">,</span> <span class="n">ensure_score</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">.patterns</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_pattern_registry</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">.chord_resolution</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_chord_resolver</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">.renderers.midi</span><span class="w"> </span><span class="kn">import</span> <span class="n">generate_builtin_midi</span>
+
+    <span class="n">score</span> <span class="o">=</span> <span class="n">cs</span><span class="o">.</span><span class="n">to_score</span><span class="p">()</span>
+    <span class="n">config</span> <span class="o">=</span> <span class="n">AccompanimentConfig</span><span class="p">(</span><span class="n">style</span><span class="o">=</span><span class="n">style</span><span class="p">,</span> <span class="n">tempo</span><span class="o">=</span><span class="n">cs</span><span class="o">.</span><span class="n">tempo</span><span class="p">,</span> <span class="n">repeats</span><span class="o">=</span><span class="n">repeats</span><span class="p">)</span>
+    <span class="n">pattern_source</span> <span class="o">=</span> <span class="n">get_pattern_registry</span><span class="p">()</span>
+    <span class="n">chord_resolver</span> <span class="o">=</span> <span class="n">get_chord_resolver</span><span class="p">()</span>
+
+    <span class="n">midi_path</span> <span class="o">=</span> <span class="n">generate_builtin_midi</span><span class="p">(</span>
+        <span class="n">score</span><span class="p">,</span> <span class="n">config</span><span class="p">,</span>
+        <span class="n">pattern_source</span><span class="o">=</span><span class="n">pattern_source</span><span class="p">,</span>
+        <span class="n">chord_resolver</span><span class="o">=</span><span class="n">chord_resolver</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">midi_bytes</span> <span class="o">=</span> <span class="n">midi_path</span><span class="o">.</span><span class="n">read_bytes</span><span class="p">()</span>
+    <span class="n">midi_path</span><span class="o">.</span><span class="n">unlink</span><span class="p">(</span><span class="n">missing_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">MidiData</span><span class="p">(</span><span class="n">bytes_</span><span class="o">=</span><span class="n">midi_bytes</span><span class="p">,</span> <span class="n">tempo</span><span class="o">=</span><span class="n">cs</span><span class="o">.</span><span class="n">tempo</span><span class="p">,</span> <span class="n">time_signature</span><span class="o">=</span><span class="n">cs</span><span class="o">.</span><span class="n">time_signature</span><span class="p">)</span></div>
+
+
+
+<span class="n">converter</span><span class="o">.</span><span class="n">register</span><span class="p">(</span>
+    <span class="n">ChordSequence</span><span class="p">,</span>
+    <span class="n">MidiData</span><span class="p">,</span>
+    <span class="n">chordseq_to_midi_builtin_accompaniment</span><span class="p">,</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;builtin_accompaniment&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+
+
+<span class="c1"># ---------------------------------------------------------------------------</span>
+<span class="c1"># ChordSequence -&gt; MidiData via MMA (Musical MIDI Accompaniment)</span>
+<span class="c1"># ---------------------------------------------------------------------------</span>
+
+
+<div class="viewcode-block" id="chordseq_to_midi_mma">
+<a class="viewcode-back" href="../../module_docs/accompy/midi_generators.html#accompy.midi_generators.chordseq_to_midi_mma">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">chordseq_to_midi_mma</span><span class="p">(</span>
+    <span class="n">cs</span><span class="p">:</span> <span class="n">ChordSequence</span><span class="p">,</span>
+    <span class="o">*</span><span class="p">,</span>
+    <span class="n">style</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;swing&quot;</span><span class="p">,</span>
+    <span class="n">repeats</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">MidiData</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Convert ChordSequence to MIDI using MMA (Musical MIDI Accompaniment).</span>
+
+<span class="sd">    MMA generates sophisticated multi-instrument accompaniment patterns</span>
+<span class="sd">    from chord symbols, similar to Band-in-a-Box.</span>
+
+<span class="sd">    Requires: ``mma`` CLI on PATH.</span>
+<span class="sd">    See https://www.mellowood.ca/mma/ for installation.</span>
+
+<span class="sd">    &gt;&gt;&gt; cs = ChordSequence([(&quot;Dm7&quot;, 4.0), (&quot;G7&quot;, 4.0), (&quot;Cmaj7&quot;, 4.0)])</span>
+<span class="sd">    &gt;&gt;&gt; md = chordseq_to_midi_mma(cs, style=&quot;swing&quot;)  # doctest: +SKIP</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">shutil</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">subprocess</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">tempfile</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">shutil</span><span class="o">.</span><span class="n">which</span><span class="p">(</span><span class="s2">&quot;mma&quot;</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
+            <span class="s2">&quot;MMA (Musical MIDI Accompaniment) not found on PATH. &quot;</span>
+            <span class="s2">&quot;Install from https://www.mellowood.ca/mma/&quot;</span>
+        <span class="p">)</span>
+
+    <span class="kn">from</span><span class="w"> </span><span class="nn">.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">AccompanimentConfig</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">.main</span><span class="w"> </span><span class="kn">import</span> <span class="n">_score_to_mma</span>
+
+    <span class="n">score</span> <span class="o">=</span> <span class="n">cs</span><span class="o">.</span><span class="n">to_score</span><span class="p">()</span>
+    <span class="n">config</span> <span class="o">=</span> <span class="n">AccompanimentConfig</span><span class="p">(</span><span class="n">style</span><span class="o">=</span><span class="n">style</span><span class="p">,</span> <span class="n">tempo</span><span class="o">=</span><span class="n">cs</span><span class="o">.</span><span class="n">tempo</span><span class="p">,</span> <span class="n">repeats</span><span class="o">=</span><span class="n">repeats</span><span class="p">)</span>
+    <span class="n">mma_content</span> <span class="o">=</span> <span class="n">_score_to_mma</span><span class="p">(</span><span class="n">score</span><span class="p">,</span> <span class="n">config</span><span class="p">)</span>
+
+    <span class="n">mma_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">tempfile</span><span class="o">.</span><span class="n">mktemp</span><span class="p">(</span><span class="n">suffix</span><span class="o">=</span><span class="s2">&quot;.mma&quot;</span><span class="p">))</span>
+    <span class="n">midi_path</span> <span class="o">=</span> <span class="n">mma_path</span><span class="o">.</span><span class="n">with_suffix</span><span class="p">(</span><span class="s2">&quot;.mid&quot;</span><span class="p">)</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">mma_path</span><span class="o">.</span><span class="n">write_text</span><span class="p">(</span><span class="n">mma_content</span><span class="p">)</span>
+        <span class="n">subprocess</span><span class="o">.</span><span class="n">run</span><span class="p">(</span>
+            <span class="p">[</span><span class="s2">&quot;mma&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">mma_path</span><span class="p">),</span> <span class="s2">&quot;-f&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">midi_path</span><span class="p">)],</span>
+            <span class="n">capture_output</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="n">text</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="n">check</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">midi_bytes</span> <span class="o">=</span> <span class="n">midi_path</span><span class="o">.</span><span class="n">read_bytes</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">MidiData</span><span class="p">(</span>
+            <span class="n">bytes_</span><span class="o">=</span><span class="n">midi_bytes</span><span class="p">,</span> <span class="n">tempo</span><span class="o">=</span><span class="n">cs</span><span class="o">.</span><span class="n">tempo</span><span class="p">,</span> <span class="n">time_signature</span><span class="o">=</span><span class="n">cs</span><span class="o">.</span><span class="n">time_signature</span>
+        <span class="p">)</span>
+    <span class="k">except</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">CalledProcessError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;MMA failed: </span><span class="si">{</span><span class="n">e</span><span class="o">.</span><span class="n">stderr</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">finally</span><span class="p">:</span>
+        <span class="n">mma_path</span><span class="o">.</span><span class="n">unlink</span><span class="p">(</span><span class="n">missing_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">midi_path</span><span class="o">.</span><span class="n">unlink</span><span class="p">(</span><span class="n">missing_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
+
+
+
+<span class="n">converter</span><span class="o">.</span><span class="n">register</span><span class="p">(</span>
+    <span class="n">ChordSequence</span><span class="p">,</span>
+    <span class="n">MidiData</span><span class="p">,</span>
+    <span class="n">chordseq_to_midi_mma</span><span class="p">,</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;mma&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright NO COPYRIGHT.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

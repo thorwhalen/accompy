@@ -1,0 +1,563 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>accompy.audio_renderers &mdash; accompy 0.3.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=e259d695"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../_static/toggleprompt.js?v=d7ede5d2"></script>
+      <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            accompy
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy.html">accompy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/audio_renderers.html">accompy.audio_renderers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/base.html">accompy.base</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/chord_parsers.html">accompy.chord_parsers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/chord_resolution.html">accompy.chord_resolution</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/chord_resolvers.html">accompy.chord_resolvers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/converters.html">accompy.converters</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/main.html">accompy.main</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/midi_generators.html">accompy.midi_generators</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/patterns.html">accompy.patterns</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/patterns/builtin.html">accompy.patterns.builtin</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/patterns/dataclasses.html">accompy.patterns.dataclasses</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/pipeline.html">accompy.pipeline</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/protocols.html">accompy.protocols</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/realtime.html">accompy.realtime</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/renderers.html">accompy.renderers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/renderers/midi.html">accompy.renderers.midi</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/setup_utils.html">accompy.setup_utils</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/synthesis.html">accompy.synthesis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/synthesis/fluidsynth.html">accompy.synthesis.fluidsynth</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/util.html">accompy.util</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/wips.html">accompy.wips</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/wips/audio_renderers.html">accompy.wips.audio_renderers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/wips/chord_parsers.html">accompy.wips.chord_parsers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/wips/chord_resolvers.html">accompy.wips.chord_resolvers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/wips/midi_generators.html">accompy.wips.midi_generators</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/wips/pipeline.html">accompy.wips.pipeline</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/wips/types.html">accompy.wips.types</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">accompy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">accompy.audio_renderers</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for accompy.audio_renderers</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Audio renderers — convert MidiData to AudioData.</span>
+
+<span class="sd">Registered converters: MidiData -&gt; AudioData</span>
+
+<span class="sd">Backends:</span>
+<span class="sd">- fluidsynth (via midi2audio): renders MIDI using SoundFont sample banks</span>
+<span class="sd">- pretty_midi.fluidsynth: built-in FluidSynth integration in pretty_midi</span>
+<span class="sd">- tonal.midi_to_wav: existing tonal package converter</span>
+
+<span class="sd">Also provides end-to-end shortcuts: ChordSequence -&gt; AudioData.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">tempfile</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Optional</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">.converters</span><span class="w"> </span><span class="kn">import</span> <span class="n">AudioData</span><span class="p">,</span> <span class="n">ChordSequence</span><span class="p">,</span> <span class="n">MidiData</span><span class="p">,</span> <span class="n">NoteSequence</span><span class="p">,</span> <span class="n">converter</span>
+
+
+<span class="c1"># ---------------------------------------------------------------------------</span>
+<span class="c1"># MidiData -&gt; AudioData via midi2audio (FluidSynth CLI wrapper)</span>
+<span class="c1"># ---------------------------------------------------------------------------</span>
+
+
+<div class="viewcode-block" id="midi_to_audio_fluidsynth">
+<a class="viewcode-back" href="../../module_docs/accompy/audio_renderers.html#accompy.audio_renderers.midi_to_audio_fluidsynth">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">midi_to_audio_fluidsynth</span><span class="p">(</span>
+    <span class="n">md</span><span class="p">:</span> <span class="n">MidiData</span><span class="p">,</span>
+    <span class="o">*</span><span class="p">,</span>
+    <span class="n">soundfont</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">sr</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">44100</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">AudioData</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Render MIDI to audio using FluidSynth CLI directly.</span>
+
+<span class="sd">    Calls the ``fluidsynth`` binary via subprocess for maximum compatibility</span>
+<span class="sd">    across FluidSynth versions (midi2audio&#39;s wrapper breaks on &gt;=2.x).</span>
+
+<span class="sd">    Requires:</span>
+<span class="sd">    - FluidSynth installed (brew install fluidsynth / apt install fluidsynth)</span>
+<span class="sd">    - A SoundFont file (.sf2)</span>
+
+<span class="sd">    &gt;&gt;&gt; # md = MidiData(bytes_=some_midi_bytes)</span>
+<span class="sd">    &gt;&gt;&gt; # audio = midi_to_audio_fluidsynth(md)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">shutil</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">subprocess</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">shutil</span><span class="o">.</span><span class="n">which</span><span class="p">(</span><span class="s2">&quot;fluidsynth&quot;</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">&quot;fluidsynth binary not found on PATH&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">soundfont</span><span class="p">:</span>
+        <span class="c1"># Try common default locations</span>
+        <span class="k">for</span> <span class="n">sf_path</span> <span class="ow">in</span> <span class="p">[</span>
+            <span class="n">Path</span><span class="o">.</span><span class="n">home</span><span class="p">()</span> <span class="o">/</span> <span class="s2">&quot;.fluidsynth&quot;</span> <span class="o">/</span> <span class="s2">&quot;default_sound_font.sf2&quot;</span><span class="p">,</span>
+            <span class="n">Path</span><span class="p">(</span><span class="s2">&quot;/usr/share/sounds/sf2/FluidR3_GM.sf2&quot;</span><span class="p">),</span>
+            <span class="n">Path</span><span class="p">(</span><span class="s2">&quot;/usr/share/soundfonts/FluidR3_GM.sf2&quot;</span><span class="p">),</span>
+        <span class="p">]:</span>
+            <span class="k">if</span> <span class="n">sf_path</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+                <span class="n">soundfont</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">sf_path</span><span class="p">)</span>
+                <span class="k">break</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">soundfont</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">&quot;No SoundFont found. Set the soundfont parameter.&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Write MIDI to temp file</span>
+    <span class="k">with</span> <span class="n">tempfile</span><span class="o">.</span><span class="n">NamedTemporaryFile</span><span class="p">(</span><span class="n">suffix</span><span class="o">=</span><span class="s2">&quot;.mid&quot;</span><span class="p">,</span> <span class="n">delete</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">md</span><span class="o">.</span><span class="n">to_bytes</span><span class="p">())</span>
+        <span class="n">midi_path</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">name</span>
+
+    <span class="n">wav_path</span> <span class="o">=</span> <span class="n">tempfile</span><span class="o">.</span><span class="n">mktemp</span><span class="p">(</span><span class="n">suffix</span><span class="o">=</span><span class="s2">&quot;.wav&quot;</span><span class="p">)</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">cmd</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="s2">&quot;fluidsynth&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;-F&quot;</span><span class="p">,</span> <span class="n">wav_path</span><span class="p">,</span> <span class="s2">&quot;-r&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">sr</span><span class="p">),</span>
+            <span class="s2">&quot;-ni&quot;</span><span class="p">,</span> <span class="n">soundfont</span><span class="p">,</span> <span class="n">midi_path</span><span class="p">,</span>
+        <span class="p">]</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">run</span><span class="p">(</span>
+            <span class="n">cmd</span><span class="p">,</span> <span class="n">capture_output</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">60</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">Path</span><span class="p">(</span><span class="n">wav_path</span><span class="p">)</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;FluidSynth failed to produce output.</span><span class="se">\n</span><span class="s2">&quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;stderr: </span><span class="si">{</span><span class="n">result</span><span class="o">.</span><span class="n">stderr</span><span class="si">}</span><span class="se">\n</span><span class="s2">stdout: </span><span class="si">{</span><span class="n">result</span><span class="o">.</span><span class="n">stdout</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="p">)</span>
+        <span class="n">waveform</span> <span class="o">=</span> <span class="n">_read_wav</span><span class="p">(</span><span class="n">wav_path</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">AudioData</span><span class="p">(</span><span class="n">waveform</span><span class="o">=</span><span class="n">waveform</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="n">sr</span><span class="p">)</span>
+    <span class="k">finally</span><span class="p">:</span>
+        <span class="n">Path</span><span class="p">(</span><span class="n">midi_path</span><span class="p">)</span><span class="o">.</span><span class="n">unlink</span><span class="p">(</span><span class="n">missing_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">Path</span><span class="p">(</span><span class="n">wav_path</span><span class="p">)</span><span class="o">.</span><span class="n">unlink</span><span class="p">(</span><span class="n">missing_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
+
+
+
+<span class="c1"># ---------------------------------------------------------------------------</span>
+<span class="c1"># MidiData -&gt; AudioData via pretty_midi&#39;s built-in FluidSynth</span>
+<span class="c1"># ---------------------------------------------------------------------------</span>
+
+
+<div class="viewcode-block" id="midi_to_audio_pretty_midi">
+<a class="viewcode-back" href="../../module_docs/accompy/audio_renderers.html#accompy.audio_renderers.midi_to_audio_pretty_midi">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">midi_to_audio_pretty_midi</span><span class="p">(</span>
+    <span class="n">md</span><span class="p">:</span> <span class="n">MidiData</span><span class="p">,</span>
+    <span class="o">*</span><span class="p">,</span>
+    <span class="n">soundfont</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">sr</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">44100</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">AudioData</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Render MIDI to audio using pretty_midi&#39;s built-in FluidSynth binding.</span>
+
+<span class="sd">    This calls pretty_midi&#39;s .fluidsynth() method which uses pyfluidsynth.</span>
+<span class="sd">    Simpler setup than midi2audio but requires the FluidSynth C library.</span>
+
+<span class="sd">    &gt;&gt;&gt; # md = MidiData(pretty_midi_obj=pm)</span>
+<span class="sd">    &gt;&gt;&gt; # audio = midi_to_audio_pretty_midi(md)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">pm</span> <span class="o">=</span> <span class="n">md</span><span class="o">.</span><span class="n">to_pretty_midi</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">soundfont</span><span class="p">:</span>
+        <span class="n">waveform</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">fluidsynth</span><span class="p">(</span><span class="n">fs</span><span class="o">=</span><span class="n">sr</span><span class="p">,</span> <span class="n">sf2_path</span><span class="o">=</span><span class="n">soundfont</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">waveform</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">fluidsynth</span><span class="p">(</span><span class="n">fs</span><span class="o">=</span><span class="n">sr</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">AudioData</span><span class="p">(</span><span class="n">waveform</span><span class="o">=</span><span class="n">waveform</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="n">sr</span><span class="p">)</span></div>
+
+
+
+<span class="c1"># ---------------------------------------------------------------------------</span>
+<span class="c1"># MidiData -&gt; AudioData via tonal.midi_to_wav</span>
+<span class="c1"># ---------------------------------------------------------------------------</span>
+
+
+<div class="viewcode-block" id="midi_to_audio_tonal">
+<a class="viewcode-back" href="../../module_docs/accompy/audio_renderers.html#accompy.audio_renderers.midi_to_audio_tonal">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">midi_to_audio_tonal</span><span class="p">(</span>
+    <span class="n">md</span><span class="p">:</span> <span class="n">MidiData</span><span class="p">,</span>
+    <span class="o">*</span><span class="p">,</span>
+    <span class="n">soundfont</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">sr</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">44100</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">AudioData</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Render MIDI to audio using tonal.converters.midi_to_wav.</span>
+
+<span class="sd">    Uses the tonal package&#39;s existing converter which wraps FluidSynth.</span>
+
+<span class="sd">    &gt;&gt;&gt; # md = MidiData(bytes_=some_midi_bytes)</span>
+<span class="sd">    &gt;&gt;&gt; # audio = midi_to_audio_tonal(md)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">tonal.converters</span><span class="w"> </span><span class="kn">import</span> <span class="n">midi_to_wav</span>
+
+    <span class="c1"># Write MIDI to temp file</span>
+    <span class="k">with</span> <span class="n">tempfile</span><span class="o">.</span><span class="n">NamedTemporaryFile</span><span class="p">(</span><span class="n">suffix</span><span class="o">=</span><span class="s2">&quot;.mid&quot;</span><span class="p">,</span> <span class="n">delete</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">md</span><span class="o">.</span><span class="n">to_bytes</span><span class="p">())</span>
+        <span class="n">midi_path</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">name</span>
+
+    <span class="n">wav_path</span> <span class="o">=</span> <span class="n">tempfile</span><span class="o">.</span><span class="n">mktemp</span><span class="p">(</span><span class="n">suffix</span><span class="o">=</span><span class="s2">&quot;.wav&quot;</span><span class="p">)</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">kwargs</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">if</span> <span class="n">soundfont</span><span class="p">:</span>
+            <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;soundfont&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">soundfont</span>
+        <span class="n">midi_to_wav</span><span class="p">(</span><span class="n">midi_path</span><span class="p">,</span> <span class="n">wav_path</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="n">waveform</span> <span class="o">=</span> <span class="n">_read_wav</span><span class="p">(</span><span class="n">wav_path</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">AudioData</span><span class="p">(</span><span class="n">waveform</span><span class="o">=</span><span class="n">waveform</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="n">sr</span><span class="p">)</span>
+    <span class="k">finally</span><span class="p">:</span>
+        <span class="n">Path</span><span class="p">(</span><span class="n">midi_path</span><span class="p">)</span><span class="o">.</span><span class="n">unlink</span><span class="p">(</span><span class="n">missing_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">Path</span><span class="p">(</span><span class="n">wav_path</span><span class="p">)</span><span class="o">.</span><span class="n">unlink</span><span class="p">(</span><span class="n">missing_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
+
+
+
+<span class="c1"># ---------------------------------------------------------------------------</span>
+<span class="c1"># Helper: read WAV to numpy</span>
+<span class="c1"># ---------------------------------------------------------------------------</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_read_wav</span><span class="p">(</span><span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Read a WAV file into a numpy float64 array (mono).&quot;&quot;&quot;</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">wave</span>
+
+    <span class="k">with</span> <span class="n">wave</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">wf</span><span class="p">:</span>
+        <span class="n">n_channels</span> <span class="o">=</span> <span class="n">wf</span><span class="o">.</span><span class="n">getnchannels</span><span class="p">()</span>
+        <span class="n">sampwidth</span> <span class="o">=</span> <span class="n">wf</span><span class="o">.</span><span class="n">getsampwidth</span><span class="p">()</span>
+        <span class="n">n_frames</span> <span class="o">=</span> <span class="n">wf</span><span class="o">.</span><span class="n">getnframes</span><span class="p">()</span>
+        <span class="n">raw</span> <span class="o">=</span> <span class="n">wf</span><span class="o">.</span><span class="n">readframes</span><span class="p">(</span><span class="n">n_frames</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">sampwidth</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="n">samples</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">frombuffer</span><span class="p">(</span><span class="n">raw</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int16</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">sampwidth</span> <span class="o">==</span> <span class="mi">4</span><span class="p">:</span>
+        <span class="n">samples</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">frombuffer</span><span class="p">(</span><span class="n">raw</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">samples</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">frombuffer</span><span class="p">(</span><span class="n">raw</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span> <span class="o">-</span> <span class="mf">128.0</span>
+
+    <span class="c1"># Mix to mono if stereo</span>
+    <span class="k">if</span> <span class="n">n_channels</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">samples</span> <span class="o">=</span> <span class="n">samples</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">n_channels</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="c1"># Normalize to [-1, 1]</span>
+    <span class="n">peak</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">samples</span><span class="p">))</span>
+    <span class="k">if</span> <span class="n">peak</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">samples</span> <span class="o">=</span> <span class="n">samples</span> <span class="o">/</span> <span class="n">peak</span>
+
+    <span class="k">return</span> <span class="n">samples</span>
+
+
+<span class="c1"># ---------------------------------------------------------------------------</span>
+<span class="c1"># MidiData -&gt; AudioData via DawDreamer (VST hosting)</span>
+<span class="c1"># ---------------------------------------------------------------------------</span>
+
+
+<div class="viewcode-block" id="midi_to_audio_dawdreamer">
+<a class="viewcode-back" href="../../module_docs/accompy/audio_renderers.html#accompy.audio_renderers.midi_to_audio_dawdreamer">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">midi_to_audio_dawdreamer</span><span class="p">(</span>
+    <span class="n">md</span><span class="p">:</span> <span class="n">MidiData</span><span class="p">,</span>
+    <span class="o">*</span><span class="p">,</span>
+    <span class="n">vst_path</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">sr</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">44100</span><span class="p">,</span>
+    <span class="n">duration</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">buffer_size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">512</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">AudioData</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Render MIDI to audio using DawDreamer with a VST plugin.</span>
+
+<span class="sd">    DawDreamer can host VST2/VST3 plugins for high-quality instrument sounds.</span>
+<span class="sd">    Falls back to a simple sine-wave synth if no VST is specified.</span>
+
+<span class="sd">    Requires: ``pip install dawdreamer`` (or ``pip install accompy[vst]``)</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        md: MIDI data to render</span>
+<span class="sd">        vst_path: Path to a VST2/VST3 plugin (.so/.dylib/.dll/.vst3).</span>
+<span class="sd">            If None, uses DawDreamer&#39;s built-in synth.</span>
+<span class="sd">        sr: Sample rate</span>
+<span class="sd">        duration: Duration in seconds. If None, computed from MIDI data.</span>
+<span class="sd">        buffer_size: Audio buffer size for rendering</span>
+
+<span class="sd">    &gt;&gt;&gt; # md = MidiData(bytes_=some_midi_bytes)</span>
+<span class="sd">    &gt;&gt;&gt; # audio = midi_to_audio_dawdreamer(md, vst_path=&quot;/path/to/plugin.vst3&quot;)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="kn">import</span><span class="w"> </span><span class="nn">dawdreamer</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">daw</span>
+    <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span>
+            <span class="s2">&quot;dawdreamer is required for VST-based audio rendering. &quot;</span>
+            <span class="s2">&quot;Install it with: pip install dawdreamer  (or: pip install accompy[vst])&quot;</span>
+        <span class="p">)</span>
+
+    <span class="c1"># Write MIDI to temp file for DawDreamer</span>
+    <span class="k">with</span> <span class="n">tempfile</span><span class="o">.</span><span class="n">NamedTemporaryFile</span><span class="p">(</span><span class="n">suffix</span><span class="o">=</span><span class="s2">&quot;.mid&quot;</span><span class="p">,</span> <span class="n">delete</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">md</span><span class="o">.</span><span class="n">to_bytes</span><span class="p">())</span>
+        <span class="n">midi_path</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">name</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">engine</span> <span class="o">=</span> <span class="n">daw</span><span class="o">.</span><span class="n">RenderEngine</span><span class="p">(</span><span class="n">sample_rate</span><span class="o">=</span><span class="n">sr</span><span class="p">,</span> <span class="n">block_size</span><span class="o">=</span><span class="n">buffer_size</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">vst_path</span><span class="p">:</span>
+            <span class="n">synth</span> <span class="o">=</span> <span class="n">engine</span><span class="o">.</span><span class="n">make_plugin_processor</span><span class="p">(</span><span class="s2">&quot;synth&quot;</span><span class="p">,</span> <span class="n">vst_path</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">synth</span> <span class="o">=</span> <span class="n">engine</span><span class="o">.</span><span class="n">make_playback_processor</span><span class="p">(</span><span class="s2">&quot;synth&quot;</span><span class="p">,</span> <span class="p">[])</span>
+
+        <span class="n">synth</span><span class="o">.</span><span class="n">load_midi</span><span class="p">(</span><span class="n">midi_path</span><span class="p">)</span>
+
+        <span class="c1"># Compute duration from MIDI if not specified</span>
+        <span class="k">if</span> <span class="n">duration</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">pm</span> <span class="o">=</span> <span class="n">md</span><span class="o">.</span><span class="n">to_pretty_midi</span><span class="p">()</span>
+            <span class="n">duration</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">get_end_time</span><span class="p">()</span> <span class="o">+</span> <span class="mf">1.0</span>  <span class="c1"># Add 1s for release tails</span>
+
+        <span class="n">engine</span><span class="o">.</span><span class="n">load_graph</span><span class="p">([(</span><span class="n">synth</span><span class="p">,</span> <span class="p">[])])</span>
+        <span class="n">engine</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="n">duration</span><span class="p">)</span>
+
+        <span class="n">waveform</span> <span class="o">=</span> <span class="n">engine</span><span class="o">.</span><span class="n">get_audio</span><span class="p">()</span>
+        <span class="c1"># Mix to mono if stereo</span>
+        <span class="k">if</span> <span class="n">waveform</span><span class="o">.</span><span class="n">ndim</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">waveform</span> <span class="o">=</span> <span class="n">waveform</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">AudioData</span><span class="p">(</span><span class="n">waveform</span><span class="o">=</span><span class="n">waveform</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="n">sr</span><span class="p">)</span>
+    <span class="k">finally</span><span class="p">:</span>
+        <span class="n">Path</span><span class="p">(</span><span class="n">midi_path</span><span class="p">)</span><span class="o">.</span><span class="n">unlink</span><span class="p">(</span><span class="n">missing_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
+
+
+
+<span class="c1"># ---------------------------------------------------------------------------</span>
+<span class="c1"># Register MidiData -&gt; AudioData converters</span>
+<span class="c1"># ---------------------------------------------------------------------------</span>
+
+<span class="n">converter</span><span class="o">.</span><span class="n">register</span><span class="p">(</span>
+    <span class="n">MidiData</span><span class="p">,</span>
+    <span class="n">AudioData</span><span class="p">,</span>
+    <span class="n">midi_to_audio_pretty_midi</span><span class="p">,</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;pretty_midi&quot;</span><span class="p">,</span>
+    <span class="n">is_default</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">converter</span><span class="o">.</span><span class="n">register</span><span class="p">(</span>
+    <span class="n">MidiData</span><span class="p">,</span> <span class="n">AudioData</span><span class="p">,</span> <span class="n">midi_to_audio_fluidsynth</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;fluidsynth&quot;</span>
+<span class="p">)</span>
+
+<span class="n">converter</span><span class="o">.</span><span class="n">register</span><span class="p">(</span>
+    <span class="n">MidiData</span><span class="p">,</span> <span class="n">AudioData</span><span class="p">,</span> <span class="n">midi_to_audio_tonal</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;tonal&quot;</span>
+<span class="p">)</span>
+
+<span class="n">converter</span><span class="o">.</span><span class="n">register</span><span class="p">(</span>
+    <span class="n">MidiData</span><span class="p">,</span> <span class="n">AudioData</span><span class="p">,</span> <span class="n">midi_to_audio_dawdreamer</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;dawdreamer&quot;</span>
+<span class="p">)</span>
+
+
+<span class="c1"># ---------------------------------------------------------------------------</span>
+<span class="c1"># ChordSequence -&gt; AudioData via MusicGen-Chord (AI-based, skips MIDI)</span>
+<span class="c1"># ---------------------------------------------------------------------------</span>
+
+
+<div class="viewcode-block" id="chordseq_to_audio_musicgen">
+<a class="viewcode-back" href="../../module_docs/accompy/audio_renderers.html#accompy.audio_renderers.chordseq_to_audio_musicgen">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">chordseq_to_audio_musicgen</span><span class="p">(</span>
+    <span class="n">cs</span><span class="p">:</span> <span class="n">ChordSequence</span><span class="p">,</span>
+    <span class="o">*</span><span class="p">,</span>
+    <span class="n">prompt</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;smooth jazz trio&quot;</span><span class="p">,</span>
+    <span class="n">duration</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">sr</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">32000</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">AudioData</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Generate audio directly from chords using MusicGen-Chord.</span>
+
+<span class="sd">    Uses Meta&#39;s MusicGen model conditioned on chord progressions</span>
+<span class="sd">    to generate realistic audio without going through MIDI.</span>
+
+<span class="sd">    Requires: ``pip install audiocraft`` (or ``pip install accompy[ai]``)</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        cs: Chord progression to render</span>
+<span class="sd">        prompt: Text description of desired musical style</span>
+<span class="sd">        duration: Duration in seconds. If None, computed from tempo and beats.</span>
+<span class="sd">        sr: Sample rate (MusicGen default is 32000)</span>
+
+<span class="sd">    &gt;&gt;&gt; cs = ChordSequence([(&quot;Dm7&quot;, 4.0), (&quot;G7&quot;, 4.0), (&quot;Cmaj7&quot;, 4.0)])</span>
+<span class="sd">    &gt;&gt;&gt; audio = chordseq_to_audio_musicgen(cs, prompt=&quot;jazz piano trio&quot;)  # doctest: +SKIP</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">audiocraft.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">MusicGen</span>
+    <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span>
+            <span class="s2">&quot;audiocraft is required for MusicGen-Chord audio generation. &quot;</span>
+            <span class="s2">&quot;Install it with: pip install audiocraft  (or: pip install accompy[ai])&quot;</span>
+        <span class="p">)</span>
+
+    <span class="c1"># Compute duration from tempo and total beats if not specified</span>
+    <span class="k">if</span> <span class="n">duration</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">beat_duration</span> <span class="o">=</span> <span class="mf">60.0</span> <span class="o">/</span> <span class="n">cs</span><span class="o">.</span><span class="n">tempo</span>
+        <span class="n">duration</span> <span class="o">=</span> <span class="n">cs</span><span class="o">.</span><span class="n">total_beats</span> <span class="o">*</span> <span class="n">beat_duration</span>
+
+    <span class="c1"># Convert ChordSequence to MusicGen chord format</span>
+    <span class="c1"># Format: &quot;C D:min G:7 C&quot; (space-separated, colon notation)</span>
+    <span class="n">chord_text</span> <span class="o">=</span> <span class="n">_chordseq_to_musicgen_format</span><span class="p">(</span><span class="n">cs</span><span class="p">)</span>
+
+    <span class="c1"># Build the full prompt with chord conditioning</span>
+    <span class="n">full_prompt</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">prompt</span><span class="si">}</span><span class="s2">, chords: </span><span class="si">{</span><span class="n">chord_text</span><span class="si">}</span><span class="s2">&quot;</span>
+
+    <span class="n">model</span> <span class="o">=</span> <span class="n">MusicGen</span><span class="o">.</span><span class="n">get_pretrained</span><span class="p">(</span><span class="s2">&quot;facebook/musicgen-chord&quot;</span><span class="p">)</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">set_generation_params</span><span class="p">(</span><span class="n">duration</span><span class="o">=</span><span class="n">duration</span><span class="p">)</span>
+
+    <span class="n">wav</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">generate</span><span class="p">([</span><span class="n">full_prompt</span><span class="p">])</span>
+    <span class="n">waveform</span> <span class="o">=</span> <span class="n">wav</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span>  <span class="c1"># (batch, channels, samples) -&gt; 1D</span>
+
+    <span class="k">return</span> <span class="n">AudioData</span><span class="p">(</span><span class="n">waveform</span><span class="o">=</span><span class="n">waveform</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="n">sr</span><span class="p">)</span></div>
+
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_chordseq_to_musicgen_format</span><span class="p">(</span><span class="n">cs</span><span class="p">:</span> <span class="n">ChordSequence</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Convert ChordSequence to MusicGen chord text format.</span>
+
+<span class="sd">    MusicGen expects chords in format like: &quot;C D:min G:7 C&quot;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">parts</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">symbol</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">cs</span><span class="o">.</span><span class="n">chords</span><span class="p">:</span>
+        <span class="c1"># Basic normalization: Cmaj7 -&gt; C:maj7, Am -&gt; A:min, etc.</span>
+        <span class="c1"># MusicGen format uses colon notation</span>
+        <span class="n">parts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">symbol</span><span class="p">)</span>
+    <span class="k">return</span> <span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">parts</span><span class="p">)</span>
+
+
+<span class="n">converter</span><span class="o">.</span><span class="n">register</span><span class="p">(</span>
+    <span class="n">ChordSequence</span><span class="p">,</span>
+    <span class="n">AudioData</span><span class="p">,</span>
+    <span class="n">chordseq_to_audio_musicgen</span><span class="p">,</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;musicgen_chord&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+
+
+<span class="c1"># ---------------------------------------------------------------------------</span>
+<span class="c1"># End-to-end shortcuts: ChordSequence -&gt; AudioData</span>
+<span class="c1"># ---------------------------------------------------------------------------</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_make_chordseq_to_audio</span><span class="p">(</span>
+    <span class="n">resolver_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">midi_gen_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">audio_renderer_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">ChordSequence</span><span class="p">],</span> <span class="n">AudioData</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Factory for ChordSequence -&gt; AudioData pipelines.&quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">convert_fn</span><span class="p">(</span><span class="n">cs</span><span class="p">:</span> <span class="n">ChordSequence</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">AudioData</span><span class="p">:</span>
+        <span class="n">resolve_fn</span> <span class="o">=</span> <span class="n">converter</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">ChordSequence</span><span class="p">,</span> <span class="n">NoteSequence</span><span class="p">,</span> <span class="n">resolver_name</span><span class="p">)</span>
+        <span class="n">midi_fn</span> <span class="o">=</span> <span class="n">converter</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">NoteSequence</span><span class="p">,</span> <span class="n">MidiData</span><span class="p">,</span> <span class="n">midi_gen_name</span><span class="p">)</span>
+        <span class="n">audio_fn</span> <span class="o">=</span> <span class="n">converter</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">MidiData</span><span class="p">,</span> <span class="n">AudioData</span><span class="p">,</span> <span class="n">audio_renderer_name</span><span class="p">)</span>
+        <span class="n">ns</span> <span class="o">=</span> <span class="n">resolve_fn</span><span class="p">(</span><span class="n">cs</span><span class="p">)</span>
+        <span class="n">md</span> <span class="o">=</span> <span class="n">midi_fn</span><span class="p">(</span><span class="n">ns</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">audio_fn</span><span class="p">(</span><span class="n">md</span><span class="p">)</span>
+
+    <span class="n">name</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">resolver_name</span><span class="si">}</span><span class="s2">+</span><span class="si">{</span><span class="n">midi_gen_name</span><span class="si">}</span><span class="s2">+</span><span class="si">{</span><span class="n">audio_renderer_name</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="n">convert_fn</span><span class="o">.</span><span class="vm">__name__</span> <span class="o">=</span> <span class="n">name</span>
+    <span class="k">return</span> <span class="n">convert_fn</span>
+
+
+<span class="c1"># Register the most useful end-to-end pipelines</span>
+<span class="n">converter</span><span class="o">.</span><span class="n">register</span><span class="p">(</span>
+    <span class="n">ChordSequence</span><span class="p">,</span>
+    <span class="n">AudioData</span><span class="p">,</span>
+    <span class="n">_make_chordseq_to_audio</span><span class="p">(</span><span class="s2">&quot;pychord&quot;</span><span class="p">,</span> <span class="s2">&quot;pretty_midi&quot;</span><span class="p">,</span> <span class="s2">&quot;pretty_midi&quot;</span><span class="p">),</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;pychord+pretty_midi+pretty_midi&quot;</span><span class="p">,</span>
+    <span class="n">is_default</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">converter</span><span class="o">.</span><span class="n">register</span><span class="p">(</span>
+    <span class="n">ChordSequence</span><span class="p">,</span>
+    <span class="n">AudioData</span><span class="p">,</span>
+    <span class="n">_make_chordseq_to_audio</span><span class="p">(</span><span class="s2">&quot;tonal&quot;</span><span class="p">,</span> <span class="s2">&quot;midiutil&quot;</span><span class="p">,</span> <span class="s2">&quot;fluidsynth&quot;</span><span class="p">),</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;tonal+midiutil+fluidsynth&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">converter</span><span class="o">.</span><span class="n">register</span><span class="p">(</span>
+    <span class="n">ChordSequence</span><span class="p">,</span>
+    <span class="n">AudioData</span><span class="p">,</span>
+    <span class="n">_make_chordseq_to_audio</span><span class="p">(</span><span class="s2">&quot;pychord&quot;</span><span class="p">,</span> <span class="s2">&quot;pretty_midi&quot;</span><span class="p">,</span> <span class="s2">&quot;fluidsynth&quot;</span><span class="p">),</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;pychord+pretty_midi+fluidsynth&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright NO COPYRIGHT.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

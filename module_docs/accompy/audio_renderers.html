@@ -1,0 +1,241 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>accompy.audio_renderers &mdash; accompy 0.3.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=e259d695"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../_static/toggleprompt.js?v=d7ede5d2"></script>
+      <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="accompy.base" href="base.html" />
+    <link rel="prev" title="accompy" href="../accompy.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            accompy
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../accompy.html">accompy</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">accompy.audio_renderers</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#accompy.audio_renderers.chordseq_to_audio_musicgen"><code class="docutils literal notranslate"><span class="pre">chordseq_to_audio_musicgen()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#accompy.audio_renderers.midi_to_audio_dawdreamer"><code class="docutils literal notranslate"><span class="pre">midi_to_audio_dawdreamer()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#accompy.audio_renderers.midi_to_audio_fluidsynth"><code class="docutils literal notranslate"><span class="pre">midi_to_audio_fluidsynth()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#accompy.audio_renderers.midi_to_audio_pretty_midi"><code class="docutils literal notranslate"><span class="pre">midi_to_audio_pretty_midi()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#accompy.audio_renderers.midi_to_audio_tonal"><code class="docutils literal notranslate"><span class="pre">midi_to_audio_tonal()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="base.html">accompy.base</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chord_parsers.html">accompy.chord_parsers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chord_resolution.html">accompy.chord_resolution</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chord_resolvers.html">accompy.chord_resolvers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="converters.html">accompy.converters</a></li>
+<li class="toctree-l1"><a class="reference internal" href="main.html">accompy.main</a></li>
+<li class="toctree-l1"><a class="reference internal" href="midi_generators.html">accompy.midi_generators</a></li>
+<li class="toctree-l1"><a class="reference internal" href="patterns.html">accompy.patterns</a></li>
+<li class="toctree-l1"><a class="reference internal" href="patterns/builtin.html">accompy.patterns.builtin</a></li>
+<li class="toctree-l1"><a class="reference internal" href="patterns/dataclasses.html">accompy.patterns.dataclasses</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pipeline.html">accompy.pipeline</a></li>
+<li class="toctree-l1"><a class="reference internal" href="protocols.html">accompy.protocols</a></li>
+<li class="toctree-l1"><a class="reference internal" href="realtime.html">accompy.realtime</a></li>
+<li class="toctree-l1"><a class="reference internal" href="renderers.html">accompy.renderers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="renderers/midi.html">accompy.renderers.midi</a></li>
+<li class="toctree-l1"><a class="reference internal" href="setup_utils.html">accompy.setup_utils</a></li>
+<li class="toctree-l1"><a class="reference internal" href="synthesis.html">accompy.synthesis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="synthesis/fluidsynth.html">accompy.synthesis.fluidsynth</a></li>
+<li class="toctree-l1"><a class="reference internal" href="util.html">accompy.util</a></li>
+<li class="toctree-l1"><a class="reference internal" href="wips.html">accompy.wips</a></li>
+<li class="toctree-l1"><a class="reference internal" href="wips/audio_renderers.html">accompy.wips.audio_renderers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="wips/chord_parsers.html">accompy.wips.chord_parsers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="wips/chord_resolvers.html">accompy.wips.chord_resolvers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="wips/midi_generators.html">accompy.wips.midi_generators</a></li>
+<li class="toctree-l1"><a class="reference internal" href="wips/pipeline.html">accompy.wips.pipeline</a></li>
+<li class="toctree-l1"><a class="reference internal" href="wips/types.html">accompy.wips.types</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">accompy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">accompy.audio_renderers</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/module_docs/accompy/audio_renderers.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-accompy.audio_renderers">
+<span id="accompy-audio-renderers"></span><h1>accompy.audio_renderers<a class="headerlink" href="#module-accompy.audio_renderers" title="Link to this heading"></a></h1>
+<p>Audio renderers — convert MidiData to AudioData.</p>
+<p>Registered converters: MidiData -&gt; AudioData</p>
+<p>Backends:
+- fluidsynth (via midi2audio): renders MIDI using SoundFont sample banks
+- pretty_midi.fluidsynth: built-in FluidSynth integration in pretty_midi
+- tonal.midi_to_wav: existing tonal package converter</p>
+<p>Also provides end-to-end shortcuts: ChordSequence -&gt; AudioData.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="accompy.audio_renderers.chordseq_to_audio_musicgen">
+<span class="sig-prename descclassname"><span class="pre">accompy.audio_renderers.</span></span><span class="sig-name descname"><span class="pre">chordseq_to_audio_musicgen</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="converters.html#accompy.converters.ChordSequence" title="accompy.converters.ChordSequence"><span class="pre">ChordSequence</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prompt</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'smooth</span> <span class="pre">jazz</span> <span class="pre">trio'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">duration</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sr</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">32000</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="converters.html#accompy.converters.AudioData" title="accompy.converters.AudioData"><span class="pre">AudioData</span></a></span></span><a class="reference internal" href="../../_modules/accompy/audio_renderers.html#chordseq_to_audio_musicgen"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#accompy.audio_renderers.chordseq_to_audio_musicgen" title="Link to this definition"></a></dt>
+<dd><p>Generate audio directly from chords using MusicGen-Chord.</p>
+<p>Uses Meta’s MusicGen model conditioned on chord progressions
+to generate realistic audio without going through MIDI.</p>
+<p>Requires: <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">audiocraft</span></code> (or <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">accompy[ai]</span></code>)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>cs</strong> – Chord progression to render</p></li>
+<li><p><strong>prompt</strong> – Text description of desired musical style</p></li>
+<li><p><strong>duration</strong> – Duration in seconds. If None, computed from tempo and beats.</p></li>
+<li><p><strong>sr</strong> – Sample rate (MusicGen default is 32000)</p></li>
+</ul>
+</dd>
+</dl>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">cs</span> <span class="o">=</span> <span class="n">ChordSequence</span><span class="p">([(</span><span class="s2">&quot;Dm7&quot;</span><span class="p">,</span> <span class="mf">4.0</span><span class="p">),</span> <span class="p">(</span><span class="s2">&quot;G7&quot;</span><span class="p">,</span> <span class="mf">4.0</span><span class="p">),</span> <span class="p">(</span><span class="s2">&quot;Cmaj7&quot;</span><span class="p">,</span> <span class="mf">4.0</span><span class="p">)])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">audio</span> <span class="o">=</span> <span class="n">chordseq_to_audio_musicgen</span><span class="p">(</span><span class="n">cs</span><span class="p">,</span> <span class="n">prompt</span><span class="o">=</span><span class="s2">&quot;jazz piano trio&quot;</span><span class="p">)</span>  
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="accompy.audio_renderers.midi_to_audio_dawdreamer">
+<span class="sig-prename descclassname"><span class="pre">accompy.audio_renderers.</span></span><span class="sig-name descname"><span class="pre">midi_to_audio_dawdreamer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">md</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="converters.html#accompy.converters.MidiData" title="accompy.converters.MidiData"><span class="pre">MidiData</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vst_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sr</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">44100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">duration</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">buffer_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">512</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="converters.html#accompy.converters.AudioData" title="accompy.converters.AudioData"><span class="pre">AudioData</span></a></span></span><a class="reference internal" href="../../_modules/accompy/audio_renderers.html#midi_to_audio_dawdreamer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#accompy.audio_renderers.midi_to_audio_dawdreamer" title="Link to this definition"></a></dt>
+<dd><p>Render MIDI to audio using DawDreamer with a VST plugin.</p>
+<p>DawDreamer can host VST2/VST3 plugins for high-quality instrument sounds.
+Falls back to a simple sine-wave synth if no VST is specified.</p>
+<p>Requires: <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">dawdreamer</span></code> (or <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">accompy[vst]</span></code>)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>md</strong> – MIDI data to render</p></li>
+<li><p><strong>vst_path</strong> – Path to a VST2/VST3 plugin (.so/.dylib/.dll/.vst3).
+If None, uses DawDreamer’s built-in synth.</p></li>
+<li><p><strong>sr</strong> – Sample rate</p></li>
+<li><p><strong>duration</strong> – Duration in seconds. If None, computed from MIDI data.</p></li>
+<li><p><strong>buffer_size</strong> – Audio buffer size for rendering</p></li>
+</ul>
+</dd>
+</dl>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># md = MidiData(bytes_=some_midi_bytes)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># audio = midi_to_audio_dawdreamer(md, vst_path=&quot;/path/to/plugin.vst3&quot;)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="accompy.audio_renderers.midi_to_audio_fluidsynth">
+<span class="sig-prename descclassname"><span class="pre">accompy.audio_renderers.</span></span><span class="sig-name descname"><span class="pre">midi_to_audio_fluidsynth</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">md</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="converters.html#accompy.converters.MidiData" title="accompy.converters.MidiData"><span class="pre">MidiData</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">soundfont</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sr</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">44100</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="converters.html#accompy.converters.AudioData" title="accompy.converters.AudioData"><span class="pre">AudioData</span></a></span></span><a class="reference internal" href="../../_modules/accompy/audio_renderers.html#midi_to_audio_fluidsynth"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#accompy.audio_renderers.midi_to_audio_fluidsynth" title="Link to this definition"></a></dt>
+<dd><p>Render MIDI to audio using FluidSynth CLI directly.</p>
+<p>Calls the <code class="docutils literal notranslate"><span class="pre">fluidsynth</span></code> binary via subprocess for maximum compatibility
+across FluidSynth versions (midi2audio’s wrapper breaks on &gt;=2.x).</p>
+<p>Requires:
+- FluidSynth installed (brew install fluidsynth / apt install fluidsynth)
+- A SoundFont file (.sf2)</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># md = MidiData(bytes_=some_midi_bytes)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># audio = midi_to_audio_fluidsynth(md)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="accompy.audio_renderers.midi_to_audio_pretty_midi">
+<span class="sig-prename descclassname"><span class="pre">accompy.audio_renderers.</span></span><span class="sig-name descname"><span class="pre">midi_to_audio_pretty_midi</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">md</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="converters.html#accompy.converters.MidiData" title="accompy.converters.MidiData"><span class="pre">MidiData</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">soundfont</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sr</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">44100</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="converters.html#accompy.converters.AudioData" title="accompy.converters.AudioData"><span class="pre">AudioData</span></a></span></span><a class="reference internal" href="../../_modules/accompy/audio_renderers.html#midi_to_audio_pretty_midi"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#accompy.audio_renderers.midi_to_audio_pretty_midi" title="Link to this definition"></a></dt>
+<dd><p>Render MIDI to audio using pretty_midi’s built-in FluidSynth binding.</p>
+<p>This calls pretty_midi’s .fluidsynth() method which uses pyfluidsynth.
+Simpler setup than midi2audio but requires the FluidSynth C library.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># md = MidiData(pretty_midi_obj=pm)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># audio = midi_to_audio_pretty_midi(md)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="accompy.audio_renderers.midi_to_audio_tonal">
+<span class="sig-prename descclassname"><span class="pre">accompy.audio_renderers.</span></span><span class="sig-name descname"><span class="pre">midi_to_audio_tonal</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">md</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="converters.html#accompy.converters.MidiData" title="accompy.converters.MidiData"><span class="pre">MidiData</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">soundfont</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sr</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">44100</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="converters.html#accompy.converters.AudioData" title="accompy.converters.AudioData"><span class="pre">AudioData</span></a></span></span><a class="reference internal" href="../../_modules/accompy/audio_renderers.html#midi_to_audio_tonal"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#accompy.audio_renderers.midi_to_audio_tonal" title="Link to this definition"></a></dt>
+<dd><p>Render MIDI to audio using tonal.converters.midi_to_wav.</p>
+<p>Uses the tonal package’s existing converter which wraps FluidSynth.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># md = MidiData(bytes_=some_midi_bytes)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># audio = midi_to_audio_tonal(md)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../accompy.html" class="btn btn-neutral float-left" title="accompy" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="base.html" class="btn btn-neutral float-right" title="accompy.base" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright NO COPYRIGHT.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
