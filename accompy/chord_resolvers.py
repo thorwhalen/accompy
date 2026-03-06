@@ -28,9 +28,7 @@ ChordResolver = Callable[[str], list[int]]
 # ---------------------------------------------------------------------------
 
 
-def resolve_with_pychord(
-    symbol: str, *, root_octave: int = 3
-) -> list[int]:
+def resolve_with_pychord(symbol: str, *, root_octave: int = 3) -> list[int]:
     """Resolve a chord symbol to MIDI notes using pychord.
 
     >>> resolve_with_pychord("Cmaj7")
@@ -45,9 +43,7 @@ def resolve_with_pychord(
     return [_name_to_midi(n) for n in note_names]
 
 
-def resolve_with_music21(
-    symbol: str, *, root_octave: int = 3
-) -> list[int]:
+def resolve_with_music21(symbol: str, *, root_octave: int = 3) -> list[int]:
     """Resolve a chord symbol to MIDI notes using music21.
 
     Handles the widest range of chord types including altered chords.
@@ -61,9 +57,7 @@ def resolve_with_music21(
     return [p.midi for p in cs.pitches]
 
 
-def resolve_with_mingus(
-    symbol: str, *, root_octave: int = 3
-) -> list[int]:
+def resolve_with_mingus(symbol: str, *, root_octave: int = 3) -> list[int]:
     """Resolve a chord symbol to MIDI notes using mingus.
 
     >>> resolve_with_mingus("Cmaj7")
@@ -76,9 +70,7 @@ def resolve_with_mingus(
     return [int(Note(name, root_octave)) for name in note_names]
 
 
-def resolve_with_tonal(
-    symbol: str, *, transpose: int = -12
-) -> list[int]:
+def resolve_with_tonal(symbol: str, *, transpose: int = -12) -> list[int]:
     """Resolve a chord symbol to MIDI notes using the tonal package.
 
     This is accompy's existing default resolver.
@@ -99,7 +91,13 @@ def resolve_with_tonal(
 # ---------------------------------------------------------------------------
 
 _NOTE_MAP = {
-    "C": 0, "D": 2, "E": 4, "F": 5, "G": 7, "A": 9, "B": 11,
+    "C": 0,
+    "D": 2,
+    "E": 4,
+    "F": 5,
+    "G": 7,
+    "A": 9,
+    "B": 11,
 }
 
 
@@ -159,18 +157,10 @@ def _make_sequence_converter(
 
 
 # Create the sequence-level converters
-chordseq_to_noteseq_pychord = _make_sequence_converter(
-    resolve_with_pychord, "pychord"
-)
-chordseq_to_noteseq_music21 = _make_sequence_converter(
-    resolve_with_music21, "music21"
-)
-chordseq_to_noteseq_mingus = _make_sequence_converter(
-    resolve_with_mingus, "mingus"
-)
-chordseq_to_noteseq_tonal = _make_sequence_converter(
-    resolve_with_tonal, "tonal"
-)
+chordseq_to_noteseq_pychord = _make_sequence_converter(resolve_with_pychord, "pychord")
+chordseq_to_noteseq_music21 = _make_sequence_converter(resolve_with_music21, "music21")
+chordseq_to_noteseq_mingus = _make_sequence_converter(resolve_with_mingus, "mingus")
+chordseq_to_noteseq_tonal = _make_sequence_converter(resolve_with_tonal, "tonal")
 
 
 # ---------------------------------------------------------------------------
@@ -193,6 +183,4 @@ converter.register(
     ChordSequence, NoteSequence, chordseq_to_noteseq_mingus, name="mingus"
 )
 
-converter.register(
-    ChordSequence, NoteSequence, chordseq_to_noteseq_tonal, name="tonal"
-)
+converter.register(ChordSequence, NoteSequence, chordseq_to_noteseq_tonal, name="tonal")

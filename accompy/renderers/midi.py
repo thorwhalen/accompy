@@ -57,7 +57,11 @@ def generate_midi_events(
         patterns_dict = pattern_source.get_patterns(config.style)
     except AttributeError:
         # Fallback for simple dict/function interface
-        patterns_dict = pattern_source(config.style) if callable(pattern_source) else pattern_source.get(config.style, {})
+        patterns_dict = (
+            pattern_source(config.style)
+            if callable(pattern_source)
+            else pattern_source.get(config.style, {})
+        )
 
     # Select specific patterns (first of each type)
     drum_patterns: list = patterns_dict.get("drums", [])
@@ -77,12 +81,14 @@ def generate_midi_events(
 
         for measure in score.measures:
             chords_in_bar = measure
-            beats_per_chord = beats_per_bar // len(chords_in_bar) if chords_in_bar else beats_per_bar
+            beats_per_chord = (
+                beats_per_bar // len(chords_in_bar) if chords_in_bar else beats_per_bar
+            )
 
             for chord_idx, chord_symbol in enumerate(chords_in_bar):
                 chord_start = current_beat + (chord_idx * beats_per_chord)
 
-                if chord_symbol in ('', 'n', 'N.C.', 'NC'):
+                if chord_symbol in ("", "n", "N.C.", "NC"):
                     continue
 
                 # Get chord notes
@@ -100,7 +106,7 @@ def generate_midi_events(
                         drum_pattern,
                         chord_start,
                         beats_per_chord,
-                        config.volumes.get("drums", 0.8)
+                        config.volumes.get("drums", 0.8),
                     )
 
                 # Yield bass events
@@ -111,7 +117,7 @@ def generate_midi_events(
                         beats_per_chord,
                         root,
                         notes,
-                        config.volumes.get("bass", 0.9)
+                        config.volumes.get("bass", 0.9),
                     )
 
                 # Yield comping events
@@ -121,7 +127,7 @@ def generate_midi_events(
                         chord_start,
                         beats_per_chord,
                         notes,
-                        config.volumes.get("piano", 0.7)
+                        config.volumes.get("piano", 0.7),
                     )
 
             current_beat += beats_per_bar
@@ -133,17 +139,14 @@ def _select_pattern(patterns: list, beats_per_bar: int):
         return None
     # Try to find a matching pattern
     for pattern in patterns:
-        if hasattr(pattern, 'beats_per_bar') and pattern.beats_per_bar == beats_per_bar:
+        if hasattr(pattern, "beats_per_bar") and pattern.beats_per_bar == beats_per_bar:
             return pattern
     # Default to first pattern
     return patterns[0]
 
 
 def _drum_events(
-    pattern: DrumPattern,
-    start_beat: float,
-    duration: float,
-    volume: float
+    pattern: DrumPattern, start_beat: float, duration: float, volume: float
 ) -> Iterator[MidiEvent]:
     """Generate drum MIDI events."""
     channel = 9  # MIDI drum channel
@@ -154,7 +157,7 @@ def _drum_events(
                 channel=channel,
                 note=hit.drum,
                 velocity=int(hit.velocity * volume),
-                duration=0.25  # Short drum hits
+                duration=0.25,  # Short drum hits
             )
 
 
@@ -164,7 +167,7 @@ def _bass_events(
     duration: float,
     root: int,
     chord_notes: list[int],
-    volume: float
+    volume: float,
 ) -> Iterator[MidiEvent]:
     """Generate bass MIDI events."""
     channel = 0  # Bass channel
@@ -179,9 +182,7 @@ def _bass_events(
             continue
 
         resolved = _resolve_pitch_offset(
-            root_pc=root_pc,
-            chord_pcs=chord_pcs,
-            target_offset=note.pitch_offset
+            root_pc=root_pc, chord_pcs=chord_pcs, target_offset=note.pitch_offset
         )
         pitch = bass_root + resolved
         vel = int(note.velocity * volume)
@@ -194,7 +195,7 @@ def _bass_events(
             channel=channel,
             note=pitch,
             velocity=vel,
-            duration=dur
+            duration=dur,
         )
 
 
@@ -203,7 +204,7 @@ def _comp_events(
     start_beat: float,
     duration: float,
     chord_notes: list[int],
-    volume: float
+    volume: float,
 ) -> Iterator[MidiEvent]:
     """Generate piano/comping MIDI events."""
     channel = 1  # Piano channel
@@ -221,7 +222,7 @@ def _comp_events(
                     channel=channel,
                     note=note,
                     velocity=velocity,
-                    duration=0.9
+                    duration=0.9,
                 )
         return
 
@@ -240,7 +241,7 @@ def _comp_events(
                 channel=channel,
                 note=note,
                 velocity=velocity,
-                duration=dur
+                duration=dur,
             )
 
 
@@ -289,7 +290,7 @@ def events_to_midi_file(
     events: Sequence[MidiEvent],
     path: Path,
     tempo: int,
-    time_signature: tuple[int, int] = (4, 4)
+    time_signature: tuple[int, int] = (4, 4),
 ) -> Path:
     """
     Write MIDI events to a MIDI file.
@@ -343,16 +344,11 @@ def events_to_midi_file(
     for event in events:
         track = channel_to_track.get(event.channel, 0)
         midi.addNote(
-            track,
-            event.channel,
-            event.note,
-            event.time,
-            event.duration,
-            event.velocity
+            track, event.channel, event.note, event.time, event.duration, event.velocity
         )
 
     # Write to file
-    with open(path, 'wb') as f:
+    with open(path, "wb") as f:
         midi.writeFile(f)
 
     return path
@@ -380,12 +376,11 @@ def generate_builtin_midi(
         Path to the generated MIDI file
     """
     # Generate events
-    events = list(generate_midi_events(
-        score,
-        config,
-        pattern_source=pattern_source,
-        chord_resolver=chord_resolver
-    ))
+    events = list(
+        generate_midi_events(
+            score, config, pattern_source=pattern_source, chord_resolver=chord_resolver
+        )
+    )
 
     # Write to temp file
     midi_path = Path(tempfile.mktemp(suffix=".mid"))

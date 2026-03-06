@@ -75,7 +75,7 @@ class PatternRegistry(MutableMapping[str, dict]):
 
     def __setitem__(self, style: str, patterns: dict) -> None:
         # Validate structure
-        required_keys = {'drums', 'bass', 'comp'}
+        required_keys = {"drums", "bass", "comp"}
         if not required_keys.issubset(patterns.keys()):
             raise ValueError(f"Pattern dict must have keys: {required_keys}")
         self._patterns[style] = patterns
@@ -93,9 +93,9 @@ class PatternRegistry(MutableMapping[str, dict]):
         """Load all built-in patterns."""
         for style in DRUM_PATTERNS:
             self._patterns[style] = {
-                'drums': DRUM_PATTERNS.get(style, []),
-                'bass': BASS_PATTERNS.get(style, []),
-                'comp': COMP_PATTERNS.get(style, []),
+                "drums": DRUM_PATTERNS.get(style, []),
+                "bass": BASS_PATTERNS.get(style, []),
+                "comp": COMP_PATTERNS.get(style, []),
             }
 
     def available_styles(self) -> list[str]:
@@ -169,9 +169,9 @@ def register_style(style: str, drums: list, bass: list, comp: list) -> None:
         >>> register_style('my_funk', [my_drum_pattern], [my_bass_pattern], [])  # doctest: +SKIP
     """
     get_pattern_registry()[style] = {
-        'drums': drums,
-        'bass': bass,
-        'comp': comp,
+        "drums": drums,
+        "bass": bass,
+        "comp": comp,
     }
 
 

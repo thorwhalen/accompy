@@ -348,13 +348,19 @@ def file_to_midi(
         cs = _repeat_chord_sequence(cs, n_repeats)
     if tempo is not None:
         cs = ChordSequence(
-            chords=cs.chords, title=cs.title, key=cs.key,
-            tempo=tempo, time_signature=cs.time_signature,
+            chords=cs.chords,
+            title=cs.title,
+            key=cs.key,
+            tempo=tempo,
+            time_signature=cs.time_signature,
         )
 
     return chords_to_midi(
-        cs, resolver=resolver, midi_gen=midi_gen,
-        tempo=cs.tempo, output_path=output_path,
+        cs,
+        resolver=resolver,
+        midi_gen=midi_gen,
+        tempo=cs.tempo,
+        output_path=output_path,
     )
 
 
@@ -511,10 +517,27 @@ def _repeat_chord_sequence(cs: ChordSequence, n: int) -> ChordSequence:
 _SHARP_NOTES = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"]
 _FLAT_NOTES = ["C", "Db", "D", "Eb", "E", "F", "Gb", "G", "Ab", "A", "Bb", "B"]
 _NOTE_TO_SEMITONE = {
-    "C": 0, "C#": 1, "Db": 1, "D": 2, "D#": 3, "Eb": 3,
-    "E": 4, "Fb": 4, "E#": 5, "F": 5, "F#": 6, "Gb": 6,
-    "G": 7, "G#": 8, "Ab": 8, "A": 9, "A#": 10, "Bb": 10,
-    "B": 11, "Cb": 11, "B#": 0,
+    "C": 0,
+    "C#": 1,
+    "Db": 1,
+    "D": 2,
+    "D#": 3,
+    "Eb": 3,
+    "E": 4,
+    "Fb": 4,
+    "E#": 5,
+    "F": 5,
+    "F#": 6,
+    "Gb": 6,
+    "G": 7,
+    "G#": 8,
+    "Ab": 8,
+    "A": 9,
+    "A#": 10,
+    "Bb": 10,
+    "B": 11,
+    "Cb": 11,
+    "B#": 0,
 }
 
 
@@ -584,10 +607,6 @@ def list_available_converters() -> dict[str, list[str]]:
         "resolvers": converter.list_converters(ChordSequence, NoteSequence),
         "midi_generators": converter.list_converters(NoteSequence, MidiData),
         "audio_renderers": converter.list_converters(MidiData, AudioData),
-        "shortcuts_chord_to_midi": converter.list_converters(
-            ChordSequence, MidiData
-        ),
-        "shortcuts_chord_to_audio": converter.list_converters(
-            ChordSequence, AudioData
-        ),
+        "shortcuts_chord_to_midi": converter.list_converters(ChordSequence, MidiData),
+        "shortcuts_chord_to_audio": converter.list_converters(ChordSequence, AudioData),
     }

@@ -30,28 +30,28 @@ def normalize_chord_symbol(symbol: str) -> str:
         'Dh7'
     """
     symbol = symbol.strip()
-    if not symbol or symbol in ('', 'n', 'N.C.', 'NC', '%', 'x'):
+    if not symbol or symbol in ("", "n", "N.C.", "NC", "%", "x"):
         return symbol
 
     # Common normalizations
     replacements = [
-        ('maj7', '^7'),
-        ('maj9', '^9'),
-        ('maj', '^'),
-        ('min7', '-7'),
-        ('min', '-'),
-        ('m7', '-7'),
-        ('m9', '-9'),
-        ('m', '-'),
-        ('dim7', 'o7'),
-        ('dim', 'o'),
-        ('m7b5', 'h7'),
-        ('ø7', 'h7'),
-        ('ø', 'h'),
-        ('sus4', 'sus'),
-        ('sus2', 'sus2'),
-        ('add9', 'add9'),
-        ('add2', 'add2'),
+        ("maj7", "^7"),
+        ("maj9", "^9"),
+        ("maj", "^"),
+        ("min7", "-7"),
+        ("min", "-"),
+        ("m7", "-7"),
+        ("m9", "-9"),
+        ("m", "-"),
+        ("dim7", "o7"),
+        ("dim", "o"),
+        ("m7b5", "h7"),
+        ("ø7", "h7"),
+        ("ø", "h"),
+        ("sus4", "sus"),
+        ("sus2", "sus2"),
+        ("add9", "add9"),
+        ("add2", "add2"),
     ]
 
     result = symbol
@@ -59,8 +59,8 @@ def normalize_chord_symbol(symbol: str) -> str:
         # Only replace if it's at the end or followed by a slash
         if result.endswith(old):
             result = result[: -len(old)] + new
-        elif f'{old}/' in result:
-            result = result.replace(f'{old}/', f'{new}/')
+        elif f"{old}/" in result:
+            result = result.replace(f"{old}/", f"{new}/")
 
     return result
 
@@ -79,8 +79,8 @@ def parse_chord_string(chord_string: str) -> list[list[str]]:
     chord_string = chord_string.strip()
 
     # Split by bar lines if present
-    if '|' in chord_string:
-        parts = [p.strip() for p in chord_string.split('|') if p.strip()]
+    if "|" in chord_string:
+        parts = [p.strip() for p in chord_string.split("|") if p.strip()]
     else:
         # Space-separated, one chord per bar
         parts = [[c] for c in chord_string.split() if c.strip()]
@@ -94,9 +94,9 @@ def parse_chord_string(chord_string: str) -> list[list[str]]:
         normalized = []
 
         for chord in chords_in_bar:
-            if chord in ('%', 'x'):
+            if chord in ("%", "x"):
                 # Repeat previous bar
-                chord = last_chord if last_chord else 'C'
+                chord = last_chord if last_chord else "C"
             chord = normalize_chord_symbol(chord)
             normalized.append(chord)
             last_chord = chord
@@ -122,7 +122,7 @@ def parse_time_sig(ts_str: Optional[str]) -> tuple[int, int]:
     if not ts_str:
         return (4, 4)
     try:
-        parts = ts_str.split('/')
+        parts = ts_str.split("/")
         return (int(parts[0]), int(parts[1]))
     except (ValueError, IndexError):
         return (4, 4)
@@ -145,6 +145,7 @@ def parse_ireal_url(url: str):
         measures = [[chord] for chord in tune.measures_as_strings if chord]
 
         from .base import Score
+
         return Score(
             measures=measures,
             title=tune.title or "Untitled",
@@ -227,6 +228,7 @@ def parse_ireal_url_fallback(url: str):
             chords.append((chord, 4))
 
     from .base import ensure_score
+
     score = ensure_score(chords, title=title, key=key)
     score.composer = composer
     return score

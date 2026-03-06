@@ -17,7 +17,9 @@ ChordResolver = Callable[[str], list[int]]
 DFLT_CHORD_TRANSPOSE_SEMITONES = -12
 
 
-def tonal_resolver(symbol: str, *, transpose: int = DFLT_CHORD_TRANSPOSE_SEMITONES) -> list[int]:
+def tonal_resolver(
+    symbol: str, *, transpose: int = DFLT_CHORD_TRANSPOSE_SEMITONES
+) -> list[int]:
     """
     Resolve chord symbol to MIDI notes using the tonal package (default).
 
@@ -42,13 +44,16 @@ def tonal_resolver(symbol: str, *, transpose: int = DFLT_CHORD_TRANSPOSE_SEMITON
         See: https://github.com/thorwhalen/tonal
     """
     from tonal.chords import chord_to_notes
+
     notes = list(chord_to_notes(symbol))
     if transpose:
         notes = [n + transpose for n in notes]
     return notes
 
 
-def music21_resolver(symbol: str, *, transpose: int = DFLT_CHORD_TRANSPOSE_SEMITONES) -> list[int]:
+def music21_resolver(
+    symbol: str, *, transpose: int = DFLT_CHORD_TRANSPOSE_SEMITONES
+) -> list[int]:
     """
     Resolve chord symbol using music21 library (alternative).
 
@@ -68,6 +73,7 @@ def music21_resolver(symbol: str, *, transpose: int = DFLT_CHORD_TRANSPOSE_SEMIT
         Consider using tonal_resolver for standard accompaniment generation.
     """
     from music21 import harmony
+
     ch = harmony.ChordSymbol(symbol)
     notes = [p.midi for p in ch.pitches]
     if transpose:

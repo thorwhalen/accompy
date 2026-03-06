@@ -149,9 +149,7 @@ def _parse_ts_string(ts: Optional[str]) -> tuple[int, int]:
         return (4, 4)
 
 
-def _parse_ireal_url_fallback(
-    url: str, *, beats_per_bar: int = 4
-) -> ChordSequence:
+def _parse_ireal_url_fallback(url: str, *, beats_per_bar: int = 4) -> ChordSequence:
     """Minimal iReal URL parser without pyRealParser."""
     from urllib.parse import unquote
 
@@ -228,7 +226,10 @@ def parse_chordpro(
 
     chords = [(sym, float(beats_per_bar)) for sym in symbols if sym.strip()]
     return ChordSequence(
-        chords=chords, title=title, key=key, tempo=tempo,
+        chords=chords,
+        title=title,
+        key=key,
+        tempo=tempo,
     )
 
 
@@ -290,15 +291,27 @@ _NOTE_NAMES_FLAT = ["C", "Db", "D", "Eb", "E", "F", "Gb", "G", "Ab", "A", "Bb", 
 
 # Roman numeral to degree (1-indexed)
 _ROMAN_TO_DEGREE = {
-    "I": 1, "II": 2, "III": 3, "IV": 4, "V": 5, "VI": 6, "VII": 7,
-    "i": 1, "ii": 2, "iii": 3, "iv": 4, "v": 5, "vi": 6, "vii": 7,
+    "I": 1,
+    "II": 2,
+    "III": 3,
+    "IV": 4,
+    "V": 5,
+    "VI": 6,
+    "VII": 7,
+    "i": 1,
+    "ii": 2,
+    "iii": 3,
+    "iv": 4,
+    "v": 5,
+    "vi": 6,
+    "vii": 7,
 }
 
 # Regex for Roman numeral chord tokens
 _ROMAN_PATTERN = re.compile(
-    r"(b|#)?"           # optional accidental
+    r"(b|#)?"  # optional accidental
     r"(VII|VII|VI|IV|V|III|II|I|vii|vi|iv|v|iii|ii|i)"  # numeral
-    r"(.*)",            # quality suffix
+    r"(.*)",  # quality suffix
     re.IGNORECASE,
 )
 
@@ -334,7 +347,9 @@ def _roman_to_chord_symbol(token: str, key: str = "C", use_flats: bool = False) 
 
     accidental_str, numeral, quality = m.groups()
     is_minor = numeral == numeral.lower()
-    degree = _ROMAN_TO_DEGREE.get(numeral.upper() if not numeral[0].isupper() else numeral)
+    degree = _ROMAN_TO_DEGREE.get(
+        numeral.upper() if not numeral[0].isupper() else numeral
+    )
     if degree is None:
         degree = _ROMAN_TO_DEGREE.get(numeral.lower(), 1)
 
@@ -440,9 +455,9 @@ def parse_roman_numeral(
 # ---------------------------------------------------------------------------
 
 _NASHVILLE_PATTERN = re.compile(
-    r"(b|#)?"           # optional accidental
-    r"([1-7])"          # scale degree number
-    r"(.*)",            # quality suffix (m, m7, maj7, dim, aug, etc.)
+    r"(b|#)?"  # optional accidental
+    r"([1-7])"  # scale degree number
+    r"(.*)",  # quality suffix (m, m7, maj7, dim, aug, etc.)
 )
 
 
@@ -618,13 +633,9 @@ converter.register(
     is_default=True,
 )
 
-converter.register(
-    ChordSheet, ChordSequence, parse_plain_text, name="plain_text"
-)
+converter.register(ChordSheet, ChordSequence, parse_plain_text, name="plain_text")
 
-converter.register(
-    ChordSheet, ChordSequence, parse_chordpro, name="chordpro"
-)
+converter.register(ChordSheet, ChordSequence, parse_chordpro, name="chordpro")
 
 converter.register(
     ChordSheet,
@@ -633,13 +644,9 @@ converter.register(
     name="musicgen_chord",
 )
 
-converter.register(
-    ChordSheet, ChordSequence, parse_roman_numeral, name="roman_numeral"
-)
+converter.register(ChordSheet, ChordSequence, parse_roman_numeral, name="roman_numeral")
 
-converter.register(
-    ChordSheet, ChordSequence, parse_nashville, name="nashville"
-)
+converter.register(ChordSheet, ChordSequence, parse_nashville, name="nashville")
 
 # Also register str -> ChordSequence for convenience
 converter.register(

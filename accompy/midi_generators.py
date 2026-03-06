@@ -89,17 +89,13 @@ def noteseq_to_midi_midiutil(ns: NoteSequence) -> MidiData:
     track = 0
     channel = 0
     midi.addTempo(track, 0, ns.tempo)
-    midi.addTimeSignature(
-        track, 0, ns.time_signature[0], ns.time_signature[1], 24
-    )
+    midi.addTimeSignature(track, 0, ns.time_signature[0], ns.time_signature[1], 24)
     midi.addProgramChange(track, channel, 0, 0)  # Piano
 
     current_beat = 0.0
     for midi_notes, duration_beats in ns.notes:
         for pitch in midi_notes:
-            midi.addNote(
-                track, channel, pitch, current_beat, duration_beats, 90
-            )
+            midi.addNote(track, channel, pitch, current_beat, duration_beats, 90)
         current_beat += duration_beats
 
     buf = io.BytesIO()
@@ -177,13 +173,9 @@ converter.register(
     is_default=True,
 )
 
-converter.register(
-    NoteSequence, MidiData, noteseq_to_midi_midiutil, name="midiutil"
-)
+converter.register(NoteSequence, MidiData, noteseq_to_midi_midiutil, name="midiutil")
 
-converter.register(
-    NoteSequence, MidiData, noteseq_to_midi_mido, name="mido"
-)
+converter.register(NoteSequence, MidiData, noteseq_to_midi_mido, name="mido")
 
 
 # ---------------------------------------------------------------------------
@@ -263,7 +255,8 @@ def chordseq_to_midi_builtin_accompaniment(
     chord_resolver = get_chord_resolver()
 
     midi_path = generate_builtin_midi(
-        score, config,
+        score,
+        config,
         pattern_source=pattern_source,
         chord_resolver=chord_resolver,
     )

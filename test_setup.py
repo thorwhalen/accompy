@@ -28,6 +28,7 @@ def test_imports():
             diagnose_issues,
             print_diagnostic_report,
         )
+
         print("✓ All imports successful")
         return True
     except ImportError as e:
@@ -143,7 +144,9 @@ def main():
         return 0
     else:
         print("\n⚠️  Some tests failed. Run diagnostic for details:")
-        print("   python -c \"from accompy import print_diagnostic_report; print_diagnostic_report()\"")
+        print(
+            '   python -c "from accompy import print_diagnostic_report; print_diagnostic_report()"'
+        )
         return 1
 
 
