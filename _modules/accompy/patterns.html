@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>accompy.patterns &mdash; accompy 0.3.0 documentation</title>
+  <title>accompy.patterns &mdash; accompy 0.3.3 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
@@ -14,7 +14,7 @@
   
       <script src="../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../_static/documentation_options.js?v=e259d695"></script>
+      <script src="../../_static/documentation_options.js?v=d5a15cff"></script>
       <script src="../../_static/doctools.js?v=9bcbadda"></script>
       <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
       <script src="../../_static/toggleprompt.js?v=d7ede5d2"></script>
@@ -180,7 +180,7 @@
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__setitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">style</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">patterns</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="c1"># Validate structure</span>
-        <span class="n">required_keys</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;drums&#39;</span><span class="p">,</span> <span class="s1">&#39;bass&#39;</span><span class="p">,</span> <span class="s1">&#39;comp&#39;</span><span class="p">}</span>
+        <span class="n">required_keys</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;drums&quot;</span><span class="p">,</span> <span class="s2">&quot;bass&quot;</span><span class="p">,</span> <span class="s2">&quot;comp&quot;</span><span class="p">}</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">required_keys</span><span class="o">.</span><span class="n">issubset</span><span class="p">(</span><span class="n">patterns</span><span class="o">.</span><span class="n">keys</span><span class="p">()):</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Pattern dict must have keys: </span><span class="si">{</span><span class="n">required_keys</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_patterns</span><span class="p">[</span><span class="n">style</span><span class="p">]</span> <span class="o">=</span> <span class="n">patterns</span>
@@ -200,9 +200,9 @@
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Load all built-in patterns.&quot;&quot;&quot;</span>
         <span class="k">for</span> <span class="n">style</span> <span class="ow">in</span> <span class="n">DRUM_PATTERNS</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_patterns</span><span class="p">[</span><span class="n">style</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
-                <span class="s1">&#39;drums&#39;</span><span class="p">:</span> <span class="n">DRUM_PATTERNS</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">style</span><span class="p">,</span> <span class="p">[]),</span>
-                <span class="s1">&#39;bass&#39;</span><span class="p">:</span> <span class="n">BASS_PATTERNS</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">style</span><span class="p">,</span> <span class="p">[]),</span>
-                <span class="s1">&#39;comp&#39;</span><span class="p">:</span> <span class="n">COMP_PATTERNS</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">style</span><span class="p">,</span> <span class="p">[]),</span>
+                <span class="s2">&quot;drums&quot;</span><span class="p">:</span> <span class="n">DRUM_PATTERNS</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">style</span><span class="p">,</span> <span class="p">[]),</span>
+                <span class="s2">&quot;bass&quot;</span><span class="p">:</span> <span class="n">BASS_PATTERNS</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">style</span><span class="p">,</span> <span class="p">[]),</span>
+                <span class="s2">&quot;comp&quot;</span><span class="p">:</span> <span class="n">COMP_PATTERNS</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">style</span><span class="p">,</span> <span class="p">[]),</span>
             <span class="p">}</span></div>
 
 
@@ -292,9 +292,9 @@
 <span class="sd">        &gt;&gt;&gt; register_style(&#39;my_funk&#39;, [my_drum_pattern], [my_bass_pattern], [])  # doctest: +SKIP</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">get_pattern_registry</span><span class="p">()[</span><span class="n">style</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="s1">&#39;drums&#39;</span><span class="p">:</span> <span class="n">drums</span><span class="p">,</span>
-        <span class="s1">&#39;bass&#39;</span><span class="p">:</span> <span class="n">bass</span><span class="p">,</span>
-        <span class="s1">&#39;comp&#39;</span><span class="p">:</span> <span class="n">comp</span><span class="p">,</span>
+        <span class="s2">&quot;drums&quot;</span><span class="p">:</span> <span class="n">drums</span><span class="p">,</span>
+        <span class="s2">&quot;bass&quot;</span><span class="p">:</span> <span class="n">bass</span><span class="p">,</span>
+        <span class="s2">&quot;comp&quot;</span><span class="p">:</span> <span class="n">comp</span><span class="p">,</span>
     <span class="p">}</span></div>
 
 

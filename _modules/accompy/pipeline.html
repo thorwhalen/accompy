@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>accompy.pipeline &mdash; accompy 0.3.0 documentation</title>
+  <title>accompy.pipeline &mdash; accompy 0.3.3 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
@@ -14,7 +14,7 @@
   
       <script src="../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../_static/documentation_options.js?v=e259d695"></script>
+      <script src="../../_static/documentation_options.js?v=d5a15cff"></script>
       <script src="../../_static/doctools.js?v=9bcbadda"></script>
       <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
       <script src="../../_static/toggleprompt.js?v=d7ede5d2"></script>
@@ -471,13 +471,19 @@
         <span class="n">cs</span> <span class="o">=</span> <span class="n">_repeat_chord_sequence</span><span class="p">(</span><span class="n">cs</span><span class="p">,</span> <span class="n">n_repeats</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">tempo</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">cs</span> <span class="o">=</span> <span class="n">ChordSequence</span><span class="p">(</span>
-            <span class="n">chords</span><span class="o">=</span><span class="n">cs</span><span class="o">.</span><span class="n">chords</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="n">cs</span><span class="o">.</span><span class="n">title</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="n">cs</span><span class="o">.</span><span class="n">key</span><span class="p">,</span>
-            <span class="n">tempo</span><span class="o">=</span><span class="n">tempo</span><span class="p">,</span> <span class="n">time_signature</span><span class="o">=</span><span class="n">cs</span><span class="o">.</span><span class="n">time_signature</span><span class="p">,</span>
+            <span class="n">chords</span><span class="o">=</span><span class="n">cs</span><span class="o">.</span><span class="n">chords</span><span class="p">,</span>
+            <span class="n">title</span><span class="o">=</span><span class="n">cs</span><span class="o">.</span><span class="n">title</span><span class="p">,</span>
+            <span class="n">key</span><span class="o">=</span><span class="n">cs</span><span class="o">.</span><span class="n">key</span><span class="p">,</span>
+            <span class="n">tempo</span><span class="o">=</span><span class="n">tempo</span><span class="p">,</span>
+            <span class="n">time_signature</span><span class="o">=</span><span class="n">cs</span><span class="o">.</span><span class="n">time_signature</span><span class="p">,</span>
         <span class="p">)</span>
 
     <span class="k">return</span> <span class="n">chords_to_midi</span><span class="p">(</span>
-        <span class="n">cs</span><span class="p">,</span> <span class="n">resolver</span><span class="o">=</span><span class="n">resolver</span><span class="p">,</span> <span class="n">midi_gen</span><span class="o">=</span><span class="n">midi_gen</span><span class="p">,</span>
-        <span class="n">tempo</span><span class="o">=</span><span class="n">cs</span><span class="o">.</span><span class="n">tempo</span><span class="p">,</span> <span class="n">output_path</span><span class="o">=</span><span class="n">output_path</span><span class="p">,</span>
+        <span class="n">cs</span><span class="p">,</span>
+        <span class="n">resolver</span><span class="o">=</span><span class="n">resolver</span><span class="p">,</span>
+        <span class="n">midi_gen</span><span class="o">=</span><span class="n">midi_gen</span><span class="p">,</span>
+        <span class="n">tempo</span><span class="o">=</span><span class="n">cs</span><span class="o">.</span><span class="n">tempo</span><span class="p">,</span>
+        <span class="n">output_path</span><span class="o">=</span><span class="n">output_path</span><span class="p">,</span>
     <span class="p">)</span></div>
 
 
@@ -635,10 +641,27 @@
 <span class="n">_SHARP_NOTES</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;C&quot;</span><span class="p">,</span> <span class="s2">&quot;C#&quot;</span><span class="p">,</span> <span class="s2">&quot;D&quot;</span><span class="p">,</span> <span class="s2">&quot;D#&quot;</span><span class="p">,</span> <span class="s2">&quot;E&quot;</span><span class="p">,</span> <span class="s2">&quot;F&quot;</span><span class="p">,</span> <span class="s2">&quot;F#&quot;</span><span class="p">,</span> <span class="s2">&quot;G&quot;</span><span class="p">,</span> <span class="s2">&quot;G#&quot;</span><span class="p">,</span> <span class="s2">&quot;A&quot;</span><span class="p">,</span> <span class="s2">&quot;A#&quot;</span><span class="p">,</span> <span class="s2">&quot;B&quot;</span><span class="p">]</span>
 <span class="n">_FLAT_NOTES</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;C&quot;</span><span class="p">,</span> <span class="s2">&quot;Db&quot;</span><span class="p">,</span> <span class="s2">&quot;D&quot;</span><span class="p">,</span> <span class="s2">&quot;Eb&quot;</span><span class="p">,</span> <span class="s2">&quot;E&quot;</span><span class="p">,</span> <span class="s2">&quot;F&quot;</span><span class="p">,</span> <span class="s2">&quot;Gb&quot;</span><span class="p">,</span> <span class="s2">&quot;G&quot;</span><span class="p">,</span> <span class="s2">&quot;Ab&quot;</span><span class="p">,</span> <span class="s2">&quot;A&quot;</span><span class="p">,</span> <span class="s2">&quot;Bb&quot;</span><span class="p">,</span> <span class="s2">&quot;B&quot;</span><span class="p">]</span>
 <span class="n">_NOTE_TO_SEMITONE</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s2">&quot;C&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;C#&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;Db&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;D&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s2">&quot;D#&quot;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span> <span class="s2">&quot;Eb&quot;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
-    <span class="s2">&quot;E&quot;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span> <span class="s2">&quot;Fb&quot;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span> <span class="s2">&quot;E#&quot;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span> <span class="s2">&quot;F&quot;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span> <span class="s2">&quot;F#&quot;</span><span class="p">:</span> <span class="mi">6</span><span class="p">,</span> <span class="s2">&quot;Gb&quot;</span><span class="p">:</span> <span class="mi">6</span><span class="p">,</span>
-    <span class="s2">&quot;G&quot;</span><span class="p">:</span> <span class="mi">7</span><span class="p">,</span> <span class="s2">&quot;G#&quot;</span><span class="p">:</span> <span class="mi">8</span><span class="p">,</span> <span class="s2">&quot;Ab&quot;</span><span class="p">:</span> <span class="mi">8</span><span class="p">,</span> <span class="s2">&quot;A&quot;</span><span class="p">:</span> <span class="mi">9</span><span class="p">,</span> <span class="s2">&quot;A#&quot;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span> <span class="s2">&quot;Bb&quot;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
-    <span class="s2">&quot;B&quot;</span><span class="p">:</span> <span class="mi">11</span><span class="p">,</span> <span class="s2">&quot;Cb&quot;</span><span class="p">:</span> <span class="mi">11</span><span class="p">,</span> <span class="s2">&quot;B#&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="s2">&quot;C&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="s2">&quot;C#&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="s2">&quot;Db&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="s2">&quot;D&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+    <span class="s2">&quot;D#&quot;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
+    <span class="s2">&quot;Eb&quot;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
+    <span class="s2">&quot;E&quot;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
+    <span class="s2">&quot;Fb&quot;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
+    <span class="s2">&quot;E#&quot;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
+    <span class="s2">&quot;F&quot;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
+    <span class="s2">&quot;F#&quot;</span><span class="p">:</span> <span class="mi">6</span><span class="p">,</span>
+    <span class="s2">&quot;Gb&quot;</span><span class="p">:</span> <span class="mi">6</span><span class="p">,</span>
+    <span class="s2">&quot;G&quot;</span><span class="p">:</span> <span class="mi">7</span><span class="p">,</span>
+    <span class="s2">&quot;G#&quot;</span><span class="p">:</span> <span class="mi">8</span><span class="p">,</span>
+    <span class="s2">&quot;Ab&quot;</span><span class="p">:</span> <span class="mi">8</span><span class="p">,</span>
+    <span class="s2">&quot;A&quot;</span><span class="p">:</span> <span class="mi">9</span><span class="p">,</span>
+    <span class="s2">&quot;A#&quot;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
+    <span class="s2">&quot;Bb&quot;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
+    <span class="s2">&quot;B&quot;</span><span class="p">:</span> <span class="mi">11</span><span class="p">,</span>
+    <span class="s2">&quot;Cb&quot;</span><span class="p">:</span> <span class="mi">11</span><span class="p">,</span>
+    <span class="s2">&quot;B#&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
 <span class="p">}</span>
 
 
@@ -710,12 +733,8 @@
         <span class="s2">&quot;resolvers&quot;</span><span class="p">:</span> <span class="n">converter</span><span class="o">.</span><span class="n">list_converters</span><span class="p">(</span><span class="n">ChordSequence</span><span class="p">,</span> <span class="n">NoteSequence</span><span class="p">),</span>
         <span class="s2">&quot;midi_generators&quot;</span><span class="p">:</span> <span class="n">converter</span><span class="o">.</span><span class="n">list_converters</span><span class="p">(</span><span class="n">NoteSequence</span><span class="p">,</span> <span class="n">MidiData</span><span class="p">),</span>
         <span class="s2">&quot;audio_renderers&quot;</span><span class="p">:</span> <span class="n">converter</span><span class="o">.</span><span class="n">list_converters</span><span class="p">(</span><span class="n">MidiData</span><span class="p">,</span> <span class="n">AudioData</span><span class="p">),</span>
-        <span class="s2">&quot;shortcuts_chord_to_midi&quot;</span><span class="p">:</span> <span class="n">converter</span><span class="o">.</span><span class="n">list_converters</span><span class="p">(</span>
-            <span class="n">ChordSequence</span><span class="p">,</span> <span class="n">MidiData</span>
-        <span class="p">),</span>
-        <span class="s2">&quot;shortcuts_chord_to_audio&quot;</span><span class="p">:</span> <span class="n">converter</span><span class="o">.</span><span class="n">list_converters</span><span class="p">(</span>
-            <span class="n">ChordSequence</span><span class="p">,</span> <span class="n">AudioData</span>
-        <span class="p">),</span>
+        <span class="s2">&quot;shortcuts_chord_to_midi&quot;</span><span class="p">:</span> <span class="n">converter</span><span class="o">.</span><span class="n">list_converters</span><span class="p">(</span><span class="n">ChordSequence</span><span class="p">,</span> <span class="n">MidiData</span><span class="p">),</span>
+        <span class="s2">&quot;shortcuts_chord_to_audio&quot;</span><span class="p">:</span> <span class="n">converter</span><span class="o">.</span><span class="n">list_converters</span><span class="p">(</span><span class="n">ChordSequence</span><span class="p">,</span> <span class="n">AudioData</span><span class="p">),</span>
     <span class="p">}</span></div>
 
 </pre></div>

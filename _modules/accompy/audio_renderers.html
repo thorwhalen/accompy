@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>accompy.audio_renderers &mdash; accompy 0.3.0 documentation</title>
+  <title>accompy.audio_renderers &mdash; accompy 0.3.3 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
@@ -14,7 +14,7 @@
   
       <script src="../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../_static/documentation_options.js?v=e259d695"></script>
+      <script src="../../_static/documentation_options.js?v=d5a15cff"></script>
       <script src="../../_static/doctools.js?v=9bcbadda"></script>
       <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
       <script src="../../_static/toggleprompt.js?v=d7ede5d2"></script>
@@ -178,11 +178,19 @@
     <span class="k">try</span><span class="p">:</span>
         <span class="n">cmd</span> <span class="o">=</span> <span class="p">[</span>
             <span class="s2">&quot;fluidsynth&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;-F&quot;</span><span class="p">,</span> <span class="n">wav_path</span><span class="p">,</span> <span class="s2">&quot;-r&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">sr</span><span class="p">),</span>
-            <span class="s2">&quot;-ni&quot;</span><span class="p">,</span> <span class="n">soundfont</span><span class="p">,</span> <span class="n">midi_path</span><span class="p">,</span>
+            <span class="s2">&quot;-F&quot;</span><span class="p">,</span>
+            <span class="n">wav_path</span><span class="p">,</span>
+            <span class="s2">&quot;-r&quot;</span><span class="p">,</span>
+            <span class="nb">str</span><span class="p">(</span><span class="n">sr</span><span class="p">),</span>
+            <span class="s2">&quot;-ni&quot;</span><span class="p">,</span>
+            <span class="n">soundfont</span><span class="p">,</span>
+            <span class="n">midi_path</span><span class="p">,</span>
         <span class="p">]</span>
         <span class="n">result</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">run</span><span class="p">(</span>
-            <span class="n">cmd</span><span class="p">,</span> <span class="n">capture_output</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">60</span><span class="p">,</span>
+            <span class="n">cmd</span><span class="p">,</span>
+            <span class="n">capture_output</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="n">text</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="n">timeout</span><span class="o">=</span><span class="mi">60</span><span class="p">,</span>
         <span class="p">)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">Path</span><span class="p">(</span><span class="n">wav_path</span><span class="p">)</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
             <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
@@ -390,17 +398,11 @@
     <span class="n">is_default</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
 <span class="p">)</span>
 
-<span class="n">converter</span><span class="o">.</span><span class="n">register</span><span class="p">(</span>
-    <span class="n">MidiData</span><span class="p">,</span> <span class="n">AudioData</span><span class="p">,</span> <span class="n">midi_to_audio_fluidsynth</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;fluidsynth&quot;</span>
-<span class="p">)</span>
+<span class="n">converter</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">MidiData</span><span class="p">,</span> <span class="n">AudioData</span><span class="p">,</span> <span class="n">midi_to_audio_fluidsynth</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;fluidsynth&quot;</span><span class="p">)</span>
 
-<span class="n">converter</span><span class="o">.</span><span class="n">register</span><span class="p">(</span>
-    <span class="n">MidiData</span><span class="p">,</span> <span class="n">AudioData</span><span class="p">,</span> <span class="n">midi_to_audio_tonal</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;tonal&quot;</span>
-<span class="p">)</span>
+<span class="n">converter</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">MidiData</span><span class="p">,</span> <span class="n">AudioData</span><span class="p">,</span> <span class="n">midi_to_audio_tonal</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;tonal&quot;</span><span class="p">)</span>
 
-<span class="n">converter</span><span class="o">.</span><span class="n">register</span><span class="p">(</span>
-    <span class="n">MidiData</span><span class="p">,</span> <span class="n">AudioData</span><span class="p">,</span> <span class="n">midi_to_audio_dawdreamer</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;dawdreamer&quot;</span>
-<span class="p">)</span>
+<span class="n">converter</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">MidiData</span><span class="p">,</span> <span class="n">AudioData</span><span class="p">,</span> <span class="n">midi_to_audio_dawdreamer</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;dawdreamer&quot;</span><span class="p">)</span>
 
 
 <span class="c1"># ---------------------------------------------------------------------------</span>

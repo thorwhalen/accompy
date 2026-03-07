@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>accompy.patterns.dataclasses &mdash; accompy 0.3.0 documentation</title>
+  <title>accompy.patterns.dataclasses &mdash; accompy 0.3.3 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
@@ -14,7 +14,7 @@
   
       <script src="../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../_static/documentation_options.js?v=e259d695"></script>
+      <script src="../../../_static/documentation_options.js?v=d5a15cff"></script>
       <script src="../../../_static/doctools.js?v=9bcbadda"></script>
       <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
       <script src="../../../_static/toggleprompt.js?v=d7ede5d2"></script>
@@ -144,6 +144,7 @@
 <span class="sd">        drum: MIDI note number for the drum sound</span>
 <span class="sd">        velocity: Hit velocity (0-127)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="n">beat</span><span class="p">:</span> <span class="nb">float</span>
     <span class="n">drum</span><span class="p">:</span> <span class="nb">int</span>
     <span class="n">velocity</span><span class="p">:</span> <span class="nb">int</span></div>
@@ -163,6 +164,7 @@
 <span class="sd">        duration: Note duration in beats</span>
 <span class="sd">        velocity: Note velocity (0-127)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="n">beat</span><span class="p">:</span> <span class="nb">float</span>
     <span class="n">pitch_offset</span><span class="p">:</span> <span class="nb">int</span>
     <span class="n">duration</span><span class="p">:</span> <span class="nb">float</span>
@@ -182,6 +184,7 @@
 <span class="sd">        &gt;&gt;&gt; pattern.beats_per_bar</span>
 <span class="sd">        4</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>
     <span class="n">beats_per_bar</span><span class="p">:</span> <span class="nb">int</span>
     <span class="n">hits</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">DrumHit</span><span class="p">]</span>
@@ -205,6 +208,7 @@
 <span class="sd">    Uses pitch_offset in NoteEvent to specify intervals from the chord root.</span>
 <span class="sd">    The actual pitches are determined when the pattern is applied to specific chords.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>
     <span class="n">notes</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">NoteEvent</span><span class="p">]</span></div>
 
@@ -221,6 +225,7 @@
 <span class="sd">        name: Pattern identifier</span>
 <span class="sd">        hits: Sequence of (beat, duration, velocity) tuples</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>
     <span class="n">hits</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]</span></div>
 

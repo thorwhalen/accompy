@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>accompy.renderers.midi &mdash; accompy 0.3.0 documentation</title>
+  <title>accompy.renderers.midi &mdash; accompy 0.3.3 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
@@ -14,7 +14,7 @@
   
       <script src="../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../_static/documentation_options.js?v=e259d695"></script>
+      <script src="../../../_static/documentation_options.js?v=d5a15cff"></script>
       <script src="../../../_static/doctools.js?v=9bcbadda"></script>
       <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
       <script src="../../../_static/toggleprompt.js?v=d7ede5d2"></script>
@@ -162,7 +162,11 @@
         <span class="n">patterns_dict</span> <span class="o">=</span> <span class="n">pattern_source</span><span class="o">.</span><span class="n">get_patterns</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">style</span><span class="p">)</span>
     <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
         <span class="c1"># Fallback for simple dict/function interface</span>
-        <span class="n">patterns_dict</span> <span class="o">=</span> <span class="n">pattern_source</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">style</span><span class="p">)</span> <span class="k">if</span> <span class="nb">callable</span><span class="p">(</span><span class="n">pattern_source</span><span class="p">)</span> <span class="k">else</span> <span class="n">pattern_source</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">style</span><span class="p">,</span> <span class="p">{})</span>
+        <span class="n">patterns_dict</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">pattern_source</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">style</span><span class="p">)</span>
+            <span class="k">if</span> <span class="nb">callable</span><span class="p">(</span><span class="n">pattern_source</span><span class="p">)</span>
+            <span class="k">else</span> <span class="n">pattern_source</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">style</span><span class="p">,</span> <span class="p">{})</span>
+        <span class="p">)</span>
 
     <span class="c1"># Select specific patterns (first of each type)</span>
     <span class="n">drum_patterns</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="n">patterns_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;drums&quot;</span><span class="p">,</span> <span class="p">[])</span>
@@ -182,12 +186,14 @@
 
         <span class="k">for</span> <span class="n">measure</span> <span class="ow">in</span> <span class="n">score</span><span class="o">.</span><span class="n">measures</span><span class="p">:</span>
             <span class="n">chords_in_bar</span> <span class="o">=</span> <span class="n">measure</span>
-            <span class="n">beats_per_chord</span> <span class="o">=</span> <span class="n">beats_per_bar</span> <span class="o">//</span> <span class="nb">len</span><span class="p">(</span><span class="n">chords_in_bar</span><span class="p">)</span> <span class="k">if</span> <span class="n">chords_in_bar</span> <span class="k">else</span> <span class="n">beats_per_bar</span>
+            <span class="n">beats_per_chord</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="n">beats_per_bar</span> <span class="o">//</span> <span class="nb">len</span><span class="p">(</span><span class="n">chords_in_bar</span><span class="p">)</span> <span class="k">if</span> <span class="n">chords_in_bar</span> <span class="k">else</span> <span class="n">beats_per_bar</span>
+            <span class="p">)</span>
 
             <span class="k">for</span> <span class="n">chord_idx</span><span class="p">,</span> <span class="n">chord_symbol</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">chords_in_bar</span><span class="p">):</span>
                 <span class="n">chord_start</span> <span class="o">=</span> <span class="n">current_beat</span> <span class="o">+</span> <span class="p">(</span><span class="n">chord_idx</span> <span class="o">*</span> <span class="n">beats_per_chord</span><span class="p">)</span>
 
-                <span class="k">if</span> <span class="n">chord_symbol</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;n&#39;</span><span class="p">,</span> <span class="s1">&#39;N.C.&#39;</span><span class="p">,</span> <span class="s1">&#39;NC&#39;</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">chord_symbol</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="s2">&quot;n&quot;</span><span class="p">,</span> <span class="s2">&quot;N.C.&quot;</span><span class="p">,</span> <span class="s2">&quot;NC&quot;</span><span class="p">):</span>
                     <span class="k">continue</span>
 
                 <span class="c1"># Get chord notes</span>
@@ -205,7 +211,7 @@
                         <span class="n">drum_pattern</span><span class="p">,</span>
                         <span class="n">chord_start</span><span class="p">,</span>
                         <span class="n">beats_per_chord</span><span class="p">,</span>
-                        <span class="n">config</span><span class="o">.</span><span class="n">volumes</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;drums&quot;</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">)</span>
+                        <span class="n">config</span><span class="o">.</span><span class="n">volumes</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;drums&quot;</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">),</span>
                     <span class="p">)</span>
 
                 <span class="c1"># Yield bass events</span>
@@ -216,7 +222,7 @@
                         <span class="n">beats_per_chord</span><span class="p">,</span>
                         <span class="n">root</span><span class="p">,</span>
                         <span class="n">notes</span><span class="p">,</span>
-                        <span class="n">config</span><span class="o">.</span><span class="n">volumes</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;bass&quot;</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">)</span>
+                        <span class="n">config</span><span class="o">.</span><span class="n">volumes</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;bass&quot;</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">),</span>
                     <span class="p">)</span>
 
                 <span class="c1"># Yield comping events</span>
@@ -226,7 +232,7 @@
                         <span class="n">chord_start</span><span class="p">,</span>
                         <span class="n">beats_per_chord</span><span class="p">,</span>
                         <span class="n">notes</span><span class="p">,</span>
-                        <span class="n">config</span><span class="o">.</span><span class="n">volumes</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;piano&quot;</span><span class="p">,</span> <span class="mf">0.7</span><span class="p">)</span>
+                        <span class="n">config</span><span class="o">.</span><span class="n">volumes</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;piano&quot;</span><span class="p">,</span> <span class="mf">0.7</span><span class="p">),</span>
                     <span class="p">)</span>
 
             <span class="n">current_beat</span> <span class="o">+=</span> <span class="n">beats_per_bar</span></div>
@@ -239,17 +245,14 @@
         <span class="k">return</span> <span class="kc">None</span>
     <span class="c1"># Try to find a matching pattern</span>
     <span class="k">for</span> <span class="n">pattern</span> <span class="ow">in</span> <span class="n">patterns</span><span class="p">:</span>
-        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">pattern</span><span class="p">,</span> <span class="s1">&#39;beats_per_bar&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">pattern</span><span class="o">.</span><span class="n">beats_per_bar</span> <span class="o">==</span> <span class="n">beats_per_bar</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">pattern</span><span class="p">,</span> <span class="s2">&quot;beats_per_bar&quot;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">pattern</span><span class="o">.</span><span class="n">beats_per_bar</span> <span class="o">==</span> <span class="n">beats_per_bar</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">pattern</span>
     <span class="c1"># Default to first pattern</span>
     <span class="k">return</span> <span class="n">patterns</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_drum_events</span><span class="p">(</span>
-    <span class="n">pattern</span><span class="p">:</span> <span class="n">DrumPattern</span><span class="p">,</span>
-    <span class="n">start_beat</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
-    <span class="n">duration</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
-    <span class="n">volume</span><span class="p">:</span> <span class="nb">float</span>
+    <span class="n">pattern</span><span class="p">:</span> <span class="n">DrumPattern</span><span class="p">,</span> <span class="n">start_beat</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">duration</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">volume</span><span class="p">:</span> <span class="nb">float</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">MidiEvent</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Generate drum MIDI events.&quot;&quot;&quot;</span>
     <span class="n">channel</span> <span class="o">=</span> <span class="mi">9</span>  <span class="c1"># MIDI drum channel</span>
@@ -260,7 +263,7 @@
                 <span class="n">channel</span><span class="o">=</span><span class="n">channel</span><span class="p">,</span>
                 <span class="n">note</span><span class="o">=</span><span class="n">hit</span><span class="o">.</span><span class="n">drum</span><span class="p">,</span>
                 <span class="n">velocity</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">hit</span><span class="o">.</span><span class="n">velocity</span> <span class="o">*</span> <span class="n">volume</span><span class="p">),</span>
-                <span class="n">duration</span><span class="o">=</span><span class="mf">0.25</span>  <span class="c1"># Short drum hits</span>
+                <span class="n">duration</span><span class="o">=</span><span class="mf">0.25</span><span class="p">,</span>  <span class="c1"># Short drum hits</span>
             <span class="p">)</span>
 
 
@@ -270,7 +273,7 @@
     <span class="n">duration</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="n">root</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
     <span class="n">chord_notes</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span>
-    <span class="n">volume</span><span class="p">:</span> <span class="nb">float</span>
+    <span class="n">volume</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">MidiEvent</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Generate bass MIDI events.&quot;&quot;&quot;</span>
     <span class="n">channel</span> <span class="o">=</span> <span class="mi">0</span>  <span class="c1"># Bass channel</span>
@@ -285,9 +288,7 @@
             <span class="k">continue</span>
 
         <span class="n">resolved</span> <span class="o">=</span> <span class="n">_resolve_pitch_offset</span><span class="p">(</span>
-            <span class="n">root_pc</span><span class="o">=</span><span class="n">root_pc</span><span class="p">,</span>
-            <span class="n">chord_pcs</span><span class="o">=</span><span class="n">chord_pcs</span><span class="p">,</span>
-            <span class="n">target_offset</span><span class="o">=</span><span class="n">note</span><span class="o">.</span><span class="n">pitch_offset</span>
+            <span class="n">root_pc</span><span class="o">=</span><span class="n">root_pc</span><span class="p">,</span> <span class="n">chord_pcs</span><span class="o">=</span><span class="n">chord_pcs</span><span class="p">,</span> <span class="n">target_offset</span><span class="o">=</span><span class="n">note</span><span class="o">.</span><span class="n">pitch_offset</span>
         <span class="p">)</span>
         <span class="n">pitch</span> <span class="o">=</span> <span class="n">bass_root</span> <span class="o">+</span> <span class="n">resolved</span>
         <span class="n">vel</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">note</span><span class="o">.</span><span class="n">velocity</span> <span class="o">*</span> <span class="n">volume</span><span class="p">)</span>
@@ -300,7 +301,7 @@
             <span class="n">channel</span><span class="o">=</span><span class="n">channel</span><span class="p">,</span>
             <span class="n">note</span><span class="o">=</span><span class="n">pitch</span><span class="p">,</span>
             <span class="n">velocity</span><span class="o">=</span><span class="n">vel</span><span class="p">,</span>
-            <span class="n">duration</span><span class="o">=</span><span class="n">dur</span>
+            <span class="n">duration</span><span class="o">=</span><span class="n">dur</span><span class="p">,</span>
         <span class="p">)</span>
 
 
@@ -309,7 +310,7 @@
     <span class="n">start_beat</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="n">duration</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="n">chord_notes</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span>
-    <span class="n">volume</span><span class="p">:</span> <span class="nb">float</span>
+    <span class="n">volume</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">MidiEvent</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Generate piano/comping MIDI events.&quot;&quot;&quot;</span>
     <span class="n">channel</span> <span class="o">=</span> <span class="mi">1</span>  <span class="c1"># Piano channel</span>
@@ -327,7 +328,7 @@
                     <span class="n">channel</span><span class="o">=</span><span class="n">channel</span><span class="p">,</span>
                     <span class="n">note</span><span class="o">=</span><span class="n">note</span><span class="p">,</span>
                     <span class="n">velocity</span><span class="o">=</span><span class="n">velocity</span><span class="p">,</span>
-                    <span class="n">duration</span><span class="o">=</span><span class="mf">0.9</span>
+                    <span class="n">duration</span><span class="o">=</span><span class="mf">0.9</span><span class="p">,</span>
                 <span class="p">)</span>
         <span class="k">return</span>
 
@@ -346,7 +347,7 @@
                 <span class="n">channel</span><span class="o">=</span><span class="n">channel</span><span class="p">,</span>
                 <span class="n">note</span><span class="o">=</span><span class="n">note</span><span class="p">,</span>
                 <span class="n">velocity</span><span class="o">=</span><span class="n">velocity</span><span class="p">,</span>
-                <span class="n">duration</span><span class="o">=</span><span class="n">dur</span>
+                <span class="n">duration</span><span class="o">=</span><span class="n">dur</span><span class="p">,</span>
             <span class="p">)</span>
 
 
@@ -397,7 +398,7 @@
     <span class="n">events</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">MidiEvent</span><span class="p">],</span>
     <span class="n">path</span><span class="p">:</span> <span class="n">Path</span><span class="p">,</span>
     <span class="n">tempo</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
-    <span class="n">time_signature</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+    <span class="n">time_signature</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Path</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Write MIDI events to a MIDI file.</span>
@@ -451,16 +452,11 @@
     <span class="k">for</span> <span class="n">event</span> <span class="ow">in</span> <span class="n">events</span><span class="p">:</span>
         <span class="n">track</span> <span class="o">=</span> <span class="n">channel_to_track</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">event</span><span class="o">.</span><span class="n">channel</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
         <span class="n">midi</span><span class="o">.</span><span class="n">addNote</span><span class="p">(</span>
-            <span class="n">track</span><span class="p">,</span>
-            <span class="n">event</span><span class="o">.</span><span class="n">channel</span><span class="p">,</span>
-            <span class="n">event</span><span class="o">.</span><span class="n">note</span><span class="p">,</span>
-            <span class="n">event</span><span class="o">.</span><span class="n">time</span><span class="p">,</span>
-            <span class="n">event</span><span class="o">.</span><span class="n">duration</span><span class="p">,</span>
-            <span class="n">event</span><span class="o">.</span><span class="n">velocity</span>
+            <span class="n">track</span><span class="p">,</span> <span class="n">event</span><span class="o">.</span><span class="n">channel</span><span class="p">,</span> <span class="n">event</span><span class="o">.</span><span class="n">note</span><span class="p">,</span> <span class="n">event</span><span class="o">.</span><span class="n">time</span><span class="p">,</span> <span class="n">event</span><span class="o">.</span><span class="n">duration</span><span class="p">,</span> <span class="n">event</span><span class="o">.</span><span class="n">velocity</span>
         <span class="p">)</span>
 
     <span class="c1"># Write to file</span>
-    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s1">&#39;wb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s2">&quot;wb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
         <span class="n">midi</span><span class="o">.</span><span class="n">writeFile</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">path</span></div>
@@ -491,12 +487,11 @@
 <span class="sd">        Path to the generated MIDI file</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># Generate events</span>
-    <span class="n">events</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">generate_midi_events</span><span class="p">(</span>
-        <span class="n">score</span><span class="p">,</span>
-        <span class="n">config</span><span class="p">,</span>
-        <span class="n">pattern_source</span><span class="o">=</span><span class="n">pattern_source</span><span class="p">,</span>
-        <span class="n">chord_resolver</span><span class="o">=</span><span class="n">chord_resolver</span>
-    <span class="p">))</span>
+    <span class="n">events</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span>
+        <span class="n">generate_midi_events</span><span class="p">(</span>
+            <span class="n">score</span><span class="p">,</span> <span class="n">config</span><span class="p">,</span> <span class="n">pattern_source</span><span class="o">=</span><span class="n">pattern_source</span><span class="p">,</span> <span class="n">chord_resolver</span><span class="o">=</span><span class="n">chord_resolver</span>
+        <span class="p">)</span>
+    <span class="p">)</span>
 
     <span class="c1"># Write to temp file</span>
     <span class="n">midi_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">tempfile</span><span class="o">.</span><span class="n">mktemp</span><span class="p">(</span><span class="n">suffix</span><span class="o">=</span><span class="s2">&quot;.mid&quot;</span><span class="p">))</span>

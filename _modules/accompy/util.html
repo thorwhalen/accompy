@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>accompy.util &mdash; accompy 0.3.0 documentation</title>
+  <title>accompy.util &mdash; accompy 0.3.3 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
@@ -14,7 +14,7 @@
   
       <script src="../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../_static/documentation_options.js?v=e259d695"></script>
+      <script src="../../_static/documentation_options.js?v=d5a15cff"></script>
       <script src="../../_static/doctools.js?v=9bcbadda"></script>
       <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
       <script src="../../_static/toggleprompt.js?v=d7ede5d2"></script>
@@ -135,28 +135,28 @@
 <span class="sd">        &#39;Dh7&#39;</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">symbol</span> <span class="o">=</span> <span class="n">symbol</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">symbol</span> <span class="ow">or</span> <span class="n">symbol</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;n&#39;</span><span class="p">,</span> <span class="s1">&#39;N.C.&#39;</span><span class="p">,</span> <span class="s1">&#39;NC&#39;</span><span class="p">,</span> <span class="s1">&#39;%&#39;</span><span class="p">,</span> <span class="s1">&#39;x&#39;</span><span class="p">):</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">symbol</span> <span class="ow">or</span> <span class="n">symbol</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="s2">&quot;n&quot;</span><span class="p">,</span> <span class="s2">&quot;N.C.&quot;</span><span class="p">,</span> <span class="s2">&quot;NC&quot;</span><span class="p">,</span> <span class="s2">&quot;%&quot;</span><span class="p">,</span> <span class="s2">&quot;x&quot;</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">symbol</span>
 
     <span class="c1"># Common normalizations</span>
     <span class="n">replacements</span> <span class="o">=</span> <span class="p">[</span>
-        <span class="p">(</span><span class="s1">&#39;maj7&#39;</span><span class="p">,</span> <span class="s1">&#39;^7&#39;</span><span class="p">),</span>
-        <span class="p">(</span><span class="s1">&#39;maj9&#39;</span><span class="p">,</span> <span class="s1">&#39;^9&#39;</span><span class="p">),</span>
-        <span class="p">(</span><span class="s1">&#39;maj&#39;</span><span class="p">,</span> <span class="s1">&#39;^&#39;</span><span class="p">),</span>
-        <span class="p">(</span><span class="s1">&#39;min7&#39;</span><span class="p">,</span> <span class="s1">&#39;-7&#39;</span><span class="p">),</span>
-        <span class="p">(</span><span class="s1">&#39;min&#39;</span><span class="p">,</span> <span class="s1">&#39;-&#39;</span><span class="p">),</span>
-        <span class="p">(</span><span class="s1">&#39;m7&#39;</span><span class="p">,</span> <span class="s1">&#39;-7&#39;</span><span class="p">),</span>
-        <span class="p">(</span><span class="s1">&#39;m9&#39;</span><span class="p">,</span> <span class="s1">&#39;-9&#39;</span><span class="p">),</span>
-        <span class="p">(</span><span class="s1">&#39;m&#39;</span><span class="p">,</span> <span class="s1">&#39;-&#39;</span><span class="p">),</span>
-        <span class="p">(</span><span class="s1">&#39;dim7&#39;</span><span class="p">,</span> <span class="s1">&#39;o7&#39;</span><span class="p">),</span>
-        <span class="p">(</span><span class="s1">&#39;dim&#39;</span><span class="p">,</span> <span class="s1">&#39;o&#39;</span><span class="p">),</span>
-        <span class="p">(</span><span class="s1">&#39;m7b5&#39;</span><span class="p">,</span> <span class="s1">&#39;h7&#39;</span><span class="p">),</span>
-        <span class="p">(</span><span class="s1">&#39;ø7&#39;</span><span class="p">,</span> <span class="s1">&#39;h7&#39;</span><span class="p">),</span>
-        <span class="p">(</span><span class="s1">&#39;ø&#39;</span><span class="p">,</span> <span class="s1">&#39;h&#39;</span><span class="p">),</span>
-        <span class="p">(</span><span class="s1">&#39;sus4&#39;</span><span class="p">,</span> <span class="s1">&#39;sus&#39;</span><span class="p">),</span>
-        <span class="p">(</span><span class="s1">&#39;sus2&#39;</span><span class="p">,</span> <span class="s1">&#39;sus2&#39;</span><span class="p">),</span>
-        <span class="p">(</span><span class="s1">&#39;add9&#39;</span><span class="p">,</span> <span class="s1">&#39;add9&#39;</span><span class="p">),</span>
-        <span class="p">(</span><span class="s1">&#39;add2&#39;</span><span class="p">,</span> <span class="s1">&#39;add2&#39;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">&quot;maj7&quot;</span><span class="p">,</span> <span class="s2">&quot;^7&quot;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">&quot;maj9&quot;</span><span class="p">,</span> <span class="s2">&quot;^9&quot;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">&quot;maj&quot;</span><span class="p">,</span> <span class="s2">&quot;^&quot;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">&quot;min7&quot;</span><span class="p">,</span> <span class="s2">&quot;-7&quot;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">&quot;min&quot;</span><span class="p">,</span> <span class="s2">&quot;-&quot;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">&quot;m7&quot;</span><span class="p">,</span> <span class="s2">&quot;-7&quot;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">&quot;m9&quot;</span><span class="p">,</span> <span class="s2">&quot;-9&quot;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">&quot;m&quot;</span><span class="p">,</span> <span class="s2">&quot;-&quot;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">&quot;dim7&quot;</span><span class="p">,</span> <span class="s2">&quot;o7&quot;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">&quot;dim&quot;</span><span class="p">,</span> <span class="s2">&quot;o&quot;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">&quot;m7b5&quot;</span><span class="p">,</span> <span class="s2">&quot;h7&quot;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">&quot;ø7&quot;</span><span class="p">,</span> <span class="s2">&quot;h7&quot;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">&quot;ø&quot;</span><span class="p">,</span> <span class="s2">&quot;h&quot;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">&quot;sus4&quot;</span><span class="p">,</span> <span class="s2">&quot;sus&quot;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">&quot;sus2&quot;</span><span class="p">,</span> <span class="s2">&quot;sus2&quot;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">&quot;add9&quot;</span><span class="p">,</span> <span class="s2">&quot;add9&quot;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">&quot;add2&quot;</span><span class="p">,</span> <span class="s2">&quot;add2&quot;</span><span class="p">),</span>
     <span class="p">]</span>
 
     <span class="n">result</span> <span class="o">=</span> <span class="n">symbol</span>
@@ -164,8 +164,8 @@
         <span class="c1"># Only replace if it&#39;s at the end or followed by a slash</span>
         <span class="k">if</span> <span class="n">result</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="n">old</span><span class="p">):</span>
             <span class="n">result</span> <span class="o">=</span> <span class="n">result</span><span class="p">[:</span> <span class="o">-</span><span class="nb">len</span><span class="p">(</span><span class="n">old</span><span class="p">)]</span> <span class="o">+</span> <span class="n">new</span>
-        <span class="k">elif</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">old</span><span class="si">}</span><span class="s1">/&#39;</span> <span class="ow">in</span> <span class="n">result</span><span class="p">:</span>
-            <span class="n">result</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">old</span><span class="si">}</span><span class="s1">/&#39;</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">new</span><span class="si">}</span><span class="s1">/&#39;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">old</span><span class="si">}</span><span class="s2">/&quot;</span> <span class="ow">in</span> <span class="n">result</span><span class="p">:</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">old</span><span class="si">}</span><span class="s2">/&quot;</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">new</span><span class="si">}</span><span class="s2">/&quot;</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">result</span></div>
 
@@ -187,8 +187,8 @@
     <span class="n">chord_string</span> <span class="o">=</span> <span class="n">chord_string</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
 
     <span class="c1"># Split by bar lines if present</span>
-    <span class="k">if</span> <span class="s1">&#39;|&#39;</span> <span class="ow">in</span> <span class="n">chord_string</span><span class="p">:</span>
-        <span class="n">parts</span> <span class="o">=</span> <span class="p">[</span><span class="n">p</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">chord_string</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;|&#39;</span><span class="p">)</span> <span class="k">if</span> <span class="n">p</span><span class="o">.</span><span class="n">strip</span><span class="p">()]</span>
+    <span class="k">if</span> <span class="s2">&quot;|&quot;</span> <span class="ow">in</span> <span class="n">chord_string</span><span class="p">:</span>
+        <span class="n">parts</span> <span class="o">=</span> <span class="p">[</span><span class="n">p</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">chord_string</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;|&quot;</span><span class="p">)</span> <span class="k">if</span> <span class="n">p</span><span class="o">.</span><span class="n">strip</span><span class="p">()]</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="c1"># Space-separated, one chord per bar</span>
         <span class="n">parts</span> <span class="o">=</span> <span class="p">[[</span><span class="n">c</span><span class="p">]</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">chord_string</span><span class="o">.</span><span class="n">split</span><span class="p">()</span> <span class="k">if</span> <span class="n">c</span><span class="o">.</span><span class="n">strip</span><span class="p">()]</span>
@@ -202,9 +202,9 @@
         <span class="n">normalized</span> <span class="o">=</span> <span class="p">[]</span>
 
         <span class="k">for</span> <span class="n">chord</span> <span class="ow">in</span> <span class="n">chords_in_bar</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">chord</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;%&#39;</span><span class="p">,</span> <span class="s1">&#39;x&#39;</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">chord</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;%&quot;</span><span class="p">,</span> <span class="s2">&quot;x&quot;</span><span class="p">):</span>
                 <span class="c1"># Repeat previous bar</span>
-                <span class="n">chord</span> <span class="o">=</span> <span class="n">last_chord</span> <span class="k">if</span> <span class="n">last_chord</span> <span class="k">else</span> <span class="s1">&#39;C&#39;</span>
+                <span class="n">chord</span> <span class="o">=</span> <span class="n">last_chord</span> <span class="k">if</span> <span class="n">last_chord</span> <span class="k">else</span> <span class="s2">&quot;C&quot;</span>
             <span class="n">chord</span> <span class="o">=</span> <span class="n">normalize_chord_symbol</span><span class="p">(</span><span class="n">chord</span><span class="p">)</span>
             <span class="n">normalized</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">chord</span><span class="p">)</span>
             <span class="n">last_chord</span> <span class="o">=</span> <span class="n">chord</span>
@@ -233,7 +233,7 @@
     <span class="k">if</span> <span class="ow">not</span> <span class="n">ts_str</span><span class="p">:</span>
         <span class="k">return</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
     <span class="k">try</span><span class="p">:</span>
-        <span class="n">parts</span> <span class="o">=</span> <span class="n">ts_str</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)</span>
+        <span class="n">parts</span> <span class="o">=</span> <span class="n">ts_str</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">parts</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="nb">int</span><span class="p">(</span><span class="n">parts</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
     <span class="k">except</span> <span class="p">(</span><span class="ne">ValueError</span><span class="p">,</span> <span class="ne">IndexError</span><span class="p">):</span>
         <span class="k">return</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span></div>
@@ -259,6 +259,7 @@
         <span class="n">measures</span> <span class="o">=</span> <span class="p">[[</span><span class="n">chord</span><span class="p">]</span> <span class="k">for</span> <span class="n">chord</span> <span class="ow">in</span> <span class="n">tune</span><span class="o">.</span><span class="n">measures_as_strings</span> <span class="k">if</span> <span class="n">chord</span><span class="p">]</span>
 
         <span class="kn">from</span><span class="w"> </span><span class="nn">.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">Score</span>
+
         <span class="k">return</span> <span class="n">Score</span><span class="p">(</span>
             <span class="n">measures</span><span class="o">=</span><span class="n">measures</span><span class="p">,</span>
             <span class="n">title</span><span class="o">=</span><span class="n">tune</span><span class="o">.</span><span class="n">title</span> <span class="ow">or</span> <span class="s2">&quot;Untitled&quot;</span><span class="p">,</span>
@@ -344,6 +345,7 @@
             <span class="n">chords</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">chord</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
 
     <span class="kn">from</span><span class="w"> </span><span class="nn">.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">ensure_score</span>
+
     <span class="n">score</span> <span class="o">=</span> <span class="n">ensure_score</span><span class="p">(</span><span class="n">chords</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="n">title</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="n">key</span><span class="p">)</span>
     <span class="n">score</span><span class="o">.</span><span class="n">composer</span> <span class="o">=</span> <span class="n">composer</span>
     <span class="k">return</span> <span class="n">score</span></div>
