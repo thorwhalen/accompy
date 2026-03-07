@@ -218,7 +218,7 @@ def _check_setup_on_import():
 
         warnings.warn(
             f"\naccompy setup incomplete - missing: {', '.join(critical_missing)}\n"
-            f"Run: python -c \"from accompy.setup_utils import verify_and_setup; verify_and_setup()\"\n"
+            f'Run: python -c "from accompy.setup_utils import verify_and_setup; verify_and_setup()"\n'
             f"Or: python -m accompy --check-deps\n"
             f"To disable this warning: export ACCOMPY_SKIP_SETUP_CHECK=1",
             category=UserWarning,

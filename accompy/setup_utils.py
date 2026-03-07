@@ -108,7 +108,7 @@ def diagnose_issues() -> List[Tuple[str, str, str]]:
             (
                 "SoundFont file not found",
                 f"Checked: {Path.home() / '.fluidsynth' / 'default_sound_font.sf2'}",
-                "Run: python -c \"from accompy.setup_utils import setup_soundfont; setup_soundfont()\"",
+                'Run: python -c "from accompy.setup_utils import setup_soundfont; setup_soundfont()"',
             )
         )
 
@@ -312,10 +312,10 @@ def _download_soundfont(target_path: Path, soundfont: str = "auto") -> bool:
                     try:
                         import zipfile
 
-                        with zipfile.ZipFile(download_path, 'r') as zip_ref:
+                        with zipfile.ZipFile(download_path, "r") as zip_ref:
                             # Find .sf2 file in zip
                             sf2_files = [
-                                f for f in zip_ref.namelist() if f.endswith('.sf2')
+                                f for f in zip_ref.namelist() if f.endswith(".sf2")
                             ]
                             if sf2_files:
                                 # Extract first .sf2 file

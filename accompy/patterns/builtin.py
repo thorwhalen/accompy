@@ -45,7 +45,7 @@ SWING_DRUMS_BASIC = DrumPattern(
         # Hi-hat on 2 and 4
         DrumHit(1, PEDAL_HIHAT, 80),
         DrumHit(3, PEDAL_HIHAT, 80),
-    ]
+    ],
 )
 
 SWING_DRUMS_BRUSHES = DrumPattern(
@@ -60,25 +60,25 @@ SWING_DRUMS_BRUSHES = DrumPattern(
         DrumHit(2.67, CLOSED_HIHAT, 40),
         DrumHit(3, SIDE_STICK, 50),
         DrumHit(3.67, CLOSED_HIHAT, 40),
-    ]
+    ],
 )
 
 SWING_BASS_WALKING = BassPattern(
     name="walking",
     notes=[
-        NoteEvent(0, 0, 0.9, 100),      # Root
-        NoteEvent(1, 4, 0.9, 90),       # 3rd
-        NoteEvent(2, 7, 0.9, 95),       # 5th
-        NoteEvent(3, 11, 0.9, 85),      # Approach (chromatic)
-    ]
+        NoteEvent(0, 0, 0.9, 100),  # Root
+        NoteEvent(1, 4, 0.9, 90),  # 3rd
+        NoteEvent(2, 7, 0.9, 95),  # 5th
+        NoteEvent(3, 11, 0.9, 85),  # Approach (chromatic)
+    ],
 )
 
 SWING_COMP = CompingPattern(
     name="swing_comp",
     hits=[
-        (1.5, 0.4, 75),   # Off-beat comping
+        (1.5, 0.4, 75),  # Off-beat comping
         (3.5, 0.4, 80),
-    ]
+    ],
 )
 
 
@@ -106,16 +106,16 @@ BOSSA_DRUMS = DrumPattern(
         DrumHit(0, KICK, 80),
         DrumHit(1.5, KICK, 70),
         DrumHit(3, KICK, 75),
-    ]
+    ],
 )
 
 BOSSA_BASS = BassPattern(
     name="bossa",
     notes=[
-        NoteEvent(0, 0, 1.3, 90),       # Root, sustained
-        NoteEvent(1.5, 7, 0.8, 75),     # 5th, syncopated
-        NoteEvent(2.5, 0, 1.3, 85),     # Back to root
-    ]
+        NoteEvent(0, 0, 1.3, 90),  # Root, sustained
+        NoteEvent(1.5, 7, 0.8, 75),  # 5th, syncopated
+        NoteEvent(2.5, 0, 1.3, 85),  # Back to root
+    ],
 )
 
 BOSSA_COMP = CompingPattern(
@@ -125,7 +125,7 @@ BOSSA_COMP = CompingPattern(
         (1.5, 0.3, 65),
         (2.5, 0.3, 70),
         (3.5, 0.3, 60),
-    ]
+    ],
 )
 
 
@@ -152,7 +152,7 @@ ROCK_DRUMS_BASIC = DrumPattern(
         DrumHit(2.5, CLOSED_HIHAT, 60),
         DrumHit(3, CLOSED_HIHAT, 80),
         DrumHit(3.5, CLOSED_HIHAT, 60),
-    ]
+    ],
 )
 
 ROCK_DRUMS_HEAVY = DrumPattern(
@@ -166,7 +166,7 @@ ROCK_DRUMS_HEAVY = DrumPattern(
         DrumHit(2.75, KICK, 85),
         DrumHit(3, SNARE, 110),
         DrumHit(3.5, CLOSED_HIHAT, 70),
-    ]
+    ],
 )
 
 ROCK_BASS = BassPattern(
@@ -176,7 +176,7 @@ ROCK_BASS = BassPattern(
         NoteEvent(1, 0, 0.9, 90),
         NoteEvent(2, 0, 0.9, 100),
         NoteEvent(3, 0, 0.9, 90),
-    ]
+    ],
 )
 
 ROCK_BASS_DRIVING = BassPattern(
@@ -190,7 +190,7 @@ ROCK_BASS_DRIVING = BassPattern(
         NoteEvent(2.5, 0, 0.45, 80),
         NoteEvent(3, 0, 0.45, 95),
         NoteEvent(3.5, 0, 0.45, 80),
-    ]
+    ],
 )
 
 
@@ -209,7 +209,7 @@ FUNK_DRUMS = DrumPattern(
         DrumHit(2.5, KICK, 100),
         DrumHit(3.25, KICK, 80),
         # Snare on 2 and 4 with ghost notes
-        DrumHit(0.5, SNARE, 40),   # Ghost
+        DrumHit(0.5, SNARE, 40),  # Ghost
         DrumHit(1, SNARE, 105),
         DrumHit(2.25, SNARE, 35),  # Ghost
         DrumHit(3, SNARE, 105),
@@ -231,7 +231,7 @@ FUNK_DRUMS = DrumPattern(
         DrumHit(3.25, CLOSED_HIHAT, 50),
         DrumHit(3.5, CLOSED_HIHAT, 65),
         DrumHit(3.75, CLOSED_HIHAT, 50),
-    ]
+    ],
 )
 
 FUNK_BASS = BassPattern(
@@ -244,7 +244,7 @@ FUNK_BASS = BassPattern(
         NoteEvent(2.5, 0, 0.4, 100),
         NoteEvent(3, 5, 0.3, 85),
         NoteEvent(3.5, 7, 0.3, 80),
-    ]
+    ],
 )
 
 
@@ -262,15 +262,15 @@ BALLAD_DRUMS = DrumPattern(
         DrumHit(1, CLOSED_HIHAT, 40),
         DrumHit(2, CLOSED_HIHAT, 50),
         DrumHit(3, CLOSED_HIHAT, 40),
-    ]
+    ],
 )
 
 BALLAD_BASS = BassPattern(
     name="ballad",
     notes=[
-        NoteEvent(0, 0, 2.0, 80),       # Whole note on root
-        NoteEvent(2, 7, 2.0, 70),       # 5th
-    ]
+        NoteEvent(0, 0, 2.0, 80),  # Whole note on root
+        NoteEvent(2, 7, 2.0, 70),  # 5th
+    ],
 )
 
 BALLAD_COMP = CompingPattern(
@@ -284,7 +284,7 @@ BALLAD_COMP = CompingPattern(
         (2.5, 0.8, 55),
         (3, 0.8, 50),
         (3.5, 0.8, 55),
-    ]
+    ],
 )
 
 
@@ -314,7 +314,7 @@ LATIN_DRUMS = DrumPattern(
         DrumHit(2.5, COWBELL, 55),
         DrumHit(3, COWBELL, 65),
         DrumHit(3.5, COWBELL, 55),
-    ]
+    ],
 )
 
 LATIN_BASS = BassPattern(
@@ -326,7 +326,7 @@ LATIN_BASS = BassPattern(
         NoteEvent(2, 7, 0.4, 85),
         NoteEvent(2.5, 0, 0.4, 90),
         NoteEvent(3.5, 5, 0.4, 80),
-    ]
+    ],
 )
 
 
@@ -341,16 +341,16 @@ WALTZ_DRUMS = DrumPattern(
         DrumHit(0, KICK, 90),
         DrumHit(1, CLOSED_HIHAT, 60),
         DrumHit(2, CLOSED_HIHAT, 60),
-    ]
+    ],
 )
 
 WALTZ_BASS = BassPattern(
     name="waltz",
     notes=[
-        NoteEvent(0, 0, 0.9, 95),       # Root
-        NoteEvent(1, 4, 0.9, 75),       # 3rd
-        NoteEvent(2, 7, 0.9, 75),       # 5th
-    ]
+        NoteEvent(0, 0, 0.9, 95),  # Root
+        NoteEvent(1, 4, 0.9, 75),  # 3rd
+        NoteEvent(2, 7, 0.9, 75),  # 5th
+    ],
 )
 
 
@@ -375,7 +375,7 @@ BLUES_DRUMS = DrumPattern(
         DrumHit(3, CLOSED_HIHAT, 75),
         DrumHit(3, SNARE, 90),
         DrumHit(3.67, CLOSED_HIHAT, 60),
-    ]
+    ],
 )
 
 BLUES_BASS = BassPattern(
@@ -389,7 +389,7 @@ BLUES_BASS = BassPattern(
         NoteEvent(2.67, 0, 0.3, 80),
         NoteEvent(3, 7, 0.6, 90),
         NoteEvent(3.67, 9, 0.3, 75),  # 6th for blues
-    ]
+    ],
 )
 
 

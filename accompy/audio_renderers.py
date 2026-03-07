@@ -73,11 +73,19 @@ def midi_to_audio_fluidsynth(
     try:
         cmd = [
             "fluidsynth",
-            "-F", wav_path, "-r", str(sr),
-            "-ni", soundfont, midi_path,
+            "-F",
+            wav_path,
+            "-r",
+            str(sr),
+            "-ni",
+            soundfont,
+            midi_path,
         ]
         result = subprocess.run(
-            cmd, capture_output=True, text=True, timeout=60,
+            cmd,
+            capture_output=True,
+            text=True,
+            timeout=60,
         )
         if not Path(wav_path).exists():
             raise RuntimeError(
@@ -275,17 +283,11 @@ converter.register(
     is_default=True,
 )
 
-converter.register(
-    MidiData, AudioData, midi_to_audio_fluidsynth, name="fluidsynth"
-)
+converter.register(MidiData, AudioData, midi_to_audio_fluidsynth, name="fluidsynth")
 
-converter.register(
-    MidiData, AudioData, midi_to_audio_tonal, name="tonal"
-)
+converter.register(MidiData, AudioData, midi_to_audio_tonal, name="tonal")
 
-converter.register(
-    MidiData, AudioData, midi_to_audio_dawdreamer, name="dawdreamer"
-)
+converter.register(MidiData, AudioData, midi_to_audio_dawdreamer, name="dawdreamer")
 
 
 # ---------------------------------------------------------------------------

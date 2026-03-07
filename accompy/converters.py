@@ -43,6 +43,7 @@ ChordSheet = NewType("ChordSheet", str)
 # A chord event: (chord_symbol, duration_in_beats)
 ChordEvent = tuple[str, float]
 
+
 # An ordered sequence of chord events with optional metadata
 @dataclass
 class ChordSequence:
@@ -98,6 +99,7 @@ class ChordSequence:
             2
         """
         from .base import ensure_score
+
         return ensure_score(
             self.chords,
             title=self.title or "Untitled",
@@ -344,9 +346,7 @@ class ConverterRegistry:
             )
         return self._converters[key][name]
 
-    def list_converters(
-        self, source_type: type, target_type: type
-    ) -> list[str]:
+    def list_converters(self, source_type: type, target_type: type) -> list[str]:
         """List available converter names for a type pair."""
         key = (source_type, target_type)
         if key not in self._converters:
@@ -355,13 +355,9 @@ class ConverterRegistry:
 
     def list_pairs(self) -> list[tuple[str, str]]:
         """List all registered (source, target) type name pairs."""
-        return [
-            (s.__name__, t.__name__) for s, t in self._converters.keys()
-        ]
+        return [(s.__name__, t.__name__) for s, t in self._converters.keys()]
 
-    def set_default(
-        self, source_type: type, target_type: type, name: str
-    ) -> None:
+    def set_default(self, source_type: type, target_type: type, name: str) -> None:
         """Change the default converter for a type pair."""
         key = (source_type, target_type)
         if key not in self._converters or name not in self._converters[key]:

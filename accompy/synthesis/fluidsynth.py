@@ -63,8 +63,8 @@ class FluidSynthBackend(SynthesizerBackend):
         """
         # Render to WAV first
         wav_path = (
-            output_path.with_suffix('.wav')
-            if output_path.suffix != '.wav'
+            output_path.with_suffix(".wav")
+            if output_path.suffix != ".wav"
             else output_path
         )
 
@@ -72,7 +72,9 @@ class FluidSynthBackend(SynthesizerBackend):
         try:
             from midi2audio import FluidSynth
 
-            fs = FluidSynth(sound_font=str(self.soundfont_path), sample_rate=sample_rate)
+            fs = FluidSynth(
+                sound_font=str(self.soundfont_path), sample_rate=sample_rate
+            )
             fs.midi_to_audio(str(midi_path), str(wav_path))
         except Exception:
             # Fall back to command-line FluidSynth
@@ -80,11 +82,11 @@ class FluidSynthBackend(SynthesizerBackend):
                 # FluidSynth 2.x syntax: options must come BEFORE soundfont and MIDI file
                 subprocess.run(
                     [
-                        'fluidsynth',
-                        '-ni',  # No interactive shell
-                        '-F',
+                        "fluidsynth",
+                        "-ni",  # No interactive shell
+                        "-F",
                         str(wav_path),  # Output file
-                        '-r',
+                        "-r",
                         str(sample_rate),  # Sample rate
                         str(self.soundfont_path),  # SoundFont file
                         str(midi_path),  # MIDI input file
@@ -102,7 +104,7 @@ class FluidSynthBackend(SynthesizerBackend):
                 raise RuntimeError(f"FluidSynth failed: {e.stderr.decode()}")
 
         # Convert to final format if needed
-        if output_path.suffix.lower() in ('.mp3', '.flac') and wav_path != output_path:
+        if output_path.suffix.lower() in (".mp3", ".flac") and wav_path != output_path:
             convert_audio(wav_path, output_path)
             wav_path.unlink()  # Clean up temp WAV
 
@@ -113,9 +115,7 @@ class FluidSynthBackend(SynthesizerBackend):
         """Check if FluidSynth is available."""
         try:
             result = subprocess.run(
-                ['fluidsynth', '--version'],
-                capture_output=True,
-                timeout=5
+                ["fluidsynth", "--version"], capture_output=True, timeout=5
             )
             return result.returncode == 0
         except (FileNotFoundError, subprocess.TimeoutExpired):
@@ -159,7 +159,7 @@ def convert_audio(input_path: Path, output_path: Path) -> None:
     """
     try:
         subprocess.run(
-            ['ffmpeg', '-y', '-i', str(input_path), str(output_path)],
+            ["ffmpeg", "-y", "-i", str(input_path), str(output_path)],
             check=True,
             capture_output=True,
         )

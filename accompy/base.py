@@ -35,6 +35,7 @@ class MidiEvent:
         velocity: Note velocity (0-127)
         duration: Note duration in beats
     """
+
     time: float
     channel: int
     note: int
@@ -52,11 +53,13 @@ class ChordEvent:
         >>> event.symbol
         'D-7'
     """
+
     symbol: str
     beats: int = 4
 
     def __post_init__(self):
         from .util import normalize_chord_symbol
+
         self.symbol = normalize_chord_symbol(self.symbol)
 
 
@@ -73,6 +76,7 @@ class Score:
         >>> list(score.measures)
         [['C'], ['A-'], ['F'], ['G']]
     """
+
     measures: list[list[str]]
     title: str = "Untitled"
     composer: str = ""
@@ -102,6 +106,7 @@ class Score:
             [['D-7'], ['G7'], ['C^7'], ['C^7']]
         """
         from .util import parse_chord_string
+
         measures = parse_chord_string(chord_string)
         return cls(
             measures=measures,
@@ -120,6 +125,7 @@ class Score:
             score = Score.from_ireal_url(url)
         """
         from .util import parse_ireal_url
+
         return parse_ireal_url(url)
 
     def to_chord_sequence(self, *, tempo: int = 120):
@@ -179,6 +185,7 @@ class AccompanimentConfig:
         pattern_source: Optional custom pattern provider
         synthesis_backend: Optional custom synthesis backend
     """
+
     # Core settings
     style: StyleName = "swing"
     tempo: int = 120
@@ -223,6 +230,7 @@ class AccompanimentConfig:
             (120, 180)
         """
         from dataclasses import replace
+
         return replace(self, **kwargs)
 
 

@@ -38,6 +38,7 @@ class DrumHit:
         drum: MIDI note number for the drum sound
         velocity: Hit velocity (0-127)
     """
+
     beat: float
     drum: int
     velocity: int
@@ -54,6 +55,7 @@ class NoteEvent:
         duration: Note duration in beats
         velocity: Note velocity (0-127)
     """
+
     beat: float
     pitch_offset: int
     duration: float
@@ -70,6 +72,7 @@ class DrumPattern:
         >>> pattern.beats_per_bar
         4
     """
+
     name: str
     beats_per_bar: int
     hits: Sequence[DrumHit]
@@ -87,6 +90,7 @@ class BassPattern:
     Uses pitch_offset in NoteEvent to specify intervals from the chord root.
     The actual pitches are determined when the pattern is applied to specific chords.
     """
+
     name: str
     notes: Sequence[NoteEvent]
 
@@ -100,5 +104,6 @@ class CompingPattern:
         name: Pattern identifier
         hits: Sequence of (beat, duration, velocity) tuples
     """
+
     name: str
     hits: Sequence[tuple[float, float, int]]

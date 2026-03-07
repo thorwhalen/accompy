@@ -86,7 +86,7 @@ def generate_accompaniment(
     # Determine output format from path or argument
     if output_path is not None:
         out_path = Path(output_path)
-        suffix = out_path.suffix.lstrip('.').lower()
+        suffix = out_path.suffix.lstrip(".").lower()
         if output_format is None:
             if suffix in ("wav", "mp3", "flac"):
                 output_format = suffix  # type: ignore[assignment]
@@ -330,15 +330,15 @@ def _generate_via_mma(score: Score, config: AccompanimentConfig) -> Path:
 
     # Write to temp file
     mma_path = Path(tempfile.mktemp(suffix=".mma"))
-    with open(mma_path, 'w') as f:
+    with open(mma_path, "w") as f:
         f.write(mma_content)
 
     # Run MMA
-    midi_path = mma_path.with_suffix('.mid')
+    midi_path = mma_path.with_suffix(".mid")
 
     try:
         subprocess.run(
-            ['mma', str(mma_path), '-f', str(midi_path)],
+            ["mma", str(mma_path), "-f", str(midi_path)],
             capture_output=True,
             text=True,
             check=True,
@@ -374,7 +374,7 @@ def _score_to_mma(score: Score, config: AccompanimentConfig) -> str:
 
     # Add measures
     for i, measure in enumerate(score.measures, 1):
-        chords = ' '.join(measure) if measure else 'z'  # 'z' = rest
+        chords = " ".join(measure) if measure else "z"  # 'z' = rest
         lines.append(f"{i} {chords}")
 
     # Repeats
@@ -382,7 +382,7 @@ def _score_to_mma(score: Score, config: AccompanimentConfig) -> str:
         lines.append("")
         lines.append(f"Repeat {config.repeats}")
 
-    return '\n'.join(lines)
+    return "\n".join(lines)
 
 
 def _style_to_groove(style: StyleName) -> str:
@@ -408,7 +408,7 @@ def _style_to_groove(style: StyleName) -> str:
 def _mma_available() -> bool:
     """Check if MMA is available."""
     try:
-        result = subprocess.run(['mma', '-v'], capture_output=True, timeout=5)
+        result = subprocess.run(["mma", "-v"], capture_output=True, timeout=5)
         return result.returncode == 0
     except (FileNotFoundError, subprocess.TimeoutExpired):
         return False
