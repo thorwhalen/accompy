@@ -63,8 +63,6 @@ If you prefer to install manually:
 ```bash
 # macOS
 brew install fluid-synth
-# FluidSynth 2.5+ comes with a bundled SoundFont
-# The setup will automatically link it for you
 
 # Ubuntu/Debian
 sudo apt-get install fluidsynth fluid-soundfont-gm
@@ -75,6 +73,35 @@ pip install midiutil mingus
 # Verify setup
 python -m accompy --check-deps
 ```
+
+#### SoundFont (important for sound quality!)
+
+FluidSynth renders MIDI using **SoundFont** sample banks (`.sf2` files).
+The SoundFont determines the quality of every instrument you hear.
+FluidSynth's bundled SoundFont (`VintageDreamsWaves-v2.sf2`, ~300 KB) is a
+bare-minimum placeholder made of basic waveforms — **it will sound terrible**.
+
+For good results, install a full General MIDI SoundFont with real instrument
+samples:
+
+```bash
+mkdir -p ~/.fluidsynth
+
+# MuseScore General (~200 MB, MIT license, good all-around quality)
+curl -L -o ~/.fluidsynth/default_sound_font.sf2 \
+  "https://ftp.osuosl.org/pub/musescore/soundfont/MuseScore_General/MuseScore_General.sf2"
+```
+
+Other recommended SoundFonts:
+
+- **GeneralUser GS** (~30 MB) — excellent bass and drums, free for commercial
+  use. Download from <https://schristiancollins.com/generaluser.php>
+- **FluidR3_GM** (~140 MB) — the classic GM SoundFont, widely used.
+
+Browse more at <https://musical-artifacts.com/artifacts?formats=sf2>.
+
+After downloading, place or symlink the file at
+`~/.fluidsynth/default_sound_font.sf2` (accompy looks there by default).
 
 #### Check Your Setup
 
@@ -489,6 +516,38 @@ Returns dict of available dependencies.
 Print installation instructions for missing dependencies.
 
 ## Troubleshooting
+
+### It sounds awful!
+
+**Problem:** The generated audio plays but sounds robotic, hollow, or like
+cheap ringtones from 2003.
+
+**Cause:** You're using a tiny placeholder SoundFont. FluidSynth ships with
+`VintageDreamsWaves-v2.sf2` (~300 KB), which is made of basic sine waves — not
+real instrument samples. This is the #1 reason accompy output sounds bad.
+
+**How to check:**
+
+```bash
+ls -lh ~/.fluidsynth/default_sound_font.sf2
+# If it's under 1 MB, that's your problem.
+```
+
+**Fix — install a real SoundFont:**
+
+```bash
+# Download MuseScore General (~200 MB, real sampled instruments)
+curl -L -o ~/.fluidsynth/default_sound_font.sf2 \
+  "https://ftp.osuosl.org/pub/musescore/soundfont/MuseScore_General/MuseScore_General.sf2"
+```
+
+A proper SoundFont should be **30–200+ MB**. See the
+[SoundFont section](#soundfont-important-for-sound-quality) above for more
+options, or browse <https://musical-artifacts.com/artifacts?formats=sf2>.
+
+> **Tip:** If you're using an AI coding agent (Claude Code, Cursor, etc.),
+> just tell it: *"the accompy output sounds bad, find and install a good
+> SoundFont"* — it can diagnose and fix this in seconds.
 
 ### Common Issues
 

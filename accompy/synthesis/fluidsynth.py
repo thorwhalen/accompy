@@ -68,40 +68,34 @@ class FluidSynthBackend(SynthesizerBackend):
             else output_path
         )
 
-        # Try Python wrapper first
+        # Use command-line FluidSynth directly (midi2audio has argument
+        # ordering issues with FluidSynth 2.x).
         try:
-            from midi2audio import FluidSynth
-
-            fs = FluidSynth(
-                sound_font=str(self.soundfont_path), sample_rate=sample_rate
+            # FluidSynth 2.x syntax: options must come BEFORE soundfont and MIDI file
+            subprocess.run(
+                [
+                    "fluidsynth",
+                    "-ni",  # No interactive shell
+                    "-F",
+                    str(wav_path),  # Output file
+                    "-r",
+                    str(sample_rate),  # Sample rate
+                    str(self.soundfont_path),  # SoundFont file
+                    str(midi_path),  # MIDI input file
+                ],
+                check=True,
+                capture_output=True,
             )
-            fs.midi_to_audio(str(midi_path), str(wav_path))
-        except Exception:
-            # Fall back to command-line FluidSynth
-            try:
-                # FluidSynth 2.x syntax: options must come BEFORE soundfont and MIDI file
-                subprocess.run(
-                    [
-                        "fluidsynth",
-                        "-ni",  # No interactive shell
-                        "-F",
-                        str(wav_path),  # Output file
-                        "-r",
-                        str(sample_rate),  # Sample rate
-                        str(self.soundfont_path),  # SoundFont file
-                        str(midi_path),  # MIDI input file
-                    ],
-                    check=True,
-                    capture_output=True,
-                )
-            except FileNotFoundError:
-                raise RuntimeError(
-                    "FluidSynth not found. Install with:\n"
-                    "  macOS:  brew install fluidsynth\n"
-                    "  Ubuntu: sudo apt-get install fluidsynth"
-                )
-            except subprocess.CalledProcessError as e:
-                raise RuntimeError(f"FluidSynth failed: {e.stderr.decode()}")
+        except FileNotFoundError:
+            raise RuntimeError(
+                "FluidSynth not found. Install with:\n"
+                "  macOS:  brew install fluidsynth\n"
+                "  Ubuntu: sudo apt-get install fluidsynth"
+            )
+        except subprocess.CalledProcessError as e:
+            raise RuntimeError(
+                f"FluidSynth failed: {(e.stderr or b'').decode()}"
+            )
 
         # Convert to final format if needed
         if output_path.suffix.lower() in (".mp3", ".flac") and wav_path != output_path:

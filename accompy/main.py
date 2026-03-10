@@ -9,6 +9,7 @@ from __future__ import annotations
 
 import os
 import subprocess
+import sys
 import tempfile
 from pathlib import Path
 from typing import Any, Optional, Union, Literal
@@ -323,8 +324,27 @@ def print_setup_instructions():
 # =============================================================================
 
 
+_mma_grooves_initialized = False
+
+
+def _ensure_mma_grooves():
+    """Initialize MMA groove database if not already done."""
+    global _mma_grooves_initialized
+    if _mma_grooves_initialized:
+        return
+    try:
+        subprocess.run(
+            [_find_mma(), "-g"], capture_output=True, text=True, timeout=30
+        )
+    except (FileNotFoundError, subprocess.TimeoutExpired):
+        pass
+    _mma_grooves_initialized = True
+
+
 def _generate_via_mma(score: Score, config: AccompanimentConfig) -> Path:
     """Generate MIDI using MMA (Musical MIDI Accompaniment)."""
+    _ensure_mma_grooves()
+
     # Create MMA file content
     mma_content = _score_to_mma(score, config)
 
@@ -337,14 +357,15 @@ def _generate_via_mma(score: Score, config: AccompanimentConfig) -> Path:
     midi_path = mma_path.with_suffix(".mid")
 
     try:
-        subprocess.run(
-            ["mma", str(mma_path), "-f", str(midi_path)],
+        result = subprocess.run(
+            [_find_mma(), str(mma_path), "-f", str(midi_path)],
             capture_output=True,
             text=True,
             check=True,
         )
     except subprocess.CalledProcessError as e:
-        raise RuntimeError(f"MMA failed: {e.stderr}")
+        error_msg = (e.stderr or e.stdout or "").strip()
+        raise RuntimeError(f"MMA failed: {error_msg}")
     except FileNotFoundError:
         raise RuntimeError("MMA not found. Install from https://www.mellowood.ca/mma/")
 
@@ -358,31 +379,77 @@ def _score_to_mma(score: Score, config: AccompanimentConfig) -> str:
         f"// {score.title}",
         "",
         f"Tempo {config.tempo}",
-        f"TimeSig {score.time_signature[0]}/{score.time_signature[1]}",
-        f"KeySig {score.key}",
         "",
         f"Groove {_style_to_groove(config.style)}",
         "",
     ]
 
-    # Volume adjustments
+    # Volume adjustments — MMA syntax is "TrackName Volume N"
+    _mma_track_names = {
+        "drums": "Drum",
+        "bass": "Bass",
+        "piano": "Chord",  # MMA's chording track
+        "guitar": "Chord",
+    }
     for inst, vol in config.volumes.items():
         if config.instruments.get(inst, False):
-            lines.append(f"{inst.capitalize()}Volume {int(vol * 100)}")
+            track = _mma_track_names.get(inst)
+            if track:
+                lines.append(f"{track} Volume {int(vol * 100)}")
 
     lines.append("")
 
-    # Add measures
-    for i, measure in enumerate(score.measures, 1):
-        chords = " ".join(measure) if measure else "z"  # 'z' = rest
-        lines.append(f"{i} {chords}")
-
-    # Repeats
-    if config.repeats > 1:
-        lines.append("")
-        lines.append(f"Repeat {config.repeats}")
+    # Add measures — convert iReal chord notation to MMA notation
+    # MMA's Repeat/RepeatEnd only doubles (no count argument),
+    # so we explicitly write out all repetitions.
+    bar_num = 1
+    for _ in range(max(1, config.repeats)):
+        for measure in score.measures:
+            chords = " ".join(_ireal_chord_to_mma(c) for c in measure) if measure else "z"
+            lines.append(f"{bar_num} {chords}")
+            bar_num += 1
 
     return "\n".join(lines)
+
+
+def _ireal_chord_to_mma(chord: str) -> str:
+    """Convert iReal Pro chord notation to MMA chord notation.
+
+    Examples: A- -> Am, C^7 -> Cmaj7, Dh7 -> Dm7b5, Go -> Gdim
+    """
+    if not chord or chord == "z":
+        return chord
+
+    # Extract root (letter + optional sharp/flat)
+    i = 1
+    if i < len(chord) and chord[i] in "b#":
+        i += 1
+    root = chord[:i]
+    quality = chord[i:]
+
+    # Map iReal quality suffixes to MMA equivalents
+    replacements = [
+        ("^7", "maj7"),
+        ("^", "maj"),
+        ("-7b5", "m7b5"),
+        ("-7", "m7"),
+        ("-9", "m9"),
+        ("-", "m"),
+        ("h7", "m7b5"),
+        ("h", "m7b5"),
+        ("o7", "dim7"),
+        ("o", "dim"),
+    ]
+
+    for ireal_suffix, mma_suffix in replacements:
+        if quality == ireal_suffix:
+            return root + mma_suffix
+        # Handle cases like "-7b5" where suffix is a prefix of quality
+        if quality.startswith(ireal_suffix) and ireal_suffix != quality:
+            remaining = quality[len(ireal_suffix):]
+            return root + mma_suffix + remaining
+
+    return chord
 
 
 def _style_to_groove(style: StyleName) -> str:
@@ -405,10 +472,27 @@ def _style_to_groove(style: StyleName) -> str:
 # =============================================================================
 
 
+def _find_mma() -> str:
+    """Find the MMA executable, checking the current Python env's bin dir first."""
+    import shutil
+
+    # Check if mma is on PATH
+    mma_path = shutil.which("mma")
+    if mma_path:
+        return mma_path
+    # Check in the same bin directory as the current Python interpreter
+    env_bin = Path(sys.executable).parent / "mma"
+    if env_bin.exists():
+        return str(env_bin)
+    return "mma"  # fallback to bare command
+
+
 def _mma_available() -> bool:
     """Check if MMA is available."""
     try:
-        result = subprocess.run(["mma", "-v"], capture_output=True, timeout=5)
+        result = subprocess.run(
+            [_find_mma(), "-v"], capture_output=True, timeout=5
+        )
         return result.returncode == 0
     except (FileNotFoundError, subprocess.TimeoutExpired):
         return False

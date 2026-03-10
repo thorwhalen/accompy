@@ -82,11 +82,8 @@ def diagnose_issues() -> List[Tuple[str, str, str]]:
             print(f"{issue}: {desc}")
             print(f"Solution: {solution}")
     """
-    from .accompy import (
-        check_dependencies,
-        _default_soundfont_path,
-        _fluidsynth_available,
-    )
+    from .main import check_dependencies
+    from .synthesis.fluidsynth import find_default_soundfont
 
     issues = []
     deps = check_dependencies()
@@ -103,7 +100,6 @@ def diagnose_issues() -> List[Tuple[str, str, str]]:
 
     # Check SoundFont
     if not deps["soundfont"]:
-        sf_path = _default_soundfont_path()
         issues.append(
             (
                 "SoundFont file not found",
@@ -120,7 +116,7 @@ def diagnose_issues() -> List[Tuple[str, str, str]]:
 
     # Check SoundFont file validity
     if deps["soundfont"]:
-        sf_path = _default_soundfont_path()
+        sf_path = find_default_soundfont()
         if sf_path and sf_path.exists():
             if sf_path.stat().st_size < 1000:  # Less than 1KB is suspicious
                 issues.append(
@@ -160,8 +156,6 @@ def setup_soundfont(force: bool = False) -> bool:
         if setup_soundfont():
             print("SoundFont configured successfully!")
     """
-    from .accompy import _default_soundfont_path
-
     target_path = Path.home() / ".fluidsynth" / "default_sound_font.sf2"
 
     # Check if already exists
