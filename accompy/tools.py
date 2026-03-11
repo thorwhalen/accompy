@@ -128,9 +128,7 @@ def mma_score_to_wav(
         error_msg = (e.stderr or e.stdout or "").strip()
         raise RuntimeError(f"MMA failed (groove={groove!r}): {error_msg}") from e
     except FileNotFoundError:
-        raise RuntimeError(
-            "MMA not found. Install from https://www.mellowood.ca/mma/"
-        )
+        raise RuntimeError("MMA not found. Install from https://www.mellowood.ca/mma/")
     finally:
         mma_path.unlink(missing_ok=True)
         midi_path.unlink(missing_ok=True)
@@ -358,12 +356,19 @@ def generate_variations(
         safe_key = key.replace("#", "sharp").replace("b", "flat")
         safe_title = score.title.replace(" ", "_")
         filename = filename_template.format(
-            title=safe_title, key=safe_key, tempo=tempo, groove=groove,
+            title=safe_title,
+            key=safe_key,
+            tempo=tempo,
+            groove=groove,
         )
         output_path = output_dir / filename
         try:
             engine(
-                transposed, output_path, groove=groove, tempo=tempo, repeats=repeats,
+                transposed,
+                output_path,
+                groove=groove,
+                tempo=tempo,
+                repeats=repeats,
             )
             size = os.path.getsize(output_path)
             print(f"  OK: {filename} ({size:,} bytes)")

@@ -333,9 +333,7 @@ def _ensure_mma_grooves():
     if _mma_grooves_initialized:
         return
     try:
-        subprocess.run(
-            [_find_mma(), "-g"], capture_output=True, text=True, timeout=30
-        )
+        subprocess.run([_find_mma(), "-g"], capture_output=True, text=True, timeout=30)
     except (FileNotFoundError, subprocess.TimeoutExpired):
         pass
     _mma_grooves_initialized = True
@@ -405,7 +403,9 @@ def _score_to_mma(score: Score, config: AccompanimentConfig) -> str:
     bar_num = 1
     for _ in range(max(1, config.repeats)):
         for measure in score.measures:
-            chords = " ".join(_ireal_chord_to_mma(c) for c in measure) if measure else "z"
+            chords = (
+                " ".join(_ireal_chord_to_mma(c) for c in measure) if measure else "z"
+            )
             lines.append(f"{bar_num} {chords}")
             bar_num += 1
 
@@ -446,7 +446,7 @@ def _ireal_chord_to_mma(chord: str) -> str:
             return root + mma_suffix
         # Handle cases like "-7b5" where suffix is a prefix of quality
         if quality.startswith(ireal_suffix) and ireal_suffix != quality:
-            remaining = quality[len(ireal_suffix):]
+            remaining = quality[len(ireal_suffix) :]
             return root + mma_suffix + remaining
 
     return chord
@@ -490,9 +490,7 @@ def _find_mma() -> str:
 def _mma_available() -> bool:
     """Check if MMA is available."""
     try:
-        result = subprocess.run(
-            [_find_mma(), "-v"], capture_output=True, timeout=5
-        )
+        result = subprocess.run([_find_mma(), "-v"], capture_output=True, timeout=5)
         return result.returncode == 0
     except (FileNotFoundError, subprocess.TimeoutExpired):
         return False
