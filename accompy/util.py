@@ -121,10 +121,12 @@ def parse_time_sig(ts_str: Optional[str]) -> tuple[int, int]:
     """
     if not ts_str:
         return (4, 4)
+    if isinstance(ts_str, tuple):
+        return ts_str  # already a tuple
     try:
         parts = ts_str.split("/")
         return (int(parts[0]), int(parts[1]))
-    except (ValueError, IndexError):
+    except (ValueError, IndexError, AttributeError):
         return (4, 4)
 
 
@@ -132,30 +134,110 @@ def parse_ireal_url(url: str):
     """
     Parse an iReal Pro URL into a Score object.
 
-    Tries to use pyRealParser if available, falls back to built-in parser.
+    Tries pyRealParser's ``parse_ireal_url`` first, then falls back to
+    constructing a ``Tune`` directly (handles URLs with empty ``==`` fields),
+    and finally to a no-dependency best-effort parser.
     """
+    from .base import Score
+
     try:
         from pyRealParser import Tune
-
-        tunes = Tune.parse_ireal_url(url)
-        if not tunes:
-            raise ValueError("No songs found in URL")
-
-        tune = tunes[0]
-        measures = [[chord] for chord in tune.measures_as_strings if chord]
-
-        from .base import Score
-
-        return Score(
-            measures=measures,
-            title=tune.title or "Untitled",
-            composer=tune.composer or "",
-            key=tune.key or "C",
-            time_signature=parse_time_sig(tune.time_signature),
-        )
     except ImportError:
-        # Best-effort fallback parser (no external deps)
         return parse_ireal_url_fallback(url)
+
+    # --- Tier 1: pyRealParser.parse_ireal_url (standard path) ---
+    try:
+        tunes = Tune.parse_ireal_url(url)
+        if tunes:
+            tune = tunes[0]
+            measures = [[chord] for chord in tune.measures_as_strings if chord]
+            if measures:
+                return Score(
+                    measures=measures,
+                    title=tune.title or "Untitled",
+                    composer=tune.composer or "",
+                    key=tune.key or "C",
+                    time_signature=parse_time_sig(tune.time_signature),
+                )
+    except Exception:
+        pass
+
+    # --- Tier 2: construct Tune directly from URL fields ---
+    # Some iReal URLs (especially single-song HTML exports) have empty fields
+    # that cause ``==`` in the URL, which pyRealParser.parse_ireal_url can't
+    # handle.  We decode the URL ourselves and construct a Tune manually.
+    try:
+        tune = _tune_from_ireal_url(url)
+        measures = [[chord] for chord in tune.measures_as_strings if chord]
+        if measures:
+            return Score(
+                measures=measures,
+                title=tune.title or "Untitled",
+                composer=getattr(tune, "composer", "") or "",
+                key=tune.key or "C",
+                time_signature=parse_time_sig(
+                    getattr(tune, "time_signature", None)
+                ),
+            )
+    except Exception:
+        pass
+
+    # --- Tier 3: no-dependency fallback ---
+    return parse_ireal_url_fallback(url)
+
+
+def _tune_from_ireal_url(url: str):
+    """Construct a ``pyRealParser.Tune`` directly from an iReal URL.
+
+    The iReal single-song URL format (after decoding) is::
+
+        title=composer==style=key=??=chorddata=compstyle=bpm=repeats
+
+    ``parse_ireal_url`` splits on ``==`` (playlist separator) and chokes when
+    an empty field produces ``==`` inside a single song.  This helper splits
+    on single ``=`` and reconstructs the tune string that the ``Tune()``
+    constructor expects.
+    """
+    from pyRealParser import Tune
+
+    raw = url
+    if raw.startswith(("irealbook://", "irealb://")):
+        raw = raw.split("://", 1)[1]
+    raw = unquote(raw)
+
+    # Split on *single* '=' to preserve empty-field boundaries
+    parts = raw.split("=")
+
+    # Find the chord-data part: it contains the scramble prefix
+    prefix = "1r34LbKcu7"
+    chord_idx = None
+    for i, part in enumerate(parts):
+        if prefix in part:
+            chord_idx = i
+            break
+
+    if chord_idx is None:
+        raise ValueError("Could not locate chord data in iReal URL")
+
+    # Resolve fields relative to chord_idx
+    title = parts[0] if parts[0] else "Untitled"
+    composer = parts[1] if len(parts) > 1 else ""
+    # key is 2 positions before chord data
+    key = parts[chord_idx - 2] if chord_idx >= 2 and len(parts[chord_idx - 2]) <= 2 else "C"
+    # style is 1 position before key
+    style = parts[chord_idx - 3] if chord_idx >= 3 else ""
+
+    chord_data = parts[chord_idx]
+
+    # Fields after chord data: comp_style, bpm, repeats
+    comp_style = parts[chord_idx + 1] if chord_idx + 1 < len(parts) else ""
+    bpm_str = parts[chord_idx + 2] if chord_idx + 2 < len(parts) else ""
+    repeats_str = parts[chord_idx + 3] if chord_idx + 3 < len(parts) else ""
+
+    # Reconstruct the tune string for pyRealParser.Tune()
+    # Expected format: title=composer=style=key=chorddata=compstyle=bpm=repeats
+    tune_str = "=".join([title, composer, style, key, chord_data, comp_style, bpm_str, repeats_str])
+    return Tune(tune_str)
 
 
 def parse_ireal_url_fallback(url: str):
@@ -234,6 +316,42 @@ def parse_ireal_url_fallback(url: str):
     return score
 
 
+def parse_ireal_html(html_path: str) -> "Score":
+    """
+    Extract a Score from an iReal Pro HTML export file.
+
+    iReal Pro can export songs as HTML files containing an ``irealb://`` link.
+    This function reads the file, extracts that link, and parses it into a
+    :class:`Score`.
+
+    Args:
+        html_path: Path to the HTML file exported from iReal Pro.
+
+    Returns:
+        A Score with measures, title, key, and time signature.
+
+    Raises:
+        FileNotFoundError: If *html_path* does not exist.
+        ValueError: If no iReal URL is found in the HTML.
+
+    Example::
+
+        >>> score = parse_ireal_html("/path/to/song.html")  # doctest: +SKIP
+        >>> score.title  # doctest: +SKIP
+        'Autumn Leaves'
+    """
+    path = Path(html_path)
+    html = path.read_text(encoding="utf-8", errors="replace")
+    match = re.search(r'href="(irealb://[^"]+)"', html)
+    if not match:
+        # Maybe the file *is* a raw iReal URL
+        stripped = html.strip()
+        if stripped.startswith(("irealb://", "irealbook://")):
+            return parse_ireal_url(stripped)
+        raise ValueError(f"No iReal URL found in {html_path}")
+    return parse_ireal_url(match.group(1))
+
+
 def score_from_chord_specs(
     chords: Iterable,  # ChordSpec
     *,
@@ -282,3 +400,119 @@ def score_from_chord_specs(
         measures.append(current_bar)
 
     return Score(measures=measures, title=title, key=key, time_signature=time_signature)
+
+
+# ---------------------------------------------------------------------------
+# Transposition helpers
+# ---------------------------------------------------------------------------
+
+_SHARP_NOTES = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"]
+_FLAT_NOTES = ["C", "Db", "D", "Eb", "E", "F", "Gb", "G", "Ab", "A", "Bb", "B"]
+_NOTE_TO_SEMITONE = {n: i for notes in [_SHARP_NOTES, _FLAT_NOTES] for i, n in enumerate(notes)}
+# Add enharmonic extras
+_NOTE_TO_SEMITONE.update({"Fb": 4, "E#": 5, "Cb": 11, "B#": 0})
+
+_FLAT_KEYS = frozenset({"F", "Bb", "Eb", "Ab", "Db", "Gb"})
+
+
+def transpose_note(name: str, semitones: int, *, use_flat: Optional[bool] = None) -> str:
+    """Transpose a single note name by *semitones*.
+
+    Args:
+        name: Note name like ``"C"``, ``"Eb"``, ``"F#"``.
+        semitones: Number of semitones (positive = up, negative = down).
+        use_flat: Force flat (True) or sharp (False) spelling.
+            ``None`` (default) uses flats for downward transposition.
+
+    Example:
+        >>> transpose_note("C", 5)
+        'F'
+        >>> transpose_note("A", -2)
+        'G'
+        >>> transpose_note("C", 1, use_flat=True)
+        'Db'
+    """
+    if name not in _NOTE_TO_SEMITONE:
+        return name
+    idx = (_NOTE_TO_SEMITONE[name] + semitones) % 12
+    if use_flat is None:
+        use_flat = semitones < 0
+    notes = _FLAT_NOTES if use_flat else _SHARP_NOTES
+    return notes[idx]
+
+
+def transpose_chord(chord: str, semitones: int, *, use_flat: Optional[bool] = None) -> str:
+    """Transpose a chord symbol by *semitones*.
+
+    Handles slash chords (e.g. ``"C6/E"``).
+
+    Args:
+        chord: Chord symbol like ``"Am7"``, ``"C6/E"``, ``"G#o"``.
+        semitones: Number of semitones.
+        use_flat: Force flat/sharp spelling (see :func:`transpose_note`).
+
+    Example:
+        >>> transpose_chord("Am7", 2)
+        'Bm7'
+        >>> transpose_chord("C6/E", 5)
+        'F6/A'
+        >>> transpose_chord("G#o", -2, use_flat=True)
+        'Gbo'
+    """
+    if not chord or chord in ("", "N.C.", "NC"):
+        return chord
+
+    # Handle slash chords
+    if "/" in chord:
+        parts = chord.split("/", 1)
+        main = transpose_chord(parts[0], semitones, use_flat=use_flat)
+        bass = transpose_chord(parts[1], semitones, use_flat=use_flat)
+        return f"{main}/{bass}"
+
+    match = re.match(r"^([A-G][#b]?)(.*)", chord)
+    if not match:
+        return chord
+
+    root, quality = match.group(1), match.group(2)
+    new_root = transpose_note(root, semitones, use_flat=use_flat)
+    return new_root + quality
+
+
+def transpose_score(score, target_key: str) -> "Score":
+    """Transpose a :class:`Score` to a new key.
+
+    The spelling (sharp vs flat) is chosen automatically based on the
+    *target_key*.
+
+    Args:
+        score: A :class:`Score` instance.
+        target_key: Target key, e.g. ``"Eb"``, ``"G"``, ``"F#"``.
+
+    Returns:
+        A new Score in the target key with an updated title.
+
+    Example:
+        >>> from accompy import Score
+        >>> s = Score.from_string("| C | Am | F | G |", key="C")
+        >>> t = transpose_score(s, "G")
+        >>> [m[0] for m in t.measures]
+        ['G', 'E-', 'C', 'D']
+    """
+    from .base import Score as _Score
+
+    src_idx = _NOTE_TO_SEMITONE.get(score.key, 0)
+    tgt_idx = _NOTE_TO_SEMITONE.get(target_key, 0)
+    semitones = tgt_idx - src_idx
+    use_flat = "b" in target_key or target_key in _FLAT_KEYS
+
+    new_measures = [
+        [transpose_chord(c, semitones, use_flat=use_flat) for c in measure]
+        for measure in score.measures
+    ]
+    return _Score(
+        measures=new_measures,
+        title=f"{score.title} ({target_key})",
+        composer=score.composer,
+        key=target_key,
+        time_signature=score.time_signature,
+    )

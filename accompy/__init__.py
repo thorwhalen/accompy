@@ -72,6 +72,19 @@ from .patterns import (
     register_style,
 )
 
+from .util import (
+    parse_ireal_html,
+    parse_ireal_url,
+    transpose_score,
+    transpose_chord,
+    transpose_note,
+)
+
+from .tools import (
+    generate_mma_wav,
+    generate_variations,
+)
+
 from .setup_utils import (
     verify_and_setup,
     setup_soundfont,
@@ -100,6 +113,8 @@ from .pipeline import (
     chords_to_midi,
     chords_to_audio,
     midi_to_audio,
+    file_to_audio,
+    file_to_midi,
     list_available_converters,
 )
 
@@ -159,7 +174,18 @@ __all__ = [
     "chords_to_midi",
     "chords_to_audio",
     "midi_to_audio",
+    "file_to_audio",
+    "file_to_midi",
     "list_available_converters",
+    # Parsing & transposition
+    "parse_ireal_html",
+    "parse_ireal_url",
+    "transpose_score",
+    "transpose_chord",
+    "transpose_note",
+    # MMA tools
+    "generate_mma_wav",
+    "generate_variations",
     # Pattern types and registry
     "DrumPattern",
     "BassPattern",
