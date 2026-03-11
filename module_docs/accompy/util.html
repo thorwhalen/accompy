@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>accompy.util &mdash; accompy 0.3.3 documentation</title>
+  <title>accompy.util &mdash; accompy 0.3.4 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
@@ -15,7 +15,7 @@
   
       <script src="../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../_static/documentation_options.js?v=d5a15cff"></script>
+      <script src="../../_static/documentation_options.js?v=1e28cc32"></script>
       <script src="../../_static/doctools.js?v=9bcbadda"></script>
       <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
       <script src="../../_static/toggleprompt.js?v=d7ede5d2"></script>
@@ -25,7 +25,7 @@
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="accompy.wips" href="wips.html" />
-    <link rel="prev" title="accompy.synthesis.fluidsynth" href="synthesis/fluidsynth.html" /> 
+    <link rel="prev" title="accompy.tools" href="tools.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -69,13 +69,18 @@
 <li class="toctree-l1"><a class="reference internal" href="setup_utils.html">accompy.setup_utils</a></li>
 <li class="toctree-l1"><a class="reference internal" href="synthesis.html">accompy.synthesis</a></li>
 <li class="toctree-l1"><a class="reference internal" href="synthesis/fluidsynth.html">accompy.synthesis.fluidsynth</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tools.html">accompy.tools</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">accompy.util</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#accompy.util.normalize_chord_symbol"><code class="docutils literal notranslate"><span class="pre">normalize_chord_symbol()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="#accompy.util.parse_chord_string"><code class="docutils literal notranslate"><span class="pre">parse_chord_string()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#accompy.util.parse_ireal_html"><code class="docutils literal notranslate"><span class="pre">parse_ireal_html()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="#accompy.util.parse_ireal_url"><code class="docutils literal notranslate"><span class="pre">parse_ireal_url()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="#accompy.util.parse_ireal_url_fallback"><code class="docutils literal notranslate"><span class="pre">parse_ireal_url_fallback()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="#accompy.util.parse_time_sig"><code class="docutils literal notranslate"><span class="pre">parse_time_sig()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="#accompy.util.score_from_chord_specs"><code class="docutils literal notranslate"><span class="pre">score_from_chord_specs()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#accompy.util.transpose_chord"><code class="docutils literal notranslate"><span class="pre">transpose_chord()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#accompy.util.transpose_note"><code class="docutils literal notranslate"><span class="pre">transpose_note()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#accompy.util.transpose_score"><code class="docutils literal notranslate"><span class="pre">transpose_score()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="wips.html">accompy.wips</a></li>
@@ -148,10 +153,41 @@ and iReal URL parsing.</p>
 </dd></dl>
 
 <dl class="py function">
+<dt class="sig sig-object py" id="accompy.util.parse_ireal_html">
+<span class="sig-prename descclassname"><span class="pre">accompy.util.</span></span><span class="sig-name descname"><span class="pre">parse_ireal_html</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">html_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="../accompy.html#accompy.Score" title="accompy.Score"><span class="pre">Score</span></a></span></span><a class="reference internal" href="../../_modules/accompy/util.html#parse_ireal_html"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#accompy.util.parse_ireal_html" title="Link to this definition"></a></dt>
+<dd><p>Extract a Score from an iReal Pro HTML export file.</p>
+<p>iReal Pro can export songs as HTML files containing an <code class="docutils literal notranslate"><span class="pre">irealb://</span></code> link.
+This function reads the file, extracts that link, and parses it into a
+<code class="xref py py-class docutils literal notranslate"><span class="pre">Score</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>html_path</strong> – Path to the HTML file exported from iReal Pro.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A Score with measures, title, key, and time signature.</p>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>FileNotFoundError</strong> – If <em>html_path</em> does not exist.</p></li>
+<li><p><strong>ValueError</strong> – If no iReal URL is found in the HTML.</p></li>
+</ul>
+</dd>
+</dl>
+<p>Example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">score</span> <span class="o">=</span> <span class="n">parse_ireal_html</span><span class="p">(</span><span class="s2">&quot;/path/to/song.html&quot;</span><span class="p">)</span>  
+<span class="gp">&gt;&gt;&gt; </span><span class="n">score</span><span class="o">.</span><span class="n">title</span>  
+<span class="go">&#39;Autumn Leaves&#39;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
 <dt class="sig sig-object py" id="accompy.util.parse_ireal_url">
 <span class="sig-prename descclassname"><span class="pre">accompy.util.</span></span><span class="sig-name descname"><span class="pre">parse_ireal_url</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">url</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/accompy/util.html#parse_ireal_url"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#accompy.util.parse_ireal_url" title="Link to this definition"></a></dt>
 <dd><p>Parse an iReal Pro URL into a Score object.</p>
-<p>Tries to use pyRealParser if available, falls back to built-in parser.</p>
+<p>Tries pyRealParser’s <code class="docutils literal notranslate"><span class="pre">parse_ireal_url</span></code> first, then falls back to
+constructing a <code class="docutils literal notranslate"><span class="pre">Tune</span></code> directly (handles URLs with empty <code class="docutils literal notranslate"><span class="pre">==</span></code> fields),
+and finally to a no-dependency best-effort parser.</p>
 </dd></dl>
 
 <dl class="py function">
@@ -185,13 +221,90 @@ does not attempt to perfectly replicate iReal Pro’s full encoding.</p>
 Other durations are approximated by grouping chords into bars.</p>
 </dd></dl>
 
+<dl class="py function">
+<dt class="sig sig-object py" id="accompy.util.transpose_chord">
+<span class="sig-prename descclassname"><span class="pre">accompy.util.</span></span><span class="sig-name descname"><span class="pre">transpose_chord</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">chord</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">semitones</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_flat</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="../../_modules/accompy/util.html#transpose_chord"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#accompy.util.transpose_chord" title="Link to this definition"></a></dt>
+<dd><p>Transpose a chord symbol by <em>semitones</em>.</p>
+<p>Handles slash chords (e.g. <code class="docutils literal notranslate"><span class="pre">&quot;C6/E&quot;</span></code>).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>chord</strong> – Chord symbol like <code class="docutils literal notranslate"><span class="pre">&quot;Am7&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;C6/E&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;G#o&quot;</span></code>.</p></li>
+<li><p><strong>semitones</strong> – Number of semitones.</p></li>
+<li><p><strong>use_flat</strong> – Force flat/sharp spelling (see <a class="reference internal" href="#accompy.util.transpose_note" title="accompy.util.transpose_note"><code class="xref py py-func docutils literal notranslate"><span class="pre">transpose_note()</span></code></a>).</p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">transpose_chord</span><span class="p">(</span><span class="s2">&quot;Am7&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="go">&#39;Bm7&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">transpose_chord</span><span class="p">(</span><span class="s2">&quot;C6/E&quot;</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+<span class="go">&#39;F6/A&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">transpose_chord</span><span class="p">(</span><span class="s2">&quot;G#o&quot;</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="n">use_flat</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="go">&#39;Gbo&#39;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="accompy.util.transpose_note">
+<span class="sig-prename descclassname"><span class="pre">accompy.util.</span></span><span class="sig-name descname"><span class="pre">transpose_note</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">semitones</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_flat</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="../../_modules/accompy/util.html#transpose_note"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#accompy.util.transpose_note" title="Link to this definition"></a></dt>
+<dd><p>Transpose a single note name by <em>semitones</em>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> – Note name like <code class="docutils literal notranslate"><span class="pre">&quot;C&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;Eb&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;F#&quot;</span></code>.</p></li>
+<li><p><strong>semitones</strong> – Number of semitones (positive = up, negative = down).</p></li>
+<li><p><strong>use_flat</strong> – Force flat (True) or sharp (False) spelling.
+<code class="docutils literal notranslate"><span class="pre">None</span></code> (default) uses flats for downward transposition.</p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">transpose_note</span><span class="p">(</span><span class="s2">&quot;C&quot;</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+<span class="go">&#39;F&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">transpose_note</span><span class="p">(</span><span class="s2">&quot;A&quot;</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span><span class="p">)</span>
+<span class="go">&#39;G&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">transpose_note</span><span class="p">(</span><span class="s2">&quot;C&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">use_flat</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="go">&#39;Db&#39;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="accompy.util.transpose_score">
+<span class="sig-prename descclassname"><span class="pre">accompy.util.</span></span><span class="sig-name descname"><span class="pre">transpose_score</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">score</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_key</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="../accompy.html#accompy.Score" title="accompy.Score"><span class="pre">Score</span></a></span></span><a class="reference internal" href="../../_modules/accompy/util.html#transpose_score"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#accompy.util.transpose_score" title="Link to this definition"></a></dt>
+<dd><p>Transpose a <code class="xref py py-class docutils literal notranslate"><span class="pre">Score</span></code> to a new key.</p>
+<p>The spelling (sharp vs flat) is chosen automatically based on the
+<em>target_key</em>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>score</strong> – A <code class="xref py py-class docutils literal notranslate"><span class="pre">Score</span></code> instance.</p></li>
+<li><p><strong>target_key</strong> – Target key, e.g. <code class="docutils literal notranslate"><span class="pre">&quot;Eb&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;G&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;F#&quot;</span></code>.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A new Score in the target key with an updated title.</p>
+</dd>
+</dl>
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">accompy</span><span class="w"> </span><span class="kn">import</span> <span class="n">Score</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s</span> <span class="o">=</span> <span class="n">Score</span><span class="o">.</span><span class="n">from_string</span><span class="p">(</span><span class="s2">&quot;| C | Am | F | G |&quot;</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="s2">&quot;C&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">t</span> <span class="o">=</span> <span class="n">transpose_score</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="s2">&quot;G&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">[</span><span class="n">m</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">t</span><span class="o">.</span><span class="n">measures</span><span class="p">]</span>
+<span class="go">[&#39;G&#39;, &#39;E-&#39;, &#39;C&#39;, &#39;D&#39;]</span>
+</pre></div>
+</div>
+</dd></dl>
+
 </section>
 
 
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="synthesis/fluidsynth.html" class="btn btn-neutral float-left" title="accompy.synthesis.fluidsynth" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="tools.html" class="btn btn-neutral float-left" title="accompy.tools" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
         <a href="wips.html" class="btn btn-neutral float-right" title="accompy.wips" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 

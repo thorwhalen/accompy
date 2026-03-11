@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>accompy.setup_utils &mdash; accompy 0.3.3 documentation</title>
+  <title>accompy.setup_utils &mdash; accompy 0.3.4 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
@@ -14,7 +14,7 @@
   
       <script src="../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../_static/documentation_options.js?v=d5a15cff"></script>
+      <script src="../../_static/documentation_options.js?v=1e28cc32"></script>
       <script src="../../_static/doctools.js?v=9bcbadda"></script>
       <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
       <script src="../../_static/toggleprompt.js?v=d7ede5d2"></script>
@@ -66,6 +66,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/setup_utils.html">accompy.setup_utils</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/synthesis.html">accompy.synthesis</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/synthesis/fluidsynth.html">accompy.synthesis.fluidsynth</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/tools.html">accompy.tools</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/util.html">accompy.util</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/wips.html">accompy.wips</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/wips/audio_renderers.html">accompy.wips.audio_renderers</a></li>
@@ -190,11 +191,8 @@
 <span class="sd">            print(f&quot;{issue}: {desc}&quot;)</span>
 <span class="sd">            print(f&quot;Solution: {solution}&quot;)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="kn">from</span><span class="w"> </span><span class="nn">.accompy</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
-        <span class="n">check_dependencies</span><span class="p">,</span>
-        <span class="n">_default_soundfont_path</span><span class="p">,</span>
-        <span class="n">_fluidsynth_available</span><span class="p">,</span>
-    <span class="p">)</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">.main</span><span class="w"> </span><span class="kn">import</span> <span class="n">check_dependencies</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">.synthesis.fluidsynth</span><span class="w"> </span><span class="kn">import</span> <span class="n">find_default_soundfont</span>
 
     <span class="n">issues</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="n">deps</span> <span class="o">=</span> <span class="n">check_dependencies</span><span class="p">()</span>
@@ -211,7 +209,6 @@
 
     <span class="c1"># Check SoundFont</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">deps</span><span class="p">[</span><span class="s2">&quot;soundfont&quot;</span><span class="p">]:</span>
-        <span class="n">sf_path</span> <span class="o">=</span> <span class="n">_default_soundfont_path</span><span class="p">()</span>
         <span class="n">issues</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
             <span class="p">(</span>
                 <span class="s2">&quot;SoundFont file not found&quot;</span><span class="p">,</span>
@@ -228,7 +225,7 @@
 
     <span class="c1"># Check SoundFont file validity</span>
     <span class="k">if</span> <span class="n">deps</span><span class="p">[</span><span class="s2">&quot;soundfont&quot;</span><span class="p">]:</span>
-        <span class="n">sf_path</span> <span class="o">=</span> <span class="n">_default_soundfont_path</span><span class="p">()</span>
+        <span class="n">sf_path</span> <span class="o">=</span> <span class="n">find_default_soundfont</span><span class="p">()</span>
         <span class="k">if</span> <span class="n">sf_path</span> <span class="ow">and</span> <span class="n">sf_path</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
             <span class="k">if</span> <span class="n">sf_path</span><span class="o">.</span><span class="n">stat</span><span class="p">()</span><span class="o">.</span><span class="n">st_size</span> <span class="o">&lt;</span> <span class="mi">1000</span><span class="p">:</span>  <span class="c1"># Less than 1KB is suspicious</span>
                 <span class="n">issues</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
@@ -271,8 +268,6 @@
 <span class="sd">        if setup_soundfont():</span>
 <span class="sd">            print(&quot;SoundFont configured successfully!&quot;)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="kn">from</span><span class="w"> </span><span class="nn">.accompy</span><span class="w"> </span><span class="kn">import</span> <span class="n">_default_soundfont_path</span>
-
     <span class="n">target_path</span> <span class="o">=</span> <span class="n">Path</span><span class="o">.</span><span class="n">home</span><span class="p">()</span> <span class="o">/</span> <span class="s2">&quot;.fluidsynth&quot;</span> <span class="o">/</span> <span class="s2">&quot;default_sound_font.sf2&quot;</span>
 
     <span class="c1"># Check if already exists</span>

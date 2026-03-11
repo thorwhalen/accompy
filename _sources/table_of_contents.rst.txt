@@ -22,6 +22,7 @@
    module_docs/accompy/setup_utils
    module_docs/accompy/synthesis
    module_docs/accompy/synthesis/fluidsynth
+   module_docs/accompy/tools
    module_docs/accompy/util
    module_docs/accompy/wips
    module_docs/accompy/wips/audio_renderers

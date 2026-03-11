@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>accompy.main &mdash; accompy 0.3.3 documentation</title>
+  <title>accompy.main &mdash; accompy 0.3.4 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
@@ -14,7 +14,7 @@
   
       <script src="../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../_static/documentation_options.js?v=d5a15cff"></script>
+      <script src="../../_static/documentation_options.js?v=1e28cc32"></script>
       <script src="../../_static/doctools.js?v=9bcbadda"></script>
       <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
       <script src="../../_static/toggleprompt.js?v=d7ede5d2"></script>
@@ -66,6 +66,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/setup_utils.html">accompy.setup_utils</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/synthesis.html">accompy.synthesis</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/synthesis/fluidsynth.html">accompy.synthesis.fluidsynth</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/tools.html">accompy.tools</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/util.html">accompy.util</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/wips.html">accompy.wips</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/wips/audio_renderers.html">accompy.wips.audio_renderers</a></li>
@@ -112,6 +113,7 @@
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">subprocess</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">tempfile</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Literal</span>
@@ -438,8 +440,27 @@
 <span class="c1"># =============================================================================</span>
 
 
+<span class="n">_mma_grooves_initialized</span> <span class="o">=</span> <span class="kc">False</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_ensure_mma_grooves</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Initialize MMA groove database if not already done.&quot;&quot;&quot;</span>
+    <span class="k">global</span> <span class="n">_mma_grooves_initialized</span>
+    <span class="k">if</span> <span class="n">_mma_grooves_initialized</span><span class="p">:</span>
+        <span class="k">return</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">subprocess</span><span class="o">.</span><span class="n">run</span><span class="p">(</span>
+            <span class="p">[</span><span class="n">_find_mma</span><span class="p">(),</span> <span class="s2">&quot;-g&quot;</span><span class="p">],</span> <span class="n">capture_output</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">30</span>
+        <span class="p">)</span>
+    <span class="k">except</span> <span class="p">(</span><span class="ne">FileNotFoundError</span><span class="p">,</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">TimeoutExpired</span><span class="p">):</span>
+        <span class="k">pass</span>
+    <span class="n">_mma_grooves_initialized</span> <span class="o">=</span> <span class="kc">True</span>
+
+
 <span class="k">def</span><span class="w"> </span><span class="nf">_generate_via_mma</span><span class="p">(</span><span class="n">score</span><span class="p">:</span> <span class="n">Score</span><span class="p">,</span> <span class="n">config</span><span class="p">:</span> <span class="n">AccompanimentConfig</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Path</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Generate MIDI using MMA (Musical MIDI Accompaniment).&quot;&quot;&quot;</span>
+    <span class="n">_ensure_mma_grooves</span><span class="p">()</span>
+
     <span class="c1"># Create MMA file content</span>
     <span class="n">mma_content</span> <span class="o">=</span> <span class="n">_score_to_mma</span><span class="p">(</span><span class="n">score</span><span class="p">,</span> <span class="n">config</span><span class="p">)</span>
 
@@ -452,14 +473,15 @@
     <span class="n">midi_path</span> <span class="o">=</span> <span class="n">mma_path</span><span class="o">.</span><span class="n">with_suffix</span><span class="p">(</span><span class="s2">&quot;.mid&quot;</span><span class="p">)</span>
 
     <span class="k">try</span><span class="p">:</span>
-        <span class="n">subprocess</span><span class="o">.</span><span class="n">run</span><span class="p">(</span>
-            <span class="p">[</span><span class="s2">&quot;mma&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">mma_path</span><span class="p">),</span> <span class="s2">&quot;-f&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">midi_path</span><span class="p">)],</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">run</span><span class="p">(</span>
+            <span class="p">[</span><span class="n">_find_mma</span><span class="p">(),</span> <span class="nb">str</span><span class="p">(</span><span class="n">mma_path</span><span class="p">),</span> <span class="s2">&quot;-f&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">midi_path</span><span class="p">)],</span>
             <span class="n">capture_output</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
             <span class="n">text</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
             <span class="n">check</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
         <span class="p">)</span>
     <span class="k">except</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">CalledProcessError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;MMA failed: </span><span class="si">{</span><span class="n">e</span><span class="o">.</span><span class="n">stderr</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">error_msg</span> <span class="o">=</span> <span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">stderr</span> <span class="ow">or</span> <span class="n">e</span><span class="o">.</span><span class="n">stdout</span> <span class="ow">or</span> <span class="s2">&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+        <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;MMA failed: </span><span class="si">{</span><span class="n">error_msg</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
     <span class="k">except</span> <span class="ne">FileNotFoundError</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">&quot;MMA not found. Install from https://www.mellowood.ca/mma/&quot;</span><span class="p">)</span>
 
@@ -473,31 +495,77 @@
         <span class="sa">f</span><span class="s2">&quot;// </span><span class="si">{</span><span class="n">score</span><span class="o">.</span><span class="n">title</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
         <span class="s2">&quot;&quot;</span><span class="p">,</span>
         <span class="sa">f</span><span class="s2">&quot;Tempo </span><span class="si">{</span><span class="n">config</span><span class="o">.</span><span class="n">tempo</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
-        <span class="sa">f</span><span class="s2">&quot;TimeSig </span><span class="si">{</span><span class="n">score</span><span class="o">.</span><span class="n">time_signature</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">score</span><span class="o">.</span><span class="n">time_signature</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
-        <span class="sa">f</span><span class="s2">&quot;KeySig </span><span class="si">{</span><span class="n">score</span><span class="o">.</span><span class="n">key</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
         <span class="s2">&quot;&quot;</span><span class="p">,</span>
         <span class="sa">f</span><span class="s2">&quot;Groove </span><span class="si">{</span><span class="n">_style_to_groove</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">style</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
         <span class="s2">&quot;&quot;</span><span class="p">,</span>
     <span class="p">]</span>
 
-    <span class="c1"># Volume adjustments</span>
+    <span class="c1"># Volume adjustments — MMA syntax is &quot;TrackName Volume N&quot;</span>
+    <span class="n">_mma_track_names</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;drums&quot;</span><span class="p">:</span> <span class="s2">&quot;Drum&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;bass&quot;</span><span class="p">:</span> <span class="s2">&quot;Bass&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;piano&quot;</span><span class="p">:</span> <span class="s2">&quot;Chord&quot;</span><span class="p">,</span>  <span class="c1"># MMA&#39;s chording track</span>
+        <span class="s2">&quot;guitar&quot;</span><span class="p">:</span> <span class="s2">&quot;Chord&quot;</span><span class="p">,</span>
+    <span class="p">}</span>
     <span class="k">for</span> <span class="n">inst</span><span class="p">,</span> <span class="n">vol</span> <span class="ow">in</span> <span class="n">config</span><span class="o">.</span><span class="n">volumes</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
         <span class="k">if</span> <span class="n">config</span><span class="o">.</span><span class="n">instruments</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">inst</span><span class="p">,</span> <span class="kc">False</span><span class="p">):</span>
-            <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">inst</span><span class="o">.</span><span class="n">capitalize</span><span class="p">()</span><span class="si">}</span><span class="s2">Volume </span><span class="si">{</span><span class="nb">int</span><span class="p">(</span><span class="n">vol</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">100</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">track</span> <span class="o">=</span> <span class="n">_mma_track_names</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">inst</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">track</span><span class="p">:</span>
+                <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">track</span><span class="si">}</span><span class="s2"> Volume </span><span class="si">{</span><span class="nb">int</span><span class="p">(</span><span class="n">vol</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">100</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
     <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
 
-    <span class="c1"># Add measures</span>
-    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">measure</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">score</span><span class="o">.</span><span class="n">measures</span><span class="p">,</span> <span class="mi">1</span><span class="p">):</span>
-        <span class="n">chords</span> <span class="o">=</span> <span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">measure</span><span class="p">)</span> <span class="k">if</span> <span class="n">measure</span> <span class="k">else</span> <span class="s2">&quot;z&quot;</span>  <span class="c1"># &#39;z&#39; = rest</span>
-        <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">chords</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-
-    <span class="c1"># Repeats</span>
-    <span class="k">if</span> <span class="n">config</span><span class="o">.</span><span class="n">repeats</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
-        <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
-        <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Repeat </span><span class="si">{</span><span class="n">config</span><span class="o">.</span><span class="n">repeats</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="c1"># Add measures — convert iReal chord notation to MMA notation</span>
+    <span class="c1"># MMA&#39;s Repeat/RepeatEnd only doubles (no count argument),</span>
+    <span class="c1"># so we explicitly write out all repetitions.</span>
+    <span class="n">bar_num</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">config</span><span class="o">.</span><span class="n">repeats</span><span class="p">)):</span>
+        <span class="k">for</span> <span class="n">measure</span> <span class="ow">in</span> <span class="n">score</span><span class="o">.</span><span class="n">measures</span><span class="p">:</span>
+            <span class="n">chords</span> <span class="o">=</span> <span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">_ireal_chord_to_mma</span><span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">measure</span><span class="p">)</span> <span class="k">if</span> <span class="n">measure</span> <span class="k">else</span> <span class="s2">&quot;z&quot;</span>
+            <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">bar_num</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">chords</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">bar_num</span> <span class="o">+=</span> <span class="mi">1</span>
 
     <span class="k">return</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">lines</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_ireal_chord_to_mma</span><span class="p">(</span><span class="n">chord</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Convert iReal Pro chord notation to MMA chord notation.</span>
+
+<span class="sd">    Examples: A- -&gt; Am, C^7 -&gt; Cmaj7, Dh7 -&gt; Dm7b5, Go -&gt; Gdim</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">chord</span> <span class="ow">or</span> <span class="n">chord</span> <span class="o">==</span> <span class="s2">&quot;z&quot;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">chord</span>
+
+    <span class="c1"># Extract root (letter + optional sharp/flat)</span>
+    <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="k">if</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">chord</span><span class="p">)</span> <span class="ow">and</span> <span class="n">chord</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="ow">in</span> <span class="s2">&quot;b#&quot;</span><span class="p">:</span>
+        <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="n">root</span> <span class="o">=</span> <span class="n">chord</span><span class="p">[:</span><span class="n">i</span><span class="p">]</span>
+    <span class="n">quality</span> <span class="o">=</span> <span class="n">chord</span><span class="p">[</span><span class="n">i</span><span class="p">:]</span>
+
+    <span class="c1"># Map iReal quality suffixes to MMA equivalents</span>
+    <span class="n">replacements</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="p">(</span><span class="s2">&quot;^7&quot;</span><span class="p">,</span> <span class="s2">&quot;maj7&quot;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">&quot;^&quot;</span><span class="p">,</span> <span class="s2">&quot;maj&quot;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">&quot;-7b5&quot;</span><span class="p">,</span> <span class="s2">&quot;m7b5&quot;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">&quot;-7&quot;</span><span class="p">,</span> <span class="s2">&quot;m7&quot;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">&quot;-9&quot;</span><span class="p">,</span> <span class="s2">&quot;m9&quot;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">&quot;-&quot;</span><span class="p">,</span> <span class="s2">&quot;m&quot;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">&quot;h7&quot;</span><span class="p">,</span> <span class="s2">&quot;m7b5&quot;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">&quot;h&quot;</span><span class="p">,</span> <span class="s2">&quot;m7b5&quot;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">&quot;o7&quot;</span><span class="p">,</span> <span class="s2">&quot;dim7&quot;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">&quot;o&quot;</span><span class="p">,</span> <span class="s2">&quot;dim&quot;</span><span class="p">),</span>
+    <span class="p">]</span>
+
+    <span class="k">for</span> <span class="n">ireal_suffix</span><span class="p">,</span> <span class="n">mma_suffix</span> <span class="ow">in</span> <span class="n">replacements</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">quality</span> <span class="o">==</span> <span class="n">ireal_suffix</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">root</span> <span class="o">+</span> <span class="n">mma_suffix</span>
+        <span class="c1"># Handle cases like &quot;-7b5&quot; where suffix is a prefix of quality</span>
+        <span class="k">if</span> <span class="n">quality</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">ireal_suffix</span><span class="p">)</span> <span class="ow">and</span> <span class="n">ireal_suffix</span> <span class="o">!=</span> <span class="n">quality</span><span class="p">:</span>
+            <span class="n">remaining</span> <span class="o">=</span> <span class="n">quality</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">ireal_suffix</span><span class="p">):]</span>
+            <span class="k">return</span> <span class="n">root</span> <span class="o">+</span> <span class="n">mma_suffix</span> <span class="o">+</span> <span class="n">remaining</span>
+
+    <span class="k">return</span> <span class="n">chord</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_style_to_groove</span><span class="p">(</span><span class="n">style</span><span class="p">:</span> <span class="n">StyleName</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
@@ -520,10 +588,27 @@
 <span class="c1"># =============================================================================</span>
 
 
+<span class="k">def</span><span class="w"> </span><span class="nf">_find_mma</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Find the MMA executable, checking the current Python env&#39;s bin dir first.&quot;&quot;&quot;</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">shutil</span>
+
+    <span class="c1"># Check if mma is on PATH</span>
+    <span class="n">mma_path</span> <span class="o">=</span> <span class="n">shutil</span><span class="o">.</span><span class="n">which</span><span class="p">(</span><span class="s2">&quot;mma&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">mma_path</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">mma_path</span>
+    <span class="c1"># Check in the same bin directory as the current Python interpreter</span>
+    <span class="n">env_bin</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">executable</span><span class="p">)</span><span class="o">.</span><span class="n">parent</span> <span class="o">/</span> <span class="s2">&quot;mma&quot;</span>
+    <span class="k">if</span> <span class="n">env_bin</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">env_bin</span><span class="p">)</span>
+    <span class="k">return</span> <span class="s2">&quot;mma&quot;</span>  <span class="c1"># fallback to bare command</span>
+
+
 <span class="k">def</span><span class="w"> </span><span class="nf">_mma_available</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Check if MMA is available.&quot;&quot;&quot;</span>
     <span class="k">try</span><span class="p">:</span>
-        <span class="n">result</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">run</span><span class="p">([</span><span class="s2">&quot;mma&quot;</span><span class="p">,</span> <span class="s2">&quot;-v&quot;</span><span class="p">],</span> <span class="n">capture_output</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">run</span><span class="p">(</span>
+            <span class="p">[</span><span class="n">_find_mma</span><span class="p">(),</span> <span class="s2">&quot;-v&quot;</span><span class="p">],</span> <span class="n">capture_output</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">5</span>
+        <span class="p">)</span>
         <span class="k">return</span> <span class="n">result</span><span class="o">.</span><span class="n">returncode</span> <span class="o">==</span> <span class="mi">0</span>
     <span class="k">except</span> <span class="p">(</span><span class="ne">FileNotFoundError</span><span class="p">,</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">TimeoutExpired</span><span class="p">):</span>
         <span class="k">return</span> <span class="kc">False</span>

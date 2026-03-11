@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>accompy.util &mdash; accompy 0.3.3 documentation</title>
+  <title>accompy.util &mdash; accompy 0.3.4 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
@@ -14,7 +14,7 @@
   
       <script src="../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../_static/documentation_options.js?v=d5a15cff"></script>
+      <script src="../../_static/documentation_options.js?v=1e28cc32"></script>
       <script src="../../_static/doctools.js?v=9bcbadda"></script>
       <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
       <script src="../../_static/toggleprompt.js?v=d7ede5d2"></script>
@@ -66,6 +66,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/setup_utils.html">accompy.setup_utils</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/synthesis.html">accompy.synthesis</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/synthesis/fluidsynth.html">accompy.synthesis.fluidsynth</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/tools.html">accompy.tools</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/util.html">accompy.util</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/wips.html">accompy.wips</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/wips/audio_renderers.html">accompy.wips.audio_renderers</a></li>
@@ -117,7 +118,7 @@
 
 
 <div class="viewcode-block" id="normalize_chord_symbol">
-<a class="viewcode-back" href="../../module_docs/accompy/util.html#accompy.util.normalize_chord_symbol">[docs]</a>
+<a class="viewcode-back" href="../../module_docs/accompy/util.html#accompy.normalize_chord_symbol">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">normalize_chord_symbol</span><span class="p">(</span><span class="n">symbol</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Normalize chord symbols to a standard format.</span>
@@ -172,7 +173,7 @@
 
 
 <div class="viewcode-block" id="parse_chord_string">
-<a class="viewcode-back" href="../../module_docs/accompy/util.html#accompy.util.parse_chord_string">[docs]</a>
+<a class="viewcode-back" href="../../module_docs/accompy/util.html#accompy.parse_chord_string">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">parse_chord_string</span><span class="p">(</span><span class="n">chord_string</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Parse a chord string into measures, each containing chord symbols.</span>
@@ -217,7 +218,7 @@
 
 
 <div class="viewcode-block" id="parse_time_sig">
-<a class="viewcode-back" href="../../module_docs/accompy/util.html#accompy.util.parse_time_sig">[docs]</a>
+<a class="viewcode-back" href="../../module_docs/accompy/util.html#accompy.parse_time_sig">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">parse_time_sig</span><span class="p">(</span><span class="n">ts_str</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Parse time signature string like &#39;4/4&#39; into tuple.</span>
@@ -232,49 +233,131 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">ts_str</span><span class="p">:</span>
         <span class="k">return</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">ts_str</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">ts_str</span>  <span class="c1"># already a tuple</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">parts</span> <span class="o">=</span> <span class="n">ts_str</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">parts</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="nb">int</span><span class="p">(</span><span class="n">parts</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
-    <span class="k">except</span> <span class="p">(</span><span class="ne">ValueError</span><span class="p">,</span> <span class="ne">IndexError</span><span class="p">):</span>
+    <span class="k">except</span> <span class="p">(</span><span class="ne">ValueError</span><span class="p">,</span> <span class="ne">IndexError</span><span class="p">,</span> <span class="ne">AttributeError</span><span class="p">):</span>
         <span class="k">return</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span></div>
 
 
 
 <div class="viewcode-block" id="parse_ireal_url">
-<a class="viewcode-back" href="../../module_docs/accompy/util.html#accompy.util.parse_ireal_url">[docs]</a>
+<a class="viewcode-back" href="../../module_docs/accompy/util.html#accompy.parse_ireal_url">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">parse_ireal_url</span><span class="p">(</span><span class="n">url</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Parse an iReal Pro URL into a Score object.</span>
 
-<span class="sd">    Tries to use pyRealParser if available, falls back to built-in parser.</span>
+<span class="sd">    Tries pyRealParser&#39;s ``parse_ireal_url`` first, then falls back to</span>
+<span class="sd">    constructing a ``Tune`` directly (handles URLs with empty ``==`` fields),</span>
+<span class="sd">    and finally to a no-dependency best-effort parser.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">Score</span>
+
     <span class="k">try</span><span class="p">:</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">pyRealParser</span><span class="w"> </span><span class="kn">import</span> <span class="n">Tune</span>
-
-        <span class="n">tunes</span> <span class="o">=</span> <span class="n">Tune</span><span class="o">.</span><span class="n">parse_ireal_url</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">tunes</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;No songs found in URL&quot;</span><span class="p">)</span>
-
-        <span class="n">tune</span> <span class="o">=</span> <span class="n">tunes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-        <span class="n">measures</span> <span class="o">=</span> <span class="p">[[</span><span class="n">chord</span><span class="p">]</span> <span class="k">for</span> <span class="n">chord</span> <span class="ow">in</span> <span class="n">tune</span><span class="o">.</span><span class="n">measures_as_strings</span> <span class="k">if</span> <span class="n">chord</span><span class="p">]</span>
-
-        <span class="kn">from</span><span class="w"> </span><span class="nn">.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">Score</span>
-
-        <span class="k">return</span> <span class="n">Score</span><span class="p">(</span>
-            <span class="n">measures</span><span class="o">=</span><span class="n">measures</span><span class="p">,</span>
-            <span class="n">title</span><span class="o">=</span><span class="n">tune</span><span class="o">.</span><span class="n">title</span> <span class="ow">or</span> <span class="s2">&quot;Untitled&quot;</span><span class="p">,</span>
-            <span class="n">composer</span><span class="o">=</span><span class="n">tune</span><span class="o">.</span><span class="n">composer</span> <span class="ow">or</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
-            <span class="n">key</span><span class="o">=</span><span class="n">tune</span><span class="o">.</span><span class="n">key</span> <span class="ow">or</span> <span class="s2">&quot;C&quot;</span><span class="p">,</span>
-            <span class="n">time_signature</span><span class="o">=</span><span class="n">parse_time_sig</span><span class="p">(</span><span class="n">tune</span><span class="o">.</span><span class="n">time_signature</span><span class="p">),</span>
-        <span class="p">)</span>
     <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
-        <span class="c1"># Best-effort fallback parser (no external deps)</span>
-        <span class="k">return</span> <span class="n">parse_ireal_url_fallback</span><span class="p">(</span><span class="n">url</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="n">parse_ireal_url_fallback</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
 
+    <span class="c1"># --- Tier 1: pyRealParser.parse_ireal_url (standard path) ---</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">tunes</span> <span class="o">=</span> <span class="n">Tune</span><span class="o">.</span><span class="n">parse_ireal_url</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">tunes</span><span class="p">:</span>
+            <span class="n">tune</span> <span class="o">=</span> <span class="n">tunes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">measures</span> <span class="o">=</span> <span class="p">[[</span><span class="n">chord</span><span class="p">]</span> <span class="k">for</span> <span class="n">chord</span> <span class="ow">in</span> <span class="n">tune</span><span class="o">.</span><span class="n">measures_as_strings</span> <span class="k">if</span> <span class="n">chord</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">measures</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">Score</span><span class="p">(</span>
+                    <span class="n">measures</span><span class="o">=</span><span class="n">measures</span><span class="p">,</span>
+                    <span class="n">title</span><span class="o">=</span><span class="n">tune</span><span class="o">.</span><span class="n">title</span> <span class="ow">or</span> <span class="s2">&quot;Untitled&quot;</span><span class="p">,</span>
+                    <span class="n">composer</span><span class="o">=</span><span class="n">tune</span><span class="o">.</span><span class="n">composer</span> <span class="ow">or</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+                    <span class="n">key</span><span class="o">=</span><span class="n">tune</span><span class="o">.</span><span class="n">key</span> <span class="ow">or</span> <span class="s2">&quot;C&quot;</span><span class="p">,</span>
+                    <span class="n">time_signature</span><span class="o">=</span><span class="n">parse_time_sig</span><span class="p">(</span><span class="n">tune</span><span class="o">.</span><span class="n">time_signature</span><span class="p">),</span>
+                <span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+        <span class="k">pass</span>
+
+    <span class="c1"># --- Tier 2: construct Tune directly from URL fields ---</span>
+    <span class="c1"># Some iReal URLs (especially single-song HTML exports) have empty fields</span>
+    <span class="c1"># that cause ``==`` in the URL, which pyRealParser.parse_ireal_url can&#39;t</span>
+    <span class="c1"># handle.  We decode the URL ourselves and construct a Tune manually.</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">tune</span> <span class="o">=</span> <span class="n">_tune_from_ireal_url</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+        <span class="n">measures</span> <span class="o">=</span> <span class="p">[[</span><span class="n">chord</span><span class="p">]</span> <span class="k">for</span> <span class="n">chord</span> <span class="ow">in</span> <span class="n">tune</span><span class="o">.</span><span class="n">measures_as_strings</span> <span class="k">if</span> <span class="n">chord</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">measures</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">Score</span><span class="p">(</span>
+                <span class="n">measures</span><span class="o">=</span><span class="n">measures</span><span class="p">,</span>
+                <span class="n">title</span><span class="o">=</span><span class="n">tune</span><span class="o">.</span><span class="n">title</span> <span class="ow">or</span> <span class="s2">&quot;Untitled&quot;</span><span class="p">,</span>
+                <span class="n">composer</span><span class="o">=</span><span class="nb">getattr</span><span class="p">(</span><span class="n">tune</span><span class="p">,</span> <span class="s2">&quot;composer&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+                <span class="n">key</span><span class="o">=</span><span class="n">tune</span><span class="o">.</span><span class="n">key</span> <span class="ow">or</span> <span class="s2">&quot;C&quot;</span><span class="p">,</span>
+                <span class="n">time_signature</span><span class="o">=</span><span class="n">parse_time_sig</span><span class="p">(</span>
+                    <span class="nb">getattr</span><span class="p">(</span><span class="n">tune</span><span class="p">,</span> <span class="s2">&quot;time_signature&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+                <span class="p">),</span>
+            <span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+        <span class="k">pass</span>
+
+    <span class="c1"># --- Tier 3: no-dependency fallback ---</span>
+    <span class="k">return</span> <span class="n">parse_ireal_url_fallback</span><span class="p">(</span><span class="n">url</span><span class="p">)</span></div>
+
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_tune_from_ireal_url</span><span class="p">(</span><span class="n">url</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Construct a ``pyRealParser.Tune`` directly from an iReal URL.</span>
+
+<span class="sd">    The iReal single-song URL format (after decoding) is::</span>
+
+<span class="sd">        title=composer==style=key=??=chorddata=compstyle=bpm=repeats</span>
+
+<span class="sd">    ``parse_ireal_url`` splits on ``==`` (playlist separator) and chokes when</span>
+<span class="sd">    an empty field produces ``==`` inside a single song.  This helper splits</span>
+<span class="sd">    on single ``=`` and reconstructs the tune string that the ``Tune()``</span>
+<span class="sd">    constructor expects.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pyRealParser</span><span class="w"> </span><span class="kn">import</span> <span class="n">Tune</span>
+
+    <span class="n">raw</span> <span class="o">=</span> <span class="n">url</span>
+    <span class="k">if</span> <span class="n">raw</span><span class="o">.</span><span class="n">startswith</span><span class="p">((</span><span class="s2">&quot;irealbook://&quot;</span><span class="p">,</span> <span class="s2">&quot;irealb://&quot;</span><span class="p">)):</span>
+        <span class="n">raw</span> <span class="o">=</span> <span class="n">raw</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;://&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">raw</span> <span class="o">=</span> <span class="n">unquote</span><span class="p">(</span><span class="n">raw</span><span class="p">)</span>
+
+    <span class="c1"># Split on *single* &#39;=&#39; to preserve empty-field boundaries</span>
+    <span class="n">parts</span> <span class="o">=</span> <span class="n">raw</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;=&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Find the chord-data part: it contains the scramble prefix</span>
+    <span class="n">prefix</span> <span class="o">=</span> <span class="s2">&quot;1r34LbKcu7&quot;</span>
+    <span class="n">chord_idx</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">part</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">parts</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">prefix</span> <span class="ow">in</span> <span class="n">part</span><span class="p">:</span>
+            <span class="n">chord_idx</span> <span class="o">=</span> <span class="n">i</span>
+            <span class="k">break</span>
+
+    <span class="k">if</span> <span class="n">chord_idx</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Could not locate chord data in iReal URL&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Resolve fields relative to chord_idx</span>
+    <span class="n">title</span> <span class="o">=</span> <span class="n">parts</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">if</span> <span class="n">parts</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">else</span> <span class="s2">&quot;Untitled&quot;</span>
+    <span class="n">composer</span> <span class="o">=</span> <span class="n">parts</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">parts</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span>
+    <span class="c1"># key is 2 positions before chord data</span>
+    <span class="n">key</span> <span class="o">=</span> <span class="n">parts</span><span class="p">[</span><span class="n">chord_idx</span> <span class="o">-</span> <span class="mi">2</span><span class="p">]</span> <span class="k">if</span> <span class="n">chord_idx</span> <span class="o">&gt;=</span> <span class="mi">2</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">parts</span><span class="p">[</span><span class="n">chord_idx</span> <span class="o">-</span> <span class="mi">2</span><span class="p">])</span> <span class="o">&lt;=</span> <span class="mi">2</span> <span class="k">else</span> <span class="s2">&quot;C&quot;</span>
+    <span class="c1"># style is 1 position before key</span>
+    <span class="n">style</span> <span class="o">=</span> <span class="n">parts</span><span class="p">[</span><span class="n">chord_idx</span> <span class="o">-</span> <span class="mi">3</span><span class="p">]</span> <span class="k">if</span> <span class="n">chord_idx</span> <span class="o">&gt;=</span> <span class="mi">3</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span>
+
+    <span class="n">chord_data</span> <span class="o">=</span> <span class="n">parts</span><span class="p">[</span><span class="n">chord_idx</span><span class="p">]</span>
+
+    <span class="c1"># Fields after chord data: comp_style, bpm, repeats</span>
+    <span class="n">comp_style</span> <span class="o">=</span> <span class="n">parts</span><span class="p">[</span><span class="n">chord_idx</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="k">if</span> <span class="n">chord_idx</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">parts</span><span class="p">)</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span>
+    <span class="n">bpm_str</span> <span class="o">=</span> <span class="n">parts</span><span class="p">[</span><span class="n">chord_idx</span> <span class="o">+</span> <span class="mi">2</span><span class="p">]</span> <span class="k">if</span> <span class="n">chord_idx</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">parts</span><span class="p">)</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span>
+    <span class="n">repeats_str</span> <span class="o">=</span> <span class="n">parts</span><span class="p">[</span><span class="n">chord_idx</span> <span class="o">+</span> <span class="mi">3</span><span class="p">]</span> <span class="k">if</span> <span class="n">chord_idx</span> <span class="o">+</span> <span class="mi">3</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">parts</span><span class="p">)</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span>
+
+    <span class="c1"># Reconstruct the tune string for pyRealParser.Tune()</span>
+    <span class="c1"># Expected format: title=composer=style=key=chorddata=compstyle=bpm=repeats</span>
+    <span class="n">tune_str</span> <span class="o">=</span> <span class="s2">&quot;=&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">title</span><span class="p">,</span> <span class="n">composer</span><span class="p">,</span> <span class="n">style</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">chord_data</span><span class="p">,</span> <span class="n">comp_style</span><span class="p">,</span> <span class="n">bpm_str</span><span class="p">,</span> <span class="n">repeats_str</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">Tune</span><span class="p">(</span><span class="n">tune_str</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="parse_ireal_url_fallback">
-<a class="viewcode-back" href="../../module_docs/accompy/util.html#accompy.util.parse_ireal_url_fallback">[docs]</a>
+<a class="viewcode-back" href="../../module_docs/accompy/util.html#accompy.parse_ireal_url_fallback">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">parse_ireal_url_fallback</span><span class="p">(</span><span class="n">url</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Best-effort iReal Pro URL parser (no external dependencies).</span>
@@ -352,8 +435,47 @@
 
 
 
+<div class="viewcode-block" id="parse_ireal_html">
+<a class="viewcode-back" href="../../module_docs/accompy/util.html#accompy.parse_ireal_html">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">parse_ireal_html</span><span class="p">(</span><span class="n">html_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Score&quot;</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Extract a Score from an iReal Pro HTML export file.</span>
+
+<span class="sd">    iReal Pro can export songs as HTML files containing an ``irealb://`` link.</span>
+<span class="sd">    This function reads the file, extracts that link, and parses it into a</span>
+<span class="sd">    :class:`Score`.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        html_path: Path to the HTML file exported from iReal Pro.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        A Score with measures, title, key, and time signature.</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        FileNotFoundError: If *html_path* does not exist.</span>
+<span class="sd">        ValueError: If no iReal URL is found in the HTML.</span>
+
+<span class="sd">    Example::</span>
+
+<span class="sd">        &gt;&gt;&gt; score = parse_ireal_html(&quot;/path/to/song.html&quot;)  # doctest: +SKIP</span>
+<span class="sd">        &gt;&gt;&gt; score.title  # doctest: +SKIP</span>
+<span class="sd">        &#39;Autumn Leaves&#39;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">html_path</span><span class="p">)</span>
+    <span class="n">html</span> <span class="o">=</span> <span class="n">path</span><span class="o">.</span><span class="n">read_text</span><span class="p">(</span><span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span><span class="p">,</span> <span class="n">errors</span><span class="o">=</span><span class="s2">&quot;replace&quot;</span><span class="p">)</span>
+    <span class="n">match</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;href=&quot;(irealb://[^&quot;]+)&quot;&#39;</span><span class="p">,</span> <span class="n">html</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">match</span><span class="p">:</span>
+        <span class="c1"># Maybe the file *is* a raw iReal URL</span>
+        <span class="n">stripped</span> <span class="o">=</span> <span class="n">html</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">stripped</span><span class="o">.</span><span class="n">startswith</span><span class="p">((</span><span class="s2">&quot;irealb://&quot;</span><span class="p">,</span> <span class="s2">&quot;irealbook://&quot;</span><span class="p">)):</span>
+            <span class="k">return</span> <span class="n">parse_ireal_url</span><span class="p">(</span><span class="n">stripped</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;No iReal URL found in </span><span class="si">{</span><span class="n">html_path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">parse_ireal_url</span><span class="p">(</span><span class="n">match</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span></div>
+
+
+
 <div class="viewcode-block" id="score_from_chord_specs">
-<a class="viewcode-back" href="../../module_docs/accompy/util.html#accompy.util.score_from_chord_specs">[docs]</a>
+<a class="viewcode-back" href="../../module_docs/accompy/util.html#accompy.score_from_chord_specs">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">score_from_chord_specs</span><span class="p">(</span>
     <span class="n">chords</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">,</span>  <span class="c1"># ChordSpec</span>
     <span class="o">*</span><span class="p">,</span>
@@ -402,6 +524,131 @@
         <span class="n">measures</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">current_bar</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">Score</span><span class="p">(</span><span class="n">measures</span><span class="o">=</span><span class="n">measures</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="n">title</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="n">key</span><span class="p">,</span> <span class="n">time_signature</span><span class="o">=</span><span class="n">time_signature</span><span class="p">)</span></div>
+
+
+
+<span class="c1"># ---------------------------------------------------------------------------</span>
+<span class="c1"># Transposition helpers</span>
+<span class="c1"># ---------------------------------------------------------------------------</span>
+
+<span class="n">_SHARP_NOTES</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;C&quot;</span><span class="p">,</span> <span class="s2">&quot;C#&quot;</span><span class="p">,</span> <span class="s2">&quot;D&quot;</span><span class="p">,</span> <span class="s2">&quot;D#&quot;</span><span class="p">,</span> <span class="s2">&quot;E&quot;</span><span class="p">,</span> <span class="s2">&quot;F&quot;</span><span class="p">,</span> <span class="s2">&quot;F#&quot;</span><span class="p">,</span> <span class="s2">&quot;G&quot;</span><span class="p">,</span> <span class="s2">&quot;G#&quot;</span><span class="p">,</span> <span class="s2">&quot;A&quot;</span><span class="p">,</span> <span class="s2">&quot;A#&quot;</span><span class="p">,</span> <span class="s2">&quot;B&quot;</span><span class="p">]</span>
+<span class="n">_FLAT_NOTES</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;C&quot;</span><span class="p">,</span> <span class="s2">&quot;Db&quot;</span><span class="p">,</span> <span class="s2">&quot;D&quot;</span><span class="p">,</span> <span class="s2">&quot;Eb&quot;</span><span class="p">,</span> <span class="s2">&quot;E&quot;</span><span class="p">,</span> <span class="s2">&quot;F&quot;</span><span class="p">,</span> <span class="s2">&quot;Gb&quot;</span><span class="p">,</span> <span class="s2">&quot;G&quot;</span><span class="p">,</span> <span class="s2">&quot;Ab&quot;</span><span class="p">,</span> <span class="s2">&quot;A&quot;</span><span class="p">,</span> <span class="s2">&quot;Bb&quot;</span><span class="p">,</span> <span class="s2">&quot;B&quot;</span><span class="p">]</span>
+<span class="n">_NOTE_TO_SEMITONE</span> <span class="o">=</span> <span class="p">{</span><span class="n">n</span><span class="p">:</span> <span class="n">i</span> <span class="k">for</span> <span class="n">notes</span> <span class="ow">in</span> <span class="p">[</span><span class="n">_SHARP_NOTES</span><span class="p">,</span> <span class="n">_FLAT_NOTES</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">notes</span><span class="p">)}</span>
+<span class="c1"># Add enharmonic extras</span>
+<span class="n">_NOTE_TO_SEMITONE</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s2">&quot;Fb&quot;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span> <span class="s2">&quot;E#&quot;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span> <span class="s2">&quot;Cb&quot;</span><span class="p">:</span> <span class="mi">11</span><span class="p">,</span> <span class="s2">&quot;B#&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">})</span>
+
+<span class="n">_FLAT_KEYS</span> <span class="o">=</span> <span class="nb">frozenset</span><span class="p">({</span><span class="s2">&quot;F&quot;</span><span class="p">,</span> <span class="s2">&quot;Bb&quot;</span><span class="p">,</span> <span class="s2">&quot;Eb&quot;</span><span class="p">,</span> <span class="s2">&quot;Ab&quot;</span><span class="p">,</span> <span class="s2">&quot;Db&quot;</span><span class="p">,</span> <span class="s2">&quot;Gb&quot;</span><span class="p">})</span>
+
+
+<div class="viewcode-block" id="transpose_note">
+<a class="viewcode-back" href="../../module_docs/accompy/util.html#accompy.transpose_note">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">transpose_note</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">semitones</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">use_flat</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Transpose a single note name by *semitones*.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        name: Note name like ``&quot;C&quot;``, ``&quot;Eb&quot;``, ``&quot;F#&quot;``.</span>
+<span class="sd">        semitones: Number of semitones (positive = up, negative = down).</span>
+<span class="sd">        use_flat: Force flat (True) or sharp (False) spelling.</span>
+<span class="sd">            ``None`` (default) uses flats for downward transposition.</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">        &gt;&gt;&gt; transpose_note(&quot;C&quot;, 5)</span>
+<span class="sd">        &#39;F&#39;</span>
+<span class="sd">        &gt;&gt;&gt; transpose_note(&quot;A&quot;, -2)</span>
+<span class="sd">        &#39;G&#39;</span>
+<span class="sd">        &gt;&gt;&gt; transpose_note(&quot;C&quot;, 1, use_flat=True)</span>
+<span class="sd">        &#39;Db&#39;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">_NOTE_TO_SEMITONE</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">name</span>
+    <span class="n">idx</span> <span class="o">=</span> <span class="p">(</span><span class="n">_NOTE_TO_SEMITONE</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">+</span> <span class="n">semitones</span><span class="p">)</span> <span class="o">%</span> <span class="mi">12</span>
+    <span class="k">if</span> <span class="n">use_flat</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">use_flat</span> <span class="o">=</span> <span class="n">semitones</span> <span class="o">&lt;</span> <span class="mi">0</span>
+    <span class="n">notes</span> <span class="o">=</span> <span class="n">_FLAT_NOTES</span> <span class="k">if</span> <span class="n">use_flat</span> <span class="k">else</span> <span class="n">_SHARP_NOTES</span>
+    <span class="k">return</span> <span class="n">notes</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span></div>
+
+
+
+<div class="viewcode-block" id="transpose_chord">
+<a class="viewcode-back" href="../../module_docs/accompy/util.html#accompy.transpose_chord">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">transpose_chord</span><span class="p">(</span><span class="n">chord</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">semitones</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">use_flat</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Transpose a chord symbol by *semitones*.</span>
+
+<span class="sd">    Handles slash chords (e.g. ``&quot;C6/E&quot;``).</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        chord: Chord symbol like ``&quot;Am7&quot;``, ``&quot;C6/E&quot;``, ``&quot;G#o&quot;``.</span>
+<span class="sd">        semitones: Number of semitones.</span>
+<span class="sd">        use_flat: Force flat/sharp spelling (see :func:`transpose_note`).</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">        &gt;&gt;&gt; transpose_chord(&quot;Am7&quot;, 2)</span>
+<span class="sd">        &#39;Bm7&#39;</span>
+<span class="sd">        &gt;&gt;&gt; transpose_chord(&quot;C6/E&quot;, 5)</span>
+<span class="sd">        &#39;F6/A&#39;</span>
+<span class="sd">        &gt;&gt;&gt; transpose_chord(&quot;G#o&quot;, -2, use_flat=True)</span>
+<span class="sd">        &#39;Gbo&#39;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">chord</span> <span class="ow">or</span> <span class="n">chord</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="s2">&quot;N.C.&quot;</span><span class="p">,</span> <span class="s2">&quot;NC&quot;</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">chord</span>
+
+    <span class="c1"># Handle slash chords</span>
+    <span class="k">if</span> <span class="s2">&quot;/&quot;</span> <span class="ow">in</span> <span class="n">chord</span><span class="p">:</span>
+        <span class="n">parts</span> <span class="o">=</span> <span class="n">chord</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">main</span> <span class="o">=</span> <span class="n">transpose_chord</span><span class="p">(</span><span class="n">parts</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">semitones</span><span class="p">,</span> <span class="n">use_flat</span><span class="o">=</span><span class="n">use_flat</span><span class="p">)</span>
+        <span class="n">bass</span> <span class="o">=</span> <span class="n">transpose_chord</span><span class="p">(</span><span class="n">parts</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">semitones</span><span class="p">,</span> <span class="n">use_flat</span><span class="o">=</span><span class="n">use_flat</span><span class="p">)</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">main</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">bass</span><span class="si">}</span><span class="s2">&quot;</span>
+
+    <span class="n">match</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;^([A-G][#b]?)(.*)&quot;</span><span class="p">,</span> <span class="n">chord</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">match</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">chord</span>
+
+    <span class="n">root</span><span class="p">,</span> <span class="n">quality</span> <span class="o">=</span> <span class="n">match</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">match</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">new_root</span> <span class="o">=</span> <span class="n">transpose_note</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">semitones</span><span class="p">,</span> <span class="n">use_flat</span><span class="o">=</span><span class="n">use_flat</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">new_root</span> <span class="o">+</span> <span class="n">quality</span></div>
+
+
+
+<div class="viewcode-block" id="transpose_score">
+<a class="viewcode-back" href="../../module_docs/accompy/util.html#accompy.transpose_score">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">transpose_score</span><span class="p">(</span><span class="n">score</span><span class="p">,</span> <span class="n">target_key</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Score&quot;</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Transpose a :class:`Score` to a new key.</span>
+
+<span class="sd">    The spelling (sharp vs flat) is chosen automatically based on the</span>
+<span class="sd">    *target_key*.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        score: A :class:`Score` instance.</span>
+<span class="sd">        target_key: Target key, e.g. ``&quot;Eb&quot;``, ``&quot;G&quot;``, ``&quot;F#&quot;``.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        A new Score in the target key with an updated title.</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">        &gt;&gt;&gt; from accompy import Score</span>
+<span class="sd">        &gt;&gt;&gt; s = Score.from_string(&quot;| C | Am | F | G |&quot;, key=&quot;C&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; t = transpose_score(s, &quot;G&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; [m[0] for m in t.measures]</span>
+<span class="sd">        [&#39;G&#39;, &#39;E-&#39;, &#39;C&#39;, &#39;D&#39;]</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">Score</span> <span class="k">as</span> <span class="n">_Score</span>
+
+    <span class="n">src_idx</span> <span class="o">=</span> <span class="n">_NOTE_TO_SEMITONE</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">score</span><span class="o">.</span><span class="n">key</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="n">tgt_idx</span> <span class="o">=</span> <span class="n">_NOTE_TO_SEMITONE</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">target_key</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="n">semitones</span> <span class="o">=</span> <span class="n">tgt_idx</span> <span class="o">-</span> <span class="n">src_idx</span>
+    <span class="n">use_flat</span> <span class="o">=</span> <span class="s2">&quot;b&quot;</span> <span class="ow">in</span> <span class="n">target_key</span> <span class="ow">or</span> <span class="n">target_key</span> <span class="ow">in</span> <span class="n">_FLAT_KEYS</span>
+
+    <span class="n">new_measures</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="p">[</span><span class="n">transpose_chord</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">semitones</span><span class="p">,</span> <span class="n">use_flat</span><span class="o">=</span><span class="n">use_flat</span><span class="p">)</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">measure</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">measure</span> <span class="ow">in</span> <span class="n">score</span><span class="o">.</span><span class="n">measures</span>
+    <span class="p">]</span>
+    <span class="k">return</span> <span class="n">_Score</span><span class="p">(</span>
+        <span class="n">measures</span><span class="o">=</span><span class="n">new_measures</span><span class="p">,</span>
+        <span class="n">title</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">score</span><span class="o">.</span><span class="n">title</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">target_key</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">,</span>
+        <span class="n">composer</span><span class="o">=</span><span class="n">score</span><span class="o">.</span><span class="n">composer</span><span class="p">,</span>
+        <span class="n">key</span><span class="o">=</span><span class="n">target_key</span><span class="p">,</span>
+        <span class="n">time_signature</span><span class="o">=</span><span class="n">score</span><span class="o">.</span><span class="n">time_signature</span><span class="p">,</span>
+    <span class="p">)</span></div>
 
 </pre></div>
 
