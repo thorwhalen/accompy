@@ -93,9 +93,7 @@ class FluidSynthBackend(SynthesizerBackend):
                 "  Ubuntu: sudo apt-get install fluidsynth"
             )
         except subprocess.CalledProcessError as e:
-            raise RuntimeError(
-                f"FluidSynth failed: {(e.stderr or b'').decode()}"
-            )
+            raise RuntimeError(f"FluidSynth failed: {(e.stderr or b'').decode()}")
 
         # Convert to final format if needed
         if output_path.suffix.lower() in (".mp3", ".flac") and wav_path != output_path:

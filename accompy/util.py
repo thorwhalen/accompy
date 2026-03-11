@@ -175,9 +175,7 @@ def parse_ireal_url(url: str):
                 title=tune.title or "Untitled",
                 composer=getattr(tune, "composer", "") or "",
                 key=tune.key or "C",
-                time_signature=parse_time_sig(
-                    getattr(tune, "time_signature", None)
-                ),
+                time_signature=parse_time_sig(getattr(tune, "time_signature", None)),
             )
     except Exception:
         pass
@@ -223,7 +221,11 @@ def _tune_from_ireal_url(url: str):
     title = parts[0] if parts[0] else "Untitled"
     composer = parts[1] if len(parts) > 1 else ""
     # key is 2 positions before chord data
-    key = parts[chord_idx - 2] if chord_idx >= 2 and len(parts[chord_idx - 2]) <= 2 else "C"
+    key = (
+        parts[chord_idx - 2]
+        if chord_idx >= 2 and len(parts[chord_idx - 2]) <= 2
+        else "C"
+    )
     # style is 1 position before key
     style = parts[chord_idx - 3] if chord_idx >= 3 else ""
 
@@ -236,7 +238,9 @@ def _tune_from_ireal_url(url: str):
 
     # Reconstruct the tune string for pyRealParser.Tune()
     # Expected format: title=composer=style=key=chorddata=compstyle=bpm=repeats
-    tune_str = "=".join([title, composer, style, key, chord_data, comp_style, bpm_str, repeats_str])
+    tune_str = "=".join(
+        [title, composer, style, key, chord_data, comp_style, bpm_str, repeats_str]
+    )
     return Tune(tune_str)
 
 
@@ -408,14 +412,18 @@ def score_from_chord_specs(
 
 _SHARP_NOTES = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"]
 _FLAT_NOTES = ["C", "Db", "D", "Eb", "E", "F", "Gb", "G", "Ab", "A", "Bb", "B"]
-_NOTE_TO_SEMITONE = {n: i for notes in [_SHARP_NOTES, _FLAT_NOTES] for i, n in enumerate(notes)}
+_NOTE_TO_SEMITONE = {
+    n: i for notes in [_SHARP_NOTES, _FLAT_NOTES] for i, n in enumerate(notes)
+}
 # Add enharmonic extras
 _NOTE_TO_SEMITONE.update({"Fb": 4, "E#": 5, "Cb": 11, "B#": 0})
 
 _FLAT_KEYS = frozenset({"F", "Bb", "Eb", "Ab", "Db", "Gb"})
 
 
-def transpose_note(name: str, semitones: int, *, use_flat: Optional[bool] = None) -> str:
+def transpose_note(
+    name: str, semitones: int, *, use_flat: Optional[bool] = None
+) -> str:
     """Transpose a single note name by *semitones*.
 
     Args:
@@ -441,7 +449,9 @@ def transpose_note(name: str, semitones: int, *, use_flat: Optional[bool] = None
     return notes[idx]
 
 
-def transpose_chord(chord: str, semitones: int, *, use_flat: Optional[bool] = None) -> str:
+def transpose_chord(
+    chord: str, semitones: int, *, use_flat: Optional[bool] = None
+) -> str:
     """Transpose a chord symbol by *semitones*.
 
     Handles slash chords (e.g. ``"C6/E"``).
