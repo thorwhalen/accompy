@@ -81,8 +81,12 @@ from .util import (
 )
 
 from .tools import (
+    generate_wav,
     generate_mma_wav,
+    mma_score_to_wav,
+    make_converter_engine,
     generate_variations,
+    ScoreToWav,
 )
 
 from .setup_utils import (
@@ -183,9 +187,13 @@ __all__ = [
     "transpose_score",
     "transpose_chord",
     "transpose_note",
-    # MMA tools
+    # Score-to-WAV tools
+    "generate_wav",
     "generate_mma_wav",
+    "mma_score_to_wav",
+    "make_converter_engine",
     "generate_variations",
+    "ScoreToWav",
     # Pattern types and registry
     "DrumPattern",
     "BassPattern",

@@ -1,4 +1,23 @@
-"""Various tools using accompy."""
+"""Tools for generating accompaniment audio from Score objects.
+
+Provides a pluggable ``score_to_wav`` engine architecture.  The default engine
+uses MMA (Musical MIDI Accompaniment), but any callable with the
+:data:`ScoreToWav` signature can be swapped in — including engines built from
+accompy's own converter pipeline.
+
+Quick start::
+
+    >>> from accompy import Score, generate_wav
+    >>> score = Score.from_string("| Dm7 | G7 | C^7 |")
+    >>> generate_wav(score, "/tmp/test.wav", groove="BossaNova", tempo=140)  # doctest: +SKIP
+
+Using an alternative engine::
+
+    >>> from accompy.tools import make_converter_engine, generate_wav
+    >>> engine = make_converter_engine(resolver="pychord", midi_gen="pretty_midi",
+    ...                                 audio_renderer="fluidsynth")
+    >>> generate_wav(score, "/tmp/test.wav", score_to_wav=engine, tempo=140)  # doctest: +SKIP
+"""
 
 from __future__ import annotations
 
@@ -6,12 +25,40 @@ import os
 import subprocess
 import tempfile
 from pathlib import Path
-from typing import Optional, Union, Sequence
+from typing import Callable, Optional, Protocol, Sequence, Union
 
 from .base import Score
 
 
-def generate_mma_wav(
+# ---------------------------------------------------------------------------
+# ScoreToWav protocol — the pluggable engine interface
+# ---------------------------------------------------------------------------
+
+
+class ScoreToWav(Protocol):
+    """Callable that renders a :class:`Score` to a WAV file.
+
+    Any function matching this signature can be used as a ``score_to_wav``
+    engine in :func:`generate_wav` and :func:`generate_variations`.
+    """
+
+    def __call__(
+        self,
+        score: Score,
+        output_path: Union[str, Path],
+        *,
+        groove: str = "Swing",
+        tempo: int = 120,
+        repeats: int = 1,
+    ) -> Path: ...
+
+
+# ---------------------------------------------------------------------------
+# MMA engine (default)
+# ---------------------------------------------------------------------------
+
+
+def mma_score_to_wav(
     score: Score,
     output_path: Union[str, Path],
     *,
@@ -19,18 +66,15 @@ def generate_mma_wav(
     tempo: int = 120,
     repeats: int = 1,
 ) -> Path:
-    """Generate a WAV file from a Score using an MMA groove.
+    """Render a Score to WAV using MMA (Musical MIDI Accompaniment).
 
-    Unlike :func:`accompy.generate_accompaniment`, this function lets you
-    specify an **arbitrary MMA groove name** (e.g. ``"Bebop"``,
-    ``"GypsyJazz"``, ``"NiteJazz"``), not just the eight built-in style
-    keywords.
+    Accepts any valid MMA groove name (e.g. ``"Bebop"``, ``"GypsyJazz"``).
+    Run ``mma -Dg`` to list available grooves.
 
     Args:
         score: A :class:`Score` with chord measures.
         output_path: Destination WAV file path.
-        groove: MMA groove name (case-sensitive).  Run ``mma -Dg`` to see
-            available grooves.
+        groove: MMA groove name (case-sensitive).
         tempo: Tempo in BPM.
         repeats: Number of times to repeat the progression.
 
@@ -39,16 +83,9 @@ def generate_mma_wav(
 
     Raises:
         RuntimeError: If MMA is not installed or the groove is invalid.
-
-    Example::
-
-        >>> from accompy import Score, generate_mma_wav
-        >>> score = Score.from_string("| Dm7 | G7 | C^7 |")
-        >>> generate_mma_wav(score, "/tmp/test.wav", groove="BossaNova", tempo=140)  # doctest: +SKIP
-        PosixPath('/tmp/test.wav')
     """
-    from .main import _find_mma, _ensure_mma_grooves, _ireal_chord_to_mma
-    from .synthesis.fluidsynth import FluidSynthBackend
+    from accompy.main import _find_mma, _ensure_mma_grooves, _ireal_chord_to_mma
+    from accompy.synthesis.fluidsynth import FluidSynthBackend
 
     _ensure_mma_grooves()
     mma_cmd = _find_mma()
@@ -77,7 +114,7 @@ def generate_mma_wav(
 
     try:
         mma_path.write_text(mma_content)
-        result = subprocess.run(
+        subprocess.run(
             [mma_cmd, str(mma_path), "-f", str(midi_path)],
             capture_output=True,
             text=True,
@@ -99,6 +136,152 @@ def generate_mma_wav(
         midi_path.unlink(missing_ok=True)
 
 
+# ---------------------------------------------------------------------------
+# Converter-pipeline engine factory
+# ---------------------------------------------------------------------------
+
+
+def make_converter_engine(
+    *,
+    resolver: Optional[str] = None,
+    midi_gen: Optional[str] = None,
+    audio_renderer: Optional[str] = None,
+    soundfont: Optional[str] = None,
+    sr: int = 44100,
+) -> ScoreToWav:
+    """Create a :data:`ScoreToWav` engine from accompy's converter pipeline.
+
+    This wraps the ``ChordSequence → NoteSequence → MidiData → AudioData``
+    converter chain into the same interface that :func:`generate_wav` expects,
+    so you can swap it in place of the default MMA engine.
+
+    Args:
+        resolver: Chord resolver name (e.g. ``"pychord"``, ``"tonal"``).
+        midi_gen: MIDI generator name (e.g. ``"pretty_midi"``, ``"midiutil"``).
+        audio_renderer: Audio renderer name (e.g. ``"fluidsynth"``, ``"pretty_midi"``).
+        soundfont: Path to a SoundFont file (for FluidSynth-based renderers).
+        sr: Sample rate.
+
+    Returns:
+        A callable matching the :data:`ScoreToWav` protocol.
+
+    Example::
+
+        >>> engine = make_converter_engine(audio_renderer="fluidsynth")  # doctest: +SKIP
+        >>> generate_wav(score, "/tmp/out.wav", score_to_wav=engine, tempo=120)  # doctest: +SKIP
+    """
+    from .pipeline import chords_to_audio
+    from .converters import ChordSequence
+
+    def _converter_score_to_wav(
+        score: Score,
+        output_path: Union[str, Path],
+        *,
+        groove: str = "Swing",
+        tempo: int = 120,
+        repeats: int = 1,
+    ) -> Path:
+        output_path = Path(output_path)
+
+        # Convert Score measures to a ChordSequence
+        all_chords = []
+        for _ in range(max(1, repeats)):
+            for measure in score.measures:
+                # Each measure may have multiple chords; give equal beats
+                beats_per_chord = 4.0 / len(measure) if measure else 4.0
+                for chord in measure:
+                    all_chords.append((chord, beats_per_chord))
+
+        cs = ChordSequence(
+            chords=all_chords,
+            title=score.title,
+            key=score.key or "C",
+            tempo=tempo,
+            time_signature=score.time_signature
+            if hasattr(score, "time_signature") and score.time_signature
+            else (4, 4),
+        )
+
+        audio = chords_to_audio(
+            cs,
+            resolver=resolver,
+            midi_gen=midi_gen,
+            audio_renderer=audio_renderer,
+            soundfont=soundfont,
+            tempo=tempo,
+            sr=sr,
+            output_path=str(output_path),
+        )
+        return output_path
+
+    # Give it a descriptive name for debugging
+    parts = [resolver or "default", midi_gen or "default", audio_renderer or "default"]
+    _converter_score_to_wav.__name__ = f"converter_engine({'+'.join(parts)})"
+    _converter_score_to_wav.__qualname__ = _converter_score_to_wav.__name__
+
+    return _converter_score_to_wav
+
+
+# ---------------------------------------------------------------------------
+# Main public API
+# ---------------------------------------------------------------------------
+
+# Sentinel for "use the default engine"
+_DFLT_ENGINE = mma_score_to_wav
+
+
+def generate_wav(
+    score: Score,
+    output_path: Union[str, Path],
+    *,
+    groove: str = "Swing",
+    tempo: int = 120,
+    repeats: int = 1,
+    score_to_wav: Optional[ScoreToWav] = None,
+) -> Path:
+    """Generate a WAV file from a Score using a pluggable engine.
+
+    By default uses MMA (Musical MIDI Accompaniment).  Pass a custom
+    ``score_to_wav`` callable to use a different backend — for instance one
+    built with :func:`make_converter_engine`.
+
+    Args:
+        score: A :class:`Score` with chord measures.
+        output_path: Destination WAV file path.
+        groove: Groove / style name (interpretation depends on the engine).
+        tempo: Tempo in BPM.
+        repeats: Number of times to repeat the progression.
+        score_to_wav: Engine callable.  Defaults to :func:`mma_score_to_wav`.
+
+    Returns:
+        Path to the generated WAV file.
+
+    Example::
+
+        >>> from accompy import Score, generate_wav
+        >>> score = Score.from_string("| Dm7 | G7 | C^7 |")
+        >>> generate_wav(score, "/tmp/test.wav", groove="BossaNova", tempo=140)  # doctest: +SKIP
+        PosixPath('/tmp/test.wav')
+
+        >>> # With a custom engine:
+        >>> from accompy.tools import make_converter_engine
+        >>> engine = make_converter_engine(audio_renderer="fluidsynth")
+        >>> generate_wav(score, "/tmp/test.wav", score_to_wav=engine, tempo=140)  # doctest: +SKIP
+    """
+    engine = score_to_wav or _DFLT_ENGINE
+    return engine(score, output_path, groove=groove, tempo=tempo, repeats=repeats)
+
+
+# Backward-compatible alias
+generate_mma_wav = mma_score_to_wav
+"""Alias for :func:`mma_score_to_wav`.  Kept for backward compatibility."""
+
+
+# ---------------------------------------------------------------------------
+# Batch generation
+# ---------------------------------------------------------------------------
+
+
 def generate_variations(
     score: Score,
     output_dir: Union[str, Path],
@@ -108,6 +291,7 @@ def generate_variations(
     grooves: Sequence[str] = ("Swing",),
     repeats: int = 1,
     filename_template: str = "{title}_{key}_{tempo}bpm_{groove}.wav",
+    score_to_wav: Optional[ScoreToWav] = None,
 ) -> list[Path]:
     """Batch-generate WAV files for many key / tempo / groove combinations.
 
@@ -120,10 +304,11 @@ def generate_variations(
         output_dir: Directory for output files.
         keys: Keys to transpose to.
         tempos: Tempos in BPM to cycle through.
-        grooves: MMA groove names to cycle through.
+        grooves: Groove / style names to cycle through.
         repeats: Number of repeats per file.
         filename_template: Template for filenames. Placeholders:
             ``{title}``, ``{key}``, ``{tempo}``, ``{groove}``.
+        score_to_wav: Engine callable.  Defaults to :func:`mma_score_to_wav`.
 
     Returns:
         List of Paths to successfully generated files.
@@ -138,9 +323,22 @@ def generate_variations(
         ...     tempos=[100, 120],
         ...     grooves=["Swing", "BossaNova"],
         ... )
+
+        >>> # With a custom engine:
+        >>> from accompy.tools import make_converter_engine
+        >>> engine = make_converter_engine(audio_renderer="fluidsynth")
+        >>> generate_variations(  # doctest: +SKIP
+        ...     score, "/tmp/variations",
+        ...     keys=["C", "G"],
+        ...     tempos=[100, 120],
+        ...     grooves=["Swing"],
+        ...     score_to_wav=engine,
+        ... )
     """
     from itertools import cycle as _cycle
     from .util import transpose_score
+
+    engine = score_to_wav or _DFLT_ENGINE
 
     output_dir = Path(output_dir)
     output_dir.mkdir(parents=True, exist_ok=True)
@@ -164,7 +362,7 @@ def generate_variations(
         )
         output_path = output_dir / filename
         try:
-            generate_mma_wav(
+            engine(
                 transposed, output_path, groove=groove, tempo=tempo, repeats=repeats,
             )
             size = os.path.getsize(output_path)
