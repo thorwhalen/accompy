@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>accompy.tools &mdash; accompy 0.3.4 documentation</title>
+  <title>accompy.tools &mdash; accompy 0.3.5 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
@@ -14,7 +14,7 @@
   
       <script src="../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../_static/documentation_options.js?v=1e28cc32"></script>
+      <script src="../../_static/documentation_options.js?v=ba50482b"></script>
       <script src="../../_static/doctools.js?v=9bcbadda"></script>
       <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
       <script src="../../_static/toggleprompt.js?v=d7ede5d2"></script>
@@ -102,7 +102,26 @@
            <div itemprop="articleBody">
              
   <h1>Source code for accompy.tools</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;Various tools using accompy.&quot;&quot;&quot;</span>
+<span></span><span class="sd">&quot;&quot;&quot;Tools for generating accompaniment audio from Score objects.</span>
+
+<span class="sd">Provides a pluggable ``score_to_wav`` engine architecture.  The default engine</span>
+<span class="sd">uses MMA (Musical MIDI Accompaniment), but any callable with the</span>
+<span class="sd">:data:`ScoreToWav` signature can be swapped in — including engines built from</span>
+<span class="sd">accompy&#39;s own converter pipeline.</span>
+
+<span class="sd">Quick start::</span>
+
+<span class="sd">    &gt;&gt;&gt; from accompy import Score, generate_wav</span>
+<span class="sd">    &gt;&gt;&gt; score = Score.from_string(&quot;| Dm7 | G7 | C^7 |&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; generate_wav(score, &quot;/tmp/test.wav&quot;, groove=&quot;BossaNova&quot;, tempo=140)  # doctest: +SKIP</span>
+
+<span class="sd">Using an alternative engine::</span>
+
+<span class="sd">    &gt;&gt;&gt; from accompy.tools import make_converter_engine, generate_wav</span>
+<span class="sd">    &gt;&gt;&gt; engine = make_converter_engine(resolver=&quot;pychord&quot;, midi_gen=&quot;pretty_midi&quot;,</span>
+<span class="sd">    ...                                 audio_renderer=&quot;fluidsynth&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; generate_wav(score, &quot;/tmp/test.wav&quot;, score_to_wav=engine, tempo=140)  # doctest: +SKIP</span>
+<span class="sd">&quot;&quot;&quot;</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 
@@ -110,14 +129,45 @@
 <span class="kn">import</span><span class="w"> </span><span class="nn">subprocess</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">tempfile</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Sequence</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Protocol</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">,</span> <span class="n">Union</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">Score</span>
 
 
-<div class="viewcode-block" id="generate_mma_wav">
-<a class="viewcode-back" href="../../module_docs/accompy/tools.html#accompy.generate_mma_wav">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">generate_mma_wav</span><span class="p">(</span>
+<span class="c1"># ---------------------------------------------------------------------------</span>
+<span class="c1"># ScoreToWav protocol — the pluggable engine interface</span>
+<span class="c1"># ---------------------------------------------------------------------------</span>
+
+
+<div class="viewcode-block" id="ScoreToWav">
+<a class="viewcode-back" href="../../module_docs/accompy/tools.html#accompy.ScoreToWav">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">ScoreToWav</span><span class="p">(</span><span class="n">Protocol</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Callable that renders a :class:`Score` to a WAV file.</span>
+
+<span class="sd">    Any function matching this signature can be used as a ``score_to_wav``</span>
+<span class="sd">    engine in :func:`generate_wav` and :func:`generate_variations`.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__call__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">score</span><span class="p">:</span> <span class="n">Score</span><span class="p">,</span>
+        <span class="n">output_path</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Path</span><span class="p">],</span>
+        <span class="o">*</span><span class="p">,</span>
+        <span class="n">groove</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;Swing&quot;</span><span class="p">,</span>
+        <span class="n">tempo</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">120</span><span class="p">,</span>
+        <span class="n">repeats</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Path</span><span class="p">:</span> <span class="o">...</span></div>
+
+
+
+<span class="c1"># ---------------------------------------------------------------------------</span>
+<span class="c1"># MMA engine (default)</span>
+<span class="c1"># ---------------------------------------------------------------------------</span>
+
+
+<div class="viewcode-block" id="mma_score_to_wav">
+<a class="viewcode-back" href="../../module_docs/accompy/tools.html#accompy.mma_score_to_wav">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">mma_score_to_wav</span><span class="p">(</span>
     <span class="n">score</span><span class="p">:</span> <span class="n">Score</span><span class="p">,</span>
     <span class="n">output_path</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Path</span><span class="p">],</span>
     <span class="o">*</span><span class="p">,</span>
@@ -125,18 +175,15 @@
     <span class="n">tempo</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">120</span><span class="p">,</span>
     <span class="n">repeats</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Path</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Generate a WAV file from a Score using an MMA groove.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Render a Score to WAV using MMA (Musical MIDI Accompaniment).</span>
 
-<span class="sd">    Unlike :func:`accompy.generate_accompaniment`, this function lets you</span>
-<span class="sd">    specify an **arbitrary MMA groove name** (e.g. ``&quot;Bebop&quot;``,</span>
-<span class="sd">    ``&quot;GypsyJazz&quot;``, ``&quot;NiteJazz&quot;``), not just the eight built-in style</span>
-<span class="sd">    keywords.</span>
+<span class="sd">    Accepts any valid MMA groove name (e.g. ``&quot;Bebop&quot;``, ``&quot;GypsyJazz&quot;``).</span>
+<span class="sd">    Run ``mma -Dg`` to list available grooves.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        score: A :class:`Score` with chord measures.</span>
 <span class="sd">        output_path: Destination WAV file path.</span>
-<span class="sd">        groove: MMA groove name (case-sensitive).  Run ``mma -Dg`` to see</span>
-<span class="sd">            available grooves.</span>
+<span class="sd">        groove: MMA groove name (case-sensitive).</span>
 <span class="sd">        tempo: Tempo in BPM.</span>
 <span class="sd">        repeats: Number of times to repeat the progression.</span>
 
@@ -145,16 +192,9 @@
 
 <span class="sd">    Raises:</span>
 <span class="sd">        RuntimeError: If MMA is not installed or the groove is invalid.</span>
-
-<span class="sd">    Example::</span>
-
-<span class="sd">        &gt;&gt;&gt; from accompy import Score, generate_mma_wav</span>
-<span class="sd">        &gt;&gt;&gt; score = Score.from_string(&quot;| Dm7 | G7 | C^7 |&quot;)</span>
-<span class="sd">        &gt;&gt;&gt; generate_mma_wav(score, &quot;/tmp/test.wav&quot;, groove=&quot;BossaNova&quot;, tempo=140)  # doctest: +SKIP</span>
-<span class="sd">        PosixPath(&#39;/tmp/test.wav&#39;)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="kn">from</span><span class="w"> </span><span class="nn">.main</span><span class="w"> </span><span class="kn">import</span> <span class="n">_find_mma</span><span class="p">,</span> <span class="n">_ensure_mma_grooves</span><span class="p">,</span> <span class="n">_ireal_chord_to_mma</span>
-    <span class="kn">from</span><span class="w"> </span><span class="nn">.synthesis.fluidsynth</span><span class="w"> </span><span class="kn">import</span> <span class="n">FluidSynthBackend</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">accompy.main</span><span class="w"> </span><span class="kn">import</span> <span class="n">_find_mma</span><span class="p">,</span> <span class="n">_ensure_mma_grooves</span><span class="p">,</span> <span class="n">_ireal_chord_to_mma</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">accompy.synthesis.fluidsynth</span><span class="w"> </span><span class="kn">import</span> <span class="n">FluidSynthBackend</span>
 
     <span class="n">_ensure_mma_grooves</span><span class="p">()</span>
     <span class="n">mma_cmd</span> <span class="o">=</span> <span class="n">_find_mma</span><span class="p">()</span>
@@ -183,7 +223,7 @@
 
     <span class="k">try</span><span class="p">:</span>
         <span class="n">mma_path</span><span class="o">.</span><span class="n">write_text</span><span class="p">(</span><span class="n">mma_content</span><span class="p">)</span>
-        <span class="n">result</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">run</span><span class="p">(</span>
+        <span class="n">subprocess</span><span class="o">.</span><span class="n">run</span><span class="p">(</span>
             <span class="p">[</span><span class="n">mma_cmd</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">mma_path</span><span class="p">),</span> <span class="s2">&quot;-f&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">midi_path</span><span class="p">)],</span>
             <span class="n">capture_output</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
             <span class="n">text</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
@@ -197,13 +237,163 @@
         <span class="n">error_msg</span> <span class="o">=</span> <span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">stderr</span> <span class="ow">or</span> <span class="n">e</span><span class="o">.</span><span class="n">stdout</span> <span class="ow">or</span> <span class="s2">&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
         <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;MMA failed (groove=</span><span class="si">{</span><span class="n">groove</span><span class="si">!r}</span><span class="s2">): </span><span class="si">{</span><span class="n">error_msg</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span>
     <span class="k">except</span> <span class="ne">FileNotFoundError</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
-            <span class="s2">&quot;MMA not found. Install from https://www.mellowood.ca/mma/&quot;</span>
-        <span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">&quot;MMA not found. Install from https://www.mellowood.ca/mma/&quot;</span><span class="p">)</span>
     <span class="k">finally</span><span class="p">:</span>
         <span class="n">mma_path</span><span class="o">.</span><span class="n">unlink</span><span class="p">(</span><span class="n">missing_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="n">midi_path</span><span class="o">.</span><span class="n">unlink</span><span class="p">(</span><span class="n">missing_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
 
+
+
+<span class="c1"># ---------------------------------------------------------------------------</span>
+<span class="c1"># Converter-pipeline engine factory</span>
+<span class="c1"># ---------------------------------------------------------------------------</span>
+
+
+<div class="viewcode-block" id="make_converter_engine">
+<a class="viewcode-back" href="../../module_docs/accompy/tools.html#accompy.make_converter_engine">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">make_converter_engine</span><span class="p">(</span>
+    <span class="o">*</span><span class="p">,</span>
+    <span class="n">resolver</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">midi_gen</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">audio_renderer</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">soundfont</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">sr</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">44100</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ScoreToWav</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Create a :data:`ScoreToWav` engine from accompy&#39;s converter pipeline.</span>
+
+<span class="sd">    This wraps the ``ChordSequence → NoteSequence → MidiData → AudioData``</span>
+<span class="sd">    converter chain into the same interface that :func:`generate_wav` expects,</span>
+<span class="sd">    so you can swap it in place of the default MMA engine.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        resolver: Chord resolver name (e.g. ``&quot;pychord&quot;``, ``&quot;tonal&quot;``).</span>
+<span class="sd">        midi_gen: MIDI generator name (e.g. ``&quot;pretty_midi&quot;``, ``&quot;midiutil&quot;``).</span>
+<span class="sd">        audio_renderer: Audio renderer name (e.g. ``&quot;fluidsynth&quot;``, ``&quot;pretty_midi&quot;``).</span>
+<span class="sd">        soundfont: Path to a SoundFont file (for FluidSynth-based renderers).</span>
+<span class="sd">        sr: Sample rate.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        A callable matching the :data:`ScoreToWav` protocol.</span>
+
+<span class="sd">    Example::</span>
+
+<span class="sd">        &gt;&gt;&gt; engine = make_converter_engine(audio_renderer=&quot;fluidsynth&quot;)  # doctest: +SKIP</span>
+<span class="sd">        &gt;&gt;&gt; generate_wav(score, &quot;/tmp/out.wav&quot;, score_to_wav=engine, tempo=120)  # doctest: +SKIP</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">.pipeline</span><span class="w"> </span><span class="kn">import</span> <span class="n">chords_to_audio</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">.converters</span><span class="w"> </span><span class="kn">import</span> <span class="n">ChordSequence</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_converter_score_to_wav</span><span class="p">(</span>
+        <span class="n">score</span><span class="p">:</span> <span class="n">Score</span><span class="p">,</span>
+        <span class="n">output_path</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Path</span><span class="p">],</span>
+        <span class="o">*</span><span class="p">,</span>
+        <span class="n">groove</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;Swing&quot;</span><span class="p">,</span>
+        <span class="n">tempo</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">120</span><span class="p">,</span>
+        <span class="n">repeats</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Path</span><span class="p">:</span>
+        <span class="n">output_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">output_path</span><span class="p">)</span>
+
+        <span class="c1"># Convert Score measures to a ChordSequence</span>
+        <span class="n">all_chords</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">repeats</span><span class="p">)):</span>
+            <span class="k">for</span> <span class="n">measure</span> <span class="ow">in</span> <span class="n">score</span><span class="o">.</span><span class="n">measures</span><span class="p">:</span>
+                <span class="c1"># Each measure may have multiple chords; give equal beats</span>
+                <span class="n">beats_per_chord</span> <span class="o">=</span> <span class="mf">4.0</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">measure</span><span class="p">)</span> <span class="k">if</span> <span class="n">measure</span> <span class="k">else</span> <span class="mf">4.0</span>
+                <span class="k">for</span> <span class="n">chord</span> <span class="ow">in</span> <span class="n">measure</span><span class="p">:</span>
+                    <span class="n">all_chords</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">chord</span><span class="p">,</span> <span class="n">beats_per_chord</span><span class="p">))</span>
+
+        <span class="n">cs</span> <span class="o">=</span> <span class="n">ChordSequence</span><span class="p">(</span>
+            <span class="n">chords</span><span class="o">=</span><span class="n">all_chords</span><span class="p">,</span>
+            <span class="n">title</span><span class="o">=</span><span class="n">score</span><span class="o">.</span><span class="n">title</span><span class="p">,</span>
+            <span class="n">key</span><span class="o">=</span><span class="n">score</span><span class="o">.</span><span class="n">key</span> <span class="ow">or</span> <span class="s2">&quot;C&quot;</span><span class="p">,</span>
+            <span class="n">tempo</span><span class="o">=</span><span class="n">tempo</span><span class="p">,</span>
+            <span class="n">time_signature</span><span class="o">=</span><span class="n">score</span><span class="o">.</span><span class="n">time_signature</span>
+            <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">score</span><span class="p">,</span> <span class="s2">&quot;time_signature&quot;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">score</span><span class="o">.</span><span class="n">time_signature</span>
+            <span class="k">else</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span>
+        <span class="p">)</span>
+
+        <span class="n">audio</span> <span class="o">=</span> <span class="n">chords_to_audio</span><span class="p">(</span>
+            <span class="n">cs</span><span class="p">,</span>
+            <span class="n">resolver</span><span class="o">=</span><span class="n">resolver</span><span class="p">,</span>
+            <span class="n">midi_gen</span><span class="o">=</span><span class="n">midi_gen</span><span class="p">,</span>
+            <span class="n">audio_renderer</span><span class="o">=</span><span class="n">audio_renderer</span><span class="p">,</span>
+            <span class="n">soundfont</span><span class="o">=</span><span class="n">soundfont</span><span class="p">,</span>
+            <span class="n">tempo</span><span class="o">=</span><span class="n">tempo</span><span class="p">,</span>
+            <span class="n">sr</span><span class="o">=</span><span class="n">sr</span><span class="p">,</span>
+            <span class="n">output_path</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">output_path</span><span class="p">),</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">output_path</span>
+
+    <span class="c1"># Give it a descriptive name for debugging</span>
+    <span class="n">parts</span> <span class="o">=</span> <span class="p">[</span><span class="n">resolver</span> <span class="ow">or</span> <span class="s2">&quot;default&quot;</span><span class="p">,</span> <span class="n">midi_gen</span> <span class="ow">or</span> <span class="s2">&quot;default&quot;</span><span class="p">,</span> <span class="n">audio_renderer</span> <span class="ow">or</span> <span class="s2">&quot;default&quot;</span><span class="p">]</span>
+    <span class="n">_converter_score_to_wav</span><span class="o">.</span><span class="vm">__name__</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;converter_engine(</span><span class="si">{</span><span class="s1">&#39;+&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">parts</span><span class="p">)</span><span class="si">}</span><span class="s2">)&quot;</span>
+    <span class="n">_converter_score_to_wav</span><span class="o">.</span><span class="vm">__qualname__</span> <span class="o">=</span> <span class="n">_converter_score_to_wav</span><span class="o">.</span><span class="vm">__name__</span>
+
+    <span class="k">return</span> <span class="n">_converter_score_to_wav</span></div>
+
+
+
+<span class="c1"># ---------------------------------------------------------------------------</span>
+<span class="c1"># Main public API</span>
+<span class="c1"># ---------------------------------------------------------------------------</span>
+
+<span class="c1"># Sentinel for &quot;use the default engine&quot;</span>
+<span class="n">_DFLT_ENGINE</span> <span class="o">=</span> <span class="n">mma_score_to_wav</span>
+
+
+<div class="viewcode-block" id="generate_wav">
+<a class="viewcode-back" href="../../module_docs/accompy/tools.html#accompy.generate_wav">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">generate_wav</span><span class="p">(</span>
+    <span class="n">score</span><span class="p">:</span> <span class="n">Score</span><span class="p">,</span>
+    <span class="n">output_path</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Path</span><span class="p">],</span>
+    <span class="o">*</span><span class="p">,</span>
+    <span class="n">groove</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;Swing&quot;</span><span class="p">,</span>
+    <span class="n">tempo</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">120</span><span class="p">,</span>
+    <span class="n">repeats</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="n">score_to_wav</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">ScoreToWav</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Path</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Generate a WAV file from a Score using a pluggable engine.</span>
+
+<span class="sd">    By default uses MMA (Musical MIDI Accompaniment).  Pass a custom</span>
+<span class="sd">    ``score_to_wav`` callable to use a different backend — for instance one</span>
+<span class="sd">    built with :func:`make_converter_engine`.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        score: A :class:`Score` with chord measures.</span>
+<span class="sd">        output_path: Destination WAV file path.</span>
+<span class="sd">        groove: Groove / style name (interpretation depends on the engine).</span>
+<span class="sd">        tempo: Tempo in BPM.</span>
+<span class="sd">        repeats: Number of times to repeat the progression.</span>
+<span class="sd">        score_to_wav: Engine callable.  Defaults to :func:`mma_score_to_wav`.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Path to the generated WAV file.</span>
+
+<span class="sd">    Example::</span>
+
+<span class="sd">        &gt;&gt;&gt; from accompy import Score, generate_wav</span>
+<span class="sd">        &gt;&gt;&gt; score = Score.from_string(&quot;| Dm7 | G7 | C^7 |&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; generate_wav(score, &quot;/tmp/test.wav&quot;, groove=&quot;BossaNova&quot;, tempo=140)  # doctest: +SKIP</span>
+<span class="sd">        PosixPath(&#39;/tmp/test.wav&#39;)</span>
+
+<span class="sd">        &gt;&gt;&gt; # With a custom engine:</span>
+<span class="sd">        &gt;&gt;&gt; from accompy.tools import make_converter_engine</span>
+<span class="sd">        &gt;&gt;&gt; engine = make_converter_engine(audio_renderer=&quot;fluidsynth&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; generate_wav(score, &quot;/tmp/test.wav&quot;, score_to_wav=engine, tempo=140)  # doctest: +SKIP</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">engine</span> <span class="o">=</span> <span class="n">score_to_wav</span> <span class="ow">or</span> <span class="n">_DFLT_ENGINE</span>
+    <span class="k">return</span> <span class="n">engine</span><span class="p">(</span><span class="n">score</span><span class="p">,</span> <span class="n">output_path</span><span class="p">,</span> <span class="n">groove</span><span class="o">=</span><span class="n">groove</span><span class="p">,</span> <span class="n">tempo</span><span class="o">=</span><span class="n">tempo</span><span class="p">,</span> <span class="n">repeats</span><span class="o">=</span><span class="n">repeats</span><span class="p">)</span></div>
+
+
+
+<span class="c1"># Backward-compatible alias</span>
+<span class="n">generate_mma_wav</span> <span class="o">=</span> <span class="n">mma_score_to_wav</span>
+<span class="sd">&quot;&quot;&quot;Alias for :func:`mma_score_to_wav`.  Kept for backward compatibility.&quot;&quot;&quot;</span>
+
+
+<span class="c1"># ---------------------------------------------------------------------------</span>
+<span class="c1"># Batch generation</span>
+<span class="c1"># ---------------------------------------------------------------------------</span>
 
 
 <div class="viewcode-block" id="generate_variations">
@@ -217,6 +407,7 @@
     <span class="n">grooves</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;Swing&quot;</span><span class="p">,),</span>
     <span class="n">repeats</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
     <span class="n">filename_template</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{title}</span><span class="s2">_</span><span class="si">{key}</span><span class="s2">_</span><span class="si">{tempo}</span><span class="s2">bpm_</span><span class="si">{groove}</span><span class="s2">.wav&quot;</span><span class="p">,</span>
+    <span class="n">score_to_wav</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">ScoreToWav</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">Path</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Batch-generate WAV files for many key / tempo / groove combinations.</span>
 
@@ -229,10 +420,11 @@
 <span class="sd">        output_dir: Directory for output files.</span>
 <span class="sd">        keys: Keys to transpose to.</span>
 <span class="sd">        tempos: Tempos in BPM to cycle through.</span>
-<span class="sd">        grooves: MMA groove names to cycle through.</span>
+<span class="sd">        grooves: Groove / style names to cycle through.</span>
 <span class="sd">        repeats: Number of repeats per file.</span>
 <span class="sd">        filename_template: Template for filenames. Placeholders:</span>
 <span class="sd">            ``{title}``, ``{key}``, ``{tempo}``, ``{groove}``.</span>
+<span class="sd">        score_to_wav: Engine callable.  Defaults to :func:`mma_score_to_wav`.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        List of Paths to successfully generated files.</span>
@@ -247,9 +439,22 @@
 <span class="sd">        ...     tempos=[100, 120],</span>
 <span class="sd">        ...     grooves=[&quot;Swing&quot;, &quot;BossaNova&quot;],</span>
 <span class="sd">        ... )</span>
+
+<span class="sd">        &gt;&gt;&gt; # With a custom engine:</span>
+<span class="sd">        &gt;&gt;&gt; from accompy.tools import make_converter_engine</span>
+<span class="sd">        &gt;&gt;&gt; engine = make_converter_engine(audio_renderer=&quot;fluidsynth&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; generate_variations(  # doctest: +SKIP</span>
+<span class="sd">        ...     score, &quot;/tmp/variations&quot;,</span>
+<span class="sd">        ...     keys=[&quot;C&quot;, &quot;G&quot;],</span>
+<span class="sd">        ...     tempos=[100, 120],</span>
+<span class="sd">        ...     grooves=[&quot;Swing&quot;],</span>
+<span class="sd">        ...     score_to_wav=engine,</span>
+<span class="sd">        ... )</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">itertools</span><span class="w"> </span><span class="kn">import</span> <span class="n">cycle</span> <span class="k">as</span> <span class="n">_cycle</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">.util</span><span class="w"> </span><span class="kn">import</span> <span class="n">transpose_score</span>
+
+    <span class="n">engine</span> <span class="o">=</span> <span class="n">score_to_wav</span> <span class="ow">or</span> <span class="n">_DFLT_ENGINE</span>
 
     <span class="n">output_dir</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">output_dir</span><span class="p">)</span>
     <span class="n">output_dir</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">parents</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -269,12 +474,19 @@
         <span class="n">safe_key</span> <span class="o">=</span> <span class="n">key</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;#&quot;</span><span class="p">,</span> <span class="s2">&quot;sharp&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;b&quot;</span><span class="p">,</span> <span class="s2">&quot;flat&quot;</span><span class="p">)</span>
         <span class="n">safe_title</span> <span class="o">=</span> <span class="n">score</span><span class="o">.</span><span class="n">title</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="s2">&quot;_&quot;</span><span class="p">)</span>
         <span class="n">filename</span> <span class="o">=</span> <span class="n">filename_template</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-            <span class="n">title</span><span class="o">=</span><span class="n">safe_title</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="n">safe_key</span><span class="p">,</span> <span class="n">tempo</span><span class="o">=</span><span class="n">tempo</span><span class="p">,</span> <span class="n">groove</span><span class="o">=</span><span class="n">groove</span><span class="p">,</span>
+            <span class="n">title</span><span class="o">=</span><span class="n">safe_title</span><span class="p">,</span>
+            <span class="n">key</span><span class="o">=</span><span class="n">safe_key</span><span class="p">,</span>
+            <span class="n">tempo</span><span class="o">=</span><span class="n">tempo</span><span class="p">,</span>
+            <span class="n">groove</span><span class="o">=</span><span class="n">groove</span><span class="p">,</span>
         <span class="p">)</span>
         <span class="n">output_path</span> <span class="o">=</span> <span class="n">output_dir</span> <span class="o">/</span> <span class="n">filename</span>
         <span class="k">try</span><span class="p">:</span>
-            <span class="n">generate_mma_wav</span><span class="p">(</span>
-                <span class="n">transposed</span><span class="p">,</span> <span class="n">output_path</span><span class="p">,</span> <span class="n">groove</span><span class="o">=</span><span class="n">groove</span><span class="p">,</span> <span class="n">tempo</span><span class="o">=</span><span class="n">tempo</span><span class="p">,</span> <span class="n">repeats</span><span class="o">=</span><span class="n">repeats</span><span class="p">,</span>
+            <span class="n">engine</span><span class="p">(</span>
+                <span class="n">transposed</span><span class="p">,</span>
+                <span class="n">output_path</span><span class="p">,</span>
+                <span class="n">groove</span><span class="o">=</span><span class="n">groove</span><span class="p">,</span>
+                <span class="n">tempo</span><span class="o">=</span><span class="n">tempo</span><span class="p">,</span>
+                <span class="n">repeats</span><span class="o">=</span><span class="n">repeats</span><span class="p">,</span>
             <span class="p">)</span>
             <span class="n">size</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">getsize</span><span class="p">(</span><span class="n">output_path</span><span class="p">)</span>
             <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  OK: </span><span class="si">{</span><span class="n">filename</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">size</span><span class="si">:</span><span class="s2">,</span><span class="si">}</span><span class="s2"> bytes)&quot;</span><span class="p">)</span>
