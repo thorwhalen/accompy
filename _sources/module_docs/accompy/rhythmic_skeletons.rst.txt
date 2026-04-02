@@ -1,0 +1,4 @@
+accompy.rhythmic_skeletons
+==========================
+.. automodule:: accompy.rhythmic_skeletons
+   :members:

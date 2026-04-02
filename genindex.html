@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Index &mdash; accompy 0.3.6 documentation</title>
+  <title>Index &mdash; accompy 0.3.7 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
@@ -14,7 +14,7 @@
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="_static/documentation_options.js?v=8da8c241"></script>
+      <script src="_static/documentation_options.js?v=29d04658"></script>
       <script src="_static/doctools.js?v=9bcbadda"></script>
       <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
       <script src="_static/toggleprompt.js?v=d7ede5d2"></script>
@@ -63,6 +63,7 @@
 <li class="toctree-l1"><a class="reference internal" href="module_docs/accompy/realtime.html">accompy.realtime</a></li>
 <li class="toctree-l1"><a class="reference internal" href="module_docs/accompy/renderers.html">accompy.renderers</a></li>
 <li class="toctree-l1"><a class="reference internal" href="module_docs/accompy/renderers/midi.html">accompy.renderers.midi</a></li>
+<li class="toctree-l1"><a class="reference internal" href="module_docs/accompy/rhythmic_skeletons.html">accompy.rhythmic_skeletons</a></li>
 <li class="toctree-l1"><a class="reference internal" href="module_docs/accompy/setup_utils.html">accompy.setup_utils</a></li>
 <li class="toctree-l1"><a class="reference internal" href="module_docs/accompy/synthesis.html">accompy.synthesis</a></li>
 <li class="toctree-l1"><a class="reference internal" href="module_docs/accompy/synthesis/fluidsynth.html">accompy.synthesis.fluidsynth</a></li>
@@ -246,13 +247,20 @@
         <li><a href="module_docs/accompy/renderers.html#module-accompy.renderers">module</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li>
     accompy.renderers.midi
 
       <ul>
         <li><a href="module_docs/accompy/renderers/midi.html#module-accompy.renderers.midi">module</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li>
+    accompy.rhythmic_skeletons
+
+      <ul>
+        <li><a href="module_docs/accompy/rhythmic_skeletons.html#module-accompy.rhythmic_skeletons">module</a>
 </li>
       </ul></li>
       <li>
@@ -337,6 +345,12 @@
 
       <ul>
         <li><a href="module_docs/accompy/wips/types.html#module-accompy.wips.types">module</a>
+</li>
+      </ul></li>
+      <li><a href="module_docs/accompy.html#accompy.apply_skeleton">apply_skeleton() (in module accompy)</a>
+
+      <ul>
+        <li><a href="module_docs/accompy/rhythmic_skeletons.html#accompy.rhythmic_skeletons.apply_skeleton">(in module accompy.rhythmic_skeletons)</a>
 </li>
       </ul></li>
       <li><a href="module_docs/accompy.html#accompy.DrumPattern.at_tempo">at_tempo() (accompy.DrumPattern method)</a>
@@ -755,6 +769,12 @@
         <li><a href="module_docs/accompy/converters.html#accompy.converters.ConverterRegistry.list_pairs">(accompy.converters.ConverterRegistry method)</a>
 </li>
       </ul></li>
+      <li><a href="module_docs/accompy.html#accompy.list_skeletons">list_skeletons() (in module accompy)</a>
+
+      <ul>
+        <li><a href="module_docs/accompy/rhythmic_skeletons.html#accompy.rhythmic_skeletons.list_skeletons">(in module accompy.rhythmic_skeletons)</a>
+</li>
+      </ul></li>
   </ul></td>
 </tr></table>
 
@@ -838,6 +858,8 @@
         <li><a href="module_docs/accompy/renderers.html#module-accompy.renderers">accompy.renderers</a>
 </li>
         <li><a href="module_docs/accompy/renderers/midi.html#module-accompy.renderers.midi">accompy.renderers.midi</a>
+</li>
+        <li><a href="module_docs/accompy/rhythmic_skeletons.html#module-accompy.rhythmic_skeletons">accompy.rhythmic_skeletons</a>
 </li>
         <li><a href="module_docs/accompy/setup_utils.html#module-accompy.setup_utils">accompy.setup_utils</a>
 </li>
@@ -1030,6 +1052,12 @@
       </ul></li>
       <li><a href="module_docs/accompy/patterns.html#accompy.patterns.PatternRegistry.register_builtin_patterns">register_builtin_patterns() (accompy.patterns.PatternRegistry method)</a>
 </li>
+      <li><a href="module_docs/accompy.html#accompy.register_skeleton">register_skeleton() (in module accompy)</a>
+
+      <ul>
+        <li><a href="module_docs/accompy/rhythmic_skeletons.html#accompy.rhythmic_skeletons.register_skeleton">(in module accompy.rhythmic_skeletons)</a>
+</li>
+      </ul></li>
       <li><a href="module_docs/accompy.html#accompy.register_style">register_style() (in module accompy)</a>
 
       <ul>
@@ -1046,8 +1074,6 @@
         <li><a href="module_docs/accompy.html#accompy.SynthesizerBackend.render_to_bytes">(accompy.SynthesizerBackend method)</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="module_docs/accompy/protocols.html#accompy.protocols.AudioRenderer.render_to_file">render_to_file() (accompy.protocols.AudioRenderer method)</a>
 
       <ul>
@@ -1060,10 +1086,18 @@
         <li><a href="module_docs/accompy.html#accompy.SynthesizerBackend.render_to_file">(accompy.SynthesizerBackend method)</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="module_docs/accompy.html#accompy.AccompanimentConfig.repeats">repeats (accompy.AccompanimentConfig attribute)</a>
 
       <ul>
         <li><a href="module_docs/accompy/base.html#accompy.base.AccompanimentConfig.repeats">(accompy.base.AccompanimentConfig attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="module_docs/accompy.html#accompy.resolve_skeleton">resolve_skeleton() (in module accompy)</a>
+
+      <ul>
+        <li><a href="module_docs/accompy/rhythmic_skeletons.html#accompy.rhythmic_skeletons.resolve_skeleton">(in module accompy.rhythmic_skeletons)</a>
 </li>
       </ul></li>
       <li><a href="module_docs/accompy/chord_resolvers.html#accompy.chord_resolvers.resolve_with_mingus">resolve_with_mingus() (in module accompy.chord_resolvers)</a>
@@ -1074,6 +1108,18 @@
 </li>
       <li><a href="module_docs/accompy/chord_resolvers.html#accompy.chord_resolvers.resolve_with_tonal">resolve_with_tonal() (in module accompy.chord_resolvers)</a>
 </li>
+      <li><a href="module_docs/accompy.html#accompy.rhythm_to_audio">rhythm_to_audio() (in module accompy)</a>
+
+      <ul>
+        <li><a href="module_docs/accompy/pipeline.html#accompy.pipeline.rhythm_to_audio">(in module accompy.pipeline)</a>
+</li>
+      </ul></li>
+      <li><a href="module_docs/accompy.html#accompy.rhythm_to_midi">rhythm_to_midi() (in module accompy)</a>
+
+      <ul>
+        <li><a href="module_docs/accompy/pipeline.html#accompy.pipeline.rhythm_to_midi">(in module accompy.pipeline)</a>
+</li>
+      </ul></li>
   </ul></td>
 </tr></table>
 

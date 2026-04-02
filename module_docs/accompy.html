@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>accompy &mdash; accompy 0.3.6 documentation</title>
+  <title>accompy &mdash; accompy 0.3.7 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
@@ -15,7 +15,7 @@
   
       <script src="../_static/jquery.js?v=5d32c60e"></script>
       <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../_static/documentation_options.js?v=8da8c241"></script>
+      <script src="../_static/documentation_options.js?v=29d04658"></script>
       <script src="../_static/doctools.js?v=9bcbadda"></script>
       <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
       <script src="../_static/toggleprompt.js?v=d7ede5d2"></script>
@@ -149,6 +149,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#accompy.SynthesizerBackend.render_to_file"><code class="docutils literal notranslate"><span class="pre">SynthesizerBackend.render_to_file()</span></code></a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="#accompy.apply_skeleton"><code class="docutils literal notranslate"><span class="pre">apply_skeleton()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="#accompy.check_dependencies"><code class="docutils literal notranslate"><span class="pre">check_dependencies()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="#accompy.chord_to_notes"><code class="docutils literal notranslate"><span class="pre">chord_to_notes()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="#accompy.chords_to_audio"><code class="docutils literal notranslate"><span class="pre">chords_to_audio()</span></code></a></li>
@@ -168,6 +169,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#accompy.get_pattern_registry"><code class="docutils literal notranslate"><span class="pre">get_pattern_registry()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="#accompy.get_patterns"><code class="docutils literal notranslate"><span class="pre">get_patterns()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="#accompy.list_available_converters"><code class="docutils literal notranslate"><span class="pre">list_available_converters()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#accompy.list_skeletons"><code class="docutils literal notranslate"><span class="pre">list_skeletons()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="#accompy.make_converter_engine"><code class="docutils literal notranslate"><span class="pre">make_converter_engine()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="#accompy.midi_to_audio"><code class="docutils literal notranslate"><span class="pre">midi_to_audio()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="#accompy.mma_score_to_wav"><code class="docutils literal notranslate"><span class="pre">mma_score_to_wav()</span></code></a></li>
@@ -176,7 +178,11 @@
 <li class="toctree-l2"><a class="reference internal" href="#accompy.play_audio"><code class="docutils literal notranslate"><span class="pre">play_audio()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="#accompy.print_diagnostic_report"><code class="docutils literal notranslate"><span class="pre">print_diagnostic_report()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="#accompy.print_setup_instructions"><code class="docutils literal notranslate"><span class="pre">print_setup_instructions()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#accompy.register_skeleton"><code class="docutils literal notranslate"><span class="pre">register_skeleton()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="#accompy.register_style"><code class="docutils literal notranslate"><span class="pre">register_style()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#accompy.resolve_skeleton"><code class="docutils literal notranslate"><span class="pre">resolve_skeleton()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#accompy.rhythm_to_audio"><code class="docutils literal notranslate"><span class="pre">rhythm_to_audio()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#accompy.rhythm_to_midi"><code class="docutils literal notranslate"><span class="pre">rhythm_to_midi()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="#accompy.set_chord_resolver"><code class="docutils literal notranslate"><span class="pre">set_chord_resolver()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="#accompy.setup_soundfont"><code class="docutils literal notranslate"><span class="pre">setup_soundfont()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="#accompy.tonal_resolver"><code class="docutils literal notranslate"><span class="pre">tonal_resolver()</span></code></a></li>
@@ -202,6 +208,7 @@
 <li class="toctree-l1"><a class="reference internal" href="accompy/realtime.html">accompy.realtime</a></li>
 <li class="toctree-l1"><a class="reference internal" href="accompy/renderers.html">accompy.renderers</a></li>
 <li class="toctree-l1"><a class="reference internal" href="accompy/renderers/midi.html">accompy.renderers.midi</a></li>
+<li class="toctree-l1"><a class="reference internal" href="accompy/rhythmic_skeletons.html">accompy.rhythmic_skeletons</a></li>
 <li class="toctree-l1"><a class="reference internal" href="accompy/setup_utils.html">accompy.setup_utils</a></li>
 <li class="toctree-l1"><a class="reference internal" href="accompy/synthesis.html">accompy.synthesis</a></li>
 <li class="toctree-l1"><a class="reference internal" href="accompy/synthesis/fluidsynth.html">accompy.synthesis.fluidsynth</a></li>
@@ -1072,6 +1079,35 @@ Used by the synthesis module.</p>
 </dd></dl>
 
 <dl class="py function">
+<dt class="sig sig-object py" id="accompy.apply_skeleton">
+<span class="sig-prename descclassname"><span class="pre">accompy.</span></span><span class="sig-name descname"><span class="pre">apply_skeleton</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">skeleton</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">tuple</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Sequence</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#accompy.ChordSequence" title="accompy.ChordSequence"><span class="pre">ChordSequence</span></a></span></span><a class="reference internal" href="../_modules/accompy/rhythmic_skeletons.html#apply_skeleton"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#accompy.apply_skeleton" title="Link to this definition"></a></dt>
+<dd><p>Apply a rhythmic skeleton to a chord sequence.</p>
+<p>The skeleton defines strike positions within each <em>measure</em>. Each strike
+plays whatever chord is active at that beat position. If a strike spans a
+chord boundary within a measure, it is split so the chord change is
+respected.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>cs</strong> – A ChordSequence (from <code class="docutils literal notranslate"><span class="pre">accompy.converters</span></code>).</p></li>
+<li><p><strong>skeleton</strong> – Skeleton key, name, style, or duration tuple.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A new ChordSequence with chords expanded according to the skeleton.</p>
+</dd>
+</dl>
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">accompy.converters</span><span class="w"> </span><span class="kn">import</span> <span class="n">ChordSequence</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cs</span> <span class="o">=</span> <span class="n">ChordSequence</span><span class="p">([(</span><span class="s2">&quot;Dm7&quot;</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">),</span> <span class="p">(</span><span class="s2">&quot;G7&quot;</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">)])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">result</span> <span class="o">=</span> <span class="n">apply_skeleton</span><span class="p">(</span><span class="n">cs</span><span class="p">,</span> <span class="s2">&quot;tresillo&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">[(</span><span class="n">s</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span> <span class="k">for</span> <span class="n">s</span><span class="p">,</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">result</span><span class="p">]</span>
+<span class="go">[(&#39;Dm7&#39;, 1.5), (&#39;Dm7&#39;, 0.5), (&#39;G7&#39;, 1.0), (&#39;G7&#39;, 1.0)]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
 <dt class="sig sig-object py" id="accompy.check_dependencies">
 <span class="sig-prename descclassname"><span class="pre">accompy.</span></span><span class="sig-name descname"><span class="pre">check_dependencies</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">bool</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/accompy/main.html#check_dependencies"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#accompy.check_dependencies" title="Link to this definition"></a></dt>
 <dd><p>Check which dependencies are available.</p>
@@ -1560,6 +1596,31 @@ built with <a class="reference internal" href="#accompy.make_converter_engine" t
 </dd></dl>
 
 <dl class="py function">
+<dt class="sig sig-object py" id="accompy.list_skeletons">
+<span class="sig-prename descclassname"><span class="pre">accompy.</span></span><span class="sig-name descname"><span class="pre">list_skeletons</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">beats_per_measure</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">style</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/accompy/rhythmic_skeletons.html#list_skeletons"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#accompy.list_skeletons" title="Link to this definition"></a></dt>
+<dd><p>List available skeleton keys, optionally filtered.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>beats_per_measure</strong> – Filter to skeletons matching this measure length.</p></li>
+<li><p><strong>style</strong> – Filter to skeletons associated with this style.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>List of skeleton key strings.</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="s2">&quot;tresillo&quot;</span> <span class="ow">in</span> <span class="n">list_skeletons</span><span class="p">()</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">all</span><span class="p">(</span><span class="n">RHYTHMIC_SKELETONS</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="s2">&quot;beats_per_measure&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">3</span>
+<span class="gp">... </span>    <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">list_skeletons</span><span class="p">(</span><span class="n">beats_per_measure</span><span class="o">=</span><span class="mi">3</span><span class="p">))</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
 <dt class="sig sig-object py" id="accompy.make_converter_engine">
 <span class="sig-prename descclassname"><span class="pre">accompy.</span></span><span class="sig-name descname"><span class="pre">make_converter_engine</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resolver</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">midi_gen</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">audio_renderer</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">soundfont</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sr</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">44100</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="accompy/tools.html#accompy.tools.ScoreToWav" title="accompy.tools.ScoreToWav"><span class="pre">ScoreToWav</span></a></span></span><a class="reference internal" href="../_modules/accompy/tools.html#make_converter_engine"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#accompy.make_converter_engine" title="Link to this definition"></a></dt>
 <dd><p>Create a <a class="reference internal" href="#accompy.ScoreToWav" title="accompy.ScoreToWav"><code class="xref py py-data docutils literal notranslate"><span class="pre">ScoreToWav</span></code></a> engine from accompy’s converter pipeline.</p>
@@ -1705,6 +1766,29 @@ and finally to a no-dependency best-effort parser.</p>
 </dd></dl>
 
 <dl class="py function">
+<dt class="sig sig-object py" id="accompy.register_skeleton">
+<span class="sig-prename descclassname"><span class="pre">accompy.</span></span><span class="sig-name descname"><span class="pre">register_skeleton</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pattern</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">tuple</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">beats_per_measure</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">styles</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/accompy/rhythmic_skeletons.html#register_skeleton"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#accompy.register_skeleton" title="Link to this definition"></a></dt>
+<dd><p>Register a custom rhythmic skeleton.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>key</strong> – Unique string key for the skeleton.</p></li>
+<li><p><strong>pattern</strong> – Tuple of beat durations.</p></li>
+<li><p><strong>name</strong> – Human-readable name (defaults to key).</p></li>
+<li><p><strong>beats_per_measure</strong> – Measure length in beats (defaults to sum of pattern).</p></li>
+<li><p><strong>styles</strong> – List of associated style strings.</p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">register_skeleton</span><span class="p">(</span><span class="s2">&quot;my_groove&quot;</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;My Groove&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">resolve_skeleton</span><span class="p">(</span><span class="s2">&quot;my_groove&quot;</span><span class="p">)</span>
+<span class="go">(1, 0.5, 0.5, 2)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
 <dt class="sig sig-object py" id="accompy.register_style">
 <span class="sig-prename descclassname"><span class="pre">accompy.</span></span><span class="sig-name descname"><span class="pre">register_style</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">style</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">drums</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bass</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">comp</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/accompy/patterns.html#register_style"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#accompy.register_style" title="Link to this definition"></a></dt>
 <dd><p>Register a custom style with the global registry.</p>
@@ -1721,6 +1805,99 @@ and finally to a no-dependency best-effort parser.</p>
 <p class="rubric">Example</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">registry</span> <span class="o">=</span> <span class="n">get_pattern_registry</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">register_style</span><span class="p">(</span><span class="s1">&#39;my_funk&#39;</span><span class="p">,</span> <span class="p">[</span><span class="n">my_drum_pattern</span><span class="p">],</span> <span class="p">[</span><span class="n">my_bass_pattern</span><span class="p">],</span> <span class="p">[])</span>  
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="accompy.resolve_skeleton">
+<span class="sig-prename descclassname"><span class="pre">accompy.</span></span><span class="sig-name descname"><span class="pre">resolve_skeleton</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">skeleton</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">tuple</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Sequence</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span></span></span><a class="reference internal" href="../_modules/accompy/rhythmic_skeletons.html#resolve_skeleton"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#accompy.resolve_skeleton" title="Link to this definition"></a></dt>
+<dd><p>Resolve a skeleton specification to a tuple of durations.</p>
+<dl class="simple">
+<dt>Accepts:</dt><dd><ul class="simple">
+<li><p>A tuple or list of numbers (pass-through)</p></li>
+<li><p>A skeleton key (e.g., <code class="docutils literal notranslate"><span class="pre">&quot;tresillo&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;whole_note&quot;</span></code>)</p></li>
+<li><p>A skeleton name, case-insensitive (e.g., <code class="docutils literal notranslate"><span class="pre">&quot;Tresillo&quot;</span></code>)</p></li>
+<li><p>A style string (e.g., <code class="docutils literal notranslate"><span class="pre">&quot;reggae&quot;</span></code>) — returns the first match</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Tuple of beat durations summing to the measure length.</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>KeyError</strong> – If the skeleton cannot be resolved.</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">resolve_skeleton</span><span class="p">(</span><span class="s2">&quot;whole_note&quot;</span><span class="p">)</span>
+<span class="go">(4,)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">resolve_skeleton</span><span class="p">(</span><span class="s2">&quot;tresillo&quot;</span><span class="p">)</span>
+<span class="go">(1.5, 1.5, 1)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">resolve_skeleton</span><span class="p">((</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+<span class="go">(2, 2)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">resolve_skeleton</span><span class="p">(</span><span class="s2">&quot;Dotted half + quarter&quot;</span><span class="p">)</span>
+<span class="go">(3, 1)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="accompy.rhythm_to_audio">
+<span class="sig-prename descclassname"><span class="pre">accompy.</span></span><span class="sig-name descname"><span class="pre">rhythm_to_audio</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">chords</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="accompy/converters.html#accompy.converters.ChordSequence" title="accompy.converters.ChordSequence"><span class="pre">ChordSequence</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">skeleton</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'whole_note'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resolver</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">midi_gen</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">audio_renderer</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">soundfont</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tempo</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">120</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sr</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">44100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="accompy/converters.html#accompy.converters.AudioData" title="accompy.converters.AudioData"><span class="pre">AudioData</span></a></span></span><a class="reference internal" href="../_modules/accompy/pipeline.html#rhythm_to_audio"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#accompy.rhythm_to_audio" title="Link to this definition"></a></dt>
+<dd><p>Convert chords to audio using a rhythmic skeleton for restrike timing.</p>
+<p>Same as <a class="reference internal" href="#accompy.rhythm_to_midi" title="accompy.rhythm_to_midi"><code class="xref py py-func docutils literal notranslate"><span class="pre">rhythm_to_midi()</span></code></a> but renders all the way to audio.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>chords</strong> – Chord string or ChordSequence.</p></li>
+<li><p><strong>skeleton</strong> – Skeleton key, name, style, or duration tuple.</p></li>
+<li><p><strong>resolver</strong> – Chord resolver name.</p></li>
+<li><p><strong>midi_gen</strong> – MIDI generator name.</p></li>
+<li><p><strong>audio_renderer</strong> – Audio renderer name.</p></li>
+<li><p><strong>soundfont</strong> – Path to SoundFont file.</p></li>
+<li><p><strong>tempo</strong> – BPM.</p></li>
+<li><p><strong>sr</strong> – Sample rate.</p></li>
+<li><p><strong>output_path</strong> – Optional path to write WAV file.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>AudioData with waveform and sample rate.</p>
+</dd>
+</dl>
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">audio</span> <span class="o">=</span> <span class="n">rhythm_to_audio</span><span class="p">(</span><span class="s2">&quot;| C | Am |&quot;</span><span class="p">,</span> <span class="n">skeleton</span><span class="o">=</span><span class="s2">&quot;half_notes&quot;</span><span class="p">)</span>  
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="accompy.rhythm_to_midi">
+<span class="sig-prename descclassname"><span class="pre">accompy.</span></span><span class="sig-name descname"><span class="pre">rhythm_to_midi</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">chords</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="accompy/converters.html#accompy.converters.ChordSequence" title="accompy.converters.ChordSequence"><span class="pre">ChordSequence</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">skeleton</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'whole_note'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resolver</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">midi_gen</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tempo</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">120</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="accompy/converters.html#accompy.converters.MidiData" title="accompy.converters.MidiData"><span class="pre">MidiData</span></a></span></span><a class="reference internal" href="../_modules/accompy/pipeline.html#rhythm_to_midi"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#accompy.rhythm_to_midi" title="Link to this definition"></a></dt>
+<dd><p>Convert chords to MIDI using a rhythmic skeleton for restrike timing.</p>
+<p>The skeleton defines when chords are struck within each measure. Each
+chord is sustained for the skeleton’s duration at that beat position.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>chords</strong> – Chord string (e.g., <code class="docutils literal notranslate"><span class="pre">&quot;|</span> <span class="pre">Dm7</span> <span class="pre">|</span> <span class="pre">G7</span> <span class="pre">|</span> <span class="pre">Cmaj7</span> <span class="pre">|&quot;</span></code>) or ChordSequence.</p></li>
+<li><p><strong>skeleton</strong> – Skeleton key, name, style, or duration tuple.
+Defaults to <code class="docutils literal notranslate"><span class="pre">&quot;whole_note&quot;</span></code> (one strike per measure).</p></li>
+<li><p><strong>resolver</strong> – Chord resolver name (e.g., <code class="docutils literal notranslate"><span class="pre">&quot;pychord&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;tonal&quot;</span></code>).</p></li>
+<li><p><strong>midi_gen</strong> – MIDI generator name (e.g., <code class="docutils literal notranslate"><span class="pre">&quot;pretty_midi&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;midiutil&quot;</span></code>).</p></li>
+<li><p><strong>tempo</strong> – BPM (used if chords is a string).</p></li>
+<li><p><strong>output_path</strong> – Optional path to write MIDI file.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>MidiData object.</p>
+</dd>
+</dl>
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">md</span> <span class="o">=</span> <span class="n">rhythm_to_midi</span><span class="p">(</span><span class="s2">&quot;| C | Am | F | G |&quot;</span><span class="p">,</span> <span class="n">skeleton</span><span class="o">=</span><span class="s2">&quot;tresillo&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">md</span><span class="o">.</span><span class="n">to_bytes</span><span class="p">()[:</span><span class="mi">4</span><span class="p">]</span>
+<span class="go">b&#39;MThd&#39;</span>
 </pre></div>
 </div>
 </dd></dl>

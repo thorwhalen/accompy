@@ -19,6 +19,7 @@
    module_docs/accompy/realtime
    module_docs/accompy/renderers
    module_docs/accompy/renderers/midi
+   module_docs/accompy/rhythmic_skeletons
    module_docs/accompy/setup_utils
    module_docs/accompy/synthesis
    module_docs/accompy/synthesis/fluidsynth

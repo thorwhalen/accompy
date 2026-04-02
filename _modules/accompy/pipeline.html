@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>accompy.pipeline &mdash; accompy 0.3.6 documentation</title>
+  <title>accompy.pipeline &mdash; accompy 0.3.7 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
@@ -14,7 +14,7 @@
   
       <script src="../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../_static/documentation_options.js?v=8da8c241"></script>
+      <script src="../../_static/documentation_options.js?v=29d04658"></script>
       <script src="../../_static/doctools.js?v=9bcbadda"></script>
       <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
       <script src="../../_static/toggleprompt.js?v=d7ede5d2"></script>
@@ -63,6 +63,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/realtime.html">accompy.realtime</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/renderers.html">accompy.renderers</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/renderers/midi.html">accompy.renderers.midi</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/rhythmic_skeletons.html">accompy.rhythmic_skeletons</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/setup_utils.html">accompy.setup_utils</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/synthesis.html">accompy.synthesis</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/synthesis/fluidsynth.html">accompy.synthesis.fluidsynth</a></li>
@@ -713,6 +714,107 @@
     <span class="n">quality</span> <span class="o">=</span> <span class="n">match</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
     <span class="n">new_root</span> <span class="o">=</span> <span class="n">_transpose_note_name</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">semitones</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">new_root</span> <span class="o">+</span> <span class="n">quality</span>
+
+
+<div class="viewcode-block" id="rhythm_to_midi">
+<a class="viewcode-back" href="../../module_docs/accompy/pipeline.html#accompy.rhythm_to_midi">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">rhythm_to_midi</span><span class="p">(</span>
+    <span class="n">chords</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">ChordSequence</span><span class="p">,</span>
+    <span class="o">*</span><span class="p">,</span>
+    <span class="n">skeleton</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;whole_note&quot;</span><span class="p">,</span>
+    <span class="n">resolver</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">midi_gen</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">tempo</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">120</span><span class="p">,</span>
+    <span class="n">output_path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">MidiData</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Convert chords to MIDI using a rhythmic skeleton for restrike timing.</span>
+
+<span class="sd">    The skeleton defines when chords are struck within each measure. Each</span>
+<span class="sd">    chord is sustained for the skeleton&#39;s duration at that beat position.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        chords: Chord string (e.g., ``&quot;| Dm7 | G7 | Cmaj7 |&quot;``) or ChordSequence.</span>
+<span class="sd">        skeleton: Skeleton key, name, style, or duration tuple.</span>
+<span class="sd">            Defaults to ``&quot;whole_note&quot;`` (one strike per measure).</span>
+<span class="sd">        resolver: Chord resolver name (e.g., ``&quot;pychord&quot;``, ``&quot;tonal&quot;``).</span>
+<span class="sd">        midi_gen: MIDI generator name (e.g., ``&quot;pretty_midi&quot;``, ``&quot;midiutil&quot;``).</span>
+<span class="sd">        tempo: BPM (used if chords is a string).</span>
+<span class="sd">        output_path: Optional path to write MIDI file.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        MidiData object.</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">        &gt;&gt;&gt; md = rhythm_to_midi(&quot;| C | Am | F | G |&quot;, skeleton=&quot;tresillo&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; md.to_bytes()[:4]</span>
+<span class="sd">        b&#39;MThd&#39;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">.rhythmic_skeletons</span><span class="w"> </span><span class="kn">import</span> <span class="n">apply_skeleton</span>
+
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">chords</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="n">cs</span> <span class="o">=</span> <span class="n">chords_to_sequence</span><span class="p">(</span><span class="n">chords</span><span class="p">,</span> <span class="n">tempo</span><span class="o">=</span><span class="n">tempo</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">cs</span> <span class="o">=</span> <span class="n">chords</span>
+
+    <span class="n">expanded</span> <span class="o">=</span> <span class="n">apply_skeleton</span><span class="p">(</span><span class="n">cs</span><span class="p">,</span> <span class="n">skeleton</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">chords_to_midi</span><span class="p">(</span><span class="n">expanded</span><span class="p">,</span> <span class="n">resolver</span><span class="o">=</span><span class="n">resolver</span><span class="p">,</span> <span class="n">midi_gen</span><span class="o">=</span><span class="n">midi_gen</span><span class="p">,</span> <span class="n">tempo</span><span class="o">=</span><span class="n">cs</span><span class="o">.</span><span class="n">tempo</span><span class="p">,</span> <span class="n">output_path</span><span class="o">=</span><span class="n">output_path</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="rhythm_to_audio">
+<a class="viewcode-back" href="../../module_docs/accompy/pipeline.html#accompy.rhythm_to_audio">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">rhythm_to_audio</span><span class="p">(</span>
+    <span class="n">chords</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">ChordSequence</span><span class="p">,</span>
+    <span class="o">*</span><span class="p">,</span>
+    <span class="n">skeleton</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;whole_note&quot;</span><span class="p">,</span>
+    <span class="n">resolver</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">midi_gen</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">audio_renderer</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">soundfont</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">tempo</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">120</span><span class="p">,</span>
+    <span class="n">sr</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">44100</span><span class="p">,</span>
+    <span class="n">output_path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">AudioData</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Convert chords to audio using a rhythmic skeleton for restrike timing.</span>
+
+<span class="sd">    Same as :func:`rhythm_to_midi` but renders all the way to audio.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        chords: Chord string or ChordSequence.</span>
+<span class="sd">        skeleton: Skeleton key, name, style, or duration tuple.</span>
+<span class="sd">        resolver: Chord resolver name.</span>
+<span class="sd">        midi_gen: MIDI generator name.</span>
+<span class="sd">        audio_renderer: Audio renderer name.</span>
+<span class="sd">        soundfont: Path to SoundFont file.</span>
+<span class="sd">        tempo: BPM.</span>
+<span class="sd">        sr: Sample rate.</span>
+<span class="sd">        output_path: Optional path to write WAV file.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        AudioData with waveform and sample rate.</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">        &gt;&gt;&gt; audio = rhythm_to_audio(&quot;| C | Am |&quot;, skeleton=&quot;half_notes&quot;)  # doctest: +SKIP</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">.rhythmic_skeletons</span><span class="w"> </span><span class="kn">import</span> <span class="n">apply_skeleton</span>
+
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">chords</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="n">cs</span> <span class="o">=</span> <span class="n">chords_to_sequence</span><span class="p">(</span><span class="n">chords</span><span class="p">,</span> <span class="n">tempo</span><span class="o">=</span><span class="n">tempo</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">cs</span> <span class="o">=</span> <span class="n">chords</span>
+
+    <span class="n">expanded</span> <span class="o">=</span> <span class="n">apply_skeleton</span><span class="p">(</span><span class="n">cs</span><span class="p">,</span> <span class="n">skeleton</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">chords_to_audio</span><span class="p">(</span>
+        <span class="n">expanded</span><span class="p">,</span>
+        <span class="n">resolver</span><span class="o">=</span><span class="n">resolver</span><span class="p">,</span>
+        <span class="n">midi_gen</span><span class="o">=</span><span class="n">midi_gen</span><span class="p">,</span>
+        <span class="n">audio_renderer</span><span class="o">=</span><span class="n">audio_renderer</span><span class="p">,</span>
+        <span class="n">soundfont</span><span class="o">=</span><span class="n">soundfont</span><span class="p">,</span>
+        <span class="n">tempo</span><span class="o">=</span><span class="n">cs</span><span class="o">.</span><span class="n">tempo</span><span class="p">,</span>
+        <span class="n">sr</span><span class="o">=</span><span class="n">sr</span><span class="p">,</span>
+        <span class="n">output_path</span><span class="o">=</span><span class="n">output_path</span><span class="p">,</span>
+    <span class="p">)</span></div>
+
 
 
 <div class="viewcode-block" id="list_available_converters">

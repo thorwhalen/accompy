@@ -1,0 +1,284 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>accompy.rhythmic_skeletons &mdash; accompy 0.3.7 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=29d04658"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../_static/toggleprompt.js?v=d7ede5d2"></script>
+      <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="accompy.setup_utils" href="setup_utils.html" />
+    <link rel="prev" title="accompy.renderers.midi" href="renderers/midi.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            accompy
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../accompy.html">accompy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="audio_renderers.html">accompy.audio_renderers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="base.html">accompy.base</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chord_parsers.html">accompy.chord_parsers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chord_resolution.html">accompy.chord_resolution</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chord_resolvers.html">accompy.chord_resolvers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="converters.html">accompy.converters</a></li>
+<li class="toctree-l1"><a class="reference internal" href="main.html">accompy.main</a></li>
+<li class="toctree-l1"><a class="reference internal" href="midi_generators.html">accompy.midi_generators</a></li>
+<li class="toctree-l1"><a class="reference internal" href="patterns.html">accompy.patterns</a></li>
+<li class="toctree-l1"><a class="reference internal" href="patterns/builtin.html">accompy.patterns.builtin</a></li>
+<li class="toctree-l1"><a class="reference internal" href="patterns/dataclasses.html">accompy.patterns.dataclasses</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pipeline.html">accompy.pipeline</a></li>
+<li class="toctree-l1"><a class="reference internal" href="protocols.html">accompy.protocols</a></li>
+<li class="toctree-l1"><a class="reference internal" href="realtime.html">accompy.realtime</a></li>
+<li class="toctree-l1"><a class="reference internal" href="renderers.html">accompy.renderers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="renderers/midi.html">accompy.renderers.midi</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">accompy.rhythmic_skeletons</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#accompy.rhythmic_skeletons.apply_skeleton"><code class="docutils literal notranslate"><span class="pre">apply_skeleton()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#accompy.rhythmic_skeletons.list_skeletons"><code class="docutils literal notranslate"><span class="pre">list_skeletons()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#accompy.rhythmic_skeletons.register_skeleton"><code class="docutils literal notranslate"><span class="pre">register_skeleton()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#accompy.rhythmic_skeletons.resolve_skeleton"><code class="docutils literal notranslate"><span class="pre">resolve_skeleton()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="setup_utils.html">accompy.setup_utils</a></li>
+<li class="toctree-l1"><a class="reference internal" href="synthesis.html">accompy.synthesis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="synthesis/fluidsynth.html">accompy.synthesis.fluidsynth</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tools.html">accompy.tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="util.html">accompy.util</a></li>
+<li class="toctree-l1"><a class="reference internal" href="wips.html">accompy.wips</a></li>
+<li class="toctree-l1"><a class="reference internal" href="wips/audio_renderers.html">accompy.wips.audio_renderers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="wips/chord_parsers.html">accompy.wips.chord_parsers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="wips/chord_resolvers.html">accompy.wips.chord_resolvers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="wips/midi_generators.html">accompy.wips.midi_generators</a></li>
+<li class="toctree-l1"><a class="reference internal" href="wips/pipeline.html">accompy.wips.pipeline</a></li>
+<li class="toctree-l1"><a class="reference internal" href="wips/types.html">accompy.wips.types</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">accompy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">accompy.rhythmic_skeletons</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/module_docs/accompy/rhythmic_skeletons.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-accompy.rhythmic_skeletons">
+<span id="accompy-rhythmic-skeletons"></span><h1>accompy.rhythmic_skeletons<a class="headerlink" href="#module-accompy.rhythmic_skeletons" title="Link to this heading"></a></h1>
+<p>Rhythmic skeletons — duration-only measure patterns for simple accompaniment.</p>
+<p>A rhythmic skeleton is a tuple of durations (in beats) that sum to the time
+signature, describing when you strike within a measure and for how long each
+strike sustains, with no regard for what you play. No pitches, no voicings, no
+velocities, no instrument assignments.</p>
+<p>The purpose of separating this layer out is to provide a gravitational center
+for more sophisticated generation. A human accompanist doesn’t mechanically
+repeat a fixed pattern — they vary, anticipate, syncopate, and breathe around
+a characteristic rhythmic feel. By defining that feel as a minimal skeleton, we
+give downstream processes a clear, lightweight seed to elaborate from.</p>
+<p>Example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">accompy.rhythmic_skeletons</span><span class="w"> </span><span class="kn">import</span> <span class="n">resolve_skeleton</span><span class="p">,</span> <span class="n">apply_skeleton</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">resolve_skeleton</span><span class="p">(</span><span class="s2">&quot;tresillo&quot;</span><span class="p">)</span>
+<span class="go">(1.5, 1.5, 1)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">resolve_skeleton</span><span class="p">((</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+<span class="go">(2, 2)</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">accompy.converters</span><span class="w"> </span><span class="kn">import</span> <span class="n">ChordSequence</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cs</span> <span class="o">=</span> <span class="n">ChordSequence</span><span class="p">([(</span><span class="s2">&quot;Dm7&quot;</span><span class="p">,</span> <span class="mf">4.0</span><span class="p">),</span> <span class="p">(</span><span class="s2">&quot;G7&quot;</span><span class="p">,</span> <span class="mf">4.0</span><span class="p">)])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">expanded</span> <span class="o">=</span> <span class="n">apply_skeleton</span><span class="p">(</span><span class="n">cs</span><span class="p">,</span> <span class="s2">&quot;tresillo&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">[(</span><span class="n">sym</span><span class="p">,</span> <span class="n">dur</span><span class="p">)</span> <span class="k">for</span> <span class="n">sym</span><span class="p">,</span> <span class="n">dur</span> <span class="ow">in</span> <span class="n">expanded</span><span class="p">]</span>
+<span class="go">[(&#39;Dm7&#39;, 1.5), (&#39;Dm7&#39;, 1.5), (&#39;Dm7&#39;, 1.0), (&#39;G7&#39;, 1.5), (&#39;G7&#39;, 1.5), (&#39;G7&#39;, 1.0)]</span>
+</pre></div>
+</div>
+<dl class="py function">
+<dt class="sig sig-object py" id="accompy.rhythmic_skeletons.apply_skeleton">
+<span class="sig-prename descclassname"><span class="pre">accompy.rhythmic_skeletons.</span></span><span class="sig-name descname"><span class="pre">apply_skeleton</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">skeleton</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">tuple</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Sequence</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="../accompy.html#accompy.ChordSequence" title="accompy.ChordSequence"><span class="pre">ChordSequence</span></a></span></span><a class="reference internal" href="../../_modules/accompy/rhythmic_skeletons.html#apply_skeleton"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#accompy.rhythmic_skeletons.apply_skeleton" title="Link to this definition"></a></dt>
+<dd><p>Apply a rhythmic skeleton to a chord sequence.</p>
+<p>The skeleton defines strike positions within each <em>measure</em>. Each strike
+plays whatever chord is active at that beat position. If a strike spans a
+chord boundary within a measure, it is split so the chord change is
+respected.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>cs</strong> – A ChordSequence (from <code class="docutils literal notranslate"><span class="pre">accompy.converters</span></code>).</p></li>
+<li><p><strong>skeleton</strong> – Skeleton key, name, style, or duration tuple.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A new ChordSequence with chords expanded according to the skeleton.</p>
+</dd>
+</dl>
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">accompy.converters</span><span class="w"> </span><span class="kn">import</span> <span class="n">ChordSequence</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cs</span> <span class="o">=</span> <span class="n">ChordSequence</span><span class="p">([(</span><span class="s2">&quot;Dm7&quot;</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">),</span> <span class="p">(</span><span class="s2">&quot;G7&quot;</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">)])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">result</span> <span class="o">=</span> <span class="n">apply_skeleton</span><span class="p">(</span><span class="n">cs</span><span class="p">,</span> <span class="s2">&quot;tresillo&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">[(</span><span class="n">s</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span> <span class="k">for</span> <span class="n">s</span><span class="p">,</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">result</span><span class="p">]</span>
+<span class="go">[(&#39;Dm7&#39;, 1.5), (&#39;Dm7&#39;, 0.5), (&#39;G7&#39;, 1.0), (&#39;G7&#39;, 1.0)]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="accompy.rhythmic_skeletons.list_skeletons">
+<span class="sig-prename descclassname"><span class="pre">accompy.rhythmic_skeletons.</span></span><span class="sig-name descname"><span class="pre">list_skeletons</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">beats_per_measure</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">style</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/accompy/rhythmic_skeletons.html#list_skeletons"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#accompy.rhythmic_skeletons.list_skeletons" title="Link to this definition"></a></dt>
+<dd><p>List available skeleton keys, optionally filtered.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>beats_per_measure</strong> – Filter to skeletons matching this measure length.</p></li>
+<li><p><strong>style</strong> – Filter to skeletons associated with this style.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>List of skeleton key strings.</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="s2">&quot;tresillo&quot;</span> <span class="ow">in</span> <span class="n">list_skeletons</span><span class="p">()</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">all</span><span class="p">(</span><span class="n">RHYTHMIC_SKELETONS</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="s2">&quot;beats_per_measure&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">3</span>
+<span class="gp">... </span>    <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">list_skeletons</span><span class="p">(</span><span class="n">beats_per_measure</span><span class="o">=</span><span class="mi">3</span><span class="p">))</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="accompy.rhythmic_skeletons.register_skeleton">
+<span class="sig-prename descclassname"><span class="pre">accompy.rhythmic_skeletons.</span></span><span class="sig-name descname"><span class="pre">register_skeleton</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pattern</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">tuple</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">beats_per_measure</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">styles</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../../_modules/accompy/rhythmic_skeletons.html#register_skeleton"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#accompy.rhythmic_skeletons.register_skeleton" title="Link to this definition"></a></dt>
+<dd><p>Register a custom rhythmic skeleton.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>key</strong> – Unique string key for the skeleton.</p></li>
+<li><p><strong>pattern</strong> – Tuple of beat durations.</p></li>
+<li><p><strong>name</strong> – Human-readable name (defaults to key).</p></li>
+<li><p><strong>beats_per_measure</strong> – Measure length in beats (defaults to sum of pattern).</p></li>
+<li><p><strong>styles</strong> – List of associated style strings.</p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">register_skeleton</span><span class="p">(</span><span class="s2">&quot;my_groove&quot;</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;My Groove&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">resolve_skeleton</span><span class="p">(</span><span class="s2">&quot;my_groove&quot;</span><span class="p">)</span>
+<span class="go">(1, 0.5, 0.5, 2)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="accompy.rhythmic_skeletons.resolve_skeleton">
+<span class="sig-prename descclassname"><span class="pre">accompy.rhythmic_skeletons.</span></span><span class="sig-name descname"><span class="pre">resolve_skeleton</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">skeleton</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">tuple</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Sequence</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span></span></span><a class="reference internal" href="../../_modules/accompy/rhythmic_skeletons.html#resolve_skeleton"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#accompy.rhythmic_skeletons.resolve_skeleton" title="Link to this definition"></a></dt>
+<dd><p>Resolve a skeleton specification to a tuple of durations.</p>
+<dl class="simple">
+<dt>Accepts:</dt><dd><ul class="simple">
+<li><p>A tuple or list of numbers (pass-through)</p></li>
+<li><p>A skeleton key (e.g., <code class="docutils literal notranslate"><span class="pre">&quot;tresillo&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;whole_note&quot;</span></code>)</p></li>
+<li><p>A skeleton name, case-insensitive (e.g., <code class="docutils literal notranslate"><span class="pre">&quot;Tresillo&quot;</span></code>)</p></li>
+<li><p>A style string (e.g., <code class="docutils literal notranslate"><span class="pre">&quot;reggae&quot;</span></code>) — returns the first match</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Tuple of beat durations summing to the measure length.</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>KeyError</strong> – If the skeleton cannot be resolved.</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">resolve_skeleton</span><span class="p">(</span><span class="s2">&quot;whole_note&quot;</span><span class="p">)</span>
+<span class="go">(4,)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">resolve_skeleton</span><span class="p">(</span><span class="s2">&quot;tresillo&quot;</span><span class="p">)</span>
+<span class="go">(1.5, 1.5, 1)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">resolve_skeleton</span><span class="p">((</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+<span class="go">(2, 2)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">resolve_skeleton</span><span class="p">(</span><span class="s2">&quot;Dotted half + quarter&quot;</span><span class="p">)</span>
+<span class="go">(3, 1)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="renderers/midi.html" class="btn btn-neutral float-left" title="accompy.renderers.midi" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="setup_utils.html" class="btn btn-neutral float-right" title="accompy.setup_utils" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright NO COPYRIGHT.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
