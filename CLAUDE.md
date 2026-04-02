@@ -14,6 +14,8 @@ accompy generates backing track audio from chord charts (like a scriptable iReal
 - `accompy.verify_and_setup()` — setup wizard
 - `accompy.pipeline` — type-centric converter pipeline (ChordSheet → Audio)
 - `accompy.patterns` — PatternRegistry (MutableMapping) for drum/bass/comp patterns
+- `accompy.rhythmic_skeletons` — duration-only measure patterns (resolve, apply, register)
+- `accompy.pipeline.rhythm_to_midi()` / `rhythm_to_audio()` — skeleton-based chord rendering
 
 ## Architecture Overview
 
@@ -38,7 +40,8 @@ chord input → Score → pattern application → MIDI events → audio synthesi
 | `protocols.py` | ChordResolver, PatternSource, AudioRenderer, SynthesizerBackend |
 | `chord_resolution.py` | Pluggable chord-to-notes (tonal, music21, mingus, pychord) |
 | `converters.py` | Pipeline types: ChordSequence, NoteSequence, MidiData, AudioData |
-| `pipeline.py` | High-level: chords_to_sequence/notes/midi/audio |
+| `rhythmic_skeletons.py` | Duration-only measure patterns: resolve, apply, register skeletons |
+| `pipeline.py` | High-level: chords_to_sequence/notes/midi/audio, rhythm_to_midi/audio |
 | `util.py` | Chord parsing, normalization, iReal URL parsing |
 | `setup_utils.py` | verify_and_setup(), diagnose_issues(), SoundFont management |
 | `tools.py` | MMA tools, variation generation |

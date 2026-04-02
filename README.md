@@ -296,6 +296,54 @@ audio = generate_accompaniment(
 )
 ```
 
+### Rhythmic Skeletons
+
+For simple chord renderings (no drums or bass — just restriking chords with a
+rhythmic feel), use `rhythm_to_midi` or `rhythm_to_audio`:
+
+```python
+from accompy import rhythm_to_midi, rhythm_to_audio
+
+# Tresillo feel (1.5 + 1.5 + 1 beats)
+midi = rhythm_to_midi("| Dm7 | G7 | Cmaj7 |", skeleton="tresillo", tempo=120)
+midi.write("tresillo.mid")
+
+# Whole notes (one strike per measure) — the default
+midi = rhythm_to_midi("| C | Am | F | G |")
+
+# Charleston, bossa, waltz, and 25+ other built-in skeletons
+midi = rhythm_to_midi("| C | Am | F | G |", skeleton="charleston")
+
+# Or pass a raw duration tuple
+midi = rhythm_to_midi("| C | Am |", skeleton=(1.5, 0.5, 1.5, 0.5))
+
+# Render all the way to audio
+audio = rhythm_to_audio("| C | Am |", skeleton="half_notes", tempo=100)
+```
+
+A rhythmic skeleton is just a tuple of durations that sum to the measure length —
+e.g. `(1.5, 1.5, 1)` says "hit, hold for a dotted quarter; hit again, hold for
+another dotted quarter; hit once more, hold for a quarter." No pitches, no
+voicings, no velocities. The skeleton defines *when* you strike within a measure;
+the chord progression defines *what* you play.
+
+```python
+from accompy import resolve_skeleton, list_skeletons, register_skeleton
+
+# Resolve by key, name, or style
+resolve_skeleton("tresillo")           # (1.5, 1.5, 1)
+resolve_skeleton("Dotted half + quarter")  # (3, 1)
+resolve_skeleton("reggae")             # picks first skeleton for that style
+
+# List available skeletons
+list_skeletons()                        # all keys
+list_skeletons(beats_per_measure=3)     # waltz-family only
+list_skeletons(style="jazz")            # jazz-associated skeletons
+
+# Register your own
+register_skeleton("my_groove", (1, 0.5, 0.5, 2), name="My Groove", styles=["custom"])
+```
+
 ### Extensibility & Custom Patterns
 
 **New in v0.2.0**: accompy now supports extensive customization through a protocol-based architecture.

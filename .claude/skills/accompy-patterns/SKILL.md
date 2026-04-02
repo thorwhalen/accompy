@@ -1,6 +1,6 @@
 ---
 name: accompy-patterns
-description: Use when creating, modifying, or debugging musical patterns (drum, bass, comping) in the accompy pattern system. Triggers on DrumPattern, BassPattern, CompingPattern, PatternRegistry, or when working with accompy/patterns/.
+description: Use when creating, modifying, or debugging musical patterns (drum, bass, comping, rhythmic skeletons) in the accompy pattern system. Triggers on DrumPattern, BassPattern, CompingPattern, PatternRegistry, rhythmic_skeletons, resolve_skeleton, apply_skeleton, rhythm_to_midi, or when working with accompy/patterns/ or accompy/rhythmic_skeletons.py.
 ---
 
 # accompy Pattern System
@@ -55,6 +55,28 @@ pattern_registry['my_style'] = {'drums': my_drum, 'bass': my_bass, 'comping': my
 del pattern_registry['my_style']  # remove
 ```
 
+## Rhythmic Skeletons
+
+A simpler, more abstract layer than full patterns. Lives in `accompy/rhythmic_skeletons.py`.
+
+A skeleton is a tuple of beat durations summing to the measure length (e.g. `(1.5, 1.5, 1)`) — no pitches, velocities, or instruments. It defines *when* to restrike block chords within a measure.
+
+### Key functions
+- `resolve_skeleton(skeleton)` — accepts key (`"tresillo"`), name (`"Charleston"`), style (`"reggae"`), or raw tuple
+- `apply_skeleton(cs, skeleton)` — expands a `ChordSequence`, respecting chord boundaries within measures
+- `register_skeleton(key, pattern, ...)` — add custom skeletons at runtime
+- `list_skeletons(...)` — list keys, optionally filtered by `beats_per_measure` or `style`
+
+### Pipeline
+- `rhythm_to_midi(chords, skeleton=..., ...)` — applies skeleton then runs `chords_to_midi`
+- `rhythm_to_audio(chords, skeleton=..., ...)` — same, renders to audio
+
+### Data: `RHYTHMIC_SKELETONS` dict
+~30 built-in entries (whole_note, tresillo, charleston, waltz variants, etc.). Each has `pattern`, `name`, `beats_per_measure`, `styles`.
+
+### Tests
+`python -m pytest tests/test_rhythmic_skeletons.py -v`
+
 ## Rules
 
 - All pattern dataclasses must be frozen (immutable)
@@ -62,4 +84,6 @@ del pattern_registry['my_style']  # remove
 - Velocity range: 0-127 (MIDI standard)
 - Duration in beats (float)
 - Always provide all three instrument patterns for a style
-- Test new patterns: `python -m pytest tests/test_patterns.py -v`
+- Rhythmic skeletons: durations must be positive and sum to `beats_per_measure`
+- Test patterns: `python -m pytest tests/test_patterns.py -v`
+- Test skeletons: `python -m pytest tests/test_rhythmic_skeletons.py -v`

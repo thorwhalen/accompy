@@ -72,3 +72,52 @@ Design guidance:
 - Keep pattern data small and declarative.
 - Avoid embedding MIDI rendering logic in `accompy/patterns/builtin.py`.
 - Prefer using `pitch_offset` values that describe musical intent (root/3rd/5th/7th/approach), letting the renderer adapt to chord quality.
+
+## Rhythmic skeletons
+
+Rhythmic skeletons are a simpler, more abstract layer than the full pattern system. They live in `accompy/rhythmic_skeletons.py` (not in `accompy/patterns/`).
+
+A skeleton is a tuple of durations (in beats) that sum to the measure length — e.g. `(1.5, 1.5, 1)` — describing **when** you strike within a measure and **for how long**, with no pitches, voicings, velocities, or instrument assignments. The same skeleton describes both a Charleston and a tresillo — they differ only in stylistic context.
+
+### Purpose
+
+Skeletons provide a gravitational center for simple chord renderings. Rather than full multi-instrument accompaniment (drums + bass + piano via the pattern system), a skeleton just restrikes block chords with a rhythmic feel. This is useful for:
+
+- Quick chord-chart demos
+- Feeding rhythmic seeds to AI generation (e.g., Suno via arioso)
+- Providing a lightweight rhythmic "feel" without full arrangement
+
+### Data structure
+
+Each entry in `RHYTHMIC_SKELETONS` is a dict with:
+
+- `pattern`: tuple of float durations summing to `beats_per_measure`
+- `name`: human-readable name
+- `beats_per_measure`: measure length (4 for 4/4, 3 for 3/4)
+- `styles`: list of associated style tags
+
+### Key functions
+
+- `resolve_skeleton(skeleton)` — accepts a key, name, style, or raw tuple; returns a duration tuple
+- `apply_skeleton(cs, skeleton)` — expands a `ChordSequence` according to the skeleton, respecting chord boundaries within measures
+- `register_skeleton(key, pattern, ...)` — add custom skeletons at runtime
+- `list_skeletons(...)` — list available skeleton keys, optionally filtered
+
+### Pipeline integration
+
+`rhythm_to_midi()` and `rhythm_to_audio()` in `accompy/pipeline.py` compose `apply_skeleton` with the existing converter pipeline:
+
+```python
+from accompy import rhythm_to_midi
+midi = rhythm_to_midi("| Dm7 | G7 | Cmaj7 |", skeleton="tresillo", tempo=120)
+```
+
+### Relationship to the full pattern system
+
+| Aspect | Rhythmic skeletons | Full patterns (Drum/Bass/Comp) |
+|--------|-------------------|-------------------------------|
+| Scope | Duration only | Beat position + pitch/drum + velocity + duration |
+| Instruments | Single (block chords) | Multi-instrument (drums, bass, piano) |
+| Rendering | Via existing `chords_to_midi` pipeline | Via `renderers/midi.py` event generator |
+| Complexity | Minimal seed | Full arrangement |
+| Module | `rhythmic_skeletons.py` | `patterns/` subpackage |

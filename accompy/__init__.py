@@ -120,6 +120,16 @@ from .pipeline import (
     file_to_audio,
     file_to_midi,
     list_available_converters,
+    rhythm_to_midi,
+    rhythm_to_audio,
+)
+
+from .rhythmic_skeletons import (
+    RHYTHMIC_SKELETONS,
+    resolve_skeleton,
+    apply_skeleton,
+    register_skeleton,
+    list_skeletons,
 )
 
 # Import converter registration modules so converters are registered on import
@@ -181,6 +191,14 @@ __all__ = [
     "file_to_audio",
     "file_to_midi",
     "list_available_converters",
+    "rhythm_to_midi",
+    "rhythm_to_audio",
+    # Rhythmic skeletons
+    "RHYTHMIC_SKELETONS",
+    "resolve_skeleton",
+    "apply_skeleton",
+    "register_skeleton",
+    "list_skeletons",
     # Parsing & transposition
     "parse_ireal_html",
     "parse_ireal_url",

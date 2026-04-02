@@ -590,6 +590,101 @@ def _transpose_chord_symbol(symbol: str, semitones: int) -> str:
     return new_root + quality
 
 
+def rhythm_to_midi(
+    chords: str | ChordSequence,
+    *,
+    skeleton: str | tuple[float, ...] = "whole_note",
+    resolver: str | None = None,
+    midi_gen: str | None = None,
+    tempo: int = 120,
+    output_path: str | None = None,
+) -> MidiData:
+    """Convert chords to MIDI using a rhythmic skeleton for restrike timing.
+
+    The skeleton defines when chords are struck within each measure. Each
+    chord is sustained for the skeleton's duration at that beat position.
+
+    Args:
+        chords: Chord string (e.g., ``"| Dm7 | G7 | Cmaj7 |"``) or ChordSequence.
+        skeleton: Skeleton key, name, style, or duration tuple.
+            Defaults to ``"whole_note"`` (one strike per measure).
+        resolver: Chord resolver name (e.g., ``"pychord"``, ``"tonal"``).
+        midi_gen: MIDI generator name (e.g., ``"pretty_midi"``, ``"midiutil"``).
+        tempo: BPM (used if chords is a string).
+        output_path: Optional path to write MIDI file.
+
+    Returns:
+        MidiData object.
+
+    Example:
+        >>> md = rhythm_to_midi("| C | Am | F | G |", skeleton="tresillo")
+        >>> md.to_bytes()[:4]
+        b'MThd'
+    """
+    from .rhythmic_skeletons import apply_skeleton
+
+    if isinstance(chords, str):
+        cs = chords_to_sequence(chords, tempo=tempo)
+    else:
+        cs = chords
+
+    expanded = apply_skeleton(cs, skeleton)
+    return chords_to_midi(expanded, resolver=resolver, midi_gen=midi_gen, tempo=cs.tempo, output_path=output_path)
+
+
+def rhythm_to_audio(
+    chords: str | ChordSequence,
+    *,
+    skeleton: str | tuple[float, ...] = "whole_note",
+    resolver: str | None = None,
+    midi_gen: str | None = None,
+    audio_renderer: str | None = None,
+    soundfont: str | None = None,
+    tempo: int = 120,
+    sr: int = 44100,
+    output_path: str | None = None,
+) -> AudioData:
+    """Convert chords to audio using a rhythmic skeleton for restrike timing.
+
+    Same as :func:`rhythm_to_midi` but renders all the way to audio.
+
+    Args:
+        chords: Chord string or ChordSequence.
+        skeleton: Skeleton key, name, style, or duration tuple.
+        resolver: Chord resolver name.
+        midi_gen: MIDI generator name.
+        audio_renderer: Audio renderer name.
+        soundfont: Path to SoundFont file.
+        tempo: BPM.
+        sr: Sample rate.
+        output_path: Optional path to write WAV file.
+
+    Returns:
+        AudioData with waveform and sample rate.
+
+    Example:
+        >>> audio = rhythm_to_audio("| C | Am |", skeleton="half_notes")  # doctest: +SKIP
+    """
+    from .rhythmic_skeletons import apply_skeleton
+
+    if isinstance(chords, str):
+        cs = chords_to_sequence(chords, tempo=tempo)
+    else:
+        cs = chords
+
+    expanded = apply_skeleton(cs, skeleton)
+    return chords_to_audio(
+        expanded,
+        resolver=resolver,
+        midi_gen=midi_gen,
+        audio_renderer=audio_renderer,
+        soundfont=soundfont,
+        tempo=cs.tempo,
+        sr=sr,
+        output_path=output_path,
+    )
+
+
 def list_available_converters() -> dict[str, list[str]]:
     """List all available converters organized by pipeline stage.
 
