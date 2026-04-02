@@ -60,8 +60,16 @@ RHYTHMIC_SKELETONS: dict[str, dict] = {
         "name": "Four-on-the-floor",
         "beats_per_measure": 4,
         "styles": [
-            "swing", "disco", "edm", "house", "country", "march",
-            "polka", "techno", "pop", "motown",
+            "swing",
+            "disco",
+            "edm",
+            "house",
+            "country",
+            "march",
+            "polka",
+            "techno",
+            "pop",
+            "motown",
         ],
     },
     "long_short_short": {
@@ -99,8 +107,14 @@ RHYTHMIC_SKELETONS: dict[str, dict] = {
         "name": "Charleston",
         "beats_per_measure": 4,
         "styles": [
-            "swing", "jazz", "funk", "bebop", "big_band",
-            "jump_blues", "dixieland", "jive",
+            "swing",
+            "jazz",
+            "funk",
+            "bebop",
+            "big_band",
+            "jump_blues",
+            "dixieland",
+            "jive",
         ],
     },
     "reverse_charleston": {
@@ -120,8 +134,14 @@ RHYTHMIC_SKELETONS: dict[str, dict] = {
         "name": "Straight eighths",
         "beats_per_measure": 4,
         "styles": [
-            "rock", "pop", "bossa_nova", "punk", "new_wave",
-            "indie", "surf", "rockabilly",
+            "rock",
+            "pop",
+            "bossa_nova",
+            "punk",
+            "new_wave",
+            "indie",
+            "surf",
+            "rockabilly",
         ],
     },
     "long_and_push": {
@@ -165,8 +185,14 @@ RHYTHMIC_SKELETONS: dict[str, dict] = {
         "name": "Tresillo",
         "beats_per_measure": 4,
         "styles": [
-            "afro_cuban", "reggaeton", "new_orleans", "hip_hop",
-            "dancehall", "samba", "rumba", "trap",
+            "afro_cuban",
+            "reggaeton",
+            "new_orleans",
+            "hip_hop",
+            "dancehall",
+            "samba",
+            "rumba",
+            "trap",
         ],
     },
     "habanera": {
@@ -174,8 +200,12 @@ RHYTHMIC_SKELETONS: dict[str, dict] = {
         "name": "Habanera",
         "beats_per_measure": 4,
         "styles": [
-            "habanera", "tango", "afro_cuban", "latin_pop",
-            "reggaeton", "beguine",
+            "habanera",
+            "tango",
+            "afro_cuban",
+            "latin_pop",
+            "reggaeton",
+            "beguine",
         ],
     },
     # === 3/4 patterns ===
@@ -190,8 +220,12 @@ RHYTHMIC_SKELETONS: dict[str, dict] = {
         "name": "Waltz quarters",
         "beats_per_measure": 3,
         "styles": [
-            "waltz", "oom_pah", "viennese_waltz", "country_waltz",
-            "mazurka", "landler",
+            "waltz",
+            "oom_pah",
+            "viennese_waltz",
+            "country_waltz",
+            "mazurka",
+            "landler",
         ],
     },
     "waltz_half_quarter": {
@@ -430,7 +464,8 @@ def list_skeletons(
     keys = list(RHYTHMIC_SKELETONS.keys())
     if beats_per_measure is not None:
         keys = [
-            k for k in keys
+            k
+            for k in keys
             if RHYTHMIC_SKELETONS[k]["beats_per_measure"] == beats_per_measure
         ]
     if style is not None:

@@ -629,7 +629,13 @@ def rhythm_to_midi(
         cs = chords
 
     expanded = apply_skeleton(cs, skeleton)
-    return chords_to_midi(expanded, resolver=resolver, midi_gen=midi_gen, tempo=cs.tempo, output_path=output_path)
+    return chords_to_midi(
+        expanded,
+        resolver=resolver,
+        midi_gen=midi_gen,
+        tempo=cs.tempo,
+        output_path=output_path,
+    )
 
 
 def rhythm_to_audio(
