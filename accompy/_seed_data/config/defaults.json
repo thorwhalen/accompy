@@ -1,0 +1,20 @@
+{
+    "style": "swing",
+    "tempo": 120,
+    "repeats": 2,
+    "use_mma": true,
+    "autoplay": false,
+    "instruments": {
+        "drums": true,
+        "bass": true,
+        "piano": true,
+        "guitar": false
+    },
+    "volumes": {
+        "drums": 0.8,
+        "bass": 0.9,
+        "piano": 0.7
+    },
+    "sample_rate": 44100,
+    "output_format": "wav"
+}

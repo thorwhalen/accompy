@@ -21,7 +21,21 @@ from .renderers.midi import generate_builtin_midi
 from .synthesis import get_default_backend
 
 
-# Default values
+# Default values — loaded lazily from ~/.config/accompy/defaults.json
+# (seeded from _seed_data/config/defaults.json on first access).
+# These module-level constants are the hardcoded fallbacks used when the
+# config file hasn't been accessed yet (e.g., function signatures).
+
+
+def _load_defaults() -> dict:
+    """Load user defaults from the config file."""
+    from .data_access import load_resource_json, get_config
+    import json
+
+    path = get_config("defaults.json")
+    return json.loads(path.read_text())
+
+
 DFLT_STYLE: StyleName = "swing"
 DFLT_TEMPO = 120
 DFLT_REPEATS = 1
@@ -454,17 +468,14 @@ def _ireal_chord_to_mma(chord: str) -> str:
 
 def _style_to_groove(style: StyleName) -> str:
     """Map style name to MMA groove name."""
-    groove_map = {
-        "swing": "Swing",
-        "bossa": "BossaNova",
-        "rock": "Rock",
-        "ballad": "Ballad",
-        "funk": "Funk",
-        "latin": "Latin",
-        "waltz": "Waltz",
-        "blues": "Blues",
-    }
-    return groove_map.get(style, "Swing")
+    return _get_groove_map().get(style, "Swing")
+
+
+def _get_groove_map() -> dict[str, str]:
+    """Load the style-to-MMA-groove mapping from user resources."""
+    from .data_access import load_resource_json
+
+    return load_resource_json("groove_map.json")
 
 
 # =============================================================================

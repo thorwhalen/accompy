@@ -157,6 +157,16 @@ from .protocols import (
 
 from .realtime import RealtimeAccompaniment
 
+from .data_access import (
+    get_app_folder,
+    get_resource,
+    get_config,
+    get_artifact_dir,
+    load_resource_text,
+    load_resource_lines,
+    load_resource_json,
+)
+
 
 __all__ = [
     # Main API
@@ -235,6 +245,14 @@ __all__ = [
     "PatternSource",
     "SynthesizerBackend",
     "RealtimeAccompaniment",
+    # Data access (user data folder)
+    "get_app_folder",
+    "get_resource",
+    "get_config",
+    "get_artifact_dir",
+    "load_resource_text",
+    "load_resource_lines",
+    "load_resource_json",
 ]
 
 
