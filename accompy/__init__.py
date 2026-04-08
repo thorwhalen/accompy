@@ -89,6 +89,11 @@ from .tools import (
     ScoreToWav,
 )
 
+from .rendering import (
+    render_chords,
+    render_chords_batch,
+)
+
 from .setup_utils import (
     verify_and_setup,
     setup_soundfont,
@@ -222,6 +227,9 @@ __all__ = [
     "make_converter_engine",
     "generate_variations",
     "ScoreToWav",
+    # Rendering pipeline
+    "render_chords",
+    "render_chords_batch",
     # Pattern types and registry
     "DrumPattern",
     "BassPattern",

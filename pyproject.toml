@@ -20,6 +20,7 @@ dependencies = [
     "music21",
     "numpy",
     "pyRealParser",
+    "dol",
 ]
 keywords = [
     "music",
@@ -57,6 +58,7 @@ dev = ["pytest>=7.0", "pytest-cov>=4.0", "ruff>=0.1.0"]
 docs = ["sphinx>=6.0", "sphinx-rtd-theme>=1.0"]
 vst = ["dawdreamer"]
 ai = ["audiocraft"]
+ai-enhance = ["arioso"]
 
 [tool.ruff]
 line-length = 88
