@@ -243,7 +243,7 @@ def _suno_enhance(
         raise ImportError(
             "AI enhancement requires the 'arioso' package. "
             "Install it with: pip install arioso\n"
-            "Then set the SUNO_API_KEY and SUNO_CALLBACK_URL environment variables."
+            "Then set the SUNO_API_KEY environment variable."
         )
 
     adapter = get_platform("sunoapi")["adapter"]
