@@ -265,9 +265,7 @@ def _suno_enhance(
     elif suno_mode == "extend":
         songs = adapter.upload_extend(**common_kwargs)
     else:
-        raise ValueError(
-            f"suno_mode must be 'cover' or 'extend', got {suno_mode!r}"
-        )
+        raise ValueError(f"suno_mode must be 'cover' or 'extend', got {suno_mode!r}")
 
     # Take the first completed song
     for song in songs:

@@ -32,6 +32,7 @@ get_artifact_dir = _app_data.get_artifact_dir
 # Convenience loaders
 # ---------------------------------------------------------------------------
 
+
 def load_resource_text(name: str) -> str:
     """Read a resource file as text."""
     return get_resource(name).read_text()
@@ -40,9 +41,7 @@ def load_resource_text(name: str) -> str:
 def load_resource_lines(name: str) -> list[str]:
     """Read a resource file as a list of non-empty stripped lines."""
     return [
-        line.strip()
-        for line in load_resource_text(name).splitlines()
-        if line.strip()
+        line.strip() for line in load_resource_text(name).splitlines() if line.strip()
     ]
 
 
