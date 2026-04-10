@@ -1,0 +1,687 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>accompy.rendering &mdash; accompy 0.3.8 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=c1cae59a"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../_static/toggleprompt.js?v=d7ede5d2"></script>
+      <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            accompy
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy.html">accompy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/audio_renderers.html">accompy.audio_renderers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/base.html">accompy.base</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/chord_parsers.html">accompy.chord_parsers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/chord_resolution.html">accompy.chord_resolution</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/chord_resolvers.html">accompy.chord_resolvers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/converters.html">accompy.converters</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/data_access.html">accompy.data_access</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/main.html">accompy.main</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/midi_generators.html">accompy.midi_generators</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/patterns.html">accompy.patterns</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/patterns/builtin.html">accompy.patterns.builtin</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/patterns/dataclasses.html">accompy.patterns.dataclasses</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/pipeline.html">accompy.pipeline</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/protocols.html">accompy.protocols</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/realtime.html">accompy.realtime</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/renderers.html">accompy.renderers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/renderers/midi.html">accompy.renderers.midi</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/rendering.html">accompy.rendering</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/rhythmic_skeletons.html">accompy.rhythmic_skeletons</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/setup_utils.html">accompy.setup_utils</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/synthesis.html">accompy.synthesis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/synthesis/fluidsynth.html">accompy.synthesis.fluidsynth</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/tools.html">accompy.tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/util.html">accompy.util</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/wips.html">accompy.wips</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/wips/audio_renderers.html">accompy.wips.audio_renderers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/wips/chord_parsers.html">accompy.wips.chord_parsers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/wips/chord_resolvers.html">accompy.wips.chord_resolvers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/wips/midi_generators.html">accompy.wips.midi_generators</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/wips/pipeline.html">accompy.wips.pipeline</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/wips/types.html">accompy.wips.types</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">accompy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">accompy.rendering</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for accompy.rendering</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">High-quality chord rendering pipeline — from chord charts to AI-enhanced audio.</span>
+
+<span class="sd">Collapses the multi-step workflow of rendering MIDI audio and enhancing it via</span>
+<span class="sd">AI music generation (e.g. Suno) into a single ``render_chords()`` call.</span>
+
+<span class="sd">Pipeline::</span>
+
+<span class="sd">    chords + params → ChordSequence → MIDI audio (WAV) → AI-enhanced audio (MP3)</span>
+
+<span class="sd">Quick start::</span>
+
+<span class="sd">    &gt;&gt;&gt; from accompy.rendering import render_chords</span>
+<span class="sd">    &gt;&gt;&gt; path = render_chords(&quot;| Dm7 | G7 | C^7 |&quot;, ai_enhance=False)  # doctest: +SKIP</span>
+
+<span class="sd">With AI enhancement (requires ``arioso`` and Suno API key)::</span>
+
+<span class="sd">    &gt;&gt;&gt; path = render_chords(  # doctest: +SKIP</span>
+<span class="sd">    ...     &quot;| Dm7 | G7 | C^7 |&quot;,</span>
+<span class="sd">    ...     genre=&quot;jazz&quot;,</span>
+<span class="sd">    ...     instruments=[&quot;piano&quot;, &quot;upright bass&quot;, &quot;brushes&quot;],</span>
+<span class="sd">    ... )</span>
+
+<span class="sd">Batch rendering::</span>
+
+<span class="sd">    &gt;&gt;&gt; paths = render_chords_batch([  # doctest: +SKIP</span>
+<span class="sd">    ...     dict(chords=&quot;| Dm7 | G7 | C^7 |&quot;, genre=&quot;jazz&quot;),</span>
+<span class="sd">    ...     dict(chords=&quot;| Dm7 | G7 | C^7 |&quot;, genre=&quot;lofi chill hop&quot;),</span>
+<span class="sd">    ... ], bpm=100)</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">hashlib</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">tempfile</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">collections.abc</span><span class="w"> </span><span class="kn">import</span> <span class="n">MutableMapping</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">Union</span>
+
+
+<span class="c1"># ---------------------------------------------------------------------------</span>
+<span class="c1"># Store helpers</span>
+<span class="c1"># ---------------------------------------------------------------------------</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_default_store</span><span class="p">(</span><span class="n">kind</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">MutableMapping</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Create a ``dol.Files``-backed store under the accompy artifacts dir.&quot;&quot;&quot;</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">dol</span><span class="w"> </span><span class="kn">import</span> <span class="n">Files</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">.data_access</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_artifact_dir</span>
+
+    <span class="n">rootdir</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">get_artifact_dir</span><span class="p">(</span><span class="n">kind</span><span class="p">))</span>
+    <span class="n">Path</span><span class="p">(</span><span class="n">rootdir</span><span class="p">)</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">parents</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">Files</span><span class="p">(</span><span class="n">rootdir</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_get_audio_path</span><span class="p">(</span><span class="n">store</span><span class="p">:</span> <span class="n">MutableMapping</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get the filesystem path for an artifact in a store.</span>
+
+<span class="sd">    Uses ``store._id_of_key`` when available (dol.Files).  Falls back to</span>
+<span class="sd">    writing the bytes to a temp file.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">store</span><span class="p">,</span> <span class="s2">&quot;_id_of_key&quot;</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">store</span><span class="o">.</span><span class="n">_id_of_key</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+    <span class="c1"># Fallback: write to a temp file</span>
+    <span class="n">suffix</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">key</span><span class="p">)</span><span class="o">.</span><span class="n">suffix</span> <span class="ow">or</span> <span class="s2">&quot;.wav&quot;</span>
+    <span class="n">tmp</span> <span class="o">=</span> <span class="n">tempfile</span><span class="o">.</span><span class="n">NamedTemporaryFile</span><span class="p">(</span><span class="n">suffix</span><span class="o">=</span><span class="n">suffix</span><span class="p">,</span> <span class="n">delete</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">tmp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">store</span><span class="p">[</span><span class="n">key</span><span class="p">])</span>
+    <span class="n">tmp</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">tmp</span><span class="o">.</span><span class="n">name</span>
+
+
+<span class="c1"># ---------------------------------------------------------------------------</span>
+<span class="c1"># Pure helpers</span>
+<span class="c1"># ---------------------------------------------------------------------------</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_compute_n_loops</span><span class="p">(</span>
+    <span class="n">one_pass_beats</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">bpm</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="o">*</span><span class="p">,</span>
+    <span class="n">n_loops</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">max_seconds</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute how many times to loop the chord progression.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        one_pass_beats: Total beats in a single pass of the progression.</span>
+<span class="sd">        bpm: Tempo in beats per minute.</span>
+<span class="sd">        n_loops: Explicit loop count (takes priority).</span>
+<span class="sd">        max_seconds: Target maximum duration. If neither ``n_loops`` nor</span>
+<span class="sd">            ``max_seconds`` is given, defaults to 210 seconds (3.5 min).</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Number of loops (minimum 1).</span>
+
+<span class="sd">    &gt;&gt;&gt; _compute_n_loops(16, 100, n_loops=5)</span>
+<span class="sd">    5</span>
+<span class="sd">    &gt;&gt;&gt; _compute_n_loops(16, 100, max_seconds=100)</span>
+<span class="sd">    10</span>
+<span class="sd">    &gt;&gt;&gt; _compute_n_loops(16, 100)</span>
+<span class="sd">    21</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">n_loops</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nb">max</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">n_loops</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">max_seconds</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">max_seconds</span> <span class="o">=</span> <span class="mf">210.0</span>
+    <span class="n">one_pass_seconds</span> <span class="o">=</span> <span class="n">one_pass_beats</span> <span class="o">*</span> <span class="mf">60.0</span> <span class="o">/</span> <span class="n">bpm</span>
+    <span class="k">if</span> <span class="n">one_pass_seconds</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mi">1</span>
+    <span class="k">return</span> <span class="nb">max</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">max_seconds</span> <span class="o">/</span> <span class="n">one_pass_seconds</span><span class="p">))</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_format_instruments</span><span class="p">(</span><span class="n">instruments</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Format an instrument list with Oxford comma.</span>
+
+<span class="sd">    &gt;&gt;&gt; _format_instruments([&quot;piano&quot;])</span>
+<span class="sd">    &#39;piano&#39;</span>
+<span class="sd">    &gt;&gt;&gt; _format_instruments([&quot;piano&quot;, &quot;bass&quot;])</span>
+<span class="sd">    &#39;piano and bass&#39;</span>
+<span class="sd">    &gt;&gt;&gt; _format_instruments([&quot;piano&quot;, &quot;bass&quot;, &quot;drums&quot;])</span>
+<span class="sd">    &#39;piano, bass, and drums&#39;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">instruments</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s2">&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">instruments</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">instruments</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">instruments</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">instruments</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2"> and </span><span class="si">{</span><span class="n">instruments</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="k">return</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">instruments</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span> <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot;, and </span><span class="si">{</span><span class="n">instruments</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_build_prompt</span><span class="p">(</span>
+    <span class="n">prompt_template</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">genre</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">instruments</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Format the prompt template with genre and instruments.</span>
+
+<span class="sd">    &gt;&gt;&gt; _build_prompt(&quot;{genre} backing track with {instruments}&quot;, &quot;jazz&quot;, [&quot;piano&quot;, &quot;bass&quot;, &quot;drums&quot;])</span>
+<span class="sd">    &#39;jazz backing track with piano, bass, and drums&#39;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">prompt_template</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+        <span class="n">genre</span><span class="o">=</span><span class="n">genre</span><span class="p">,</span>
+        <span class="n">instruments</span><span class="o">=</span><span class="n">_format_instruments</span><span class="p">(</span><span class="n">instruments</span><span class="p">),</span>
+    <span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_make_artifact_key</span><span class="p">(</span>
+    <span class="n">chords_repr</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="o">*</span><span class="p">,</span>
+    <span class="n">bpm</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">transpose</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">skeleton</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">tuple</span><span class="p">,</span>
+    <span class="n">n_loops</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">genre</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="n">instruments</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">suffix</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;.wav&quot;</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Generate a deterministic, human-readable artifact key.</span>
+
+<span class="sd">    &gt;&gt;&gt; k = _make_artifact_key(&quot;Dm7|G7|C^7&quot;, bpm=100, transpose=0, skeleton=&quot;whole_note&quot;, n_loops=5)</span>
+<span class="sd">    &gt;&gt;&gt; k.endswith(&quot;.wav&quot;)</span>
+<span class="sd">    True</span>
+<span class="sd">    &gt;&gt;&gt; &quot;100bpm&quot; in k</span>
+<span class="sd">    True</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">chords_hash</span> <span class="o">=</span> <span class="n">hashlib</span><span class="o">.</span><span class="n">sha256</span><span class="p">(</span><span class="n">chords_repr</span><span class="o">.</span><span class="n">encode</span><span class="p">())</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">()[:</span><span class="mi">8</span><span class="p">]</span>
+    <span class="n">skel_name</span> <span class="o">=</span> <span class="n">skeleton</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">skeleton</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="k">else</span> <span class="s2">&quot;custom&quot;</span>
+    <span class="n">parts</span> <span class="o">=</span> <span class="p">[</span><span class="n">chords_hash</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">bpm</span><span class="si">}</span><span class="s2">bpm&quot;</span><span class="p">,</span> <span class="n">skel_name</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">n_loops</span><span class="si">}</span><span class="s2">x&quot;</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">transpose</span><span class="p">:</span>
+        <span class="n">parts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;t</span><span class="si">{</span><span class="n">transpose</span><span class="si">:</span><span class="s2">+d</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">genre</span><span class="p">:</span>
+        <span class="n">safe_genre</span> <span class="o">=</span> <span class="n">genre</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="s2">&quot;-&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)[:</span><span class="mi">30</span><span class="p">]</span>
+        <span class="n">parts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;__</span><span class="si">{</span><span class="n">safe_genre</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">instruments</span><span class="p">:</span>
+        <span class="n">safe_instr</span> <span class="o">=</span> <span class="s2">&quot;-&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">i</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="s2">&quot;_&quot;</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">instruments</span><span class="p">)[:</span><span class="mi">40</span><span class="p">]</span>
+        <span class="n">parts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">safe_instr</span><span class="p">)</span>
+    <span class="k">return</span> <span class="s2">&quot;_&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">parts</span><span class="p">)</span> <span class="o">+</span> <span class="n">suffix</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_ensure_chord_sequence</span><span class="p">(</span><span class="n">chords</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">bpm</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">100</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Coerce any supported chord input to a ChordSequence with the given bpm.</span>
+
+<span class="sd">    Accepts:</span>
+<span class="sd">    - ``str``: chord string (``&quot;| C | Am | F | G |&quot;``) or iReal URL</span>
+<span class="sd">    - ``ChordSequence``: returned with bpm overridden</span>
+<span class="sd">    - ``Score``: converted via ``to_chord_sequence``</span>
+<span class="sd">    - ``list[tuple[str, float]]``: chord-duration pairs</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">.converters</span><span class="w"> </span><span class="kn">import</span> <span class="n">ChordSequence</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">Score</span><span class="p">,</span> <span class="n">ensure_score</span>
+
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">chords</span><span class="p">,</span> <span class="n">ChordSequence</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">ChordSequence</span><span class="p">(</span>
+            <span class="n">chords</span><span class="o">=</span><span class="n">chords</span><span class="o">.</span><span class="n">chords</span><span class="p">,</span>
+            <span class="n">title</span><span class="o">=</span><span class="n">chords</span><span class="o">.</span><span class="n">title</span><span class="p">,</span>
+            <span class="n">key</span><span class="o">=</span><span class="n">chords</span><span class="o">.</span><span class="n">key</span><span class="p">,</span>
+            <span class="n">tempo</span><span class="o">=</span><span class="n">bpm</span><span class="p">,</span>
+            <span class="n">time_signature</span><span class="o">=</span><span class="n">chords</span><span class="o">.</span><span class="n">time_signature</span><span class="p">,</span>
+        <span class="p">)</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">chords</span><span class="p">,</span> <span class="n">Score</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">chords</span><span class="o">.</span><span class="n">to_chord_sequence</span><span class="p">(</span><span class="n">tempo</span><span class="o">=</span><span class="n">bpm</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">chords</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="n">chords</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">s</span><span class="o">.</span><span class="n">startswith</span><span class="p">((</span><span class="s2">&quot;irealbook://&quot;</span><span class="p">,</span> <span class="s2">&quot;irealb://&quot;</span><span class="p">)):</span>
+            <span class="n">score</span> <span class="o">=</span> <span class="n">Score</span><span class="o">.</span><span class="n">from_ireal_url</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">score</span><span class="o">.</span><span class="n">to_chord_sequence</span><span class="p">(</span><span class="n">tempo</span><span class="o">=</span><span class="n">bpm</span><span class="p">)</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">.pipeline</span><span class="w"> </span><span class="kn">import</span> <span class="n">chords_to_sequence</span>
+
+        <span class="k">return</span> <span class="n">chords_to_sequence</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">tempo</span><span class="o">=</span><span class="n">bpm</span><span class="p">)</span>
+    <span class="c1"># Try as anything ensure_score can handle (tuples, lists, etc.)</span>
+    <span class="n">score</span> <span class="o">=</span> <span class="n">ensure_score</span><span class="p">(</span><span class="n">chords</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">score</span><span class="o">.</span><span class="n">to_chord_sequence</span><span class="p">(</span><span class="n">tempo</span><span class="o">=</span><span class="n">bpm</span><span class="p">)</span>
+
+
+<span class="c1"># ---------------------------------------------------------------------------</span>
+<span class="c1"># AI enhancement (Suno via arioso)</span>
+<span class="c1"># ---------------------------------------------------------------------------</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_suno_enhance</span><span class="p">(</span>
+    <span class="n">audio_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">prompt</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="o">*</span><span class="p">,</span>
+    <span class="n">suno_mode</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;cover&quot;</span><span class="p">,</span>
+    <span class="n">instrumental</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">model</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="n">audio_weight</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.99</span><span class="p">,</span>
+    <span class="n">style_weight</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.51</span><span class="p">,</span>
+    <span class="n">weirdness</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
+    <span class="n">wait_for_completion</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">poll_interval</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">15.0</span><span class="p">,</span>
+    <span class="n">timeout</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">600.0</span><span class="p">,</span>
+    <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bytes</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Enhance audio via Suno (arioso.platforms.sunoapi).</span>
+
+<span class="sd">    Returns the audio bytes of the first completed song.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">arioso.registry</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_platform</span>
+    <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span>
+            <span class="s2">&quot;AI enhancement requires the &#39;arioso&#39; package. &quot;</span>
+            <span class="s2">&quot;Install it with: pip install arioso</span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="s2">&quot;Then set the SUNO_API_KEY environment variable.&quot;</span>
+        <span class="p">)</span>
+
+    <span class="n">adapter</span> <span class="o">=</span> <span class="n">get_platform</span><span class="p">(</span><span class="s2">&quot;sunoapi&quot;</span><span class="p">)[</span><span class="s2">&quot;adapter&quot;</span><span class="p">]</span>
+
+    <span class="n">common_kwargs</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
+        <span class="n">audio_source</span><span class="o">=</span><span class="n">audio_path</span><span class="p">,</span>
+        <span class="n">style</span><span class="o">=</span><span class="n">prompt</span><span class="p">,</span>
+        <span class="n">instrumental</span><span class="o">=</span><span class="n">instrumental</span><span class="p">,</span>
+        <span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">,</span>
+        <span class="n">audio_weight</span><span class="o">=</span><span class="n">audio_weight</span><span class="p">,</span>
+        <span class="n">style_weight</span><span class="o">=</span><span class="n">style_weight</span><span class="p">,</span>
+        <span class="n">wait_for_completion</span><span class="o">=</span><span class="n">wait_for_completion</span><span class="p">,</span>
+        <span class="n">poll_interval</span><span class="o">=</span><span class="n">poll_interval</span><span class="p">,</span>
+        <span class="n">timeout</span><span class="o">=</span><span class="n">timeout</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">suno_mode</span> <span class="o">==</span> <span class="s2">&quot;cover&quot;</span><span class="p">:</span>
+        <span class="n">songs</span> <span class="o">=</span> <span class="n">adapter</span><span class="o">.</span><span class="n">upload_cover</span><span class="p">(</span><span class="n">weirdness</span><span class="o">=</span><span class="n">weirdness</span><span class="p">,</span> <span class="o">**</span><span class="n">common_kwargs</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">suno_mode</span> <span class="o">==</span> <span class="s2">&quot;extend&quot;</span><span class="p">:</span>
+        <span class="n">songs</span> <span class="o">=</span> <span class="n">adapter</span><span class="o">.</span><span class="n">upload_extend</span><span class="p">(</span><span class="o">**</span><span class="n">common_kwargs</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;suno_mode must be &#39;cover&#39; or &#39;extend&#39;, got </span><span class="si">{</span><span class="n">suno_mode</span><span class="si">!r}</span><span class="s2">&quot;</span>
+        <span class="p">)</span>
+
+    <span class="c1"># Take the first completed song</span>
+    <span class="k">for</span> <span class="n">song</span> <span class="ow">in</span> <span class="n">songs</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">song</span><span class="o">.</span><span class="n">status</span> <span class="o">==</span> <span class="s2">&quot;complete&quot;</span><span class="p">:</span>
+            <span class="n">fetched</span> <span class="o">=</span> <span class="n">adapter</span><span class="o">.</span><span class="n">fetch_audio</span><span class="p">(</span><span class="n">song</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">fetched</span><span class="o">.</span><span class="n">audio</span><span class="o">.</span><span class="n">audio_bytes</span>
+
+    <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
+        <span class="sa">f</span><span class="s2">&quot;Suno generation completed but no audio was returned. &quot;</span>
+        <span class="sa">f</span><span class="s2">&quot;Songs: </span><span class="si">{</span><span class="p">[</span><span class="n">s</span><span class="o">.</span><span class="n">status</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">s</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">songs</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="p">)</span>
+
+
+<span class="c1"># ---------------------------------------------------------------------------</span>
+<span class="c1"># Main public API</span>
+<span class="c1"># ---------------------------------------------------------------------------</span>
+
+
+<div class="viewcode-block" id="render_chords">
+<a class="viewcode-back" href="../../module_docs/accompy/rendering.html#accompy.render_chords">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">render_chords</span><span class="p">(</span>
+    <span class="n">chords</span><span class="p">,</span>
+    <span class="o">*</span><span class="p">,</span>
+    <span class="c1"># Rhythm and tempo</span>
+    <span class="n">rhythmic_skeleton</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;whole_note&quot;</span><span class="p">,</span>
+    <span class="n">bpm</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">100</span><span class="p">,</span>
+    <span class="n">transpose</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="c1"># Duration control</span>
+    <span class="n">n_loops</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">max_seconds</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="c1"># AI enhancement</span>
+    <span class="n">ai_enhance</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">bool</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">suno_mode</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;cover&quot;</span><span class="p">,</span>
+    <span class="n">prompt_template</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{genre}</span><span class="s2"> backing track with </span><span class="si">{instruments}</span><span class="s2">&quot;</span><span class="p">,</span>
+    <span class="n">genre</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;jazz&quot;</span><span class="p">,</span>
+    <span class="n">instruments</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="c1"># Suno kwargs (passed through when using default enhancer)</span>
+    <span class="n">audio_weight</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.99</span><span class="p">,</span>
+    <span class="n">style_weight</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.51</span><span class="p">,</span>
+    <span class="n">weirdness</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
+    <span class="n">model</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="n">instrumental</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">wait_for_completion</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">poll_interval</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">15.0</span><span class="p">,</span>
+    <span class="n">timeout</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">600.0</span><span class="p">,</span>
+    <span class="c1"># Pipeline step overrides</span>
+    <span class="n">chords_to_midi_audio</span><span class="p">:</span> <span class="n">Callable</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">audio_to_enhanced_audio</span><span class="p">:</span> <span class="n">Callable</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="c1"># Storage (MutableMapping, default=dol.Files-backed)</span>
+    <span class="n">midi_store</span><span class="p">:</span> <span class="n">MutableMapping</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">midi_audio_store</span><span class="p">:</span> <span class="n">MutableMapping</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">enhanced_audio_store</span><span class="p">:</span> <span class="n">MutableMapping</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="c1"># Accompy pipeline passthrough</span>
+    <span class="n">resolver</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">midi_gen</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">audio_renderer</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">soundfont</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">sr</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">44100</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Render chords to a high-quality audio file, optionally AI-enhanced.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        chords: Chord input — string (``&quot;| Dm7 | G7 | C^7 |&quot;``), iReal URL,</span>
+<span class="sd">            :class:`~accompy.converters.ChordSequence`, :class:`~accompy.base.Score`,</span>
+<span class="sd">            or list of ``(chord, beats)`` tuples.</span>
+<span class="sd">        rhythmic_skeleton: Restrike pattern within each measure.</span>
+<span class="sd">        bpm: Tempo in beats per minute.</span>
+<span class="sd">        transpose: Semitones to transpose (positive=up, negative=down).</span>
+<span class="sd">        n_loops: Explicit number of loops. Mutually exclusive with *max_seconds*.</span>
+<span class="sd">        max_seconds: Target maximum duration; computes loop count automatically.</span>
+<span class="sd">            Defaults to 210 (3.5 min) when neither *n_loops* nor *max_seconds*</span>
+<span class="sd">            is given.</span>
+<span class="sd">        ai_enhance: ``True`` for default Suno enhancement, ``False``/``None``</span>
+<span class="sd">            to skip, or a callable ``(audio_path, prompt, **kw) → bytes``.</span>
+<span class="sd">        suno_mode: ``&quot;cover&quot;`` (default, re-generates in style) or ``&quot;extend&quot;``.</span>
+<span class="sd">        prompt_template: Template with ``{genre}`` and ``{instruments}`` placeholders.</span>
+<span class="sd">        genre: Genre/style tags for the AI prompt.</span>
+<span class="sd">        instruments: Instrument list for the AI prompt. Defaults to</span>
+<span class="sd">            ``[&quot;piano&quot;, &quot;bass&quot;, &quot;drums&quot;]``.</span>
+<span class="sd">        audio_weight: How much the source audio influences AI output (0–1).</span>
+<span class="sd">        style_weight: How much the style prompt influences AI output (0–1).</span>
+<span class="sd">        weirdness: Creative deviation for cover mode (0–1).</span>
+<span class="sd">        model: Suno model version (e.g. ``&quot;V4_5&quot;``).</span>
+<span class="sd">        instrumental: If True, generate without vocals.</span>
+<span class="sd">        wait_for_completion: If True, poll until AI generation is ready.</span>
+<span class="sd">        poll_interval: Seconds between AI status checks.</span>
+<span class="sd">        timeout: Max seconds to wait for AI completion.</span>
+<span class="sd">        chords_to_midi_audio: Override for the MIDI audio rendering step.</span>
+<span class="sd">            Callable: ``(ChordSequence, **kw) → AudioData``.</span>
+<span class="sd">        audio_to_enhanced_audio: Override for the AI enhancement step.</span>
+<span class="sd">            Callable: ``(audio_path, prompt, **kw) → bytes``.</span>
+<span class="sd">        midi_store: Optional store for MIDI files. ``None`` = don&#39;t persist MIDI.</span>
+<span class="sd">        midi_audio_store: Store for rendered MIDI audio. ``None`` = default</span>
+<span class="sd">            file store under ``~/.local/share/accompy/artifacts/midi_audio/``.</span>
+<span class="sd">        enhanced_audio_store: Store for AI-enhanced audio. ``None`` = default</span>
+<span class="sd">            file store under ``~/.local/share/accompy/artifacts/enhanced_audio/``.</span>
+<span class="sd">        resolver: Chord resolver backend name.</span>
+<span class="sd">        midi_gen: MIDI generator backend name.</span>
+<span class="sd">        audio_renderer: Audio renderer backend name.</span>
+<span class="sd">        soundfont: Path to a SoundFont file.</span>
+<span class="sd">        sr: Sample rate for MIDI audio rendering.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Filesystem path to the final audio file.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">.pipeline</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+        <span class="n">chords_to_audio</span><span class="p">,</span>
+        <span class="n">_transpose_chord_sequence</span><span class="p">,</span>
+        <span class="n">_repeat_chord_sequence</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">.rhythmic_skeletons</span><span class="w"> </span><span class="kn">import</span> <span class="n">apply_skeleton</span>
+
+    <span class="c1"># --- Defaults ---</span>
+    <span class="k">if</span> <span class="n">instruments</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">instruments</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;piano&quot;</span><span class="p">,</span> <span class="s2">&quot;bass&quot;</span><span class="p">,</span> <span class="s2">&quot;drums&quot;</span><span class="p">]</span>
+
+    <span class="c1"># --- 1. Coerce input to ChordSequence ---</span>
+    <span class="n">cs</span> <span class="o">=</span> <span class="n">_ensure_chord_sequence</span><span class="p">(</span><span class="n">chords</span><span class="p">,</span> <span class="n">bpm</span><span class="o">=</span><span class="n">bpm</span><span class="p">)</span>
+
+    <span class="c1"># --- 2. Transpose ---</span>
+    <span class="k">if</span> <span class="n">transpose</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">cs</span> <span class="o">=</span> <span class="n">_transpose_chord_sequence</span><span class="p">(</span><span class="n">cs</span><span class="p">,</span> <span class="n">transpose</span><span class="p">)</span>
+
+    <span class="c1"># --- 3. Compute loop count ---</span>
+    <span class="n">effective_n_loops</span> <span class="o">=</span> <span class="n">_compute_n_loops</span><span class="p">(</span>
+        <span class="n">cs</span><span class="o">.</span><span class="n">total_beats</span><span class="p">,</span> <span class="n">bpm</span><span class="p">,</span> <span class="n">n_loops</span><span class="o">=</span><span class="n">n_loops</span><span class="p">,</span> <span class="n">max_seconds</span><span class="o">=</span><span class="n">max_seconds</span>
+    <span class="p">)</span>
+
+    <span class="c1"># --- 4. Build chords representation for keying ---</span>
+    <span class="n">chords_repr</span> <span class="o">=</span> <span class="s2">&quot;|&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">sym</span> <span class="k">for</span> <span class="n">sym</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">cs</span><span class="o">.</span><span class="n">chords</span><span class="p">)</span>
+
+    <span class="c1"># --- 5. Initialize stores ---</span>
+    <span class="k">if</span> <span class="n">midi_audio_store</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">midi_audio_store</span> <span class="o">=</span> <span class="n">_default_store</span><span class="p">(</span><span class="s2">&quot;midi_audio&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">enhanced_audio_store</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">enhanced_audio_store</span> <span class="o">=</span> <span class="n">_default_store</span><span class="p">(</span><span class="s2">&quot;enhanced_audio&quot;</span><span class="p">)</span>
+
+    <span class="c1"># --- 6. MIDI audio rendering (with caching) ---</span>
+    <span class="n">midi_audio_key</span> <span class="o">=</span> <span class="n">_make_artifact_key</span><span class="p">(</span>
+        <span class="n">chords_repr</span><span class="p">,</span>
+        <span class="n">bpm</span><span class="o">=</span><span class="n">bpm</span><span class="p">,</span>
+        <span class="n">transpose</span><span class="o">=</span><span class="n">transpose</span><span class="p">,</span>
+        <span class="n">skeleton</span><span class="o">=</span><span class="n">rhythmic_skeleton</span><span class="p">,</span>
+        <span class="n">n_loops</span><span class="o">=</span><span class="n">effective_n_loops</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">midi_audio_key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">midi_audio_store</span><span class="p">:</span>
+        <span class="c1"># Apply skeleton to one pass, then repeat</span>
+        <span class="n">expanded</span> <span class="o">=</span> <span class="n">apply_skeleton</span><span class="p">(</span><span class="n">cs</span><span class="p">,</span> <span class="n">rhythmic_skeleton</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">effective_n_loops</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">repeated</span> <span class="o">=</span> <span class="n">_repeat_chord_sequence</span><span class="p">(</span><span class="n">expanded</span><span class="p">,</span> <span class="n">effective_n_loops</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">repeated</span> <span class="o">=</span> <span class="n">expanded</span>
+
+        <span class="c1"># Render to audio</span>
+        <span class="k">if</span> <span class="n">chords_to_midi_audio</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">audio_data</span> <span class="o">=</span> <span class="n">chords_to_midi_audio</span><span class="p">(</span><span class="n">repeated</span><span class="p">,</span> <span class="n">bpm</span><span class="o">=</span><span class="n">bpm</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">audio_data</span> <span class="o">=</span> <span class="n">chords_to_audio</span><span class="p">(</span>
+                <span class="n">repeated</span><span class="p">,</span>
+                <span class="n">resolver</span><span class="o">=</span><span class="n">resolver</span><span class="p">,</span>
+                <span class="n">midi_gen</span><span class="o">=</span><span class="n">midi_gen</span><span class="p">,</span>
+                <span class="n">audio_renderer</span><span class="o">=</span><span class="n">audio_renderer</span><span class="p">,</span>
+                <span class="n">soundfont</span><span class="o">=</span><span class="n">soundfont</span><span class="p">,</span>
+                <span class="n">tempo</span><span class="o">=</span><span class="n">bpm</span><span class="p">,</span>
+                <span class="n">sr</span><span class="o">=</span><span class="n">sr</span><span class="p">,</span>
+            <span class="p">)</span>
+
+        <span class="n">midi_audio_store</span><span class="p">[</span><span class="n">midi_audio_key</span><span class="p">]</span> <span class="o">=</span> <span class="n">audio_data</span><span class="o">.</span><span class="n">to_wav_bytes</span><span class="p">()</span>
+
+        <span class="c1"># Optionally persist MIDI</span>
+        <span class="k">if</span> <span class="n">midi_store</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="kn">from</span><span class="w"> </span><span class="nn">.pipeline</span><span class="w"> </span><span class="kn">import</span> <span class="n">chords_to_midi</span> <span class="k">as</span> <span class="n">_chords_to_midi</span>
+
+            <span class="n">midi_key</span> <span class="o">=</span> <span class="n">midi_audio_key</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;.wav&quot;</span><span class="p">,</span> <span class="s2">&quot;.mid&quot;</span><span class="p">)</span>
+            <span class="n">midi_data</span> <span class="o">=</span> <span class="n">_chords_to_midi</span><span class="p">(</span>
+                <span class="n">repeated</span><span class="p">,</span>
+                <span class="n">resolver</span><span class="o">=</span><span class="n">resolver</span><span class="p">,</span>
+                <span class="n">midi_gen</span><span class="o">=</span><span class="n">midi_gen</span><span class="p">,</span>
+                <span class="n">tempo</span><span class="o">=</span><span class="n">bpm</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="n">midi_store</span><span class="p">[</span><span class="n">midi_key</span><span class="p">]</span> <span class="o">=</span> <span class="n">midi_data</span><span class="o">.</span><span class="n">to_bytes</span><span class="p">()</span>
+
+    <span class="c1"># --- 7. AI enhancement (with caching) ---</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">ai_enhance</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">_get_audio_path</span><span class="p">(</span><span class="n">midi_audio_store</span><span class="p">,</span> <span class="n">midi_audio_key</span><span class="p">)</span>
+
+    <span class="n">prompt</span> <span class="o">=</span> <span class="n">_build_prompt</span><span class="p">(</span><span class="n">prompt_template</span><span class="p">,</span> <span class="n">genre</span><span class="p">,</span> <span class="n">instruments</span><span class="p">)</span>
+
+    <span class="n">enhanced_key</span> <span class="o">=</span> <span class="n">_make_artifact_key</span><span class="p">(</span>
+        <span class="n">chords_repr</span><span class="p">,</span>
+        <span class="n">bpm</span><span class="o">=</span><span class="n">bpm</span><span class="p">,</span>
+        <span class="n">transpose</span><span class="o">=</span><span class="n">transpose</span><span class="p">,</span>
+        <span class="n">skeleton</span><span class="o">=</span><span class="n">rhythmic_skeleton</span><span class="p">,</span>
+        <span class="n">n_loops</span><span class="o">=</span><span class="n">effective_n_loops</span><span class="p">,</span>
+        <span class="n">genre</span><span class="o">=</span><span class="n">genre</span><span class="p">,</span>
+        <span class="n">instruments</span><span class="o">=</span><span class="n">instruments</span><span class="p">,</span>
+        <span class="n">suffix</span><span class="o">=</span><span class="s2">&quot;.mp3&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">enhanced_key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">enhanced_audio_store</span><span class="p">:</span>
+        <span class="n">midi_audio_path</span> <span class="o">=</span> <span class="n">_get_audio_path</span><span class="p">(</span><span class="n">midi_audio_store</span><span class="p">,</span> <span class="n">midi_audio_key</span><span class="p">)</span>
+
+        <span class="c1"># Determine enhancement function</span>
+        <span class="k">if</span> <span class="n">audio_to_enhanced_audio</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">enhance_fn</span> <span class="o">=</span> <span class="n">audio_to_enhanced_audio</span>
+        <span class="k">elif</span> <span class="nb">callable</span><span class="p">(</span><span class="n">ai_enhance</span><span class="p">):</span>
+            <span class="n">enhance_fn</span> <span class="o">=</span> <span class="n">ai_enhance</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">enhance_fn</span> <span class="o">=</span> <span class="n">_suno_enhance</span>
+
+        <span class="n">audio_bytes</span> <span class="o">=</span> <span class="n">enhance_fn</span><span class="p">(</span>
+            <span class="n">midi_audio_path</span><span class="p">,</span>
+            <span class="n">prompt</span><span class="p">,</span>
+            <span class="n">suno_mode</span><span class="o">=</span><span class="n">suno_mode</span><span class="p">,</span>
+            <span class="n">instrumental</span><span class="o">=</span><span class="n">instrumental</span><span class="p">,</span>
+            <span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">,</span>
+            <span class="n">audio_weight</span><span class="o">=</span><span class="n">audio_weight</span><span class="p">,</span>
+            <span class="n">style_weight</span><span class="o">=</span><span class="n">style_weight</span><span class="p">,</span>
+            <span class="n">weirdness</span><span class="o">=</span><span class="n">weirdness</span><span class="p">,</span>
+            <span class="n">wait_for_completion</span><span class="o">=</span><span class="n">wait_for_completion</span><span class="p">,</span>
+            <span class="n">poll_interval</span><span class="o">=</span><span class="n">poll_interval</span><span class="p">,</span>
+            <span class="n">timeout</span><span class="o">=</span><span class="n">timeout</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="n">enhanced_audio_store</span><span class="p">[</span><span class="n">enhanced_key</span><span class="p">]</span> <span class="o">=</span> <span class="n">audio_bytes</span>
+
+    <span class="k">return</span> <span class="n">_get_audio_path</span><span class="p">(</span><span class="n">enhanced_audio_store</span><span class="p">,</span> <span class="n">enhanced_key</span><span class="p">)</span></div>
+
+
+
+<span class="c1"># ---------------------------------------------------------------------------</span>
+<span class="c1"># Batch rendering</span>
+<span class="c1"># ---------------------------------------------------------------------------</span>
+
+
+<div class="viewcode-block" id="render_chords_batch">
+<a class="viewcode-back" href="../../module_docs/accompy/rendering.html#accompy.render_chords_batch">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">render_chords_batch</span><span class="p">(</span>
+    <span class="n">configs</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">dict</span><span class="p">],</span>
+    <span class="o">**</span><span class="n">shared_kwargs</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Run :func:`render_chords` for each config dict.</span>
+
+<span class="sd">    Each dict in *configs* is merged with *shared_kwargs* (per-config values</span>
+<span class="sd">    take priority over shared defaults).</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        configs: Iterable of dicts, each containing keyword arguments for</span>
+<span class="sd">            :func:`render_chords`.</span>
+<span class="sd">        **shared_kwargs: Default arguments applied to every config.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        List of filesystem paths to the final audio files.</span>
+
+<span class="sd">    Example::</span>
+
+<span class="sd">        &gt;&gt;&gt; from itertools import product</span>
+<span class="sd">        &gt;&gt;&gt; configs = [</span>
+<span class="sd">        ...     dict(chords=&quot;| Dm7 | G7 | C^7 |&quot;, genre=g, bpm=b)</span>
+<span class="sd">        ...     for g, b in product([&quot;jazz&quot;, &quot;lofi&quot;], [100, 120])</span>
+<span class="sd">        ... ]</span>
+<span class="sd">        &gt;&gt;&gt; paths = render_chords_batch(configs, ai_enhance=False)  # doctest: +SKIP</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">results</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">config</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">configs</span><span class="p">):</span>
+        <span class="n">merged</span> <span class="o">=</span> <span class="p">{</span><span class="o">**</span><span class="n">shared_kwargs</span><span class="p">,</span> <span class="o">**</span><span class="n">config</span><span class="p">}</span>
+        <span class="n">chords</span> <span class="o">=</span> <span class="n">merged</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;chords&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">chords</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Config at index </span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2"> is missing the required &#39;chords&#39; key.&quot;</span>
+            <span class="p">)</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">path</span> <span class="o">=</span> <span class="n">render_chords</span><span class="p">(</span><span class="n">chords</span><span class="p">,</span> <span class="o">**</span><span class="n">merged</span><span class="p">)</span>
+            <span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  FAILED config </span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">results</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright NO COPYRIGHT.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>accompy.wips &mdash; accompy 0.3.8 documentation</title>
+  <title>accompy.data_access &mdash; accompy 0.3.8 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
@@ -24,8 +24,8 @@
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="accompy.wips.audio_renderers" href="wips/audio_renderers.html" />
-    <link rel="prev" title="accompy.util" href="util.html" /> 
+    <link rel="next" title="accompy.main" href="main.html" />
+    <link rel="prev" title="accompy.converters" href="converters.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -56,7 +56,12 @@
 <li class="toctree-l1"><a class="reference internal" href="chord_resolution.html">accompy.chord_resolution</a></li>
 <li class="toctree-l1"><a class="reference internal" href="chord_resolvers.html">accompy.chord_resolvers</a></li>
 <li class="toctree-l1"><a class="reference internal" href="converters.html">accompy.converters</a></li>
-<li class="toctree-l1"><a class="reference internal" href="data_access.html">accompy.data_access</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">accompy.data_access</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#accompy.data_access.load_resource_json"><code class="docutils literal notranslate"><span class="pre">load_resource_json()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#accompy.data_access.load_resource_lines"><code class="docutils literal notranslate"><span class="pre">load_resource_lines()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#accompy.data_access.load_resource_text"><code class="docutils literal notranslate"><span class="pre">load_resource_text()</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="main.html">accompy.main</a></li>
 <li class="toctree-l1"><a class="reference internal" href="midi_generators.html">accompy.midi_generators</a></li>
 <li class="toctree-l1"><a class="reference internal" href="patterns.html">accompy.patterns</a></li>
@@ -74,7 +79,7 @@
 <li class="toctree-l1"><a class="reference internal" href="synthesis/fluidsynth.html">accompy.synthesis.fluidsynth</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tools.html">accompy.tools</a></li>
 <li class="toctree-l1"><a class="reference internal" href="util.html">accompy.util</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">accompy.wips</a></li>
+<li class="toctree-l1"><a class="reference internal" href="wips.html">accompy.wips</a></li>
 <li class="toctree-l1"><a class="reference internal" href="wips/audio_renderers.html">accompy.wips.audio_renderers</a></li>
 <li class="toctree-l1"><a class="reference internal" href="wips/chord_parsers.html">accompy.wips.chord_parsers</a></li>
 <li class="toctree-l1"><a class="reference internal" href="wips/chord_resolvers.html">accompy.wips.chord_resolvers</a></li>
@@ -97,9 +102,9 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
-      <li class="breadcrumb-item active">accompy.wips</li>
+      <li class="breadcrumb-item active">accompy.data_access</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="../../_sources/module_docs/accompy/wips.rst.txt" rel="nofollow"> View page source</a>
+            <a href="../../_sources/module_docs/accompy/data_access.rst.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -107,18 +112,42 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="module-accompy.wips">
-<span id="accompy-wips"></span><h1>accompy.wips<a class="headerlink" href="#module-accompy.wips" title="Link to this heading"></a></h1>
-<p>Backward-compatibility shim — wips modules have moved to accompy top level.</p>
-<p>Import from <code class="docutils literal notranslate"><span class="pre">accompy.converters</span></code>, <code class="docutils literal notranslate"><span class="pre">accompy.chord_parsers</span></code>, etc. instead.</p>
+  <section id="module-accompy.data_access">
+<span id="accompy-data-access"></span><h1>accompy.data_access<a class="headerlink" href="#module-accompy.data_access" title="Link to this heading"></a></h1>
+<p>Per-user data directory management for accompy.</p>
+<p>Provides cross-platform access to:
+- <code class="docutils literal notranslate"><span class="pre">~/.config/accompy/</span></code>  — user preferences and settings
+- <code class="docutils literal notranslate"><span class="pre">~/.local/share/accompy/resources/</span></code> — editable reference data (seeded from package)
+- <code class="docutils literal notranslate"><span class="pre">~/.local/share/accompy/artifacts/&lt;kind&gt;/</span></code> — runtime-generated files</p>
+<p>Seed files ship inside <code class="docutils literal notranslate"><span class="pre">accompy/_seed_data/</span></code> and are copied to userspace on
+first access (seed-on-missing pattern).  All XDG resolution and seeding logic
+is delegated to <code class="docutils literal notranslate"><span class="pre">config2py.AppData</span></code>.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="accompy.data_access.load_resource_json">
+<span class="sig-prename descclassname"><span class="pre">accompy.data_access.</span></span><span class="sig-name descname"><span class="pre">load_resource_json</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/accompy/data_access.html#load_resource_json"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#accompy.data_access.load_resource_json" title="Link to this definition"></a></dt>
+<dd><p>Read a resource file as JSON.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="accompy.data_access.load_resource_lines">
+<span class="sig-prename descclassname"><span class="pre">accompy.data_access.</span></span><span class="sig-name descname"><span class="pre">load_resource_lines</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/accompy/data_access.html#load_resource_lines"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#accompy.data_access.load_resource_lines" title="Link to this definition"></a></dt>
+<dd><p>Read a resource file as a list of non-empty stripped lines.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="accompy.data_access.load_resource_text">
+<span class="sig-prename descclassname"><span class="pre">accompy.data_access.</span></span><span class="sig-name descname"><span class="pre">load_resource_text</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="../../_modules/accompy/data_access.html#load_resource_text"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#accompy.data_access.load_resource_text" title="Link to this definition"></a></dt>
+<dd><p>Read a resource file as text.</p>
+</dd></dl>
+
 </section>
 
 
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="util.html" class="btn btn-neutral float-left" title="accompy.util" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="wips/audio_renderers.html" class="btn btn-neutral float-right" title="accompy.wips.audio_renderers" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="converters.html" class="btn btn-neutral float-left" title="accompy.converters" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="main.html" class="btn btn-neutral float-right" title="accompy.main" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

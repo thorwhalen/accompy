@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>accompy.main &mdash; accompy 0.3.7 documentation</title>
+  <title>accompy.main &mdash; accompy 0.3.8 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
@@ -14,7 +14,7 @@
   
       <script src="../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../_static/documentation_options.js?v=29d04658"></script>
+      <script src="../../_static/documentation_options.js?v=c1cae59a"></script>
       <script src="../../_static/doctools.js?v=9bcbadda"></script>
       <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
       <script src="../../_static/toggleprompt.js?v=d7ede5d2"></script>
@@ -53,6 +53,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/chord_resolution.html">accompy.chord_resolution</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/chord_resolvers.html">accompy.chord_resolvers</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/converters.html">accompy.converters</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/data_access.html">accompy.data_access</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/main.html">accompy.main</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/midi_generators.html">accompy.midi_generators</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/patterns.html">accompy.patterns</a></li>
@@ -63,6 +64,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/realtime.html">accompy.realtime</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/renderers.html">accompy.renderers</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/renderers/midi.html">accompy.renderers.midi</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/rendering.html">accompy.rendering</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/rhythmic_skeletons.html">accompy.rhythmic_skeletons</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/setup_utils.html">accompy.setup_utils</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/synthesis.html">accompy.synthesis</a></li>
@@ -126,7 +128,21 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">.synthesis</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_default_backend</span>
 
 
-<span class="c1"># Default values</span>
+<span class="c1"># Default values — loaded lazily from ~/.config/accompy/defaults.json</span>
+<span class="c1"># (seeded from _seed_data/config/defaults.json on first access).</span>
+<span class="c1"># These module-level constants are the hardcoded fallbacks used when the</span>
+<span class="c1"># config file hasn&#39;t been accessed yet (e.g., function signatures).</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_load_defaults</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Load user defaults from the config file.&quot;&quot;&quot;</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">.data_access</span><span class="w"> </span><span class="kn">import</span> <span class="n">load_resource_json</span><span class="p">,</span> <span class="n">get_config</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+
+    <span class="n">path</span> <span class="o">=</span> <span class="n">get_config</span><span class="p">(</span><span class="s2">&quot;defaults.json&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">path</span><span class="o">.</span><span class="n">read_text</span><span class="p">())</span>
+
+
 <span class="n">DFLT_STYLE</span><span class="p">:</span> <span class="n">StyleName</span> <span class="o">=</span> <span class="s2">&quot;swing&quot;</span>
 <span class="n">DFLT_TEMPO</span> <span class="o">=</span> <span class="mi">120</span>
 <span class="n">DFLT_REPEATS</span> <span class="o">=</span> <span class="mi">1</span>
@@ -571,17 +587,14 @@
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_style_to_groove</span><span class="p">(</span><span class="n">style</span><span class="p">:</span> <span class="n">StyleName</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Map style name to MMA groove name.&quot;&quot;&quot;</span>
-    <span class="n">groove_map</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="s2">&quot;swing&quot;</span><span class="p">:</span> <span class="s2">&quot;Swing&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;bossa&quot;</span><span class="p">:</span> <span class="s2">&quot;BossaNova&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;rock&quot;</span><span class="p">:</span> <span class="s2">&quot;Rock&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;ballad&quot;</span><span class="p">:</span> <span class="s2">&quot;Ballad&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;funk&quot;</span><span class="p">:</span> <span class="s2">&quot;Funk&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;latin&quot;</span><span class="p">:</span> <span class="s2">&quot;Latin&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;waltz&quot;</span><span class="p">:</span> <span class="s2">&quot;Waltz&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;blues&quot;</span><span class="p">:</span> <span class="s2">&quot;Blues&quot;</span><span class="p">,</span>
-    <span class="p">}</span>
-    <span class="k">return</span> <span class="n">groove_map</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">style</span><span class="p">,</span> <span class="s2">&quot;Swing&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">_get_groove_map</span><span class="p">()</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">style</span><span class="p">,</span> <span class="s2">&quot;Swing&quot;</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_get_groove_map</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Load the style-to-MMA-groove mapping from user resources.&quot;&quot;&quot;</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">.data_access</span><span class="w"> </span><span class="kn">import</span> <span class="n">load_resource_json</span>
+
+    <span class="k">return</span> <span class="n">load_resource_json</span><span class="p">(</span><span class="s2">&quot;groove_map.json&quot;</span><span class="p">)</span>
 
 
 <span class="c1"># =============================================================================</span>

@@ -9,6 +9,7 @@
    module_docs/accompy/chord_resolution
    module_docs/accompy/chord_resolvers
    module_docs/accompy/converters
+   module_docs/accompy/data_access
    module_docs/accompy/main
    module_docs/accompy/midi_generators
    module_docs/accompy/patterns
@@ -19,6 +20,7 @@
    module_docs/accompy/realtime
    module_docs/accompy/renderers
    module_docs/accompy/renderers/midi
+   module_docs/accompy/rendering
    module_docs/accompy/rhythmic_skeletons
    module_docs/accompy/setup_utils
    module_docs/accompy/synthesis

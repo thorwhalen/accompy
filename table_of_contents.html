@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>&lt;no title&gt; &mdash; accompy 0.3.7 documentation</title>
+  <title>&lt;no title&gt; &mdash; accompy 0.3.8 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
@@ -15,7 +15,7 @@
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="_static/documentation_options.js?v=29d04658"></script>
+      <script src="_static/documentation_options.js?v=c1cae59a"></script>
       <script src="_static/doctools.js?v=9bcbadda"></script>
       <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
       <script src="_static/toggleprompt.js?v=d7ede5d2"></script>
@@ -54,6 +54,7 @@
 <li class="toctree-l1"><a class="reference internal" href="module_docs/accompy/chord_resolution.html">accompy.chord_resolution</a></li>
 <li class="toctree-l1"><a class="reference internal" href="module_docs/accompy/chord_resolvers.html">accompy.chord_resolvers</a></li>
 <li class="toctree-l1"><a class="reference internal" href="module_docs/accompy/converters.html">accompy.converters</a></li>
+<li class="toctree-l1"><a class="reference internal" href="module_docs/accompy/data_access.html">accompy.data_access</a></li>
 <li class="toctree-l1"><a class="reference internal" href="module_docs/accompy/main.html">accompy.main</a></li>
 <li class="toctree-l1"><a class="reference internal" href="module_docs/accompy/midi_generators.html">accompy.midi_generators</a></li>
 <li class="toctree-l1"><a class="reference internal" href="module_docs/accompy/patterns.html">accompy.patterns</a></li>
@@ -64,6 +65,7 @@
 <li class="toctree-l1"><a class="reference internal" href="module_docs/accompy/realtime.html">accompy.realtime</a></li>
 <li class="toctree-l1"><a class="reference internal" href="module_docs/accompy/renderers.html">accompy.renderers</a></li>
 <li class="toctree-l1"><a class="reference internal" href="module_docs/accompy/renderers/midi.html">accompy.renderers.midi</a></li>
+<li class="toctree-l1"><a class="reference internal" href="module_docs/accompy/rendering.html">accompy.rendering</a></li>
 <li class="toctree-l1"><a class="reference internal" href="module_docs/accompy/rhythmic_skeletons.html">accompy.rhythmic_skeletons</a></li>
 <li class="toctree-l1"><a class="reference internal" href="module_docs/accompy/setup_utils.html">accompy.setup_utils</a></li>
 <li class="toctree-l1"><a class="reference internal" href="module_docs/accompy/synthesis.html">accompy.synthesis</a></li>
@@ -142,11 +144,18 @@
 <li class="toctree-l2"><a class="reference internal" href="module_docs/accompy.html#accompy.generate_mma_wav"><code class="docutils literal notranslate"><span class="pre">generate_mma_wav()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="module_docs/accompy.html#accompy.generate_variations"><code class="docutils literal notranslate"><span class="pre">generate_variations()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="module_docs/accompy.html#accompy.generate_wav"><code class="docutils literal notranslate"><span class="pre">generate_wav()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy.html#accompy.get_app_folder"><code class="docutils literal notranslate"><span class="pre">get_app_folder()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy.html#accompy.get_artifact_dir"><code class="docutils literal notranslate"><span class="pre">get_artifact_dir()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="module_docs/accompy.html#accompy.get_chord_resolver"><code class="docutils literal notranslate"><span class="pre">get_chord_resolver()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy.html#accompy.get_config"><code class="docutils literal notranslate"><span class="pre">get_config()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="module_docs/accompy.html#accompy.get_pattern_registry"><code class="docutils literal notranslate"><span class="pre">get_pattern_registry()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="module_docs/accompy.html#accompy.get_patterns"><code class="docutils literal notranslate"><span class="pre">get_patterns()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy.html#accompy.get_resource"><code class="docutils literal notranslate"><span class="pre">get_resource()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="module_docs/accompy.html#accompy.list_available_converters"><code class="docutils literal notranslate"><span class="pre">list_available_converters()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="module_docs/accompy.html#accompy.list_skeletons"><code class="docutils literal notranslate"><span class="pre">list_skeletons()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy.html#accompy.load_resource_json"><code class="docutils literal notranslate"><span class="pre">load_resource_json()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy.html#accompy.load_resource_lines"><code class="docutils literal notranslate"><span class="pre">load_resource_lines()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy.html#accompy.load_resource_text"><code class="docutils literal notranslate"><span class="pre">load_resource_text()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="module_docs/accompy.html#accompy.make_converter_engine"><code class="docutils literal notranslate"><span class="pre">make_converter_engine()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="module_docs/accompy.html#accompy.midi_to_audio"><code class="docutils literal notranslate"><span class="pre">midi_to_audio()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="module_docs/accompy.html#accompy.mma_score_to_wav"><code class="docutils literal notranslate"><span class="pre">mma_score_to_wav()</span></code></a></li>
@@ -157,6 +166,8 @@
 <li class="toctree-l2"><a class="reference internal" href="module_docs/accompy.html#accompy.print_setup_instructions"><code class="docutils literal notranslate"><span class="pre">print_setup_instructions()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="module_docs/accompy.html#accompy.register_skeleton"><code class="docutils literal notranslate"><span class="pre">register_skeleton()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="module_docs/accompy.html#accompy.register_style"><code class="docutils literal notranslate"><span class="pre">register_style()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy.html#accompy.render_chords"><code class="docutils literal notranslate"><span class="pre">render_chords()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy.html#accompy.render_chords_batch"><code class="docutils literal notranslate"><span class="pre">render_chords_batch()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="module_docs/accompy.html#accompy.resolve_skeleton"><code class="docutils literal notranslate"><span class="pre">resolve_skeleton()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="module_docs/accompy.html#accompy.rhythm_to_audio"><code class="docutils literal notranslate"><span class="pre">rhythm_to_audio()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="module_docs/accompy.html#accompy.rhythm_to_midi"><code class="docutils literal notranslate"><span class="pre">rhythm_to_midi()</span></code></a></li>
@@ -221,6 +232,12 @@
 <li class="toctree-l2"><a class="reference internal" href="module_docs/accompy/converters.html#accompy.converters.MidiData"><code class="docutils literal notranslate"><span class="pre">MidiData</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="module_docs/accompy/converters.html#accompy.converters.NoteSequence"><code class="docutils literal notranslate"><span class="pre">NoteSequence</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="module_docs/accompy/converters.html#accompy.converters.convert"><code class="docutils literal notranslate"><span class="pre">convert()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="module_docs/accompy/data_access.html">accompy.data_access</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy/data_access.html#accompy.data_access.load_resource_json"><code class="docutils literal notranslate"><span class="pre">load_resource_json()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy/data_access.html#accompy.data_access.load_resource_lines"><code class="docutils literal notranslate"><span class="pre">load_resource_lines()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy/data_access.html#accompy.data_access.load_resource_text"><code class="docutils literal notranslate"><span class="pre">load_resource_text()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="module_docs/accompy/main.html">accompy.main</a><ul>
@@ -293,6 +310,11 @@
 <li class="toctree-l2"><a class="reference internal" href="module_docs/accompy/renderers/midi.html#accompy.renderers.midi.events_to_midi_file"><code class="docutils literal notranslate"><span class="pre">events_to_midi_file()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="module_docs/accompy/renderers/midi.html#accompy.renderers.midi.generate_builtin_midi"><code class="docutils literal notranslate"><span class="pre">generate_builtin_midi()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="module_docs/accompy/renderers/midi.html#accompy.renderers.midi.generate_midi_events"><code class="docutils literal notranslate"><span class="pre">generate_midi_events()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="module_docs/accompy/rendering.html">accompy.rendering</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy/rendering.html#accompy.rendering.render_chords"><code class="docutils literal notranslate"><span class="pre">render_chords()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy/rendering.html#accompy.rendering.render_chords_batch"><code class="docutils literal notranslate"><span class="pre">render_chords_batch()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="module_docs/accompy/rhythmic_skeletons.html">accompy.rhythmic_skeletons</a><ul>

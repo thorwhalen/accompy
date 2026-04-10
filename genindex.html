@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Index &mdash; accompy 0.3.7 documentation</title>
+  <title>Index &mdash; accompy 0.3.8 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
@@ -14,7 +14,7 @@
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="_static/documentation_options.js?v=29d04658"></script>
+      <script src="_static/documentation_options.js?v=c1cae59a"></script>
       <script src="_static/doctools.js?v=9bcbadda"></script>
       <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
       <script src="_static/toggleprompt.js?v=d7ede5d2"></script>
@@ -53,6 +53,7 @@
 <li class="toctree-l1"><a class="reference internal" href="module_docs/accompy/chord_resolution.html">accompy.chord_resolution</a></li>
 <li class="toctree-l1"><a class="reference internal" href="module_docs/accompy/chord_resolvers.html">accompy.chord_resolvers</a></li>
 <li class="toctree-l1"><a class="reference internal" href="module_docs/accompy/converters.html">accompy.converters</a></li>
+<li class="toctree-l1"><a class="reference internal" href="module_docs/accompy/data_access.html">accompy.data_access</a></li>
 <li class="toctree-l1"><a class="reference internal" href="module_docs/accompy/main.html">accompy.main</a></li>
 <li class="toctree-l1"><a class="reference internal" href="module_docs/accompy/midi_generators.html">accompy.midi_generators</a></li>
 <li class="toctree-l1"><a class="reference internal" href="module_docs/accompy/patterns.html">accompy.patterns</a></li>
@@ -63,6 +64,7 @@
 <li class="toctree-l1"><a class="reference internal" href="module_docs/accompy/realtime.html">accompy.realtime</a></li>
 <li class="toctree-l1"><a class="reference internal" href="module_docs/accompy/renderers.html">accompy.renderers</a></li>
 <li class="toctree-l1"><a class="reference internal" href="module_docs/accompy/renderers/midi.html">accompy.renderers.midi</a></li>
+<li class="toctree-l1"><a class="reference internal" href="module_docs/accompy/rendering.html">accompy.rendering</a></li>
 <li class="toctree-l1"><a class="reference internal" href="module_docs/accompy/rhythmic_skeletons.html">accompy.rhythmic_skeletons</a></li>
 <li class="toctree-l1"><a class="reference internal" href="module_docs/accompy/setup_utils.html">accompy.setup_utils</a></li>
 <li class="toctree-l1"><a class="reference internal" href="module_docs/accompy/synthesis.html">accompy.synthesis</a></li>
@@ -185,6 +187,13 @@
 </li>
       </ul></li>
       <li>
+    accompy.data_access
+
+      <ul>
+        <li><a href="module_docs/accompy/data_access.html#module-accompy.data_access">module</a>
+</li>
+      </ul></li>
+      <li>
     accompy.main
 
       <ul>
@@ -256,6 +265,13 @@
       </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li>
+    accompy.rendering
+
+      <ul>
+        <li><a href="module_docs/accompy/rendering.html#module-accompy.rendering">module</a>
+</li>
+      </ul></li>
       <li>
     accompy.rhythmic_skeletons
 
@@ -673,20 +689,26 @@
         <li><a href="module_docs/accompy/tools.html#accompy.tools.generate_wav">(in module accompy.tools)</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="module_docs/accompy.html#accompy.ConverterRegistry.get">get() (accompy.ConverterRegistry method)</a>
 
       <ul>
         <li><a href="module_docs/accompy/converters.html#accompy.converters.ConverterRegistry.get">(accompy.converters.ConverterRegistry method)</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="module_docs/accompy.html#accompy.get_app_folder">get_app_folder() (in module accompy)</a>
+</li>
+      <li><a href="module_docs/accompy.html#accompy.get_artifact_dir">get_artifact_dir() (in module accompy)</a>
+</li>
       <li><a href="module_docs/accompy.html#accompy.get_chord_resolver">get_chord_resolver() (in module accompy)</a>
 
       <ul>
         <li><a href="module_docs/accompy/chord_resolution.html#accompy.chord_resolution.get_chord_resolver">(in module accompy.chord_resolution)</a>
 </li>
       </ul></li>
+      <li><a href="module_docs/accompy.html#accompy.get_config">get_config() (in module accompy)</a>
+</li>
       <li><a href="module_docs/accompy/synthesis.html#accompy.synthesis.get_default_backend">get_default_backend() (in module accompy.synthesis)</a>
 </li>
       <li><a href="module_docs/accompy.html#accompy.get_pattern_registry">get_pattern_registry() (in module accompy)</a>
@@ -707,6 +729,8 @@
         <li><a href="module_docs/accompy/patterns.html#accompy.patterns.get_patterns">(in module accompy.patterns)</a>
 </li>
       </ul></li>
+      <li><a href="module_docs/accompy.html#accompy.get_resource">get_resource() (in module accompy)</a>
+</li>
   </ul></td>
 </tr></table>
 
@@ -761,8 +785,6 @@
         <li><a href="module_docs/accompy/converters.html#accompy.converters.ConverterRegistry.list_converters">(accompy.converters.ConverterRegistry method)</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="module_docs/accompy.html#accompy.ConverterRegistry.list_pairs">list_pairs() (accompy.ConverterRegistry method)</a>
 
       <ul>
@@ -773,6 +795,26 @@
 
       <ul>
         <li><a href="module_docs/accompy/rhythmic_skeletons.html#accompy.rhythmic_skeletons.list_skeletons">(in module accompy.rhythmic_skeletons)</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="module_docs/accompy.html#accompy.load_resource_json">load_resource_json() (in module accompy)</a>
+
+      <ul>
+        <li><a href="module_docs/accompy/data_access.html#accompy.data_access.load_resource_json">(in module accompy.data_access)</a>
+</li>
+      </ul></li>
+      <li><a href="module_docs/accompy.html#accompy.load_resource_lines">load_resource_lines() (in module accompy)</a>
+
+      <ul>
+        <li><a href="module_docs/accompy/data_access.html#accompy.data_access.load_resource_lines">(in module accompy.data_access)</a>
+</li>
+      </ul></li>
+      <li><a href="module_docs/accompy.html#accompy.load_resource_text">load_resource_text() (in module accompy)</a>
+
+      <ul>
+        <li><a href="module_docs/accompy/data_access.html#accompy.data_access.load_resource_text">(in module accompy.data_access)</a>
 </li>
       </ul></li>
   </ul></td>
@@ -839,6 +881,8 @@
 </li>
         <li><a href="module_docs/accompy/converters.html#module-accompy.converters">accompy.converters</a>
 </li>
+        <li><a href="module_docs/accompy/data_access.html#module-accompy.data_access">accompy.data_access</a>
+</li>
         <li><a href="module_docs/accompy/main.html#module-accompy.main">accompy.main</a>
 </li>
         <li><a href="module_docs/accompy/midi_generators.html#module-accompy.midi_generators">accompy.midi_generators</a>
@@ -858,6 +902,8 @@
         <li><a href="module_docs/accompy/renderers.html#module-accompy.renderers">accompy.renderers</a>
 </li>
         <li><a href="module_docs/accompy/renderers/midi.html#module-accompy.renderers.midi">accompy.renderers.midi</a>
+</li>
+        <li><a href="module_docs/accompy/rendering.html#module-accompy.rendering">accompy.rendering</a>
 </li>
         <li><a href="module_docs/accompy/rhythmic_skeletons.html#module-accompy.rhythmic_skeletons">accompy.rhythmic_skeletons</a>
 </li>
@@ -1066,6 +1112,18 @@
       </ul></li>
       <li><a href="module_docs/accompy/protocols.html#accompy.protocols.AudioRenderer.render">render() (accompy.protocols.AudioRenderer method)</a>
 </li>
+      <li><a href="module_docs/accompy.html#accompy.render_chords">render_chords() (in module accompy)</a>
+
+      <ul>
+        <li><a href="module_docs/accompy/rendering.html#accompy.rendering.render_chords">(in module accompy.rendering)</a>
+</li>
+      </ul></li>
+      <li><a href="module_docs/accompy.html#accompy.render_chords_batch">render_chords_batch() (in module accompy)</a>
+
+      <ul>
+        <li><a href="module_docs/accompy/rendering.html#accompy.rendering.render_chords_batch">(in module accompy.rendering)</a>
+</li>
+      </ul></li>
       <li><a href="module_docs/accompy/protocols.html#accompy.protocols.SynthesizerBackend.render_to_bytes">render_to_bytes() (accompy.protocols.SynthesizerBackend method)</a>
 
       <ul>
@@ -1074,6 +1132,8 @@
         <li><a href="module_docs/accompy.html#accompy.SynthesizerBackend.render_to_bytes">(accompy.SynthesizerBackend method)</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="module_docs/accompy/protocols.html#accompy.protocols.AudioRenderer.render_to_file">render_to_file() (accompy.protocols.AudioRenderer method)</a>
 
       <ul>
@@ -1086,8 +1146,6 @@
         <li><a href="module_docs/accompy.html#accompy.SynthesizerBackend.render_to_file">(accompy.SynthesizerBackend method)</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="module_docs/accompy.html#accompy.AccompanimentConfig.repeats">repeats (accompy.AccompanimentConfig attribute)</a>
 
       <ul>
