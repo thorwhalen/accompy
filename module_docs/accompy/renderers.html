@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>accompy.renderers &mdash; accompy 0.3.8 documentation</title>
+  <title>accompy.renderers &mdash; accompy 0.3.9 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
@@ -15,9 +15,9 @@
   
       <script src="../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../_static/documentation_options.js?v=c1cae59a"></script>
-      <script src="../../_static/doctools.js?v=9bcbadda"></script>
-      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../_static/documentation_options.js?v=65b26183"></script>
+      <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../../_static/toggleprompt.js?v=d7ede5d2"></script>
       <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
       <script src="../../_static/copybutton.js?v=f281be69"></script>
@@ -142,7 +142,7 @@
 
 <dl class="py function">
 <dt class="sig sig-object py" id="accompy.renderers.generate_midi_events">
-<span class="sig-prename descclassname"><span class="pre">accompy.renderers.</span></span><span class="sig-name descname"><span class="pre">generate_midi_events</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">score</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="base.html#accompy.base.Score" title="accompy.base.Score"><span class="pre">Score</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="base.html#accompy.base.AccompanimentConfig" title="accompy.base.AccompanimentConfig"><span class="pre">AccompanimentConfig</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pattern_source</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chord_resolver</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Iterator</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="base.html#accompy.base.MidiEvent" title="accompy.base.MidiEvent"><span class="pre">MidiEvent</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/accompy/renderers/midi.html#generate_midi_events"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#accompy.renderers.generate_midi_events" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">accompy.renderers.</span></span><span class="sig-name descname"><span class="pre">generate_midi_events</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">score</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="base.html#accompy.base.Score" title="accompy.base.Score"><span class="pre">Score</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="base.html#accompy.base.AccompanimentConfig" title="accompy.base.AccompanimentConfig"><span class="pre">AccompanimentConfig</span></a></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">pattern_source</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chord_resolver</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Iterator</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="base.html#accompy.base.MidiEvent" title="accompy.base.MidiEvent"><span class="pre">MidiEvent</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/accompy/renderers/midi.html#generate_midi_events"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#accompy.renderers.generate_midi_events" title="Link to this definition"></a></dt>
 <dd><p>Generate MIDI events from score.</p>
 <p>Yields events in time order. Does NOT write files.
 This enables real-time streaming or batch file creation.</p>
@@ -168,7 +168,7 @@ This enables real-time streaming or batch file creation.</p>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">events</span> <span class="o">=</span> <span class="n">generate_midi_events</span><span class="p">(</span><span class="n">score</span><span class="p">,</span> <span class="n">config</span><span class="p">,</span>
 <span class="gp">... </span>    <span class="n">pattern_source</span><span class="o">=</span><span class="nb">type</span><span class="p">(</span><span class="s1">&#39;PS&#39;</span><span class="p">,</span> <span class="p">(),</span> <span class="p">{</span><span class="s1">&#39;get_patterns&#39;</span><span class="p">:</span> <span class="n">get_patterns</span><span class="p">})(),</span>
 <span class="gp">... </span>    <span class="n">chord_resolver</span><span class="o">=</span><span class="n">chord_to_notes</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">first_event</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">events</span><span class="p">)</span>  
+<span class="gp">&gt;&gt;&gt; </span><span class="n">first_event</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">events</span><span class="p">)</span>
 </pre></div>
 </div>
 </dd></dl>
