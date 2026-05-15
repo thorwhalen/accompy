@@ -1,4 +1,5 @@
-name: Continuous Integration (2025-11)
+name: Continuous Integration (uv)
+# MIGRATION NOTE: PyPI auth changed: set secrets.PYPI_PASSWORD to a PyPI API token (uv publish uses UV_PUBLISH_TOKEN, mapped from PYPI_PASSWORD)
 on: [push, pull_request]
 
 # Note: Environment variables (PROJECT_NAME and vars from [tool.wads.ci.env])
@@ -24,10 +25,20 @@ jobs:
       metrics-storage-branch: ${{ steps.config.outputs.metrics-storage-branch }}
       metrics-python-version: ${{ steps.config.outputs.metrics-python-version }}
       metrics-force-run: ${{ steps.config.outputs.metrics-force-run }}
-    
+      ruff-enabled: ${{ steps.config.outputs.ruff-enabled }}
+      black-enabled: ${{ steps.config.outputs.black-enabled }}
+      mypy-enabled: ${{ steps.config.outputs.mypy-enabled }}
+      docs-enabled: ${{ steps.config.outputs.docs-enabled }}
+
     steps:
-      - uses: actions/checkout@v4
-      
+      - uses: actions/checkout@v6
+
+      - name: Set up uv
+        uses: astral-sh/setup-uv@v7
+
+      - name: Set up Python
+        run: uv python install 3.11
+
       - name: Read CI Config
         id: config
         uses: i2mint/wads/actions/read-ci-config@master
@@ -45,10 +56,15 @@ jobs:
         python-version: ${{ fromJson(needs.setup.outputs.python-versions) }}
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
+
+      - name: Set up uv
+        uses: astral-sh/setup-uv@v7
+        with:
+          enable-cache: true
 
       - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v6
+        uses: i2mint/wads/actions/setup-python-uv@master
         with:
           python-version: ${{ matrix.python-version }}
 
@@ -58,30 +74,31 @@ jobs:
           pyproject-path: .
 
       - name: Install Dependencies
-        uses: i2mint/wads/actions/install-deps@master
-        with:
-          dependency-files: pyproject.toml
-          extras: dev,test
+        uses: i2mint/wads/actions/install-deps-uv@master
 
       - name: Format Source Code
-        uses: i2mint/wads/actions/ruff-format@master
-        with:
-          line-length: 88
-          target-path: .
+        if: needs.setup.outputs.ruff-enabled != 'false'
+        run: uvx ruff format .
+
+      - name: Format Source Code (black)
+        if: needs.setup.outputs.black-enabled == 'true'
+        run: uvx black .
 
       - name: Lint Validation
-        uses: i2mint/wads/actions/ruff-lint@master
-        with:
-          root-dir: ${{ needs.setup.outputs.project-name }}
-          output-format: github
+        if: needs.setup.outputs.ruff-enabled != 'false'
+        run: uvx ruff check --output-format=github ${{ needs.setup.outputs.project-name }}
+
+      - name: Type Check (mypy)
+        if: needs.setup.outputs.mypy-enabled == 'true'
+        run: uvx mypy ${{ needs.setup.outputs.project-name }}
 
       - name: Run Tests
-        uses: i2mint/wads/actions/run-tests@master
+        uses: i2mint/wads/actions/run-tests-uv@master
         with:
           root-dir: ${{ needs.setup.outputs.project-name }}
-          exclude: ${{ needs.setup.outputs.exclude-paths }}
-          coverage: ${{ needs.setup.outputs.coverage-enabled }}
           pytest-args: ${{ needs.setup.outputs.pytest-args }}
+          exclude-paths: ${{ needs.setup.outputs.exclude-paths }}
+          coverage: ${{ needs.setup.outputs.coverage-enabled }}
 
       - name: Track Code Metrics
         if: needs.setup.outputs.metrics-enabled == 'true'
@@ -103,10 +120,15 @@ jobs:
     continue-on-error: true
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
+
+      - name: Set up uv
+        uses: astral-sh/setup-uv@v7
+        with:
+          enable-cache: true
 
       - name: Set up Python
-        uses: actions/setup-python@v6
+        uses: i2mint/wads/actions/setup-python-uv@master
         with:
           python-version: ${{ fromJson(needs.setup.outputs.python-versions)[0] }}
 
@@ -116,26 +138,14 @@ jobs:
           pyproject-path: .
 
       - name: Install Dependencies
-        uses: i2mint/wads/actions/install-deps@master
+        uses: i2mint/wads/actions/install-deps-uv@master
+
+      - name: Run Tests
+        uses: i2mint/wads/actions/run-tests-uv@master
         with:
-          dependency-files: pyproject.toml
-          extras: dev,test
-
-      - name: Run tests
-        id: test
-        continue-on-error: true
-        run: pytest
-
-      - name: Report test results
-        if: always()
-        run: |
-          if ("${{ steps.test.outcome }}" -eq "failure") {
-            echo "::warning::Windows tests failed but workflow continues"
-            echo "## ⚠️ Windows Tests Failed" >> $env:GITHUB_STEP_SUMMARY
-            echo "Tests failed on Windows but this is informational only." >> $env:GITHUB_STEP_SUMMARY
-          } else {
-            echo "## ✅ Windows Tests Passed" >> $env:GITHUB_STEP_SUMMARY
-          }
+          root-dir: ${{ needs.setup.outputs.project-name }}
+          pytest-args: ${{ needs.setup.outputs.pytest-args }}
+          exclude-paths: ${{ needs.setup.outputs.exclude-paths }}
 
   # Publishing job
   publish:
@@ -147,35 +157,45 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           fetch-depth: 0
           token: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Set up uv
+        uses: astral-sh/setup-uv@v7
+
       - name: Set up Python
-        uses: actions/setup-python@v6
+        uses: i2mint/wads/actions/setup-python-uv@master
         with:
           python-version: ${{ fromJson(needs.setup.outputs.python-versions)[0] }}
+          create-venv: "false"
 
       - name: Format Source Code
-        uses: i2mint/wads/actions/ruff-format@master
+        if: needs.setup.outputs.ruff-enabled != 'false'
+        run: uvx ruff format .
+
+      - name: Format Source Code (black)
+        if: needs.setup.outputs.black-enabled == 'true'
+        run: uvx black .
 
       - name: Update Version Number
         id: version
         uses: i2mint/isee/actions/bump-version-number@master
 
       - name: Build Distribution
-        uses: i2mint/wads/actions/build-dist@master
+        uses: i2mint/wads/actions/build-dist-uv@master
         with:
           sdist: ${{ needs.setup.outputs.build-sdist }}
           wheel: ${{ needs.setup.outputs.build-wheel }}
 
       - name: Publish to PyPI
-        uses: i2mint/wads/actions/pypi-upload@master
+        uses: i2mint/wads/actions/pypi-publish-uv@master
         with:
-          pypi-username: ${{ secrets.PYPI_USERNAME }}
-          pypi-password: ${{ secrets.PYPI_PASSWORD }}
-          skip-existing: false
+          pypi-token: ${{ secrets.PYPI_PASSWORD }}
+
+      - name: Force SSH for git remote
+        run: git remote set-url origin git@github.com:${{ github.repository }}.git
 
       - name: Commit Changes
         uses: i2mint/wads/actions/git-commit@master
@@ -191,15 +211,15 @@ jobs:
           message: "Release version ${{ env.VERSION }}"
           push: true
 
-  # Optional GitHub Pages
+  # Optional GitHub Pages (skipped when [tool.wads.ci.docs].enabled = false)
   github-pages:
     name: Publish GitHub Pages
     permissions:
       contents: write
       pages: write
       id-token: write
-    if: "!contains(github.event.head_commit.message, '[skip ci]') && github.ref == format('refs/heads/{0}', github.event.repository.default_branch)"
-    needs: publish
+    if: "!contains(github.event.head_commit.message, '[skip ci]') && github.ref == format('refs/heads/{0}', github.event.repository.default_branch) && needs.setup.outputs.docs-enabled != 'false'"
+    needs: [setup, publish]
     runs-on: ubuntu-latest
 
     steps:
