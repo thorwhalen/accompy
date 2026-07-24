@@ -1,0 +1,4 @@
+accompy._seed_data
+==================
+.. automodule:: accompy._seed_data
+   :members:

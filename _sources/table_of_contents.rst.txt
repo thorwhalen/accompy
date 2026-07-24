@@ -3,6 +3,9 @@
    :caption: Contents:
 
    module_docs/accompy
+   module_docs/accompy/_seed_data
+   module_docs/accompy/_seed_data/config
+   module_docs/accompy/_seed_data/resources
    module_docs/accompy/audio_renderers
    module_docs/accompy/base
    module_docs/accompy/chord_parsers
