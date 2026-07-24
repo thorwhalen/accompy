@@ -129,13 +129,13 @@ audio = generate_accompaniment(
     style="swing",
     tempo=160,
     repeats=4,
-    output_path="my_track.wav"
+    output_path="my_track.wav",
 )
 
 # Generate MIDI only (skip audio rendering)
 midi = generate_accompaniment(
-   "| Dm7 | G7 | Cmaj7 | Am7 |",
-   output_path="my_track.mid",
+    "| Dm7 | G7 | Cmaj7 | Am7 |",
+    output_path="my_track.mid",
 )
 ```
 
@@ -286,13 +286,11 @@ config = AccompanimentConfig(
         "piano": 0.6,
     },
     sample_rate=44100,
-   output_format="mp3",  # wav, mp3, flac, midi
+    output_format="mp3",  # wav, mp3, flac, midi
 )
 
 audio = generate_accompaniment(
-    "| Dm7 | G7 | Cmaj7 | A7 |",
-    config=config,
-    output_path="backing_track.mp3"
+    "| Dm7 | G7 | Cmaj7 | A7 |", config=config, output_path="backing_track.mp3"
 )
 ```
 
@@ -331,14 +329,14 @@ the chord progression defines *what* you play.
 from accompy import resolve_skeleton, list_skeletons, register_skeleton
 
 # Resolve by key, name, or style
-resolve_skeleton("tresillo")           # (1.5, 1.5, 1)
+resolve_skeleton("tresillo")  # (1.5, 1.5, 1)
 resolve_skeleton("Dotted half + quarter")  # (3, 1)
-resolve_skeleton("reggae")             # picks first skeleton for that style
+resolve_skeleton("reggae")  # picks first skeleton for that style
 
 # List available skeletons
-list_skeletons()                        # all keys
-list_skeletons(beats_per_measure=3)     # waltz-family only
-list_skeletons(style="jazz")            # jazz-associated skeletons
+list_skeletons()  # all keys
+list_skeletons(beats_per_measure=3)  # waltz-family only
+list_skeletons(style="jazz")  # jazz-associated skeletons
 
 # Register your own
 register_skeleton("my_groove", (1, 0.5, 0.5, 2), name="My Groove", styles=["custom"])
@@ -355,11 +353,13 @@ Provide your own chord-to-notes resolver:
 ```python
 from accompy import set_chord_resolver, generate_accompaniment
 
+
 def jazz_voicing_resolver(symbol: str) -> list[int]:
     """Custom jazz voicings with rootless chords, tensions, etc."""
     # Your custom chord resolution logic
     # Return list of MIDI note numbers
     return [55, 59, 62, 65, 69]  # Example: Dm9 voicing
+
 
 # Set as default resolver
 set_chord_resolver(jazz_voicing_resolver)
@@ -373,7 +373,16 @@ audio = generate_accompaniment("| Dm7 | G7 | Cmaj7 |")
 Register your own accompaniment patterns:
 
 ```python
-from accompy import register_style, DrumPattern, BassPattern, DrumHit, NoteEvent, KICK, SNARE, CLOSED_HIHAT
+from accompy import (
+    register_style,
+    DrumPattern,
+    BassPattern,
+    DrumHit,
+    NoteEvent,
+    KICK,
+    SNARE,
+    CLOSED_HIHAT,
+)
 
 # Define custom drum pattern
 my_drum = DrumPattern(
@@ -386,22 +395,22 @@ my_drum = DrumPattern(
         DrumHit(2, KICK, 110),
         DrumHit(3, SNARE, 105),
         # ... more hits
-    ]
+    ],
 )
 
 # Define custom bass pattern
 my_bass = BassPattern(
     name="my_funk",
     notes=[
-        NoteEvent(0, 0, 0.4, 110),      # Root, short
-        NoteEvent(0.75, 0, 0.2, 80),    # Root, ghostNote
-        NoteEvent(1.5, 7, 0.3, 90),      # 5th
+        NoteEvent(0, 0, 0.4, 110),  # Root, short
+        NoteEvent(0.75, 0, 0.2, 80),  # Root, ghostNote
+        NoteEvent(1.5, 7, 0.3, 90),  # 5th
         # ... more notes
-    ]
+    ],
 )
 
 # Register the custom style
-register_style('my_funk', drums=[my_drum], bass=[my_bass], comp=[])
+register_style("my_funk", drums=[my_drum], bass=[my_bass], comp=[])
 
 # Use it
 audio = generate_accompaniment("| C7 | F7 | C7 | G7 |", style="my_funk")
@@ -420,14 +429,14 @@ registry = get_pattern_registry()
 print(registry.available_styles())  # ['swing', 'bossa', 'rock', ...]
 
 # Access patterns like a dict
-swing_patterns = registry['swing']
-print(swing_patterns['drums'])  # List of DrumPattern objects
+swing_patterns = registry["swing"]
+print(swing_patterns["drums"])  # List of DrumPattern objects
 
 # Add/modify styles at runtime
-registry['custom_groove'] = {
-    'drums': [custom_drum_pattern],
-    'bass': [custom_bass_pattern],
-    'comp': [custom_comp_pattern]
+registry["custom_groove"] = {
+    "drums": [custom_drum_pattern],
+    "bass": [custom_bass_pattern],
+    "comp": [custom_comp_pattern],
 }
 ```
 
@@ -439,7 +448,7 @@ For advanced use cases (future integration with `hum`/`pyo` for real-time synthe
 from accompy import RealtimeAccompaniment, AccompanimentConfig
 
 # Create real-time player
-config = AccompanimentConfig(tempo=120, style='swing')
+config = AccompanimentConfig(tempo=120, style="swing")
 player = RealtimeAccompaniment(config)
 
 # Set chord progression
@@ -462,6 +471,7 @@ from accompy.protocols import ChordResolver, PatternSource, SynthesizerBackend
 # Implement custom components that satisfy these protocols
 # See accompy/protocols.py for full definitions
 
+
 # Example: Custom synthesis backend
 class MySynthBackend(SynthesizerBackend):
     def render_to_file(self, midi_path, output_path, *, sample_rate=44100):
@@ -471,6 +481,7 @@ class MySynthBackend(SynthesizerBackend):
     @classmethod
     def is_available(cls):
         return True  # Check if dependencies are available
+
 
 # Use with dependency injection
 from accompy import AccompanimentConfig, generate_accompaniment
@@ -720,6 +731,7 @@ Get a comprehensive report of your setup:
 
 ```python
 from accompy import print_diagnostic_report
+
 print_diagnostic_report()
 ```
 

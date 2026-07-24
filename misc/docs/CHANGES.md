@@ -129,6 +129,7 @@ Users can now:
 
 ```python
 from accompy import verify_and_setup
+
 verify_and_setup(interactive=True)
 # Walks user through entire setup process
 ```
@@ -137,6 +138,7 @@ verify_and_setup(interactive=True)
 
 ```python
 from accompy import check_dependencies
+
 deps = check_dependencies()
 # Returns: {'mma': False, 'fluidsynth': True, 'soundfont': True, ...}
 ```
@@ -145,6 +147,7 @@ deps = check_dependencies()
 
 ```python
 from accompy import print_diagnostic_report
+
 print_diagnostic_report()
 # Shows system info, dependency status, and specific issues with solutions
 ```
@@ -153,6 +156,7 @@ print_diagnostic_report()
 
 ```python
 from accompy import setup_soundfont
+
 setup_soundfont()
 # Automatically finds or downloads SoundFont and configures it
 ```

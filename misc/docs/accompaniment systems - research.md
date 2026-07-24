@@ -181,10 +181,11 @@ class AccompanimentMemory:
     def __init__(self, history_length=8):
         self.voicing_history = deque(maxlen=history_length)
         self.rhythm_history = deque(maxlen=history_length)
-        
+
     def score_candidate(self, voicing, rhythm):
-        repetition_penalty = sum(1 for v in self.voicing_history 
-                                  if self.similar(v, voicing))
+        repetition_penalty = sum(
+            1 for v in self.voicing_history if self.similar(v, voicing)
+        )
         voice_leading_cost = self.vl_distance(self.voicing_history[-1], voicing)
         return 10 - repetition_penalty - (voice_leading_cost / 12)
 ```
@@ -211,11 +212,11 @@ The **CASM section** controls chord transposition behavior through **Ctab** stru
 
 ```python
 # Extract MIDI section from Yamaha style
-with open('style.sty', 'rb') as f:
+with open("style.sty", "rb") as f:
     data = f.read()
-midi_start = data.find(b'MThd')
-casm_pos = data.find(b'CASM')
-midi_data = data[midi_start:casm_pos if casm_pos > 0 else len(data)]
+midi_start = data.find(b"MThd")
+casm_pos = data.find(b"CASM")
+midi_data = data[midi_start : casm_pos if casm_pos > 0 else len(data)]
 ```
 
 **Band-in-a-Box** uses a completely different proprietary format (RIFF-based, magic bytes `52 49 46 46` followed by `.DMSTstyh`) with probabilistic pattern pools rather than fixed arrangements. Pattern weights (1-9) control selection probability. Conversion typically requires exporting to MIDI via BIAB itself.
@@ -282,6 +283,7 @@ For **DAW integration**, create virtual ports via **loopMIDI** (https://www.tobi
 
 ```python
 import rtmidi
+
 midi_out = rtmidi.MidiOut()
 midi_out.open_virtual_port("Python Accompaniment")
 # DAW sees "Python Accompaniment" as MIDI input
@@ -295,6 +297,7 @@ midi_out.open_virtual_port("Python Accompaniment")
 
 ```python
 from pythonosc import udp_client
+
 client = udp_client.SimpleUDPClient("127.0.0.1", 5005)
 client.send_message("/tempo", 120)
 ```

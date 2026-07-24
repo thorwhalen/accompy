@@ -8,6 +8,7 @@ For most users, the automated setup is the easiest way to get started:
 
 ```python
 from accompy import verify_and_setup
+
 verify_and_setup(interactive=True)
 ```
 
@@ -58,6 +59,7 @@ If you installed FluidSynth via Homebrew, it comes with a SoundFont:
 
 ```python
 from accompy import setup_soundfont
+
 setup_soundfont()
 ```
 
@@ -99,6 +101,7 @@ pip install pyRealParser
 
 ```python
 from accompy import print_diagnostic_report
+
 print_diagnostic_report()
 ```
 
@@ -128,6 +131,7 @@ print(deps)
 
 ```python
 from accompy import print_diagnostic_report
+
 print_diagnostic_report()
 ```
 
@@ -167,6 +171,7 @@ else:
 **Quick fix:**
 ```python
 from accompy import setup_soundfont
+
 setup_soundfont()
 ```
 
@@ -230,6 +235,7 @@ UserWarning: accompy setup incomplete - missing: soundfont, midiutil
 **Option 1: Run automated setup**
 ```python
 from accompy import verify_and_setup
+
 verify_and_setup()
 ```
 
@@ -237,6 +243,7 @@ verify_and_setup()
 Install the missing dependencies, then verify:
 ```python
 from accompy import print_diagnostic_report
+
 print_diagnostic_report()
 ```
 
@@ -248,6 +255,7 @@ export ACCOMPY_SKIP_SETUP_CHECK=1
 Or in Python:
 ```python
 import os
+
 os.environ["ACCOMPY_SKIP_SETUP_CHECK"] = "1"
 from accompy import generate_accompaniment
 ```
@@ -262,9 +270,7 @@ You can specify a custom SoundFont when generating audio:
 from accompy import generate_accompaniment, AccompanimentConfig
 
 config = AccompanimentConfig(
-    soundfont="/path/to/your/custom.sf2",
-    style="swing",
-    tempo=120
+    soundfont="/path/to/your/custom.sf2", style="swing", tempo=120
 )
 
 audio = generate_accompaniment("| C | Am | F | G |", config=config)
@@ -302,10 +308,7 @@ from accompy import generate_accompaniment
 
 # Generate a simple test track
 audio = generate_accompaniment(
-    "| C | Am | F | G |",
-    style="bossa",
-    tempo=120,
-    output_path="/tmp/test.wav"
+    "| C | Am | F | G |", style="bossa", tempo=120, output_path="/tmp/test.wav"
 )
 
 print(f"Generated: {audio}")

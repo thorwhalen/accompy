@@ -109,6 +109,7 @@ Each entry in `RHYTHMIC_SKELETONS` is a dict with:
 
 ```python
 from accompy import rhythm_to_midi
+
 midi = rhythm_to_midi("| Dm7 | G7 | Cmaj7 |", skeleton="tresillo", tempo=120)
 ```
 

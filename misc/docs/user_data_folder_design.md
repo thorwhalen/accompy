@@ -108,15 +108,18 @@ def get_resource(name: str) -> Path:
         _seed_file("resources", name, target)
     return target
 
+
 def _seed_file(category: str, name: str, target: Path):
     """Copy a bundled seed file to the user data directory."""
     target.parent.mkdir(parents=True, exist_ok=True)
     seed_content = _read_seed(category, name)
     target.write_bytes(seed_content)
 
+
 def _read_seed(category: str, name: str) -> bytes:
     """Read a seed file from the package's _seed_data directory."""
     from importlib.resources import files
+
     ref = files(f"{PACKAGE_NAME}._seed_data.{category}") / name
     return ref.read_bytes()
 ```
@@ -142,11 +145,7 @@ pattern:
 def load_resource_lines(name: str) -> list[str]:
     """Load a text resource as a list of non-empty lines."""
     path = get_resource(name)
-    return [
-        line.strip()
-        for line in path.read_text().splitlines()
-        if line.strip()
-    ]
+    return [line.strip() for line in path.read_text().splitlines() if line.strip()]
 ```
 
 For module-level constants that currently live as dicts/lists in source code,
@@ -165,9 +164,11 @@ STYLES = ["swing", "bossa", "rock", "funk", ...]
 # AFTER (lazy from user data)
 from functools import cache
 
+
 @cache
 def _load_styles():
     return load_resource_lines("short_styles.txt")
+
 
 # Property-style access for backward compat at module level
 # (or just call _load_styles() where needed)
@@ -215,6 +216,7 @@ folder resolution:
 import os
 from pathlib import Path
 
+
 def _get_xdg_dir(folder_kind: str) -> Path:
     """Resolve XDG-style directory, cross-platform."""
     if os.name == "nt":  # Windows
@@ -224,13 +226,22 @@ def _get_xdg_dir(folder_kind: str) -> Path:
             "cache": os.path.join(os.environ.get("LOCALAPPDATA", ""), "Temp"),
         }
     else:  # macOS, Linux, etc.
-        env_vars = {"config": "XDG_CONFIG_HOME", "data": "XDG_DATA_HOME", "cache": "XDG_CACHE_HOME"}
-        defaults_map = {"config": "~/.config", "data": "~/.local/share", "cache": "~/.cache"}
+        env_vars = {
+            "config": "XDG_CONFIG_HOME",
+            "data": "XDG_DATA_HOME",
+            "cache": "XDG_CACHE_HOME",
+        }
+        defaults_map = {
+            "config": "~/.config",
+            "data": "~/.local/share",
+            "cache": "~/.cache",
+        }
         env_val = os.environ.get(env_vars[folder_kind])
         if env_val:
             return Path(env_val)
         return Path(defaults_map[folder_kind]).expanduser()
     return Path(defaults[folder_kind])
+
 
 def get_app_folder(app_name: str, folder_kind: str = "data") -> Path:
     """Return the app-specific directory for the given folder kind, creating it."""

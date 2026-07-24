@@ -56,17 +56,22 @@ All major components define protocols for structural subtyping:
 @runtime_checkable
 class ChordResolver(Protocol):
     """Convert chord symbols to MIDI notes."""
+
     def __call__(self, symbol: str) -> list[int]: ...
+
 
 @runtime_checkable
 class PatternSource(Protocol):
     """Provides patterns for a given style."""
+
     def get_patterns(self, style: str) -> dict[str, list]: ...
     def available_styles(self) -> list[str]: ...
+
 
 @runtime_checkable
 class SynthesizerBackend(Protocol):
     """Audio synthesis backend."""
+
     def render_to_file(self, midi_path, output_path, *, sample_rate): ...
     def is_available(cls) -> bool: ...
 ```
@@ -88,15 +93,16 @@ class PatternRegistry(MutableMapping[str, dict]):
     def __getitem__(self, style: str) -> dict: ...
     def __setitem__(self, style: str, patterns: dict): ...
     def __delitem__(self, style: str): ...
+
     # ... etc
 ```
 
 **Usage:**
 ```python
 registry = get_pattern_registry()
-registry['custom'] = {'drums': [...], 'bass': [...], 'comp': [...]}
-del registry['unwanted_style']
-'swing' in registry  # True
+registry["custom"] = {"drums": [...], "bass": [...], "comp": [...]}
+del registry["unwanted_style"]
+"swing" in registry  # True
 ```
 
 **Benefits:**
@@ -122,6 +128,7 @@ def generate_midi_events(
         for measure in score.measures:
             # ... generate events
             yield MidiEvent(time, channel, note, velocity, duration)
+
 
 def events_to_midi_file(events: Sequence[MidiEvent], path: Path, tempo: int):
     """Write events to file (side effect)."""
@@ -155,8 +162,7 @@ class AccompanimentConfig:
 **Usage:**
 ```python
 config = AccompanimentConfig(
-    chord_resolver=my_custom_resolver,
-    synthesis_backend=MyCustomSynthBackend()
+    chord_resolver=my_custom_resolver, synthesis_backend=MyCustomSynthBackend()
 )
 generate_accompaniment(chords, config=config)
 ```
@@ -221,9 +227,11 @@ The docs and tests are the source of truth for the current API.
 ```python
 from accompy import set_chord_resolver
 
+
 def jazz_voicing(symbol: str) -> list[int]:
     # Custom voicing logic (rootless, tensions, etc.)
     return [55, 59, 62, 65, 69]
+
 
 set_chord_resolver(jazz_voicing)
 ```
@@ -236,7 +244,7 @@ from accompy import register_style, DrumPattern, BassPattern, DrumHit, NoteEvent
 my_drum = DrumPattern("my_funk", 4, [DrumHit(0, KICK, 110), ...])
 my_bass = BassPattern("my_funk", [NoteEvent(0, 0, 0.4, 110), ...])
 
-register_style('my_funk', drums=[my_drum], bass=[my_bass], comp=[])
+register_style("my_funk", drums=[my_drum], bass=[my_bass], comp=[])
 ```
 
 ### Custom Synthesis Backend
@@ -245,10 +253,12 @@ register_style('my_funk', drums=[my_drum], bass=[my_bass], comp=[])
 from accompy.protocols import SynthesizerBackend
 from accompy import AccompanimentConfig, generate_accompaniment
 
+
 class PyoBackend(SynthesizerBackend):
     def render_to_file(self, midi_path, output_path, *, sample_rate=44100):
         # Use hum/pyo for synthesis
         from hum.pyo_util import Synth
+
         # ... custom synthesis logic
         return output_path
 
@@ -256,9 +266,11 @@ class PyoBackend(SynthesizerBackend):
     def is_available(cls):
         try:
             import pyo
+
             return True
         except ImportError:
             return False
+
 
 config = AccompanimentConfig(synthesis_backend=PyoBackend())
 audio = generate_accompaniment("| C | G | Am | F |", config=config)
@@ -319,6 +331,7 @@ from mcp import MCPServer
 
 server = MCPServer("accompy")
 
+
 @server.tool()
 def generate_backing_track(chords: str, style: str, tempo: int):
     return generate_accompaniment(chords, style=style, tempo=tempo)
@@ -335,13 +348,14 @@ If you've created custom extensions:
 **Before (custom patterns):**
 ```python
 # Had to modify builtin pattern tables directly
-DRUM_PATTERNS['custom'] = [...]
+DRUM_PATTERNS["custom"] = [...]
 ```
 
 **After (v0.2.0):**
 ```python
 from accompy import register_style
-register_style('custom', drums=[...], bass=[...], comp=[...])
+
+register_style("custom", drums=[...], bass=[...], comp=[...])
 ```
 
 ## Related Packages

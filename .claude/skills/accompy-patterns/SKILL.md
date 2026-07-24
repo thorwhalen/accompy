@@ -51,8 +51,9 @@ class CompingPattern:
 
 ```python
 from accompy.patterns import pattern_registry
-pattern_registry['my_style'] = {'drums': my_drum, 'bass': my_bass, 'comping': my_comp}
-del pattern_registry['my_style']  # remove
+
+pattern_registry["my_style"] = {"drums": my_drum, "bass": my_bass, "comping": my_comp}
+del pattern_registry["my_style"]  # remove
 ```
 
 ## Rhythmic Skeletons

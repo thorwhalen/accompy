@@ -14,6 +14,7 @@ pip install -e /path/to/accompy
 
 ```python
 from accompy import verify_and_setup
+
 verify_and_setup(interactive=True)
 ```
 
@@ -46,6 +47,7 @@ pip install midiutil mingus
 
 ```python
 from accompy import print_diagnostic_report
+
 print_diagnostic_report()
 ```
 
@@ -57,11 +59,7 @@ You should see ✓ marks for `fluidsynth` and `soundfont` at minimum.
 from accompy import generate_accompaniment
 
 # Generate a bossa nova backing track
-audio = generate_accompaniment(
-    "| Dm7 | G7 | Cmaj7 | A7b9 |",
-    style="bossa",
-    tempo=140
-)
+audio = generate_accompaniment("| Dm7 | G7 | Cmaj7 | A7b9 |", style="bossa", tempo=140)
 
 print(f"Generated: {audio}")
 ```
@@ -83,6 +81,7 @@ for issue, desc, solution in diagnose_issues():
 **"No SoundFont found"**
 ```python
 from accompy import setup_soundfont
+
 setup_soundfont()
 ```
 
@@ -98,6 +97,7 @@ sudo apt-get install fluidsynth
 **Import warning**
 ```python
 import os
+
 os.environ["ACCOMPY_SKIP_SETUP_CHECK"] = "1"  # Temporarily disable
 # Then run verify_and_setup() to fix
 ```

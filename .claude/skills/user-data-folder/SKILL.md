@@ -75,6 +75,7 @@ get_artifact_dir = _app_data.get_artifact_dir
 
 # -- Project-specific convenience loaders --
 
+
 def load_resource_text(name: str) -> str:
     """Read a resource file as text."""
     return get_resource(name).read_text()
@@ -83,15 +84,14 @@ def load_resource_text(name: str) -> str:
 def load_resource_lines(name: str) -> list[str]:
     """Read a resource file as a list of non-empty stripped lines."""
     return [
-        line.strip()
-        for line in load_resource_text(name).splitlines()
-        if line.strip()
+        line.strip() for line in load_resource_text(name).splitlines() if line.strip()
     ]
 
 
 def load_resource_json(name: str):
     """Read a resource file as JSON."""
     import json
+
     return json.loads(load_resource_text(name))
 ```
 
@@ -120,10 +120,12 @@ For each module-level dict/list that is a good externalization candidate:
 ```python
 from functools import cache
 
+
 @cache
 def _load_styles() -> list[str]:
     """Load style list from user resources (seeded from package data)."""
     from .data_access import get_resource
+
     path = get_resource("styles.txt")
     return [line.strip() for line in path.read_text().splitlines() if line.strip()]
 ```
@@ -142,11 +144,11 @@ app = AppData("my-app", package_name="my_app")
 # Custom seed directory name (default is "_seed_data"):
 app = AppData("myapp", seed_data_dir="bundled_data")
 
-app.app_folder()                      # -> Path: ~/.local/share/myapp
+app.app_folder()  # -> Path: ~/.local/share/myapp
 app.app_folder(folder_kind="config")  # -> Path: ~/.config/myapp
-app.get_resource("data.json")         # -> Path (seeded if missing)
-app.get_config("settings.json")       # -> Path (seeded if missing)
-app.get_artifact_dir("exports")       # -> Path (created if missing)
+app.get_resource("data.json")  # -> Path (seeded if missing)
+app.get_config("settings.json")  # -> Path (seeded if missing)
+app.get_artifact_dir("exports")  # -> Path (created if missing)
 ```
 
 Seed-on-missing logic: `config2py.ensure_seeded(target, package_name,
