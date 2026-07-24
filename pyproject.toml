@@ -8,6 +8,7 @@ version = "0.3.10"
 description = "Generate backing track audio from chord charts"
 readme = "README.md"
 requires-python = ">=3.10"
+license = "MIT"
 authors = [{ name = "Thor Whalen" }]
 dependencies = [
     "midiutil",
@@ -37,7 +38,6 @@ classifiers = [
     "Development Status :: 3 - Alpha",
     "Intended Audience :: Developers",
     "Intended Audience :: End Users/Desktop",
-    "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3.10",
@@ -46,9 +46,6 @@ classifiers = [
     "Topic :: Multimedia :: Sound/Audio :: MIDI",
     "Topic :: Multimedia :: Sound/Audio :: Sound Synthesis",
 ]
-
-[project.license]
-text = "mit"
 
 [project.urls]
 Homepage = "https://github.com/thorwhalen/accompy"
