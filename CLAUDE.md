@@ -4,7 +4,8 @@
 
 accompy generates backing track audio from chord charts (like a scriptable iReal Pro). Input: chord progressions as strings, Score objects, iReal URLs, or tuples. Output: multi-instrument audio (drums, bass, piano) in styles like swing, bossa, rock, ballad, funk, latin, waltz, blues.
 
-**Version**: 0.3.4 (alpha — breaking changes possible)
+**Version**: 0.3.x (alpha — breaking changes possible; the exact version lives in
+pyproject.toml and bumps automatically on every merge, so it is not repeated here)
 **Python**: 3.10+
 
 ## Key Entry Points
@@ -66,12 +67,20 @@ python -m pytest tests/ -v
 ```
 
 Tests mock audio rendering (no FluidSynth needed). Test files:
-- `test_core.py` (39 tests) — chord normalization, parsing, Score, MIDI, config
-- `test_patterns.py` (28 tests) — pattern structures, validation, built-in patterns
-- `test_audio_production.py` (25 tests) — full audio workflows, all styles
-- `test_converters.py` (13 tests) — converter pipeline
-- `test_types.py` (7 tests) — pipeline type validation
-- `test_pipeline.py` (4 tests) — high-level API
+- `test_core.py` — chord normalization, parsing, Score, MIDI, config
+- `test_patterns.py` — pattern structures, validation, built-in patterns
+- `test_audio_production.py` — full audio workflows, all styles
+- `test_converters.py` — converter pipeline
+- `test_types.py` — pipeline type validation
+- `test_pipeline.py` — high-level API
+- `test_rendering.py`, `test_new_renderers.py` — renderer behavior
+- `test_rhythmic_skeletons.py` — duration-only measure patterns
+- `test_roman_nashville.py` — roman-numeral / Nashville chord input
+- `test_data_access.py` — data access helpers
+- `test_wips_converters.py`, `test_wips_pipeline.py`, `test_wips_types.py` —
+  work-in-progress surfaces (kept green but the APIs they pin may still move)
+
+(Counts are deliberately not listed — they drift with every test added.)
 
 ## Development Rules
 
