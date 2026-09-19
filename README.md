@@ -792,6 +792,22 @@ Contributions welcome! Areas of interest:
 - Web interface
 - Better cross-platform setup automation
 
+## AI agent skills
+
+Two skills ship with this repository. Their real files live in `skills/`, with a
+relative symlink per skill in `.claude/skills/` so Claude Code finds them too —
+`gh skill` discovers non-hidden `skills/` directories and skips hidden ones, so
+one location plus a symlink serves both.
+
+| Skill | What it covers |
+|---|---|
+| `accompy-patterns` | The conventions this codebase follows |
+| `user-data-folder` | Where an app's user data lives (XDG paths, `config2py.AppData`, seeding from package data) |
+
+```bash
+gh skill install thorwhalen/accompy user-data-folder
+```
+
 ## License
 
 MIT
