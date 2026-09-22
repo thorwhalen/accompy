@@ -27,10 +27,10 @@ print(f"Generated: {audio}")  # -> /tmp/xxx.wav
 ### Installation
 
 ```bash
-pip install accompy  # Coming soon to PyPI
+pip install accompy
 
 # Or install from source:
-git clone https://github.com/yourname/accompy
+git clone https://github.com/thorwhalen/accompy
 pip install -e accompy
 ```
 
