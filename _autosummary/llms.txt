@@ -1,0 +1,43 @@
+# accompy
+
+> Generate backing track audio from chord charts
+
+
+## Pages in this subsection
+
+- [accompy](accompy.html.md): accompy - Generate accompaniment audio from chord charts.
+- [accompy.audio_renderers](accompy.audio_renderers.html.md): Audio renderers — convert MidiData to AudioData.
+- [accompy.base](accompy.base.html.md): Core domain models for accompy.
+- [accompy.chord_parsers](accompy.chord_parsers.html.md): Chord sheet parsers — convert various text formats to ChordSequence.
+- [accompy.chord_resolution](accompy.chord_resolution.html.md): Chord symbol to MIDI notes resolution.
+- [accompy.chord_resolvers](accompy.chord_resolvers.html.md): Chord resolvers — convert chord symbols to MIDI note numbers.
+- [accompy.converters](accompy.converters.html.md): Core types for the chord-to-audio pipeline.
+- [accompy.data_access](accompy.data_access.html.md): Per-user data directory management for accompy.
+- [accompy.main](accompy.main.html.md): Main accompaniment generation module.
+- [accompy.midi_generators](accompy.midi_generators.html.md): MIDI generators — convert NoteSequence to MidiData.
+- [accompy.patterns](accompy.patterns.html.md): Pattern registry and access for accompany patterns.
+- [accompy.patterns.builtin](accompy.patterns.builtin.html.md): Built-in pattern definitions for all supported styles.
+- [accompy.patterns.dataclasses](accompy.patterns.dataclasses.html.md): Pattern data structures for accompaniment generation.
+- [accompy.pipeline](accompy.pipeline.html.md): High-level pipeline API — one-call chord-to-audio conversion.
+- [accompy.protocols](accompy.protocols.html.md): Protocols defining extensibility contracts for accompy.
+- [accompy.realtime](accompy.realtime.html.md): Real-time accompaniment support (foundation).
+- [accompy.renderers](accompy.renderers.html.md): MIDI and MMA rendering backends for accompy.
+- [accompy.renderers.midi](accompy.renderers.midi.html.md): MIDI event generation (stateless, iterator-based).
+- [accompy.rendering](accompy.rendering.html.md): High-quality chord rendering pipeline — from chord charts to AI-enhanced audio.
+- [accompy.rhythmic_skeletons](accompy.rhythmic_skeletons.html.md): Rhythmic skeletons — duration-only measure patterns for simple accompaniment.
+- [accompy.setup_utils](accompy.setup_utils.html.md): Setup and configuration utilities for accompy.
+- [accompy.synthesis](accompy.synthesis.html.md): Audio synthesis backends for accompy.
+- [accompy.synthesis.fluidsynth](accompy.synthesis.fluidsynth.html.md): FluidSynth synthesis backend.
+- [accompy.tools](accompy.tools.html.md): Tools for generating accompaniment audio from Score objects.
+- [accompy.util](accompy.util.html.md): Utility functions for chord parsing and normalization.
+- [accompy.wips](accompy.wips.html.md): Backward-compatibility shim — wips modules have moved to accompy top level.
+- [accompy.wips.audio_renderers](accompy.wips.audio_renderers.html.md): Backward-compat shim. Use &#96;accompy.audio_renderers&#96; instead.
+- [accompy.wips.chord_parsers](accompy.wips.chord_parsers.html.md): Backward-compat shim. Use &#96;accompy.chord_parsers&#96; instead.
+- [accompy.wips.chord_resolvers](accompy.wips.chord_resolvers.html.md): Backward-compat shim. Use &#96;accompy.chord_resolvers&#96; instead.
+- [accompy.wips.midi_generators](accompy.wips.midi_generators.html.md): Backward-compat shim. Use &#96;accompy.midi_generators&#96; instead.
+- [accompy.wips.pipeline](accompy.wips.pipeline.html.md): Backward-compat shim. Use &#96;accompy.pipeline&#96; instead.
+- [accompy.wips.types](accompy.wips.types.html.md): Backward-compat shim. Use &#96;accompy.converters&#96; instead.
+
+## Optional
+
+- [Top-level llms.txt](../llms.txt): Complete documentation index.

@@ -1,0 +1,14 @@
+accompy.renderers.midi
+======================
+
+.. automodule:: accompy.renderers.midi
+
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+   
+      events_to_midi_file
+      generate_builtin_midi
+      generate_midi_events
+   

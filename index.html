@@ -1,427 +1,1376 @@
 
-
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" data-content_root="./">
-<head>
-  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Welcome to accompy’s documentation! &mdash; accompy 0.3.10 documentation</title>
-      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
-      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
-      <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
-      <link rel="stylesheet" type="text/css" href="_static/graphviz.css?v=4ae1632d" />
 
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<link rel="alternate" type="text/markdown" href="index.html.md">
+<link rel="describedby" href="llms.txt" type="text/markdown">
+<link rel="alternate" type="text/markdown" href="index.html.md">
+<link rel="describedby" href="llms.txt">
+    <title>accompy 🎵 &#8212; accompy</title>
   
-      <script src="_static/jquery.js?v=5d32c60e"></script>
-      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="_static/documentation_options.js?v=9f76a604"></script>
-      <script src="_static/doctools.js?v=fd6eb6e6"></script>
-      <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
-      <script src="_static/toggleprompt.js?v=d7ede5d2"></script>
-      <script src="_static/clipboard.min.js?v=a7894cd8"></script>
-      <script src="_static/copybutton.js?v=f281be69"></script>
-    <script src="_static/js/theme.js"></script>
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=cb8930eaaf36d9849b67" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=cb8930eaaf36d9849b67" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=d75fae25" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/epythet.css?v=fbe2051b" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="_static/scripts/fontawesome.js?digest=cb8930eaaf36d9849b67"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=cb8930eaaf36d9849b67" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=cb8930eaaf36d9849b67" />
+
+    <script src="_static/documentation_options.js?v=0cf6a877"></script>
+    <script src="_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=fd10adb8"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'index';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="accompy" href="module_docs/accompy.html" /> 
-</head>
+    <link rel="next" title="API reference" href="api.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="0.3.12" />
+  
+    
+    <script src="_static/searchtools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <script src="searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
 
-<body class="wy-body-for-nav"> 
-  <div class="wy-grid-for-nav">
-    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
-      <div class="wy-side-scroll">
-        <div class="wy-side-nav-search" >
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
 
-          
-          
-          <a href="#" class="icon icon-home">
-            accompy
-          </a>
-<div role="search">
-  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
-    <input type="hidden" name="check_keywords" value="yes" />
-    <input type="hidden" name="area" value="default" />
-  </form>
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
 </div>
-        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/accompy.html">accompy</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/accompy/_seed_data.html">accompy._seed_data</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/accompy/_seed_data/config.html">accompy._seed_data.config</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/accompy/_seed_data/resources.html">accompy._seed_data.resources</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/accompy/audio_renderers.html">accompy.audio_renderers</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/accompy/base.html">accompy.base</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/accompy/chord_parsers.html">accompy.chord_parsers</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/accompy/chord_resolution.html">accompy.chord_resolution</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/accompy/chord_resolvers.html">accompy.chord_resolvers</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/accompy/converters.html">accompy.converters</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/accompy/data_access.html">accompy.data_access</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/accompy/main.html">accompy.main</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/accompy/midi_generators.html">accompy.midi_generators</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/accompy/patterns.html">accompy.patterns</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/accompy/patterns/builtin.html">accompy.patterns.builtin</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/accompy/patterns/dataclasses.html">accompy.patterns.dataclasses</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/accompy/pipeline.html">accompy.pipeline</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/accompy/protocols.html">accompy.protocols</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/accompy/realtime.html">accompy.realtime</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/accompy/renderers.html">accompy.renderers</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/accompy/renderers/midi.html">accompy.renderers.midi</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/accompy/rendering.html">accompy.rendering</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/accompy/rhythmic_skeletons.html">accompy.rhythmic_skeletons</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/accompy/setup_utils.html">accompy.setup_utils</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/accompy/synthesis.html">accompy.synthesis</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/accompy/synthesis/fluidsynth.html">accompy.synthesis.fluidsynth</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/accompy/tools.html">accompy.tools</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/accompy/util.html">accompy.util</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/accompy/wips.html">accompy.wips</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/accompy/wips/audio_renderers.html">accompy.wips.audio_renderers</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/accompy/wips/chord_parsers.html">accompy.wips.chord_parsers</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/accompy/wips/chord_resolvers.html">accompy.wips.chord_resolvers</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/accompy/wips/midi_generators.html">accompy.wips.midi_generators</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/accompy/wips/pipeline.html">accompy.wips.pipeline</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/accompy/wips/types.html">accompy.wips.types</a></li>
-</ul>
 
-        </div>
-      </div>
-    </nav>
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
-          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="#">accompy</a>
-      </nav>
+  
+    
+  
 
-      <div class="wy-nav-content">
-        <div class="rst-content">
-          <div role="navigation" aria-label="Page navigation">
-  <ul class="wy-breadcrumbs">
-      <li><a href="#" class="icon icon-home" aria-label="Home"></a></li>
-      <li class="breadcrumb-item active">Welcome to accompy’s documentation!</li>
-      <li class="wy-breadcrumbs-aside">
-            <a href="_sources/index.rst.txt" rel="nofollow"> View page source</a>
-      </li>
+<a class="navbar-brand logo" href="#">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">accompy</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="api.html">
+    API reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="ai-agents.html">
+    For AI agents
+  </a>
+</li>
+
   </ul>
-  <hr/>
-</div>
-          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
-           <div itemprop="articleBody">
-             
-  <section id="welcome-to-accompy-s-documentation">
-<h1>Welcome to accompy’s documentation!<a class="headerlink" href="#welcome-to-accompy-s-documentation" title="Link to this heading"></a></h1>
-<div class="toctree-wrapper compound">
-<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/accompy.html">accompy</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy.html#accompy.AccompanimentConfig"><code class="docutils literal notranslate"><span class="pre">AccompanimentConfig</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy.html#accompy.AudioData"><code class="docutils literal notranslate"><span class="pre">AudioData</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy.html#accompy.BassPattern"><code class="docutils literal notranslate"><span class="pre">BassPattern</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy.html#accompy.ChordEvent"><code class="docutils literal notranslate"><span class="pre">ChordEvent</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy.html#accompy.ChordResolver"><code class="docutils literal notranslate"><span class="pre">ChordResolver</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy.html#accompy.ChordSequence"><code class="docutils literal notranslate"><span class="pre">ChordSequence</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy.html#accompy.CompingPattern"><code class="docutils literal notranslate"><span class="pre">CompingPattern</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy.html#accompy.ConverterRegistry"><code class="docutils literal notranslate"><span class="pre">ConverterRegistry</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy.html#accompy.DrumHit"><code class="docutils literal notranslate"><span class="pre">DrumHit</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy.html#accompy.DrumPattern"><code class="docutils literal notranslate"><span class="pre">DrumPattern</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy.html#accompy.MidiData"><code class="docutils literal notranslate"><span class="pre">MidiData</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy.html#accompy.MidiEvent"><code class="docutils literal notranslate"><span class="pre">MidiEvent</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy.html#accompy.NoteEvent"><code class="docutils literal notranslate"><span class="pre">NoteEvent</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy.html#accompy.NoteSequence"><code class="docutils literal notranslate"><span class="pre">NoteSequence</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy.html#accompy.PatternSource"><code class="docutils literal notranslate"><span class="pre">PatternSource</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy.html#accompy.RealtimeAccompaniment"><code class="docutils literal notranslate"><span class="pre">RealtimeAccompaniment</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy.html#accompy.Score"><code class="docutils literal notranslate"><span class="pre">Score</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy.html#accompy.ScoreToWav"><code class="docutils literal notranslate"><span class="pre">ScoreToWav</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy.html#accompy.SynthesizerBackend"><code class="docutils literal notranslate"><span class="pre">SynthesizerBackend</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy.html#accompy.apply_skeleton"><code class="docutils literal notranslate"><span class="pre">apply_skeleton()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy.html#accompy.check_dependencies"><code class="docutils literal notranslate"><span class="pre">check_dependencies()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy.html#accompy.chord_to_notes"><code class="docutils literal notranslate"><span class="pre">chord_to_notes()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy.html#accompy.chords_to_audio"><code class="docutils literal notranslate"><span class="pre">chords_to_audio()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy.html#accompy.chords_to_midi"><code class="docutils literal notranslate"><span class="pre">chords_to_midi()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy.html#accompy.chords_to_notes"><code class="docutils literal notranslate"><span class="pre">chords_to_notes()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy.html#accompy.chords_to_sequence"><code class="docutils literal notranslate"><span class="pre">chords_to_sequence()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy.html#accompy.convert"><code class="docutils literal notranslate"><span class="pre">convert()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy.html#accompy.diagnose_issues"><code class="docutils literal notranslate"><span class="pre">diagnose_issues()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy.html#accompy.ensure_score"><code class="docutils literal notranslate"><span class="pre">ensure_score()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy.html#accompy.file_to_audio"><code class="docutils literal notranslate"><span class="pre">file_to_audio()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy.html#accompy.file_to_midi"><code class="docutils literal notranslate"><span class="pre">file_to_midi()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy.html#accompy.generate_accompaniment"><code class="docutils literal notranslate"><span class="pre">generate_accompaniment()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy.html#accompy.generate_mma_wav"><code class="docutils literal notranslate"><span class="pre">generate_mma_wav()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy.html#accompy.generate_variations"><code class="docutils literal notranslate"><span class="pre">generate_variations()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy.html#accompy.generate_wav"><code class="docutils literal notranslate"><span class="pre">generate_wav()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy.html#accompy.get_app_folder"><code class="docutils literal notranslate"><span class="pre">get_app_folder()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy.html#accompy.get_artifact_dir"><code class="docutils literal notranslate"><span class="pre">get_artifact_dir()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy.html#accompy.get_chord_resolver"><code class="docutils literal notranslate"><span class="pre">get_chord_resolver()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy.html#accompy.get_config"><code class="docutils literal notranslate"><span class="pre">get_config()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy.html#accompy.get_pattern_registry"><code class="docutils literal notranslate"><span class="pre">get_pattern_registry()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy.html#accompy.get_patterns"><code class="docutils literal notranslate"><span class="pre">get_patterns()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy.html#accompy.get_resource"><code class="docutils literal notranslate"><span class="pre">get_resource()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy.html#accompy.list_available_converters"><code class="docutils literal notranslate"><span class="pre">list_available_converters()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy.html#accompy.list_skeletons"><code class="docutils literal notranslate"><span class="pre">list_skeletons()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy.html#accompy.load_resource_json"><code class="docutils literal notranslate"><span class="pre">load_resource_json()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy.html#accompy.load_resource_lines"><code class="docutils literal notranslate"><span class="pre">load_resource_lines()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy.html#accompy.load_resource_text"><code class="docutils literal notranslate"><span class="pre">load_resource_text()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy.html#accompy.make_converter_engine"><code class="docutils literal notranslate"><span class="pre">make_converter_engine()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy.html#accompy.midi_to_audio"><code class="docutils literal notranslate"><span class="pre">midi_to_audio()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy.html#accompy.mma_score_to_wav"><code class="docutils literal notranslate"><span class="pre">mma_score_to_wav()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy.html#accompy.parse_ireal_html"><code class="docutils literal notranslate"><span class="pre">parse_ireal_html()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy.html#accompy.parse_ireal_url"><code class="docutils literal notranslate"><span class="pre">parse_ireal_url()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy.html#accompy.play_audio"><code class="docutils literal notranslate"><span class="pre">play_audio()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy.html#accompy.print_diagnostic_report"><code class="docutils literal notranslate"><span class="pre">print_diagnostic_report()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy.html#accompy.print_setup_instructions"><code class="docutils literal notranslate"><span class="pre">print_setup_instructions()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy.html#accompy.register_skeleton"><code class="docutils literal notranslate"><span class="pre">register_skeleton()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy.html#accompy.register_style"><code class="docutils literal notranslate"><span class="pre">register_style()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy.html#accompy.render_chords"><code class="docutils literal notranslate"><span class="pre">render_chords()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy.html#accompy.render_chords_batch"><code class="docutils literal notranslate"><span class="pre">render_chords_batch()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy.html#accompy.resolve_skeleton"><code class="docutils literal notranslate"><span class="pre">resolve_skeleton()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy.html#accompy.rhythm_to_audio"><code class="docutils literal notranslate"><span class="pre">rhythm_to_audio()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy.html#accompy.rhythm_to_midi"><code class="docutils literal notranslate"><span class="pre">rhythm_to_midi()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy.html#accompy.set_chord_resolver"><code class="docutils literal notranslate"><span class="pre">set_chord_resolver()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy.html#accompy.setup_soundfont"><code class="docutils literal notranslate"><span class="pre">setup_soundfont()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy.html#accompy.tonal_resolver"><code class="docutils literal notranslate"><span class="pre">tonal_resolver()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy.html#accompy.transpose_chord"><code class="docutils literal notranslate"><span class="pre">transpose_chord()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy.html#accompy.transpose_note"><code class="docutils literal notranslate"><span class="pre">transpose_note()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy.html#accompy.transpose_score"><code class="docutils literal notranslate"><span class="pre">transpose_score()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy.html#accompy.verify_and_setup"><code class="docutils literal notranslate"><span class="pre">verify_and_setup()</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/accompy/_seed_data.html">accompy._seed_data</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/accompy/_seed_data/config.html">accompy._seed_data.config</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/accompy/_seed_data/resources.html">accompy._seed_data.resources</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/accompy/audio_renderers.html">accompy.audio_renderers</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy/audio_renderers.html#accompy.audio_renderers.chordseq_to_audio_musicgen"><code class="docutils literal notranslate"><span class="pre">chordseq_to_audio_musicgen()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy/audio_renderers.html#accompy.audio_renderers.midi_to_audio_dawdreamer"><code class="docutils literal notranslate"><span class="pre">midi_to_audio_dawdreamer()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy/audio_renderers.html#accompy.audio_renderers.midi_to_audio_fluidsynth"><code class="docutils literal notranslate"><span class="pre">midi_to_audio_fluidsynth()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy/audio_renderers.html#accompy.audio_renderers.midi_to_audio_pretty_midi"><code class="docutils literal notranslate"><span class="pre">midi_to_audio_pretty_midi()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy/audio_renderers.html#accompy.audio_renderers.midi_to_audio_tonal"><code class="docutils literal notranslate"><span class="pre">midi_to_audio_tonal()</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/accompy/base.html">accompy.base</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy/base.html#accompy.base.AccompanimentConfig"><code class="docutils literal notranslate"><span class="pre">AccompanimentConfig</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy/base.html#accompy.base.ChordEvent"><code class="docutils literal notranslate"><span class="pre">ChordEvent</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy/base.html#accompy.base.MidiEvent"><code class="docutils literal notranslate"><span class="pre">MidiEvent</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy/base.html#accompy.base.Score"><code class="docutils literal notranslate"><span class="pre">Score</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy/base.html#accompy.base.ensure_score"><code class="docutils literal notranslate"><span class="pre">ensure_score()</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/accompy/chord_parsers.html">accompy.chord_parsers</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy/chord_parsers.html#accompy.chord_parsers.parse_chord_sheet"><code class="docutils literal notranslate"><span class="pre">parse_chord_sheet()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy/chord_parsers.html#accompy.chord_parsers.parse_chordpro"><code class="docutils literal notranslate"><span class="pre">parse_chordpro()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy/chord_parsers.html#accompy.chord_parsers.parse_ireal_url"><code class="docutils literal notranslate"><span class="pre">parse_ireal_url()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy/chord_parsers.html#accompy.chord_parsers.parse_musicgen_chord_format"><code class="docutils literal notranslate"><span class="pre">parse_musicgen_chord_format()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy/chord_parsers.html#accompy.chord_parsers.parse_nashville"><code class="docutils literal notranslate"><span class="pre">parse_nashville()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy/chord_parsers.html#accompy.chord_parsers.parse_plain_text"><code class="docutils literal notranslate"><span class="pre">parse_plain_text()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy/chord_parsers.html#accompy.chord_parsers.parse_roman_numeral"><code class="docutils literal notranslate"><span class="pre">parse_roman_numeral()</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/accompy/chord_resolution.html">accompy.chord_resolution</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy/chord_resolution.html#accompy.chord_resolution.chord_to_notes"><code class="docutils literal notranslate"><span class="pre">chord_to_notes()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy/chord_resolution.html#accompy.chord_resolution.get_chord_resolver"><code class="docutils literal notranslate"><span class="pre">get_chord_resolver()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy/chord_resolution.html#accompy.chord_resolution.music21_resolver"><code class="docutils literal notranslate"><span class="pre">music21_resolver()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy/chord_resolution.html#accompy.chord_resolution.set_chord_resolver"><code class="docutils literal notranslate"><span class="pre">set_chord_resolver()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy/chord_resolution.html#accompy.chord_resolution.tonal_resolver"><code class="docutils literal notranslate"><span class="pre">tonal_resolver()</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/accompy/chord_resolvers.html">accompy.chord_resolvers</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy/chord_resolvers.html#accompy.chord_resolvers.chordseq_to_noteseq_mingus"><code class="docutils literal notranslate"><span class="pre">chordseq_to_noteseq_mingus()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy/chord_resolvers.html#accompy.chord_resolvers.chordseq_to_noteseq_music21"><code class="docutils literal notranslate"><span class="pre">chordseq_to_noteseq_music21()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy/chord_resolvers.html#accompy.chord_resolvers.chordseq_to_noteseq_pychord"><code class="docutils literal notranslate"><span class="pre">chordseq_to_noteseq_pychord()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy/chord_resolvers.html#accompy.chord_resolvers.chordseq_to_noteseq_tonal"><code class="docutils literal notranslate"><span class="pre">chordseq_to_noteseq_tonal()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy/chord_resolvers.html#accompy.chord_resolvers.resolve_with_mingus"><code class="docutils literal notranslate"><span class="pre">resolve_with_mingus()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy/chord_resolvers.html#accompy.chord_resolvers.resolve_with_music21"><code class="docutils literal notranslate"><span class="pre">resolve_with_music21()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy/chord_resolvers.html#accompy.chord_resolvers.resolve_with_pychord"><code class="docutils literal notranslate"><span class="pre">resolve_with_pychord()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy/chord_resolvers.html#accompy.chord_resolvers.resolve_with_tonal"><code class="docutils literal notranslate"><span class="pre">resolve_with_tonal()</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/accompy/converters.html">accompy.converters</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy/converters.html#accompy.converters.AudioData"><code class="docutils literal notranslate"><span class="pre">AudioData</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy/converters.html#accompy.converters.ChordSequence"><code class="docutils literal notranslate"><span class="pre">ChordSequence</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy/converters.html#accompy.converters.ConverterRegistry"><code class="docutils literal notranslate"><span class="pre">ConverterRegistry</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy/converters.html#accompy.converters.MidiData"><code class="docutils literal notranslate"><span class="pre">MidiData</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy/converters.html#accompy.converters.NoteSequence"><code class="docutils literal notranslate"><span class="pre">NoteSequence</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy/converters.html#accompy.converters.convert"><code class="docutils literal notranslate"><span class="pre">convert()</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/accompy/data_access.html">accompy.data_access</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy/data_access.html#accompy.data_access.load_resource_json"><code class="docutils literal notranslate"><span class="pre">load_resource_json()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy/data_access.html#accompy.data_access.load_resource_lines"><code class="docutils literal notranslate"><span class="pre">load_resource_lines()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy/data_access.html#accompy.data_access.load_resource_text"><code class="docutils literal notranslate"><span class="pre">load_resource_text()</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/accompy/main.html">accompy.main</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy/main.html#accompy.main.check_dependencies"><code class="docutils literal notranslate"><span class="pre">check_dependencies()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy/main.html#accompy.main.generate_accompaniment"><code class="docutils literal notranslate"><span class="pre">generate_accompaniment()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy/main.html#accompy.main.play_audio"><code class="docutils literal notranslate"><span class="pre">play_audio()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy/main.html#accompy.main.print_setup_instructions"><code class="docutils literal notranslate"><span class="pre">print_setup_instructions()</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/accompy/midi_generators.html">accompy.midi_generators</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy/midi_generators.html#accompy.midi_generators.chordseq_to_midi_builtin_accompaniment"><code class="docutils literal notranslate"><span class="pre">chordseq_to_midi_builtin_accompaniment()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy/midi_generators.html#accompy.midi_generators.chordseq_to_midi_mma"><code class="docutils literal notranslate"><span class="pre">chordseq_to_midi_mma()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy/midi_generators.html#accompy.midi_generators.noteseq_to_midi_midiutil"><code class="docutils literal notranslate"><span class="pre">noteseq_to_midi_midiutil()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy/midi_generators.html#accompy.midi_generators.noteseq_to_midi_mido"><code class="docutils literal notranslate"><span class="pre">noteseq_to_midi_mido()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy/midi_generators.html#accompy.midi_generators.noteseq_to_midi_pretty_midi"><code class="docutils literal notranslate"><span class="pre">noteseq_to_midi_pretty_midi()</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/accompy/patterns.html">accompy.patterns</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy/patterns.html#accompy.patterns.BassPattern"><code class="docutils literal notranslate"><span class="pre">BassPattern</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy/patterns.html#accompy.patterns.CompingPattern"><code class="docutils literal notranslate"><span class="pre">CompingPattern</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy/patterns.html#accompy.patterns.DrumHit"><code class="docutils literal notranslate"><span class="pre">DrumHit</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy/patterns.html#accompy.patterns.DrumPattern"><code class="docutils literal notranslate"><span class="pre">DrumPattern</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy/patterns.html#accompy.patterns.NoteEvent"><code class="docutils literal notranslate"><span class="pre">NoteEvent</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy/patterns.html#accompy.patterns.PatternRegistry"><code class="docutils literal notranslate"><span class="pre">PatternRegistry</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy/patterns.html#accompy.patterns.get_pattern_registry"><code class="docutils literal notranslate"><span class="pre">get_pattern_registry()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy/patterns.html#accompy.patterns.get_patterns"><code class="docutils literal notranslate"><span class="pre">get_patterns()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy/patterns.html#accompy.patterns.register_style"><code class="docutils literal notranslate"><span class="pre">register_style()</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/accompy/patterns/builtin.html">accompy.patterns.builtin</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/accompy/patterns/dataclasses.html">accompy.patterns.dataclasses</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy/patterns/dataclasses.html#accompy.patterns.dataclasses.BassPattern"><code class="docutils literal notranslate"><span class="pre">BassPattern</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy/patterns/dataclasses.html#accompy.patterns.dataclasses.CompingPattern"><code class="docutils literal notranslate"><span class="pre">CompingPattern</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy/patterns/dataclasses.html#accompy.patterns.dataclasses.DrumHit"><code class="docutils literal notranslate"><span class="pre">DrumHit</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy/patterns/dataclasses.html#accompy.patterns.dataclasses.DrumPattern"><code class="docutils literal notranslate"><span class="pre">DrumPattern</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy/patterns/dataclasses.html#accompy.patterns.dataclasses.NoteEvent"><code class="docutils literal notranslate"><span class="pre">NoteEvent</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/accompy/pipeline.html">accompy.pipeline</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy/pipeline.html#accompy.pipeline.chords_to_audio"><code class="docutils literal notranslate"><span class="pre">chords_to_audio()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy/pipeline.html#accompy.pipeline.chords_to_midi"><code class="docutils literal notranslate"><span class="pre">chords_to_midi()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy/pipeline.html#accompy.pipeline.chords_to_notes"><code class="docutils literal notranslate"><span class="pre">chords_to_notes()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy/pipeline.html#accompy.pipeline.chords_to_sequence"><code class="docutils literal notranslate"><span class="pre">chords_to_sequence()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy/pipeline.html#accompy.pipeline.file_to_audio"><code class="docutils literal notranslate"><span class="pre">file_to_audio()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy/pipeline.html#accompy.pipeline.file_to_midi"><code class="docutils literal notranslate"><span class="pre">file_to_midi()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy/pipeline.html#accompy.pipeline.list_available_converters"><code class="docutils literal notranslate"><span class="pre">list_available_converters()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy/pipeline.html#accompy.pipeline.midi_to_audio"><code class="docutils literal notranslate"><span class="pre">midi_to_audio()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy/pipeline.html#accompy.pipeline.rhythm_to_audio"><code class="docutils literal notranslate"><span class="pre">rhythm_to_audio()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy/pipeline.html#accompy.pipeline.rhythm_to_midi"><code class="docutils literal notranslate"><span class="pre">rhythm_to_midi()</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/accompy/protocols.html">accompy.protocols</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy/protocols.html#accompy.protocols.AudioRenderer"><code class="docutils literal notranslate"><span class="pre">AudioRenderer</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy/protocols.html#accompy.protocols.ChordResolver"><code class="docutils literal notranslate"><span class="pre">ChordResolver</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy/protocols.html#accompy.protocols.MidiEventGenerator"><code class="docutils literal notranslate"><span class="pre">MidiEventGenerator</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy/protocols.html#accompy.protocols.PatternSource"><code class="docutils literal notranslate"><span class="pre">PatternSource</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy/protocols.html#accompy.protocols.SynthesizerBackend"><code class="docutils literal notranslate"><span class="pre">SynthesizerBackend</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/accompy/realtime.html">accompy.realtime</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy/realtime.html#accompy.realtime.RealtimeAccompaniment"><code class="docutils literal notranslate"><span class="pre">RealtimeAccompaniment</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/accompy/renderers.html">accompy.renderers</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy/renderers.html#accompy.renderers.events_to_midi_file"><code class="docutils literal notranslate"><span class="pre">events_to_midi_file()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy/renderers.html#accompy.renderers.generate_midi_events"><code class="docutils literal notranslate"><span class="pre">generate_midi_events()</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/accompy/renderers/midi.html">accompy.renderers.midi</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy/renderers/midi.html#accompy.renderers.midi.events_to_midi_file"><code class="docutils literal notranslate"><span class="pre">events_to_midi_file()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy/renderers/midi.html#accompy.renderers.midi.generate_builtin_midi"><code class="docutils literal notranslate"><span class="pre">generate_builtin_midi()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy/renderers/midi.html#accompy.renderers.midi.generate_midi_events"><code class="docutils literal notranslate"><span class="pre">generate_midi_events()</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/accompy/rendering.html">accompy.rendering</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy/rendering.html#accompy.rendering.render_chords"><code class="docutils literal notranslate"><span class="pre">render_chords()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy/rendering.html#accompy.rendering.render_chords_batch"><code class="docutils literal notranslate"><span class="pre">render_chords_batch()</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/accompy/rhythmic_skeletons.html">accompy.rhythmic_skeletons</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy/rhythmic_skeletons.html#accompy.rhythmic_skeletons.apply_skeleton"><code class="docutils literal notranslate"><span class="pre">apply_skeleton()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy/rhythmic_skeletons.html#accompy.rhythmic_skeletons.list_skeletons"><code class="docutils literal notranslate"><span class="pre">list_skeletons()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy/rhythmic_skeletons.html#accompy.rhythmic_skeletons.register_skeleton"><code class="docutils literal notranslate"><span class="pre">register_skeleton()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy/rhythmic_skeletons.html#accompy.rhythmic_skeletons.resolve_skeleton"><code class="docutils literal notranslate"><span class="pre">resolve_skeleton()</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/accompy/setup_utils.html">accompy.setup_utils</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy/setup_utils.html#accompy.setup_utils.diagnose_issues"><code class="docutils literal notranslate"><span class="pre">diagnose_issues()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy/setup_utils.html#accompy.setup_utils.print_diagnostic_report"><code class="docutils literal notranslate"><span class="pre">print_diagnostic_report()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy/setup_utils.html#accompy.setup_utils.setup_soundfont"><code class="docutils literal notranslate"><span class="pre">setup_soundfont()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy/setup_utils.html#accompy.setup_utils.verify_and_setup"><code class="docutils literal notranslate"><span class="pre">verify_and_setup()</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/accompy/synthesis.html">accompy.synthesis</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy/synthesis.html#accompy.synthesis.SynthesizerBackend"><code class="docutils literal notranslate"><span class="pre">SynthesizerBackend</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy/synthesis.html#accompy.synthesis.get_default_backend"><code class="docutils literal notranslate"><span class="pre">get_default_backend()</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/accompy/synthesis/fluidsynth.html">accompy.synthesis.fluidsynth</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy/synthesis/fluidsynth.html#accompy.synthesis.fluidsynth.FluidSynthBackend"><code class="docutils literal notranslate"><span class="pre">FluidSynthBackend</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy/synthesis/fluidsynth.html#accompy.synthesis.fluidsynth.convert_audio"><code class="docutils literal notranslate"><span class="pre">convert_audio()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy/synthesis/fluidsynth.html#accompy.synthesis.fluidsynth.find_default_soundfont"><code class="docutils literal notranslate"><span class="pre">find_default_soundfont()</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/accompy/tools.html">accompy.tools</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy/tools.html#accompy.tools.ScoreToWav"><code class="docutils literal notranslate"><span class="pre">ScoreToWav</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy/tools.html#accompy.tools.generate_mma_wav"><code class="docutils literal notranslate"><span class="pre">generate_mma_wav()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy/tools.html#accompy.tools.generate_variations"><code class="docutils literal notranslate"><span class="pre">generate_variations()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy/tools.html#accompy.tools.generate_wav"><code class="docutils literal notranslate"><span class="pre">generate_wav()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy/tools.html#accompy.tools.make_converter_engine"><code class="docutils literal notranslate"><span class="pre">make_converter_engine()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy/tools.html#accompy.tools.mma_score_to_wav"><code class="docutils literal notranslate"><span class="pre">mma_score_to_wav()</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/accompy/util.html">accompy.util</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy/util.html#accompy.util.normalize_chord_symbol"><code class="docutils literal notranslate"><span class="pre">normalize_chord_symbol()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy/util.html#accompy.util.parse_chord_string"><code class="docutils literal notranslate"><span class="pre">parse_chord_string()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy/util.html#accompy.util.parse_ireal_html"><code class="docutils literal notranslate"><span class="pre">parse_ireal_html()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy/util.html#accompy.util.parse_ireal_url"><code class="docutils literal notranslate"><span class="pre">parse_ireal_url()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy/util.html#accompy.util.parse_ireal_url_fallback"><code class="docutils literal notranslate"><span class="pre">parse_ireal_url_fallback()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy/util.html#accompy.util.parse_time_sig"><code class="docutils literal notranslate"><span class="pre">parse_time_sig()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy/util.html#accompy.util.score_from_chord_specs"><code class="docutils literal notranslate"><span class="pre">score_from_chord_specs()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy/util.html#accompy.util.transpose_chord"><code class="docutils literal notranslate"><span class="pre">transpose_chord()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy/util.html#accompy.util.transpose_note"><code class="docutils literal notranslate"><span class="pre">transpose_note()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/accompy/util.html#accompy.util.transpose_score"><code class="docutils literal notranslate"><span class="pre">transpose_score()</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/accompy/wips.html">accompy.wips</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/accompy/wips/audio_renderers.html">accompy.wips.audio_renderers</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/accompy/wips/chord_parsers.html">accompy.wips.chord_parsers</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/accompy/wips/chord_resolvers.html">accompy.wips.chord_resolvers</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/accompy/wips/midi_generators.html">accompy.wips.midi_generators</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/accompy/wips/pipeline.html">accompy.wips.pipeline</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/accompy/wips/types.html">accompy.wips.types</a></li>
-</ul>
-</div>
-</section>
-<section id="indices-and-tables">
-<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Link to this heading"></a></h1>
-<ul class="simple">
-<li><p><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></p></li>
-<li><p><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></p></li>
-<li><p><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></p></li>
-</ul>
-<p>Release: 0.3.10</p>
-<p>Last change: Jul 24, 2026</p>
-</section>
-
-
-           </div>
-          </div>
-          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="module_docs/accompy.html" class="btn btn-neutral float-right" title="accompy" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+</nav></div>
+      
     </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
 
-  <hr/>
-
-  <div role="contentinfo">
-    <p></p>
-  </div>
-
-  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
-    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
-    provided by <a href="https://readthedocs.org">Read the Docs</a>.
-   
-
-</footer>
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
         </div>
-      </div>
-    </section>
-  </div>
-  <script>
-      jQuery(function () {
-          SphinxRtdTheme.Navigation.enable(true);
-      });
-  </script> 
+      
+      
+        <div class="navbar-item">
 
-</body>
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+  </ul>
+</div></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/thorwhalen/accompy" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i><span class="visually-hidden">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar hide-on-wide">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="api.html">
+    API reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="ai-agents.html">
+    For AI agents
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+  </ul>
+</div></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/thorwhalen/accompy" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i><span class="visually-hidden">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none"></div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <!-- generated by epythet -->
+<section id="accompy">
+<h1>accompy 🎵<a class="headerlink" href="#accompy" title="Link to this heading">#</a></h1>
+<p>Generate backing track audio from chord charts in Python — like iReal Pro, but scriptable.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">accompy</span><span class="w"> </span><span class="kn">import</span> <span class="n">generate_accompaniment</span>
+
+<span class="c1"># Generate a bossa nova backing track</span>
+<span class="n">audio</span> <span class="o">=</span> <span class="n">generate_accompaniment</span><span class="p">(</span><span class="s2">"| Dm7 | G7 | C^7 | A7b9 |"</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s2">"bossa"</span><span class="p">,</span> <span class="n">tempo</span><span class="o">=</span><span class="mi">140</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Generated: </span><span class="si">{</span><span class="n">audio</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>  <span class="c1"># -&gt; /tmp/xxx.wav</span>
+</pre></div>
+</div>
+<section id="features">
+<h2>Features<a class="headerlink" href="#features" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><strong>Simple API</strong>: One function to generate complete backing tracks</p></li>
+<li><p><strong>Multiple styles</strong>: Swing, bossa nova, rock, funk, ballad, latin, waltz, blues</p></li>
+<li><p><strong>Flexible chord inputs</strong>: Strings, <code class="docutils literal notranslate"><span class="pre">Score</span></code>, iReal URLs, or <code class="docutils literal notranslate"><span class="pre">(chord,</span> <span class="pre">beats)</span></code> tuples</p></li>
+<li><p><strong>Backend selector</strong>: <code class="docutils literal notranslate"><span class="pre">backend=&quot;auto&quot;|&quot;mma&quot;|&quot;builtin&quot;</span></code> (with backwards-compatible <code class="docutils literal notranslate"><span class="pre">use_mma</span></code>)</p></li>
+<li><p><strong>iReal Pro compatible</strong>: Parse iReal Pro URLs directly (with optional <code class="docutils literal notranslate"><span class="pre">pyRealParser</span></code>)</p></li>
+<li><p><strong>Multi-instrument</strong>: Drums, bass, piano with style-appropriate patterns</p></li>
+<li><p><strong>Audio output</strong>: WAV, MP3, FLAC via FluidSynth</p></li>
+<li><p><strong>MIDI output</strong>: Save <code class="docutils literal notranslate"><span class="pre">.mid</span></code> directly (skip audio rendering)</p></li>
+<li><p><strong>Extensible</strong>: Add custom patterns and styles</p></li>
+</ul>
+</section>
+<section id="quick-start">
+<h2>Quick Start<a class="headerlink" href="#quick-start" title="Link to this heading">#</a></h2>
+<section id="installation">
+<h3>Installation<a class="headerlink" href="#installation" title="Link to this heading">#</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>accompy
+
+<span class="c1"># Or install from source:</span>
+git<span class="w"> </span>clone<span class="w"> </span>https://github.com/thorwhalen/accompy
+pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span>accompy
+</pre></div>
+</div>
+</section>
+<section id="system-dependencies">
+<h3>System Dependencies<a class="headerlink" href="#system-dependencies" title="Link to this heading">#</a></h3>
+<p>accompy requires <strong>FluidSynth</strong> and a <strong>SoundFont</strong> for audio rendering.</p>
+<section id="automated-setup-recommended">
+<h4>Automated Setup (Recommended)<a class="headerlink" href="#automated-setup-recommended" title="Link to this heading">#</a></h4>
+<p>The easiest way to get started:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Install accompy</span>
+pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span>.
+
+<span class="c1"># Run automated setup (interactive)</span>
+python<span class="w"> </span>-c<span class="w"> </span><span class="s2">"from accompy import verify_and_setup; verify_and_setup()"</span>
+
+<span class="c1"># This will:</span>
+<span class="c1"># - Check all dependencies</span>
+<span class="c1"># - Offer to install missing ones (with your permission)</span>
+<span class="c1"># - Download and configure SoundFont files</span>
+<span class="c1"># - Verify everything works</span>
+</pre></div>
+</div>
+</section>
+<section id="manual-setup">
+<h4>Manual Setup<a class="headerlink" href="#manual-setup" title="Link to this heading">#</a></h4>
+<p>If you prefer to install manually:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># macOS</span>
+brew<span class="w"> </span>install<span class="w"> </span>fluid-synth
+
+<span class="c1"># Ubuntu/Debian</span>
+sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>fluidsynth<span class="w"> </span>fluid-soundfont-gm
+
+<span class="c1"># Install Python dependencies</span>
+pip<span class="w"> </span>install<span class="w"> </span>midiutil<span class="w"> </span>mingus
+
+<span class="c1"># Verify setup</span>
+python<span class="w"> </span>-m<span class="w"> </span>accompy<span class="w"> </span>--check-deps
+</pre></div>
+</div>
+</section>
+<section id="soundfont-important-for-sound-quality">
+<h4>SoundFont (important for sound quality!)<a class="headerlink" href="#soundfont-important-for-sound-quality" title="Link to this heading">#</a></h4>
+<p>FluidSynth renders MIDI using <strong>SoundFont</strong> sample banks (<code class="docutils literal notranslate"><span class="pre">.sf2</span></code> files).
+The SoundFont determines the quality of every instrument you hear.
+FluidSynth’s bundled SoundFont (<code class="docutils literal notranslate"><span class="pre">VintageDreamsWaves-v2.sf2</span></code>, ~300 KB) is a
+bare-minimum placeholder made of basic waveforms — <strong>it will sound terrible</strong>.</p>
+<p>For good results, install a full General MIDI SoundFont with real instrument
+samples:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mkdir<span class="w"> </span>-p<span class="w"> </span>~/.fluidsynth
+
+<span class="c1"># MuseScore General (~200 MB, MIT license, good all-around quality)</span>
+curl<span class="w"> </span>-L<span class="w"> </span>-o<span class="w"> </span>~/.fluidsynth/default_sound_font.sf2<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span><span class="s2">"https://ftp.osuosl.org/pub/musescore/soundfont/MuseScore_General/MuseScore_General.sf2"</span>
+</pre></div>
+</div>
+<p>Other recommended SoundFonts:</p>
+<ul class="simple">
+<li><p><strong>GeneralUser GS</strong> (~30 MB) — excellent bass and drums, free for commercial
+use. Download from <a class="reference external" href="https://schristiancollins.com/generaluser.php">https://schristiancollins.com/generaluser.php</a></p></li>
+<li><p><strong>FluidR3_GM</strong> (~140 MB) — the classic GM SoundFont, widely used.</p></li>
+</ul>
+<p>Browse more at <a class="reference external" href="https://musical-artifacts.com/artifacts?formats=sf2">https://musical-artifacts.com/artifacts?formats=sf2</a>.</p>
+<p>After downloading, place or symlink the file at
+<code class="docutils literal notranslate"><span class="pre">~/.fluidsynth/default_sound_font.sf2</span></code> (accompy looks there by default).</p>
+</section>
+<section id="check-your-setup">
+<h4>Check Your Setup<a class="headerlink" href="#check-your-setup" title="Link to this heading">#</a></h4>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Quick check</span>
+python<span class="w"> </span>-c<span class="w"> </span><span class="s2">"from accompy import check_dependencies; print(check_dependencies())"</span>
+
+<span class="c1"># Detailed diagnostic report</span>
+python<span class="w"> </span>-c<span class="w"> </span><span class="s2">"from accompy import print_diagnostic_report; print_diagnostic_report()"</span>
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+<section id="usage">
+<h2>Usage<a class="headerlink" href="#usage" title="Link to this heading">#</a></h2>
+<section id="basic-usage">
+<h3>Basic Usage<a class="headerlink" href="#basic-usage" title="Link to this heading">#</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">accompy</span><span class="w"> </span><span class="kn">import</span> <span class="n">generate_accompaniment</span>
+
+<span class="c1"># Generate with default settings</span>
+<span class="n">audio</span> <span class="o">=</span> <span class="n">generate_accompaniment</span><span class="p">(</span><span class="s2">"| C | Am | F | G |"</span><span class="p">)</span>
+
+<span class="c1"># Specify style and tempo</span>
+<span class="n">audio</span> <span class="o">=</span> <span class="n">generate_accompaniment</span><span class="p">(</span>
+    <span class="s2">"| Dm7 | G7 | Cmaj7 | Am7 |"</span><span class="p">,</span>
+    <span class="n">style</span><span class="o">=</span><span class="s2">"swing"</span><span class="p">,</span>
+    <span class="n">tempo</span><span class="o">=</span><span class="mi">160</span><span class="p">,</span>
+    <span class="n">repeats</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
+    <span class="n">output_path</span><span class="o">=</span><span class="s2">"my_track.wav"</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="c1"># Generate MIDI only (skip audio rendering)</span>
+<span class="n">midi</span> <span class="o">=</span> <span class="n">generate_accompaniment</span><span class="p">(</span>
+    <span class="s2">"| Dm7 | G7 | Cmaj7 | Am7 |"</span><span class="p">,</span>
+    <span class="n">output_path</span><span class="o">=</span><span class="s2">"my_track.mid"</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="using-score-objects">
+<h3>Using Score Objects<a class="headerlink" href="#using-score-objects" title="Link to this heading">#</a></h3>
+<p>For more control, create a <code class="docutils literal notranslate"><span class="pre">Score</span></code> object:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">accompy</span><span class="w"> </span><span class="kn">import</span> <span class="n">Score</span><span class="p">,</span> <span class="n">generate_accompaniment</span>
+
+<span class="c1"># Parse chord string</span>
+<span class="n">score</span> <span class="o">=</span> <span class="n">Score</span><span class="o">.</span><span class="n">from_string</span><span class="p">(</span>
+    <span class="s2">"| Dm7 | G7 | Cmaj7 | % |"</span><span class="p">,</span>  <span class="c1"># % = repeat previous chord</span>
+    <span class="n">title</span><span class="o">=</span><span class="s2">"ii-V-I in C"</span><span class="p">,</span>
+    <span class="n">key</span><span class="o">=</span><span class="s2">"C"</span><span class="p">,</span>
+    <span class="n">time_signature</span><span class="o">=</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+<span class="p">)</span>
+
+<span class="c1"># Generate audio</span>
+<span class="n">audio</span> <span class="o">=</span> <span class="n">generate_accompaniment</span><span class="p">(</span><span class="n">score</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s2">"swing"</span><span class="p">,</span> <span class="n">tempo</span><span class="o">=</span><span class="mi">120</span><span class="p">)</span>
+
+<span class="c1">### Flexible Chord Inputs</span>
+
+<span class="err">`</span><span class="n">generate_accompaniment</span><span class="p">(</span><span class="o">...</span><span class="p">)</span><span class="err">`</span> <span class="n">accepts</span> <span class="n">several</span> <span class="n">common</span> <span class="n">chord</span> <span class="n">progression</span> <span class="n">formats</span><span class="o">.</span>
+
+<span class="err">```</span><span class="n">python</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">accompy</span><span class="w"> </span><span class="kn">import</span> <span class="n">ensure_score</span><span class="p">,</span> <span class="n">generate_accompaniment</span>
+
+<span class="c1"># 1) iReal-style chord strings</span>
+<span class="n">generate_accompaniment</span><span class="p">(</span><span class="s2">"| C | Am | F | G |"</span><span class="p">)</span>
+
+<span class="c1"># 2) iReal Pro URL strings (irealbook://... or irealb://...)</span>
+<span class="n">generate_accompaniment</span><span class="p">(</span><span class="s2">"irealbook://Autumn</span><span class="si">%20Le</span><span class="s2">aves=..."</span><span class="p">)</span>
+
+<span class="c1"># 3) List of (chord, beats) tuples (like `accompany`)</span>
+<span class="n">chords</span> <span class="o">=</span> <span class="p">[(</span><span class="s2">"F#m7b5"</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="p">(</span><span class="s2">"B7"</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="p">(</span><span class="s2">"Em"</span><span class="p">,</span> <span class="mi">8</span><span class="p">)]</span>
+<span class="n">score</span> <span class="o">=</span> <span class="n">ensure_score</span><span class="p">(</span><span class="n">chords</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="s2">"E"</span><span class="p">)</span>
+<span class="n">generate_accompaniment</span><span class="p">(</span><span class="n">score</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="backend-selection">
+<h3>Backend Selection<a class="headerlink" href="#backend-selection" title="Link to this heading">#</a></h3>
+<p>Choose which generator to use:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">accompy</span><span class="w"> </span><span class="kn">import</span> <span class="n">generate_accompaniment</span>
+
+<span class="c1"># Auto: use MMA if available, else builtin</span>
+<span class="n">generate_accompaniment</span><span class="p">(</span><span class="s2">"| Dm7 | G7 | Cmaj7 | Am7 |"</span><span class="p">,</span> <span class="n">backend</span><span class="o">=</span><span class="s2">"auto"</span><span class="p">)</span>
+
+<span class="c1"># Force builtin generator</span>
+<span class="n">generate_accompaniment</span><span class="p">(</span><span class="s2">"| Dm7 | G7 | Cmaj7 | Am7 |"</span><span class="p">,</span> <span class="n">backend</span><span class="o">=</span><span class="s2">"builtin"</span><span class="p">)</span>
+
+<span class="c1"># Force MMA (errors if MMA isn't installed)</span>
+<span class="n">generate_accompaniment</span><span class="p">(</span><span class="s2">"| Dm7 | G7 | Cmaj7 | Am7 |"</span><span class="p">,</span> <span class="n">backend</span><span class="o">=</span><span class="s2">"mma"</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>
+### Chord Notation
+
+accompy supports flexible chord notation:
+
+```python
+# Jazz notation (iReal Pro style)
+"| C^7 | D-7 | G7 | C^7 |"   # ^7=maj7, -7=min7
+
+# Standard notation  
+"| Cmaj7 | Dm7 | G7 | Cmaj7 |"
+
+# Simple notation
+"| C | Dm | G | C |"
+
+# Multiple chords per bar
+"| Dm7 G7 | Cmaj7 |"  # Two chords, split evenly
+
+# Repeat symbols
+"| C | G | % | F |"   # % repeats G
+</pre></div>
+</div>
+<p><strong>Chord symbol reference:</strong></p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Notation</p></th>
+<th class="head"><p>Meaning</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">C</span></code>, <code class="docutils literal notranslate"><span class="pre">Cmaj</span></code></p></td>
+<td><p>C major</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">C-</span></code>, <code class="docutils literal notranslate"><span class="pre">Cm</span></code>, <code class="docutils literal notranslate"><span class="pre">Cmin</span></code></p></td>
+<td><p>C minor</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">C7</span></code></p></td>
+<td><p>C dominant 7</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">C^7</span></code>, <code class="docutils literal notranslate"><span class="pre">Cmaj7</span></code></p></td>
+<td><p>C major 7</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">C-7</span></code>, <code class="docutils literal notranslate"><span class="pre">Cm7</span></code>, <code class="docutils literal notranslate"><span class="pre">Cmin7</span></code></p></td>
+<td><p>C minor 7</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">Co</span></code>, <code class="docutils literal notranslate"><span class="pre">Cdim</span></code></p></td>
+<td><p>C diminished</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">Co7</span></code>, <code class="docutils literal notranslate"><span class="pre">Cdim7</span></code></p></td>
+<td><p>C diminished 7</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">Ch7</span></code>, <code class="docutils literal notranslate"><span class="pre">Cm7b5</span></code></p></td>
+<td><p>C half-diminished</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">C+</span></code>, <code class="docutils literal notranslate"><span class="pre">Caug</span></code></p></td>
+<td><p>C augmented</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">Csus</span></code>, <code class="docutils literal notranslate"><span class="pre">Csus4</span></code></p></td>
+<td><p>C suspended 4th</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="styles">
+<h3>Styles<a class="headerlink" href="#styles" title="Link to this heading">#</a></h3>
+<p>Available styles with characteristic patterns:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Style</p></th>
+<th class="head"><p>Description</p></th>
+<th class="head"><p>Typical Tempo</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">swing</span></code></p></td>
+<td><p>Jazz swing with walking bass</p></td>
+<td><p>120-200 BPM</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">bossa</span></code></p></td>
+<td><p>Bossa nova with syncopated feel</p></td>
+<td><p>100-150 BPM</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">rock</span></code></p></td>
+<td><p>Straight 8ths rock beat</p></td>
+<td><p>100-140 BPM</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">funk</span></code></p></td>
+<td><p>Syncopated funk groove</p></td>
+<td><p>90-120 BPM</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">ballad</span></code></p></td>
+<td><p>Slow, sustained ballad</p></td>
+<td><p>60-90 BPM</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">latin</span></code></p></td>
+<td><p>Latin/salsa with clave</p></td>
+<td><p>100-130 BPM</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">waltz</span></code></p></td>
+<td><p>3/4 waltz pattern</p></td>
+<td><p>90-150 BPM</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">blues</span></code></p></td>
+<td><p>Blues shuffle</p></td>
+<td><p>80-120 BPM</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="ireal-pro-integration">
+<h3>iReal Pro Integration<a class="headerlink" href="#ireal-pro-integration" title="Link to this heading">#</a></h3>
+<p>Parse and play iReal Pro chord charts:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">accompy</span><span class="w"> </span><span class="kn">import</span> <span class="n">Score</span><span class="p">,</span> <span class="n">generate_accompaniment</span>
+
+<span class="c1"># From iReal Pro URL (copy from app or forum)</span>
+<span class="n">url</span> <span class="o">=</span> <span class="s2">"irealb://6dim=Composer%20Unknown==Medium%20Swing=C=7=1r34LbKcu7QyX%2DA6XyQ%7C</span><span class="si">%23G</span><span class="s2">%7CQyXG</span><span class="si">%2F</span><span class="s2">6C%7CQyXFo%7CQyXE</span><span class="si">%2F</span><span class="s2">6C%7CQyXoDoXyQ%7CC44T%7BXQyXQQ%7DXyQQyXQyXQyXQyXQyQXyXQyXQyXQyXQyXXyQXyyXoB%7CQyXQyXyQXyyXQyXQyXQyXQyXyQXQyXQyXQyXQyXQQXyQXQyXQyyXQyXQXyQXXQyXQyXQyXQyXQXyQyXQyXQyXQyXQyyQXyQyXQyXQXyQXyQXyQXyQXyQ%20Z%20=Jazz%2DMedium%20Up%20Swing%202=118=21]6dim"</span>
+<span class="n">score</span> <span class="o">=</span> <span class="n">Score</span><span class="o">.</span><span class="n">from_ireal_url</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+
+<span class="c1"># Generate backing track</span>
+<span class="n">audio</span> <span class="o">=</span> <span class="n">generate_accompaniment</span><span class="p">(</span><span class="n">score</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s2">"swing"</span><span class="p">,</span> <span class="n">tempo</span><span class="o">=</span><span class="mi">140</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Note:</strong> <code class="docutils literal notranslate"><span class="pre">pyRealParser</span></code> is optional. If installed, <code class="docutils literal notranslate"><span class="pre">Score.from_ireal_url(...)</span></code> will use it.
+If not installed, accompy uses a best-effort built-in parser.</p>
+</section>
+<section id="advanced-configuration">
+<h3>Advanced Configuration<a class="headerlink" href="#advanced-configuration" title="Link to this heading">#</a></h3>
+<p>Full control with <code class="docutils literal notranslate"><span class="pre">AccompanimentConfig</span></code>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">accompy</span><span class="w"> </span><span class="kn">import</span> <span class="n">AccompanimentConfig</span><span class="p">,</span> <span class="n">generate_accompaniment</span>
+
+<span class="n">config</span> <span class="o">=</span> <span class="n">AccompanimentConfig</span><span class="p">(</span>
+    <span class="n">style</span><span class="o">=</span><span class="s2">"swing"</span><span class="p">,</span>
+    <span class="n">tempo</span><span class="o">=</span><span class="mi">160</span><span class="p">,</span>
+    <span class="n">repeats</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
+    <span class="n">instruments</span><span class="o">=</span><span class="p">{</span>
+        <span class="s2">"drums"</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="s2">"bass"</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="s2">"piano"</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="s2">"guitar"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="n">volumes</span><span class="o">=</span><span class="p">{</span>
+        <span class="s2">"drums"</span><span class="p">:</span> <span class="mf">0.7</span><span class="p">,</span>
+        <span class="s2">"bass"</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">,</span>
+        <span class="s2">"piano"</span><span class="p">:</span> <span class="mf">0.6</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="n">sample_rate</span><span class="o">=</span><span class="mi">44100</span><span class="p">,</span>
+    <span class="n">output_format</span><span class="o">=</span><span class="s2">"mp3"</span><span class="p">,</span>  <span class="c1"># wav, mp3, flac, midi</span>
+<span class="p">)</span>
+
+<span class="n">audio</span> <span class="o">=</span> <span class="n">generate_accompaniment</span><span class="p">(</span>
+    <span class="s2">"| Dm7 | G7 | Cmaj7 | A7 |"</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">,</span> <span class="n">output_path</span><span class="o">=</span><span class="s2">"backing_track.mp3"</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="rhythmic-skeletons">
+<h3>Rhythmic Skeletons<a class="headerlink" href="#rhythmic-skeletons" title="Link to this heading">#</a></h3>
+<p>For simple chord renderings (no drums or bass — just restriking chords with a
+rhythmic feel), use <code class="docutils literal notranslate"><span class="pre">rhythm_to_midi</span></code> or <code class="docutils literal notranslate"><span class="pre">rhythm_to_audio</span></code>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">accompy</span><span class="w"> </span><span class="kn">import</span> <span class="n">rhythm_to_midi</span><span class="p">,</span> <span class="n">rhythm_to_audio</span>
+
+<span class="c1"># Tresillo feel (1.5 + 1.5 + 1 beats)</span>
+<span class="n">midi</span> <span class="o">=</span> <span class="n">rhythm_to_midi</span><span class="p">(</span><span class="s2">"| Dm7 | G7 | Cmaj7 |"</span><span class="p">,</span> <span class="n">skeleton</span><span class="o">=</span><span class="s2">"tresillo"</span><span class="p">,</span> <span class="n">tempo</span><span class="o">=</span><span class="mi">120</span><span class="p">)</span>
+<span class="n">midi</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">"tresillo.mid"</span><span class="p">)</span>
+
+<span class="c1"># Whole notes (one strike per measure) — the default</span>
+<span class="n">midi</span> <span class="o">=</span> <span class="n">rhythm_to_midi</span><span class="p">(</span><span class="s2">"| C | Am | F | G |"</span><span class="p">)</span>
+
+<span class="c1"># Charleston, bossa, waltz, and 25+ other built-in skeletons</span>
+<span class="n">midi</span> <span class="o">=</span> <span class="n">rhythm_to_midi</span><span class="p">(</span><span class="s2">"| C | Am | F | G |"</span><span class="p">,</span> <span class="n">skeleton</span><span class="o">=</span><span class="s2">"charleston"</span><span class="p">)</span>
+
+<span class="c1"># Or pass a raw duration tuple</span>
+<span class="n">midi</span> <span class="o">=</span> <span class="n">rhythm_to_midi</span><span class="p">(</span><span class="s2">"| C | Am |"</span><span class="p">,</span> <span class="n">skeleton</span><span class="o">=</span><span class="p">(</span><span class="mf">1.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">))</span>
+
+<span class="c1"># Render all the way to audio</span>
+<span class="n">audio</span> <span class="o">=</span> <span class="n">rhythm_to_audio</span><span class="p">(</span><span class="s2">"| C | Am |"</span><span class="p">,</span> <span class="n">skeleton</span><span class="o">=</span><span class="s2">"half_notes"</span><span class="p">,</span> <span class="n">tempo</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>A rhythmic skeleton is just a tuple of durations that sum to the measure length —
+e.g. <code class="docutils literal notranslate"><span class="pre">(1.5,</span> <span class="pre">1.5,</span> <span class="pre">1)</span></code> says “hit, hold for a dotted quarter; hit again, hold for
+another dotted quarter; hit once more, hold for a quarter.” No pitches, no
+voicings, no velocities. The skeleton defines <em>when</em> you strike within a measure;
+the chord progression defines <em>what</em> you play.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">accompy</span><span class="w"> </span><span class="kn">import</span> <span class="n">resolve_skeleton</span><span class="p">,</span> <span class="n">list_skeletons</span><span class="p">,</span> <span class="n">register_skeleton</span>
+
+<span class="c1"># Resolve by key, name, or style</span>
+<span class="n">resolve_skeleton</span><span class="p">(</span><span class="s2">"tresillo"</span><span class="p">)</span>  <span class="c1"># (1.5, 1.5, 1)</span>
+<span class="n">resolve_skeleton</span><span class="p">(</span><span class="s2">"Dotted half + quarter"</span><span class="p">)</span>  <span class="c1"># (3, 1)</span>
+<span class="n">resolve_skeleton</span><span class="p">(</span><span class="s2">"reggae"</span><span class="p">)</span>  <span class="c1"># picks first skeleton for that style</span>
+
+<span class="c1"># List available skeletons</span>
+<span class="n">list_skeletons</span><span class="p">()</span>  <span class="c1"># all keys</span>
+<span class="n">list_skeletons</span><span class="p">(</span><span class="n">beats_per_measure</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>  <span class="c1"># waltz-family only</span>
+<span class="n">list_skeletons</span><span class="p">(</span><span class="n">style</span><span class="o">=</span><span class="s2">"jazz"</span><span class="p">)</span>  <span class="c1"># jazz-associated skeletons</span>
+
+<span class="c1"># Register your own</span>
+<span class="n">register_skeleton</span><span class="p">(</span><span class="s2">"my_groove"</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="s2">"My Groove"</span><span class="p">,</span> <span class="n">styles</span><span class="o">=</span><span class="p">[</span><span class="s2">"custom"</span><span class="p">])</span>
+</pre></div>
+</div>
+</section>
+<section id="extensibility-custom-patterns">
+<h3>Extensibility &amp; Custom Patterns<a class="headerlink" href="#extensibility-custom-patterns" title="Link to this heading">#</a></h3>
+<p><strong>New in v0.2.0</strong>: accompy now supports extensive customization through a protocol-based architecture.</p>
+<section id="custom-chord-voicings">
+<h4>Custom Chord Voicings<a class="headerlink" href="#custom-chord-voicings" title="Link to this heading">#</a></h4>
+<p>Provide your own chord-to-notes resolver:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">accompy</span><span class="w"> </span><span class="kn">import</span> <span class="n">set_chord_resolver</span><span class="p">,</span> <span class="n">generate_accompaniment</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">jazz_voicing_resolver</span><span class="p">(</span><span class="n">symbol</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">"""Custom jazz voicings with rootless chords, tensions, etc."""</span>
+    <span class="c1"># Your custom chord resolution logic</span>
+    <span class="c1"># Return list of MIDI note numbers</span>
+    <span class="k">return</span> <span class="p">[</span><span class="mi">55</span><span class="p">,</span> <span class="mi">59</span><span class="p">,</span> <span class="mi">62</span><span class="p">,</span> <span class="mi">65</span><span class="p">,</span> <span class="mi">69</span><span class="p">]</span>  <span class="c1"># Example: Dm9 voicing</span>
+
+
+<span class="c1"># Set as default resolver</span>
+<span class="n">set_chord_resolver</span><span class="p">(</span><span class="n">jazz_voicing_resolver</span><span class="p">)</span>
+
+<span class="c1"># Now all accompaniments use your custom voicings</span>
+<span class="n">audio</span> <span class="o">=</span> <span class="n">generate_accompaniment</span><span class="p">(</span><span class="s2">"| Dm7 | G7 | Cmaj7 |"</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="custom-patterns">
+<h4>Custom Patterns<a class="headerlink" href="#custom-patterns" title="Link to this heading">#</a></h4>
+<p>Register your own accompaniment patterns:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">accompy</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">register_style</span><span class="p">,</span>
+    <span class="n">DrumPattern</span><span class="p">,</span>
+    <span class="n">BassPattern</span><span class="p">,</span>
+    <span class="n">DrumHit</span><span class="p">,</span>
+    <span class="n">NoteEvent</span><span class="p">,</span>
+    <span class="n">KICK</span><span class="p">,</span>
+    <span class="n">SNARE</span><span class="p">,</span>
+    <span class="n">CLOSED_HIHAT</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="c1"># Define custom drum pattern</span>
+<span class="n">my_drum</span> <span class="o">=</span> <span class="n">DrumPattern</span><span class="p">(</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">"my_funk"</span><span class="p">,</span>
+    <span class="n">beats_per_bar</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
+    <span class="n">hits</span><span class="o">=</span><span class="p">[</span>
+        <span class="n">DrumHit</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">KICK</span><span class="p">,</span> <span class="mi">110</span><span class="p">),</span>
+        <span class="n">DrumHit</span><span class="p">(</span><span class="mf">0.75</span><span class="p">,</span> <span class="n">KICK</span><span class="p">,</span> <span class="mi">85</span><span class="p">),</span>
+        <span class="n">DrumHit</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">SNARE</span><span class="p">,</span> <span class="mi">105</span><span class="p">),</span>
+        <span class="n">DrumHit</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">KICK</span><span class="p">,</span> <span class="mi">110</span><span class="p">),</span>
+        <span class="n">DrumHit</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="n">SNARE</span><span class="p">,</span> <span class="mi">105</span><span class="p">),</span>
+        <span class="c1"># ... more hits</span>
+    <span class="p">],</span>
+<span class="p">)</span>
+
+<span class="c1"># Define custom bass pattern</span>
+<span class="n">my_bass</span> <span class="o">=</span> <span class="n">BassPattern</span><span class="p">(</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">"my_funk"</span><span class="p">,</span>
+    <span class="n">notes</span><span class="o">=</span><span class="p">[</span>
+        <span class="n">NoteEvent</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">,</span> <span class="mi">110</span><span class="p">),</span>  <span class="c1"># Root, short</span>
+        <span class="n">NoteEvent</span><span class="p">(</span><span class="mf">0.75</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">,</span> <span class="mi">80</span><span class="p">),</span>  <span class="c1"># Root, ghostNote</span>
+        <span class="n">NoteEvent</span><span class="p">(</span><span class="mf">1.5</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">,</span> <span class="mi">90</span><span class="p">),</span>  <span class="c1"># 5th</span>
+        <span class="c1"># ... more notes</span>
+    <span class="p">],</span>
+<span class="p">)</span>
+
+<span class="c1"># Register the custom style</span>
+<span class="n">register_style</span><span class="p">(</span><span class="s2">"my_funk"</span><span class="p">,</span> <span class="n">drums</span><span class="o">=</span><span class="p">[</span><span class="n">my_drum</span><span class="p">],</span> <span class="n">bass</span><span class="o">=</span><span class="p">[</span><span class="n">my_bass</span><span class="p">],</span> <span class="n">comp</span><span class="o">=</span><span class="p">[])</span>
+
+<span class="c1"># Use it</span>
+<span class="n">audio</span> <span class="o">=</span> <span class="n">generate_accompaniment</span><span class="p">(</span><span class="s2">"| C7 | F7 | C7 | G7 |"</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s2">"my_funk"</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="pattern-registry">
+<h4>Pattern Registry<a class="headerlink" href="#pattern-registry" title="Link to this heading">#</a></h4>
+<p>The pattern registry is a <code class="docutils literal notranslate"><span class="pre">MutableMapping</span></code>, making it Pythonic and extensible:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">accompy</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_pattern_registry</span>
+
+<span class="n">registry</span> <span class="o">=</span> <span class="n">get_pattern_registry</span><span class="p">()</span>
+
+<span class="c1"># Check available styles</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">registry</span><span class="o">.</span><span class="n">available_styles</span><span class="p">())</span>  <span class="c1"># ['swing', 'bossa', 'rock', ...]</span>
+
+<span class="c1"># Access patterns like a dict</span>
+<span class="n">swing_patterns</span> <span class="o">=</span> <span class="n">registry</span><span class="p">[</span><span class="s2">"swing"</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">swing_patterns</span><span class="p">[</span><span class="s2">"drums"</span><span class="p">])</span>  <span class="c1"># List of DrumPattern objects</span>
+
+<span class="c1"># Add/modify styles at runtime</span>
+<span class="n">registry</span><span class="p">[</span><span class="s2">"custom_groove"</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">"drums"</span><span class="p">:</span> <span class="p">[</span><span class="n">custom_drum_pattern</span><span class="p">],</span>
+    <span class="s2">"bass"</span><span class="p">:</span> <span class="p">[</span><span class="n">custom_bass_pattern</span><span class="p">],</span>
+    <span class="s2">"comp"</span><span class="p">:</span> <span class="p">[</span><span class="n">custom_comp_pattern</span><span class="p">],</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="real-time-event-generation">
+<h4>Real-Time Event Generation<a class="headerlink" href="#real-time-event-generation" title="Link to this heading">#</a></h4>
+<p>For advanced use cases (future integration with <code class="docutils literal notranslate"><span class="pre">hum</span></code>/<code class="docutils literal notranslate"><span class="pre">pyo</span></code> for real-time synthesis):</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">accompy</span><span class="w"> </span><span class="kn">import</span> <span class="n">RealtimeAccompaniment</span><span class="p">,</span> <span class="n">AccompanimentConfig</span>
+
+<span class="c1"># Create real-time player</span>
+<span class="n">config</span> <span class="o">=</span> <span class="n">AccompanimentConfig</span><span class="p">(</span><span class="n">tempo</span><span class="o">=</span><span class="mi">120</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s2">"swing"</span><span class="p">)</span>
+<span class="n">player</span> <span class="o">=</span> <span class="n">RealtimeAccompaniment</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
+
+<span class="c1"># Set chord progression</span>
+<span class="n">player</span><span class="o">.</span><span class="n">set_chords</span><span class="p">(</span><span class="s2">"| Dm7 | G7 | Cmaj7 | A7 |"</span><span class="p">)</span>
+
+<span class="c1"># Get event iterator (for future real-time playback)</span>
+<span class="k">for</span> <span class="n">event</span> <span class="ow">in</span> <span class="n">player</span><span class="o">.</span><span class="n">events</span><span class="p">():</span>
+    <span class="c1"># event.time, event.note, event.velocity, event.duration</span>
+    <span class="c1"># Future: send to real-time synth like hum/pyo</span>
+    <span class="k">pass</span>
+</pre></div>
+</div>
+</section>
+<section id="protocol-based-architecture">
+<h4>Protocol-Based Architecture<a class="headerlink" href="#protocol-based-architecture" title="Link to this heading">#</a></h4>
+<p>All major components implement protocols for maximum flexibility:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">accompy.protocols</span><span class="w"> </span><span class="kn">import</span> <span class="n">ChordResolver</span><span class="p">,</span> <span class="n">PatternSource</span><span class="p">,</span> <span class="n">SynthesizerBackend</span>
+
+<span class="c1"># Implement custom components that satisfy these protocols</span>
+<span class="c1"># See accompy/protocols.py for full definitions</span>
+
+
+<span class="c1"># Example: Custom synthesis backend</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">MySynthBackend</span><span class="p">(</span><span class="n">SynthesizerBackend</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">render_to_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">midi_path</span><span class="p">,</span> <span class="n">output_path</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">sample_rate</span><span class="o">=</span><span class="mi">44100</span><span class="p">):</span>
+        <span class="c1"># Your custom synthesis logic (e.g., using hum, pyo, etc.)</span>
+        <span class="k">pass</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">is_available</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
+        <span class="k">return</span> <span class="kc">True</span>  <span class="c1"># Check if dependencies are available</span>
+
+
+<span class="c1"># Use with dependency injection</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">accompy</span><span class="w"> </span><span class="kn">import</span> <span class="n">AccompanimentConfig</span><span class="p">,</span> <span class="n">generate_accompaniment</span>
+
+<span class="n">config</span> <span class="o">=</span> <span class="n">AccompanimentConfig</span><span class="p">(</span><span class="n">synthesis_backend</span><span class="o">=</span><span class="n">MySynthBackend</span><span class="p">())</span>
+<span class="n">audio</span> <span class="o">=</span> <span class="n">generate_accompaniment</span><span class="p">(</span><span class="s2">"| C | G | Am | F |"</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="command-line">
+<h3>Command Line<a class="headerlink" href="#command-line" title="Link to this heading">#</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Generate backing track</span>
+python<span class="w"> </span>-m<span class="w"> </span>accompy<span class="w"> </span><span class="s2">"| C | Am | F | G |"</span><span class="w"> </span>-s<span class="w"> </span>bossa<span class="w"> </span>-t<span class="w"> </span><span class="m">120</span><span class="w"> </span>-o<span class="w"> </span>track.wav
+
+<span class="c1"># Check dependencies</span>
+python<span class="w"> </span>-m<span class="w"> </span>accompy<span class="w"> </span>--check-deps
+
+<span class="c1"># Options</span>
+python<span class="w"> </span>-m<span class="w"> </span>accompy<span class="w"> </span>--help
+</pre></div>
+</div>
+</section>
+</section>
+<section id="how-it-works">
+<h2>How It Works<a class="headerlink" href="#how-it-works" title="Link to this heading">#</a></h2>
+<ol class="arabic simple">
+<li><p><strong>Parse chords</strong>: Convert chord string → <code class="docutils literal notranslate"><span class="pre">Score</span></code> object with normalized chord symbols</p></li>
+<li><p><strong>Generate MIDI</strong>: Create multi-track MIDI with drums, bass, piano patterns</p>
+<ul class="simple">
+<li><p>Uses <strong>MMA</strong> (Musical MIDI Accompaniment) if available for realistic tracks</p></li>
+<li><p>Falls back to built-in pattern generator</p></li>
+</ul>
+</li>
+<li><p><strong>Render audio</strong>: Convert MIDI → WAV using <strong>FluidSynth</strong> with SoundFont</p></li>
+<li><p><strong>Convert format</strong>: Optionally convert to MP3/FLAC via ffmpeg or pydub</p></li>
+</ol>
+<section id="mma-musical-midi-accompaniment">
+<h3>MMA (Musical MIDI Accompaniment)<a class="headerlink" href="#mma-musical-midi-accompaniment" title="Link to this heading">#</a></h3>
+<p>For the best quality backing tracks, install <a class="reference external" href="https://www.mellowood.ca/mma/">MMA</a>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># MMA provides 50+ professionally designed grooves</span>
+git<span class="w"> </span>clone<span class="w"> </span>https://github.com/infojunkie/mma
+<span class="nb">cd</span><span class="w"> </span>mma<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>python<span class="w"> </span>install<span class="w">  </span><span class="c1"># Follow MMA installation instructions</span>
+</pre></div>
+</div>
+<p>MMA offers extensive groove libraries with realistic fills, variations, and transitions.</p>
+</section>
+</section>
+<section id="python-dependencies">
+<h2>Python Dependencies<a class="headerlink" href="#python-dependencies" title="Link to this heading">#</a></h2>
+<p>Required:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">midiutil</span></code> — MIDI file generation</p></li>
+</ul>
+<p>Recommended:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">mingus</span></code> — Music theory (better chord parsing)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pyRealParser</span></code> — iReal Pro URL parsing</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">midi2audio</span></code> — Optional Python wrapper for FluidSynth (can improve portability)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pydub</span></code> — Audio format conversion (if no ffmpeg)</p></li>
+</ul>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>midiutil<span class="w"> </span>mingus<span class="w"> </span>pyRealParser<span class="w"> </span>midi2audio<span class="w"> </span>pydub
+</pre></div>
+</div>
+</section>
+<section id="api-reference">
+<h2>API Reference<a class="headerlink" href="#api-reference" title="Link to this heading">#</a></h2>
+<section id="generate-accompaniment-chords-style-tempo-repeats-output-path-output-format-config-use-mma-backend">
+<h3><code class="docutils literal notranslate"><span class="pre">generate_accompaniment(chords,</span> <span class="pre">*,</span> <span class="pre">style,</span> <span class="pre">tempo,</span> <span class="pre">repeats,</span> <span class="pre">output_path,</span> <span class="pre">output_format,</span> <span class="pre">config,</span> <span class="pre">use_mma,</span> <span class="pre">backend)</span></code><a class="headerlink" href="#generate-accompaniment-chords-style-tempo-repeats-output-path-output-format-config-use-mma-backend" title="Link to this heading">#</a></h3>
+<p>Generate accompaniment audio from chord progression.</p>
+<p><strong>Parameters:</strong></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">chords</span></code> (str | Score | Iterable[tuple[str, int|float]] | Iterable[str] | list[list[str]]): Chord progression</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">style</span></code> (str): “swing”, “bossa”, “rock”, “ballad”, “funk”, “latin”, “waltz”, “blues”</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">tempo</span></code> (int): BPM (default: 120)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">repeats</span></code> (int): Number of times through the form (default: 2)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">output_path</span></code> (str | Path): Where to save audio (default: temp file)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">output_format</span></code> (str | None): “wav”, “mp3”, “flac”, “midi” (optional; inferred from <code class="docutils literal notranslate"><span class="pre">output_path</span></code>)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">config</span></code> (AccompanimentConfig): Full config (overrides style/tempo/repeats)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">use_mma</span></code> (bool): Backwards-compatible MMA toggle (default: True)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">backend</span></code> (str | None): “auto”, “mma”, “builtin” (optional)</p></li>
+</ul>
+<p><strong>Returns:</strong> Path to generated audio file</p>
+</section>
+<section id="score-from-string-chord-string-title-key-time-signature">
+<h3><code class="docutils literal notranslate"><span class="pre">Score.from_string(chord_string,</span> <span class="pre">*,</span> <span class="pre">title,</span> <span class="pre">key,</span> <span class="pre">time_signature)</span></code><a class="headerlink" href="#score-from-string-chord-string-title-key-time-signature" title="Link to this heading">#</a></h3>
+<p>Parse chord string into Score object.</p>
+</section>
+<section id="score-from-ireal-url-url">
+<h3><code class="docutils literal notranslate"><span class="pre">Score.from_ireal_url(url)</span></code><a class="headerlink" href="#score-from-ireal-url-url" title="Link to this heading">#</a></h3>
+<p>Parse iReal Pro URL into Score object.</p>
+</section>
+<section id="check-dependencies">
+<h3><code class="docutils literal notranslate"><span class="pre">check_dependencies()</span></code><a class="headerlink" href="#check-dependencies" title="Link to this heading">#</a></h3>
+<p>Returns dict of available dependencies.</p>
+</section>
+<section id="print-setup-instructions">
+<h3><code class="docutils literal notranslate"><span class="pre">print_setup_instructions()</span></code><a class="headerlink" href="#print-setup-instructions" title="Link to this heading">#</a></h3>
+<p>Print installation instructions for missing dependencies.</p>
+</section>
+</section>
+<section id="troubleshooting">
+<h2>Troubleshooting<a class="headerlink" href="#troubleshooting" title="Link to this heading">#</a></h2>
+<section id="it-sounds-awful">
+<h3>It sounds awful!<a class="headerlink" href="#it-sounds-awful" title="Link to this heading">#</a></h3>
+<p><strong>Problem:</strong> The generated audio plays but sounds robotic, hollow, or like
+cheap ringtones from 2003.</p>
+<p><strong>Cause:</strong> You’re using a tiny placeholder SoundFont. FluidSynth ships with
+<code class="docutils literal notranslate"><span class="pre">VintageDreamsWaves-v2.sf2</span></code> (~300 KB), which is made of basic sine waves — not
+real instrument samples. This is the #1 reason accompy output sounds bad.</p>
+<p><strong>How to check:</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ls<span class="w"> </span>-lh<span class="w"> </span>~/.fluidsynth/default_sound_font.sf2
+<span class="c1"># If it's under 1 MB, that's your problem.</span>
+</pre></div>
+</div>
+<p><strong>Fix — install a real SoundFont:</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Download MuseScore General (~200 MB, real sampled instruments)</span>
+curl<span class="w"> </span>-L<span class="w"> </span>-o<span class="w"> </span>~/.fluidsynth/default_sound_font.sf2<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span><span class="s2">"https://ftp.osuosl.org/pub/musescore/soundfont/MuseScore_General/MuseScore_General.sf2"</span>
+</pre></div>
+</div>
+<p>A proper SoundFont should be <strong>30–200+ MB</strong>. See the
+<a class="reference internal" href="#soundfont-important-for-sound-quality"><span class="xref myst">SoundFont section</span></a> above for more
+options, or browse <a class="reference external" href="https://musical-artifacts.com/artifacts?formats=sf2">https://musical-artifacts.com/artifacts?formats=sf2</a>.</p>
+<blockquote>
+<div><p><strong>Tip:</strong> If you’re using an AI coding agent (Claude Code, Cursor, etc.),
+just tell it: <em>“the accompy output sounds bad, find and install a good
+SoundFont”</em> — it can diagnose and fix this in seconds.</p>
+</div></blockquote>
+</section>
+<section id="common-issues">
+<h3>Common Issues<a class="headerlink" href="#common-issues" title="Link to this heading">#</a></h3>
+<section id="no-soundfont-found-error">
+<h4>“No SoundFont found” Error<a class="headerlink" href="#no-soundfont-found-error" title="Link to this heading">#</a></h4>
+<p><strong>Problem:</strong> <code class="docutils literal notranslate"><span class="pre">RuntimeError:</span> <span class="pre">No</span> <span class="pre">SoundFont</span> <span class="pre">found.</span> <span class="pre">Download</span> <span class="pre">FluidR3_GM.sf2</span> <span class="pre">and</span> <span class="pre">place</span> <span class="pre">in</span> <span class="pre">~/.fluidsynth/default_sound_font.sf2</span></code></p>
+<p><strong>Solutions:</strong></p>
+<ol class="arabic">
+<li><p><strong>Automated fix:</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>-c<span class="w"> </span><span class="s2">"from accompy import setup_soundfont; setup_soundfont()"</span>
+</pre></div>
+</div>
+</li>
+<li><p><strong>Check if FluidSynth includes a SoundFont:</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># macOS with Homebrew</span>
+find<span class="w"> </span>/opt/homebrew/Cellar/fluid-synth<span class="w"> </span>-name<span class="w"> </span><span class="s2">"*.sf2"</span>
+</pre></div>
+</div>
+<p>If found, run the automated setup to link it.</p>
+</li>
+<li><p><strong>Manual download:</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mkdir<span class="w"> </span>-p<span class="w"> </span>~/.fluidsynth
+<span class="c1"># Download MuseScore General (high quality, 35MB)</span>
+curl<span class="w"> </span>-L<span class="w"> </span>-o<span class="w"> </span>~/.fluidsynth/default_sound_font.sf2<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span><span class="s2">"https://ftp.osuosl.org/pub/musescore/soundfont/MuseScore_General/MuseScore_General.sf2"</span>
+</pre></div>
+</div>
+</li>
+<li><p><strong>Verify the file:</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ls<span class="w"> </span>-lh<span class="w"> </span>~/.fluidsynth/default_sound_font.sf2
+<span class="c1"># Should be several MB (not just a few bytes)</span>
+</pre></div>
+</div>
+</li>
+</ol>
+</section>
+<section id="fluidsynth-not-found-error">
+<h4>“FluidSynth not found” Error<a class="headerlink" href="#fluidsynth-not-found-error" title="Link to this heading">#</a></h4>
+<p><strong>Problem:</strong> <code class="docutils literal notranslate"><span class="pre">RuntimeError:</span> <span class="pre">FluidSynth</span> <span class="pre">not</span> <span class="pre">found.</span> <span class="pre">Install</span> <span class="pre">with:</span> <span class="pre">brew</span> <span class="pre">install</span> <span class="pre">fluidsynth</span></code></p>
+<p><strong>Solutions:</strong></p>
+<ol class="arabic">
+<li><p><strong>macOS:</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>brew<span class="w"> </span>install<span class="w"> </span>fluid-synth
+</pre></div>
+</div>
+</li>
+<li><p><strong>Ubuntu/Debian:</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>apt-get<span class="w"> </span>update
+sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>fluidsynth
+</pre></div>
+</div>
+</li>
+<li><p><strong>Windows:</strong>
+Download from <a class="reference external" href="https://github.com/FluidSynth/fluidsynth/releases">FluidSynth releases</a> and add to PATH</p></li>
+<li><p><strong>Verify installation:</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>which<span class="w"> </span>fluidsynth
+fluidsynth<span class="w"> </span>--version
+</pre></div>
+</div>
+</li>
+</ol>
+</section>
+<section id="soundfont-file-is-corrupted-255-bytes">
+<h4>SoundFont File is Corrupted (255 bytes)<a class="headerlink" href="#soundfont-file-is-corrupted-255-bytes" title="Link to this heading">#</a></h4>
+<p><strong>Problem:</strong> Downloaded SoundFont is tiny (255 bytes) and appears to be XML</p>
+<p><strong>Cause:</strong> Download URL redirected to an error page</p>
+<p><strong>Solution:</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Remove corrupted file</span>
+rm<span class="w"> </span>~/.fluidsynth/default_sound_font.sf2
+
+<span class="c1"># Use automated setup</span>
+python<span class="w"> </span>-c<span class="w"> </span><span class="s2">"from accompy import setup_soundfont; setup_soundfont(force=True)"</span>
+
+<span class="c1"># Or manually download from a reliable source</span>
+curl<span class="w"> </span>-L<span class="w"> </span>-o<span class="w"> </span>~/.fluidsynth/default_sound_font.sf2<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span><span class="s2">"https://ftp.osuosl.org/pub/musescore/soundfont/MuseScore_General/MuseScore_General.sf2"</span>
+</pre></div>
+</div>
+</section>
+<section id="import-warning-about-missing-dependencies">
+<h4>Import Warning About Missing Dependencies<a class="headerlink" href="#import-warning-about-missing-dependencies" title="Link to this heading">#</a></h4>
+<p><strong>Problem:</strong> Warning on import: <code class="docutils literal notranslate"><span class="pre">accompy</span> <span class="pre">setup</span> <span class="pre">incomplete</span> <span class="pre">-</span> <span class="pre">missing:</span> <span class="pre">fluidsynth,</span> <span class="pre">soundfont</span></code></p>
+<p><strong>Solutions:</strong></p>
+<ol class="arabic">
+<li><p><strong>Run setup:</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>-c<span class="w"> </span><span class="s2">"from accompy import verify_and_setup; verify_and_setup()"</span>
+</pre></div>
+</div>
+</li>
+<li><p><strong>Temporarily disable warning:</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">ACCOMPY_SKIP_SETUP_CHECK</span><span class="o">=</span><span class="m">1</span>
+python<span class="w"> </span>your_script.py
+</pre></div>
+</div>
+</li>
+<li><p><strong>Fix manually and verify:</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Install dependencies</span>
+brew<span class="w"> </span>install<span class="w"> </span>fluid-synth<span class="w">  </span><span class="c1"># or apt-get install fluidsynth</span>
+pip<span class="w"> </span>install<span class="w"> </span>midiutil
+
+<span class="c1"># Run diagnostic</span>
+python<span class="w"> </span>-c<span class="w"> </span><span class="s2">"from accompy import print_diagnostic_report; print_diagnostic_report()"</span>
+</pre></div>
+</div>
+</li>
+</ol>
+</section>
+<section id="midiutil-not-found-error">
+<h4>“midiutil not found” Error<a class="headerlink" href="#midiutil-not-found-error" title="Link to this heading">#</a></h4>
+<p><strong>Problem:</strong> Missing Python dependency</p>
+<p><strong>Solution:</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>midiutil<span class="w"> </span>mingus
+</pre></div>
+</div>
+</section>
+</section>
+<section id="diagnostic-tools">
+<h3>Diagnostic Tools<a class="headerlink" href="#diagnostic-tools" title="Link to this heading">#</a></h3>
+<section id="run-full-diagnostic">
+<h4>Run Full Diagnostic<a class="headerlink" href="#run-full-diagnostic" title="Link to this heading">#</a></h4>
+<p>Get a comprehensive report of your setup:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">accompy</span><span class="w"> </span><span class="kn">import</span> <span class="n">print_diagnostic_report</span>
+
+<span class="n">print_diagnostic_report</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>This shows:</p>
+<ul class="simple">
+<li><p>System information</p></li>
+<li><p>Dependency status (✓ or ✗)</p></li>
+<li><p>Specific issues found</p></li>
+<li><p>Solutions for each issue</p></li>
+</ul>
+</section>
+<section id="check-specific-issues">
+<h4>Check Specific Issues<a class="headerlink" href="#check-specific-issues" title="Link to this heading">#</a></h4>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">accompy</span><span class="w"> </span><span class="kn">import</span> <span class="n">diagnose_issues</span>
+
+<span class="k">for</span> <span class="n">issue</span><span class="p">,</span> <span class="n">description</span><span class="p">,</span> <span class="n">solution</span> <span class="ow">in</span> <span class="n">diagnose_issues</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Issue: </span><span class="si">{</span><span class="n">issue</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Description: </span><span class="si">{</span><span class="n">description</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Solution: </span><span class="si">{</span><span class="n">solution</span><span class="si">}</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="verify-individual-dependencies">
+<h4>Verify Individual Dependencies<a class="headerlink" href="#verify-individual-dependencies" title="Link to this heading">#</a></h4>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">accompy</span><span class="w"> </span><span class="kn">import</span> <span class="n">check_dependencies</span>
+
+<span class="n">deps</span> <span class="o">=</span> <span class="n">check_dependencies</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"FluidSynth: </span><span class="si">{</span><span class="n">deps</span><span class="p">[</span><span class="s1">'fluidsynth'</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"SoundFont: </span><span class="si">{</span><span class="n">deps</span><span class="p">[</span><span class="s1">'soundfont'</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"midiutil: </span><span class="si">{</span><span class="n">deps</span><span class="p">[</span><span class="s1">'midiutil'</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"mingus: </span><span class="si">{</span><span class="n">deps</span><span class="p">[</span><span class="s1">'mingus'</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"MMA: </span><span class="si">{</span><span class="n">deps</span><span class="p">[</span><span class="s1">'mma'</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="getting-help">
+<h3>Getting Help<a class="headerlink" href="#getting-help" title="Link to this heading">#</a></h3>
+<p>If you’re still having issues:</p>
+<ol class="arabic">
+<li><p>Run diagnostic report and save output:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>-c<span class="w"> </span><span class="s2">"from accompy import print_diagnostic_report; print_diagnostic_report()"</span><span class="w"> </span>&gt;<span class="w"> </span>diagnostic.txt
+</pre></div>
+</div>
+</li>
+<li><p>Check existing issues: <a class="reference external" href="https://github.com/yourname/accompy/issues">GitHub Issues</a></p></li>
+<li><p>Create a new issue with:</p>
+<ul class="simple">
+<li><p>Your diagnostic report</p></li>
+<li><p>What you tried</p></li>
+<li><p>Full error message</p></li>
+</ul>
+</li>
+</ol>
+</section>
+</section>
+<section id="contributing">
+<h2>Contributing<a class="headerlink" href="#contributing" title="Link to this heading">#</a></h2>
+<p>Contributions welcome! Areas of interest:</p>
+<ul class="simple">
+<li><p>Additional styles/grooves</p></li>
+<li><p>Better drum fills and variations</p></li>
+<li><p>Improved chord voicings</p></li>
+<li><p>More instrument parts (guitar, strings, horns)</p></li>
+<li><p>Web interface</p></li>
+<li><p>Better cross-platform setup automation</p></li>
+</ul>
+</section>
+<section id="ai-agent-skills">
+<h2>AI agent skills<a class="headerlink" href="#ai-agent-skills" title="Link to this heading">#</a></h2>
+<p>Two skills ship with this repository. Their real files live in <code class="docutils literal notranslate"><span class="pre">skills/</span></code>, with a
+relative symlink per skill in <code class="docutils literal notranslate"><span class="pre">.claude/skills/</span></code> so Claude Code finds them too —
+<code class="docutils literal notranslate"><span class="pre">gh</span> <span class="pre">skill</span></code> discovers non-hidden <code class="docutils literal notranslate"><span class="pre">skills/</span></code> directories and skips hidden ones, so
+one location plus a symlink serves both.</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Skill</p></th>
+<th class="head"><p>What it covers</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">accompy-patterns</span></code></p></td>
+<td><p>The conventions this codebase follows</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">user-data-folder</span></code></p></td>
+<td><p>Where an app’s user data lives (XDG paths, <code class="docutils literal notranslate"><span class="pre">config2py.AppData</span></code>, seeding from package data)</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>gh<span class="w"> </span>skill<span class="w"> </span>install<span class="w"> </span>thorwhalen/accompy<span class="w"> </span>user-data-folder
+</pre></div>
+</div>
+</section>
+<section id="license">
+<h2>License<a class="headerlink" href="#license" title="Link to this heading">#</a></h2>
+<p>MIT</p>
+</section>
+<section id="acknowledgments">
+<h2>Acknowledgments<a class="headerlink" href="#acknowledgments" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="https://www.mellowood.ca/mma/">MMA - Musical MIDI Accompaniment</a> by Bob van der Poel</p></li>
+<li><p><a class="reference external" href="https://www.fluidsynth.org/">FluidSynth</a> team</p></li>
+<li><p><a class="reference external" href="https://github.com/drs251/pyRealParser">pyRealParser</a> for iReal Pro format parsing</p></li>
+<li><p><a class="reference external" href="https://www.irealpro.com/">iReal Pro</a> for inspiration</p></li>
+</ul>
+<p class="epythet-aggregates">This documentation as a single file: <a href="accompy.md">accompy.md</a> (Markdown, for agents).</p>
+<div class="toctree-wrapper compound">
+</div>
+</section>
+</section>
+
+<p class="epythet-provenance" style="font-size:.8em;opacity:.65;margin-top:2.5em;text-align:right">built 2026-09-22 13:32 UTC from <a href="https://github.com/thorwhalen/accompy/commit/8a9f1d6da0c963a8e0ac1ebb4dd7848e67dc7d60">8a9f1d6</a> (main) · accompy 0.3.12 · <a href="about-this-build.html">about this build</a></p>
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="right-next"
+       href="api.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">API reference</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#features">Features</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quick-start">Quick Start</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#installation">Installation</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#system-dependencies">System Dependencies</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#automated-setup-recommended">Automated Setup (Recommended)</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#manual-setup">Manual Setup</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soundfont-important-for-sound-quality">SoundFont (important for sound quality!)</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#check-your-setup">Check Your Setup</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#usage">Usage</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#basic-usage">Basic Usage</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#using-score-objects">Using Score Objects</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#backend-selection">Backend Selection</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#styles">Styles</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ireal-pro-integration">iReal Pro Integration</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#advanced-configuration">Advanced Configuration</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rhythmic-skeletons">Rhythmic Skeletons</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#extensibility-custom-patterns">Extensibility &amp; Custom Patterns</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#custom-chord-voicings">Custom Chord Voicings</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#custom-patterns">Custom Patterns</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#pattern-registry">Pattern Registry</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#real-time-event-generation">Real-Time Event Generation</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#protocol-based-architecture">Protocol-Based Architecture</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#command-line">Command Line</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-it-works">How It Works</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mma-musical-midi-accompaniment">MMA (Musical MIDI Accompaniment)</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#python-dependencies">Python Dependencies</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#api-reference">API Reference</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#generate-accompaniment-chords-style-tempo-repeats-output-path-output-format-config-use-mma-backend"><code class="docutils literal notranslate"><span class="pre">generate_accompaniment(chords,</span> <span class="pre">*,</span> <span class="pre">style,</span> <span class="pre">tempo,</span> <span class="pre">repeats,</span> <span class="pre">output_path,</span> <span class="pre">output_format,</span> <span class="pre">config,</span> <span class="pre">use_mma,</span> <span class="pre">backend)</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#score-from-string-chord-string-title-key-time-signature"><code class="docutils literal notranslate"><span class="pre">Score.from_string(chord_string,</span> <span class="pre">*,</span> <span class="pre">title,</span> <span class="pre">key,</span> <span class="pre">time_signature)</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#score-from-ireal-url-url"><code class="docutils literal notranslate"><span class="pre">Score.from_ireal_url(url)</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#check-dependencies"><code class="docutils literal notranslate"><span class="pre">check_dependencies()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#print-setup-instructions"><code class="docutils literal notranslate"><span class="pre">print_setup_instructions()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#troubleshooting">Troubleshooting</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#it-sounds-awful">It sounds awful!</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#common-issues">Common Issues</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#no-soundfont-found-error">“No SoundFont found” Error</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#fluidsynth-not-found-error">“FluidSynth not found” Error</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soundfont-file-is-corrupted-255-bytes">SoundFont File is Corrupted (255 bytes)</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#import-warning-about-missing-dependencies">Import Warning About Missing Dependencies</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#midiutil-not-found-error">“midiutil not found” Error</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#diagnostic-tools">Diagnostic Tools</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#run-full-diagnostic">Run Full Diagnostic</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#check-specific-issues">Check Specific Issues</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#verify-individual-dependencies">Verify Individual Dependencies</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#getting-help">Getting Help</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#contributing">Contributing</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ai-agent-skills">AI agent skills</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#license">License</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#acknowledgments">Acknowledgments</a></li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+
+  <div class="tocsection sourcelink">
+    <a href="_sources/index.md.txt">
+      <i class="fa-solid fa-file-lines"></i> Show Source
+    </a>
+  </div>
+</div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="_static/scripts/bootstrap.js?digest=cb8930eaaf36d9849b67"></script>
+<script defer src="_static/scripts/pydata-sphinx-theme.js?digest=cb8930eaaf36d9849b67"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.21.0.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
 </html>

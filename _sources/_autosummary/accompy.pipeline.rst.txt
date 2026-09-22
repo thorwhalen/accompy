@@ -1,0 +1,21 @@
+accompy.pipeline
+================
+
+.. automodule:: accompy.pipeline
+
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+   
+      chords_to_audio
+      chords_to_midi
+      chords_to_notes
+      chords_to_sequence
+      file_to_audio
+      file_to_midi
+      list_available_converters
+      midi_to_audio
+      rhythm_to_audio
+      rhythm_to_midi
+   

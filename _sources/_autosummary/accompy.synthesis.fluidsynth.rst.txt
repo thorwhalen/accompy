@@ -1,0 +1,19 @@
+accompy.synthesis.fluidsynth
+============================
+
+.. automodule:: accompy.synthesis.fluidsynth
+
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+   
+      convert_audio
+      find_default_soundfont
+   
+   .. rubric:: Classes
+
+   .. autosummary::
+   
+      FluidSynthBackend
+   

@@ -1,0 +1,75 @@
+{
+  "schema_version": 1,
+  "built_at": "2026-09-22T13:32:06Z",
+  "package": {
+    "name": "accompy",
+    "version": "0.3.12",
+    "display_name": "accompy",
+    "source": "pyproject.toml"
+  },
+  "git": {
+    "available": true,
+    "commit": "8a9f1d6da0c963a8e0ac1ebb4dd7848e67dc7d60",
+    "short_commit": "8a9f1d6",
+    "branch": "main",
+    "tags": [
+      "0.3.12"
+    ],
+    "dirty": false,
+    "remote_url": "https://github.com/thorwhalen/accompy",
+    "commit_url": "https://github.com/thorwhalen/accompy/commit/8a9f1d6da0c963a8e0ac1ebb4dd7848e67dc7d60",
+    "error": null
+  },
+  "ci": {
+    "provider": "github",
+    "repository": "thorwhalen/accompy",
+    "sha": "2e9ae52529424c188b4b58c3d9b2e477a2c940b2",
+    "sha_in_history": true,
+    "ref": "refs/heads/main",
+    "ref_name": "main",
+    "run_id": "35733792428",
+    "run_url": "https://github.com/thorwhalen/accompy/actions/runs/35733792428",
+    "server_url": "https://github.com"
+  },
+  "tools": {
+    "epythet": "0.2.12",
+    "sphinx": "9.1.0",
+    "docutils": "0.22.4",
+    "python": "3.12.14"
+  },
+  "config": {
+    "theme": "auto",
+    "html_theme": "pydata_sphinx_theme",
+    "accent": "#893466",
+    "mode": "auto",
+    "api_generator": "autosummary",
+    "ignore": [
+      "tests/",
+      "scrap/",
+      "examples/"
+    ],
+    "agent_outputs": true,
+    "aggregates": [
+      "md"
+    ],
+    "ai_artifacts": true,
+    "provenance": true,
+    "docs_dir": "docsrc"
+  },
+  "site": {
+    "modules_documented": 32,
+    "objects_documented": 308
+  },
+  "pypi": {
+    "checked": true,
+    "latest": "0.3.12",
+    "relation": "same",
+    "error": null
+  },
+  "reproduce": "git clone https://github.com/thorwhalen/accompy && cd accompy\ngit checkout 8a9f1d6da0c963a8e0ac1ebb4dd7848e67dc7d60\npip install \"epythet==0.2.12\"\nepythet quickstart . --ignore tests/ scrap/ examples/",
+  "warnings": [],
+  "alignment": {
+    "aligned": true,
+    "notes": []
+  }
+}

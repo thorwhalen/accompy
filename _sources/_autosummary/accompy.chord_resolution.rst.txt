@@ -1,0 +1,16 @@
+accompy.chord\_resolution
+=========================
+
+.. automodule:: accompy.chord_resolution
+
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+   
+      chord_to_notes
+      get_chord_resolver
+      music21_resolver
+      set_chord_resolver
+      tonal_resolver
+   

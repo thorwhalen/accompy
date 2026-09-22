@@ -1,118 +1,721 @@
 
-
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" data-content_root="../../">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>accompy.base &mdash; accompy 0.3.10 documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
-      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
-      <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
-      <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="alternate" type="text/markdown" href="base.html.md">
+<link rel="describedby" href="../../llms.txt" type="text/markdown">
+    <title>accompy.base &#8212; accompy</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=cb8930eaaf36d9849b67" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=cb8930eaaf36d9849b67" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=d75fae25" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/epythet.css?v=fbe2051b" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../../_static/scripts/fontawesome.js?digest=cb8930eaaf36d9849b67"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=cb8930eaaf36d9849b67" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=cb8930eaaf36d9849b67" />
+
+    <script src="../../_static/documentation_options.js?v=0cf6a877"></script>
+    <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=fd10adb8"></script>
+    <script type="module">import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.12.1/dist/mermaid.esm.min.mjs";
+
+
+
+
+
+const initStyles = () => {
+    const defaultStyle = document.createElement('style');
+    defaultStyle.textContent = "pre.mermaid {\n    /* Same as .mermaid-container > pre */\n    display: block;\n    width: 100%;\n}\n\npre.mermaid > svg {\n    /* Same as .mermaid-container > pre > svg */\n    height: 500px;\n    width: 100%;\n    max-width: 100% !important;\n}";
+    document.head.appendChild(defaultStyle);
+
+    const fullscreenStyle = document.createElement('style');
+    fullscreenStyle.textContent = ".mermaid-container {\n    position: relative;\n    display: flex;\n    flex-direction: row;\n    width: 100%;\n}\n\n.mermaid-container > pre {\n    display: block;\n    width: 100%;\n}\n\n.mermaid-container > pre > svg {\n    height: 500px;\n    width: 100%;\n    max-width: 100% !important;\n}\n\n.mermaid-fullscreen-btn {\n    position: absolute;\n    width: 28px;\n    height: 28px;\n    background: rgba(255, 255, 255, 0.95);\n    border: 1px solid rgba(0, 0, 0, 0.3);\n    border-radius: 4px;\n    cursor: pointer;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n    transition: all 0.2s;\n    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);\n    font-size: 14px;\n    line-height: 1;\n    padding: 0;\n    color: #333;\n}\n\n.mermaid-fullscreen-btn:hover {\n    opacity: 100% !important;\n    background: rgba(255, 255, 255, 1);\n    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);\n    transform: scale(1.1);\n}\n\n.mermaid-fullscreen-btn.dark-theme {\n    background: rgba(50, 50, 50, 0.95);\n    border: 1px solid rgba(255, 255, 255, 0.3);\n    color: #e0e0e0;\n}\n\n.mermaid-fullscreen-btn.dark-theme:hover {\n    background: rgba(60, 60, 60, 1);\n    box-shadow: 0 3px 10px rgba(255, 255, 255, 0.2);\n}\n\n.mermaid-fullscreen-modal {\n    display: none;\n    position: fixed !important;\n    top: 0 !important;\n    left: 0 !important;\n    width: 95vw;\n    height: 100vh;\n    background: rgba(255, 255, 255, 0.98);\n    z-index: 9999;\n    padding: 20px;\n    overflow: auto;\n}\n\n.mermaid-fullscreen-modal.dark-theme {\n    background: rgba(0, 0, 0, 0.98);\n}\n\n.mermaid-fullscreen-modal.active {\n    display: flex;\n    align-items: center;\n    justify-content: center;\n}\n\n.mermaid-container-fullscreen {\n    position: relative;\n    width: 95vw;\n    height: 90vh;\n    max-width: 95vw;\n    max-height: 90vh;\n    background: white;\n    border-radius: 8px;\n    padding: 20px;\n    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);\n    overflow: auto;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n}\n\n.mermaid-container-fullscreen.dark-theme {\n    background: #1a1a1a;\n    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8);\n}\n\n.mermaid-container-fullscreen pre.mermaid {\n    width: 100%;\n    height: 100%;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n}\n\n.mermaid-container-fullscreen .mermaid svg {\n    height: 100% !important;\n    width: 100% !important;\n    cursor: grab;\n}\n\n.mermaid-fullscreen-close {\n    position: fixed !important;\n    top: 20px !important;\n    right: 20px !important;\n    width: 40px;\n    height: 40px;\n    background: rgba(255, 255, 255, 0.95);\n    border: 1px solid rgba(0, 0, 0, 0.2);\n    border-radius: 50%;\n    cursor: pointer;\n    z-index: 10000;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);\n    transition: all 0.2s;\n    font-size: 24px;\n    line-height: 1;\n    color: #333;\n}\n\n.mermaid-fullscreen-close:hover {\n    background: white;\n    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);\n    transform: scale(1.1);\n}\n\n.mermaid-fullscreen-close.dark-theme {\n    background: rgba(50, 50, 50, 0.95);\n    border: 1px solid rgba(255, 255, 255, 0.2);\n    color: #e0e0e0;\n}\n\n.mermaid-fullscreen-close.dark-theme:hover {\n    background: rgba(60, 60, 60, 1);\n    box-shadow: 0 6px 16px rgba(255, 255, 255, 0.2);\n}\n\n.mermaid-fullscreen-modal .mermaid-fullscreen-btn {\n    display: none !important;\n}";
+    document.head.appendChild(fullscreenStyle);
+}
+
+// Detect if page has dark background
+const isDarkTheme = () => {
+    // We use a set of heuristics:
+    // 1. Check for common dark mode classes or attributes
+    // 2. Check computed background color brightness
+    if (document.documentElement.classList.contains('dark') ||
+        document.documentElement.getAttribute('data-theme') === 'dark' ||
+        document.body.classList.contains('dark') ||
+        document.body.getAttribute('data-theme') === 'dark') {
+        // console.log("Dark theme detected via class/attribute");
+        return true;
+    }
+    if (document.documentElement.classList.contains('light') ||
+        document.documentElement.getAttribute('data-theme') === 'light' ||
+        document.body.classList.contains('light') ||
+        document.body.getAttribute('data-theme') === 'light') {
+        // console.log("Light theme detected via class/attribute");
+        return false;
+    }
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        // console.log("Dark theme detected via prefers-color-scheme");
+        return true;
+    }
+    const bgColor = window.getComputedStyle(document.body).backgroundColor;
+    const match = bgColor.match(/rgb\((\d+),\s*(\d+),\s*(\d+)/);
+    if (match) {
+        const r = parseInt(match[1]);
+        const g = parseInt(match[2]);
+        const b = parseInt(match[3]);
+        const brightness = (r * 299 + g * 587 + b * 114) / 1000;
+        // console.log("Background color brightness:", brightness);
+        return brightness < 128;
+    }
+    // console.log("No dark or light theme detected, defaulting to light theme");
+    return false;
+};
+
+let darkTheme = isDarkTheme();
+let modal = null;
+let modalContent = null;
+let previousScrollOffset = [window.scrollX, window.scrollY];
+let _lazyObserver = null;
+let _renderQueue = Promise.resolve();
+let closeModal = () => {};
+
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && modal?.classList.contains('active')) {
+        closeModal();
+    }
+});
+
+// Apply d3 zoom to each SVG. Idempotent: an SVG already wrapped is skipped,
+// so this is safe to call both for the initial batch and for diagrams that
+// render lazily once they become visible.
+const addZoomToSvgs = (svgs) => {
+    svgs.each(function() {
+        if (this.getAttribute('data-zoom-applied') === 'true') return;
+        var svg = d3.select(this);
+        svg.html("<g class='wrapper'>" + svg.html() + "</g>");
+        var inner = svg.select("g");
+        var zoom = d3.zoom().on("zoom", function(event) {
+            inner.attr("transform", event.transform);
+        });
+        svg.call(zoom);
+        this.setAttribute('data-zoom-applied', 'true');
+    });
+};
+
+const runMermaid = async (rerun) => {
+    console.log("Running mermaid diagrams, rerun =", rerun);
+    // clear all existing mermaid charts
+    let all_mermaids = document.querySelectorAll(".mermaid");
+
+    if (rerun) {
+        // Disconnect any previous lazy rendering observer
+        if (_lazyObserver) {
+            _lazyObserver.disconnect();
+            _lazyObserver = null;
+        }
+
+        all_mermaids.forEach((el) => {
+            el.removeAttribute('data-mermaid-deferred');
+            el.removeAttribute('data-mermaid-render-failed');
+            if(!el.hasAttribute("data-original-code")) {
+                // store original code
+                // console.log(`Storing original code for first run: `, el.innerHTML);
+                el.setAttribute('data-original-code', el.innerHTML);
+            }
+            if(el.getAttribute("data-processed") === "true") {
+                // remove and restore original
+                el.removeAttribute("data-processed");
+                // console.log(`Restoring original code for re-run: `, el.getAttribute('data-original-code'));
+                el.innerHTML = el.getAttribute('data-original-code');
+            } else {
+                // store original code
+                // console.log(`Storing original code for re-run: `, el.innerHTML);
+                el.setAttribute('data-original-code', el.innerHTML);
+            }
+        });
+
+        // Separate visible and hidden elements. Mermaid's layout engine measures
+        // text dimensions via the DOM, which fails for elements hidden by a parent
+        // (e.g., Reveal.js non-active slides, sphinx-design unopened tabs),
+        // producing broken SVGs. Render visible elements now, defer hidden ones.
+        const visible = [];
+        const hidden = [];
+        all_mermaids.forEach((el) => {
+            // offsetParent is null for display:none ancestors.
+            // getClientRects().length > 0 catches position:fixed elements
+            // (which also have null offsetParent but are still visible).
+            if (el.offsetParent !== null || el.getClientRects().length > 0) {
+                visible.push(el);
+            } else {
+                hidden.push(el);
+                el.setAttribute('data-mermaid-deferred', 'true');
+            }
+        });
+
+        if (visible.length > 0) {
+            try {
+                await mermaid.run({ nodes: visible });
+            } catch (e) {
+                console.error("Mermaid rendering failed:", e);
+            }
+        }
+
+        // Lazily render hidden elements when they become visible.
+        // Uses a promise chain (_renderQueue) to serialize rendering,
+        // since IntersectionObserver may report multiple entries at once
+        // and mermaid.run() is not safe to call concurrently.
+        if (hidden.length > 0) {
+            if (typeof IntersectionObserver === 'undefined') {
+                console.warn("IntersectionObserver not available; hidden mermaid diagrams will not render.");
+            } else {
+                _renderQueue = Promise.resolve();
+                _lazyObserver = new IntersectionObserver((entries) => {
+                    for (const entry of entries) {
+                        if (entry.isIntersecting && entry.target.getAttribute("data-processed") !== "true") {
+                            _lazyObserver.unobserve(entry.target);
+                            const el = entry.target;
+                            _renderQueue = _renderQueue.then(async () => {
+                                try {
+                                    await mermaid.run({ nodes: [el] });
+                                    el.removeAttribute('data-mermaid-deferred');
+                                    // Apply zoom to the now-rendered diagram, matching
+                                    // the decoration visible diagrams receive.
+                                    if (false) {
+                                        addZoomToSvgs(d3.selectAll("").select(function() {
+                                            return this.querySelector("svg");
+                                        }));
+                                    }
+                                } catch (e) {
+                                    console.error("Mermaid deferred rendering failed:", e);
+                                    el.removeAttribute('data-mermaid-deferred');
+                                    el.setAttribute('data-mermaid-render-failed', 'true');
+                                }
+                            });
+                        }
+                    }
+                });
+                hidden.forEach((el) => _lazyObserver.observe(el));
+            }
+        }
+    }
+
+    all_mermaids = document.querySelectorAll(".mermaid");
+    // Exclude deferred (hidden) and render-failed elements from completion checks
+    const mermaids_active = document.querySelectorAll(".mermaid:not([data-mermaid-deferred]):not([data-mermaid-render-failed])");
+    const mermaids_processed = document.querySelectorAll(".mermaid:not([data-mermaid-deferred]):not([data-mermaid-render-failed])[data-processed='true']");
+
+    if (false) {
+        const mermaids_to_add_zoom = 0 === -1 ? mermaids_active.length : 0;
+        if(mermaids_to_add_zoom > 0) {
+            var svgs = d3.selectAll("").select(function() {
+                return this.querySelector("svg");
+            });
+            // Wait until every active (visible) diagram has rendered. Deferred
+            // diagrams are excluded, so a fixed d3_node_count that counts a
+            // hidden diagram no longer loops forever waiting for its SVG.
+            if(mermaids_active.length !== mermaids_processed.length) {
+                setTimeout(() => runMermaid(false), 200);
+                return;
+            }
+            addZoomToSvgs(svgs);
+        }
+    } else if(mermaids_active.length !== mermaids_processed.length) {
+        // Wait for mermaid to process all diagrams
+        setTimeout(() => runMermaid(false), 200);
+        return;
+    }
+
+    // Stop here if not adding fullscreen capability
+    if (!true) return;
+
+    if (modal !== null ) {
+        // Destroy existing modal
+        modal.remove();
+        modal = null;
+        modalContent = null;
+    }
+
+    modal = document.createElement('div');
+    modal.className = 'mermaid-fullscreen-modal' + (darkTheme ? ' dark-theme' : '');
+    modal.setAttribute('role', 'dialog');
+    modal.setAttribute('aria-modal', 'true');
+    modal.setAttribute('aria-label', 'Fullscreen diagram viewer');
+    modal.innerHTML = `
+        <button class="mermaid-fullscreen-close${darkTheme ? ' dark-theme' : ''}" aria-label="Close fullscreen">✕</button>
+        <div class="mermaid-container-fullscreen${darkTheme ? ' dark-theme' : ''}"></div>
+    `;
+    document.body.appendChild(modal);
+
+    modalContent = modal.querySelector('.mermaid-container-fullscreen');
+    const closeBtn = modal.querySelector('.mermaid-fullscreen-close');
+
+    closeModal = () => {
+        modal.classList.remove('active');
+        modalContent.innerHTML = '';
+        document.body.style.overflow = ''
+        window.scrollTo({left: previousScrollOffset[0], top: previousScrollOffset[1], behavior: 'instant'});
+    };
+
+    closeBtn.addEventListener('click', closeModal);
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) closeModal();
+    });
+    document.querySelectorAll('.mermaid').forEach((mermaidDiv) => {
+        if (mermaidDiv.parentNode.classList.contains('mermaid-container') ||
+            mermaidDiv.closest('.mermaid-fullscreen-modal')) {
+            // Already processed, adjust button class if needed
+            const existingBtn = mermaidDiv.parentNode.querySelector('.mermaid-fullscreen-btn');
+            if (existingBtn) {
+                existingBtn.className = 'mermaid-fullscreen-btn' + (darkTheme ? ' dark-theme' : '');
+            }
+            return;
+        }
+
+        const container = document.createElement('div');
+        container.className = 'mermaid-container';
+        mermaidDiv.parentNode.insertBefore(container, mermaidDiv);
+        container.appendChild(mermaidDiv);
+
+        const fullscreenBtn = document.createElement('button');
+        fullscreenBtn.className = 'mermaid-fullscreen-btn' + (darkTheme ? ' dark-theme' : '');
+        fullscreenBtn.setAttribute('aria-label', 'View diagram in fullscreen');
+        fullscreenBtn.textContent = "\u26f6";
+        fullscreenBtn.style.opacity = "50%";
+
+        // Calculate dynamic position based on diagram's margin and padding
+        const diagramStyle = window.getComputedStyle(mermaidDiv);
+        const marginTop = parseFloat(diagramStyle.marginTop) || 0;
+        const marginRight = parseFloat(diagramStyle.marginRight) || 0;
+        const paddingTop = parseFloat(diagramStyle.paddingTop) || 0;
+        const paddingRight = parseFloat(diagramStyle.paddingRight) || 0;
+        fullscreenBtn.style.top = `${marginTop + paddingTop + 4}px`;
+        fullscreenBtn.style.right = `${marginRight + paddingRight + 4}px`;
+
+        fullscreenBtn.addEventListener('click', () => {
+            previousScrollOffset = [window.scrollX, window.scrollY];
+            const clone = mermaidDiv.cloneNode(true);
+            modalContent.innerHTML = '';
+            modalContent.appendChild(clone);
+
+            const svg = clone.querySelector('svg');
+            if (svg) {
+                svg.removeAttribute('width');
+                svg.removeAttribute('height');
+                svg.style.width = '100%';
+                svg.style.height = 'auto';
+                svg.style.maxWidth = '100%';
+                svg.style.display = 'block';
+
+                if (false) {
+                    setTimeout(() => {
+                        const g = svg.querySelector('g');
+                        if (g) {
+                            var svgD3 = d3.select(svg);
+                            svgD3.html("<g class='wrapper'>" + svgD3.html() + "</g>");
+                            var inner = svgD3.select("g");
+                            var zoom = d3.zoom().on("zoom", function(event) {
+                                inner.attr("transform", event.transform);
+                            });
+                            svgD3.call(zoom);
+                        }
+                    }, 100);
+                }
+            }
+
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        });
+        container.appendChild(fullscreenBtn);
+    });
+};
+
+
+
+const load = async () => {
+    initStyles();
+
+
+    await runMermaid(true);
+
+    const reRunIfThemeChanges = async () => {
+        const newDarkTheme = isDarkTheme();
+        if (newDarkTheme !== darkTheme) {
+            darkTheme = newDarkTheme;
+            console.log("Theme change detected, re-running mermaid with", darkTheme ? "dark" : "default", "theme");
+            await mermaid.initialize(
+                {...{"startOnLoad": false},
+                ...{ darkMode: darkTheme, theme: darkTheme ? "dark" : "default" },
+                }
+            );
+            await runMermaid(true);
+        }
+    };
+
+    // Update theme classes when theme changes
+    const themeObserver = new MutationObserver(reRunIfThemeChanges);
+    themeObserver.observe(document.documentElement, {
+        attributes: true,
+        attributeFilter: ['class', 'style', 'data-theme']
+    });
+    themeObserver.observe(document.body, {
+        attributes: true,
+        attributeFilter: ['class', 'style', 'data-theme']
+    });
+};
+
+
+
+
+
+console.log("Initializing mermaid with", darkTheme ? "dark" : "default", "theme");
+mermaid.initialize(
+    {...{"startOnLoad": false},
+    ...{ darkMode: darkTheme, theme: darkTheme ? "dark" : "default" },
+    }
+);
+
+window.addEventListener("load", load);
+window.runMermaid = runMermaid;</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/accompy/base';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="0.3.12" />
+  
+    
+    <script src="../../_static/searchtools.js"></script>
+    <script src="../../_static/language_data.js"></script>
+    <script src="../../searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
 
   
-      <script src="../../_static/jquery.js?v=5d32c60e"></script>
-      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../_static/documentation_options.js?v=9f76a604"></script>
-      <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
-      <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
-      <script src="../../_static/toggleprompt.js?v=d7ede5d2"></script>
-      <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
-      <script src="../../_static/copybutton.js?v=f281be69"></script>
-    <script src="../../_static/js/theme.js"></script>
-    <link rel="index" title="Index" href="../../genindex.html" />
-    <link rel="search" title="Search" href="../../search.html" /> 
-</head>
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
 
-<body class="wy-body-for-nav"> 
-  <div class="wy-grid-for-nav">
-    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
-      <div class="wy-side-scroll">
-        <div class="wy-side-nav-search" >
-
-          
-          
-          <a href="../../index.html" class="icon icon-home">
-            accompy
-          </a>
-<div role="search">
-  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
-    <input type="hidden" name="check_keywords" value="yes" />
-    <input type="hidden" name="area" value="default" />
-  </form>
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
 </div>
-        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy.html">accompy</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/_seed_data.html">accompy._seed_data</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/_seed_data/config.html">accompy._seed_data.config</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/_seed_data/resources.html">accompy._seed_data.resources</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/audio_renderers.html">accompy.audio_renderers</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/base.html">accompy.base</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/chord_parsers.html">accompy.chord_parsers</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/chord_resolution.html">accompy.chord_resolution</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/chord_resolvers.html">accompy.chord_resolvers</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/converters.html">accompy.converters</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/data_access.html">accompy.data_access</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/main.html">accompy.main</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/midi_generators.html">accompy.midi_generators</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/patterns.html">accompy.patterns</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/patterns/builtin.html">accompy.patterns.builtin</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/patterns/dataclasses.html">accompy.patterns.dataclasses</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/pipeline.html">accompy.pipeline</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/protocols.html">accompy.protocols</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/realtime.html">accompy.realtime</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/renderers.html">accompy.renderers</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/renderers/midi.html">accompy.renderers.midi</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/rendering.html">accompy.rendering</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/rhythmic_skeletons.html">accompy.rhythmic_skeletons</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/setup_utils.html">accompy.setup_utils</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/synthesis.html">accompy.synthesis</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/synthesis/fluidsynth.html">accompy.synthesis.fluidsynth</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/tools.html">accompy.tools</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/util.html">accompy.util</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/wips.html">accompy.wips</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/wips/audio_renderers.html">accompy.wips.audio_renderers</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/wips/chord_parsers.html">accompy.wips.chord_parsers</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/wips/chord_resolvers.html">accompy.wips.chord_resolvers</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/wips/midi_generators.html">accompy.wips.midi_generators</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/wips/pipeline.html">accompy.wips.pipeline</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/wips/types.html">accompy.wips.types</a></li>
-</ul>
 
-        </div>
-      </div>
-    </nav>
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
-          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="../../index.html">accompy</a>
-      </nav>
+  
+    
+  
 
-      <div class="wy-nav-content">
-        <div class="rst-content">
-          <div role="navigation" aria-label="Page navigation">
-  <ul class="wy-breadcrumbs">
-      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
-          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
-      <li class="breadcrumb-item active">accompy.base</li>
-      <li class="wy-breadcrumbs-aside">
-      </li>
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">accompy</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../api.html">
+    API reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../ai-agents.html">
+    For AI agents
+  </a>
+</li>
+
   </ul>
-  <hr/>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+  </ul>
+</div></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/thorwhalen/accompy" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i><span class="visually-hidden">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
 </div>
-          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
-           <div itemprop="articleBody">
-             
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar hide-on-wide">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../api.html">
+    API reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../ai-agents.html">
+    For AI agents
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+  </ul>
+</div></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/thorwhalen/accompy" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i><span class="visually-hidden">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../index.html" class="nav-link">Module code</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">accompy.base</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
   <h1>Source code for accompy.base</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span></span><span class="sd">"""</span>
 <span class="sd">Core domain models for accompy.</span>
 
 <span class="sd">Contains Score, ChordEvent, AccompanimentConfig and related data structures.</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 
@@ -125,16 +728,16 @@
 <span class="n">ChordSymbol</span> <span class="o">=</span> <span class="nb">str</span>
 <span class="n">ChordSpec</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span> <span class="o">|</span> <span class="nb">float</span><span class="p">]</span>  <span class="c1"># (chord_name, beats)</span>
 <span class="n">StyleName</span> <span class="o">=</span> <span class="n">Literal</span><span class="p">[</span>
-    <span class="s2">&quot;swing&quot;</span><span class="p">,</span> <span class="s2">&quot;bossa&quot;</span><span class="p">,</span> <span class="s2">&quot;rock&quot;</span><span class="p">,</span> <span class="s2">&quot;ballad&quot;</span><span class="p">,</span> <span class="s2">&quot;funk&quot;</span><span class="p">,</span> <span class="s2">&quot;latin&quot;</span><span class="p">,</span> <span class="s2">&quot;waltz&quot;</span><span class="p">,</span> <span class="s2">&quot;blues&quot;</span>
+    <span class="s2">"swing"</span><span class="p">,</span> <span class="s2">"bossa"</span><span class="p">,</span> <span class="s2">"rock"</span><span class="p">,</span> <span class="s2">"ballad"</span><span class="p">,</span> <span class="s2">"funk"</span><span class="p">,</span> <span class="s2">"latin"</span><span class="p">,</span> <span class="s2">"waltz"</span><span class="p">,</span> <span class="s2">"blues"</span>
 <span class="p">]</span>
-<span class="n">BackendType</span> <span class="o">=</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;auto&quot;</span><span class="p">,</span> <span class="s2">&quot;mma&quot;</span><span class="p">,</span> <span class="s2">&quot;builtin&quot;</span><span class="p">]</span>
+<span class="n">BackendType</span> <span class="o">=</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">"auto"</span><span class="p">,</span> <span class="s2">"mma"</span><span class="p">,</span> <span class="s2">"builtin"</span><span class="p">]</span>
 
 
 <div class="viewcode-block" id="MidiEvent">
-<a class="viewcode-back" href="../../module_docs/accompy/base.html#accompy.MidiEvent">[docs]</a>
+<a class="viewcode-back" href="../../_autosummary/accompy.base.html#accompy.MidiEvent">[docs]</a>
 <span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">MidiEvent</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    A single MIDI event.</span>
 
 <span class="sd">    Used for event-based MIDI generation that enables both batch file creation</span>
@@ -146,7 +749,7 @@
 <span class="sd">        note: MIDI note number (0-127)</span>
 <span class="sd">        velocity: Note velocity (0-127)</span>
 <span class="sd">        duration: Note duration in beats</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="n">time</span><span class="p">:</span> <span class="nb">float</span>
     <span class="n">channel</span><span class="p">:</span> <span class="nb">int</span>
@@ -157,17 +760,17 @@
 
 
 <div class="viewcode-block" id="ChordEvent">
-<a class="viewcode-back" href="../../module_docs/accompy/base.html#accompy.ChordEvent">[docs]</a>
+<a class="viewcode-back" href="../../_autosummary/accompy.base.html#accompy.ChordEvent">[docs]</a>
 <span class="nd">@dataclass</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">ChordEvent</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    A chord at a specific position in the progression.</span>
 
 <span class="sd">    Example:</span>
-<span class="sd">        &gt;&gt;&gt; event = ChordEvent(&quot;Dm7&quot;, beats=4)</span>
+<span class="sd">        &gt;&gt;&gt; event = ChordEvent("Dm7", beats=4)</span>
 <span class="sd">        &gt;&gt;&gt; event.symbol</span>
-<span class="sd">        &#39;D-7&#39;</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">        'D-7'</span>
+<span class="sd">    """</span>
 
     <span class="n">symbol</span><span class="p">:</span> <span class="nb">str</span>
     <span class="n">beats</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">4</span>
@@ -180,51 +783,51 @@
 
 
 <div class="viewcode-block" id="Score">
-<a class="viewcode-back" href="../../module_docs/accompy/base.html#accompy.Score">[docs]</a>
+<a class="viewcode-back" href="../../_autosummary/accompy.base.html#accompy.Score">[docs]</a>
 <span class="nd">@dataclass</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">Score</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    A musical score containing chord events and metadata.</span>
 
 <span class="sd">    This is the domain model for chord progressions. It provides a unified</span>
 <span class="sd">    representation regardless of input format (string, iReal URL, tuples, etc.).</span>
 
 <span class="sd">    Example:</span>
-<span class="sd">        &gt;&gt;&gt; score = Score.from_string(&quot;| C | Am | F | G |&quot;, time_signature=(4, 4))</span>
+<span class="sd">        &gt;&gt;&gt; score = Score.from_string("| C | Am | F | G |", time_signature=(4, 4))</span>
 <span class="sd">        &gt;&gt;&gt; list(score.measures)</span>
-<span class="sd">        [[&#39;C&#39;], [&#39;A-&#39;], [&#39;F&#39;], [&#39;G&#39;]]</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">        [['C'], ['A-'], ['F'], ['G']]</span>
+<span class="sd">    """</span>
 
     <span class="n">measures</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span>
-    <span class="n">title</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;Untitled&quot;</span>
-    <span class="n">composer</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
-    <span class="n">key</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;C&quot;</span>
+    <span class="n">title</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"Untitled"</span>
+    <span class="n">composer</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">""</span>
+    <span class="n">key</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"C"</span>
     <span class="n">time_signature</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
 
 <div class="viewcode-block" id="Score.from_string">
-<a class="viewcode-back" href="../../module_docs/accompy/base.html#accompy.Score.from_string">[docs]</a>
+<a class="viewcode-back" href="../../_autosummary/accompy.base.html#accompy.Score.from_string">[docs]</a>
     <span class="nd">@classmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">from_string</span><span class="p">(</span>
         <span class="bp">cls</span><span class="p">,</span>
         <span class="n">chord_string</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
         <span class="o">*</span><span class="p">,</span>
-        <span class="n">title</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;Untitled&quot;</span><span class="p">,</span>
-        <span class="n">key</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;C&quot;</span><span class="p">,</span>
+        <span class="n">title</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"Untitled"</span><span class="p">,</span>
+        <span class="n">key</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"C"</span><span class="p">,</span>
         <span class="n">time_signature</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Score&quot;</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"Score"</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Parse a chord string into a Score.</span>
 
 <span class="sd">        Supports formats:</span>
-<span class="sd">        - Simple: &quot;C Am F G&quot; (space-separated, one chord per bar)</span>
-<span class="sd">        - Bar lines: &quot;| C | Am | F | G |&quot;</span>
-<span class="sd">        - Multi-chord bars: &quot;| C Am | F G |&quot; (chords split evenly)</span>
-<span class="sd">        - iReal-style: &quot;C-7 F7 | Bb^7 | Eh7 A7b9 |&quot;</span>
+<span class="sd">        - Simple: "C Am F G" (space-separated, one chord per bar)</span>
+<span class="sd">        - Bar lines: "| C | Am | F | G |"</span>
+<span class="sd">        - Multi-chord bars: "| C Am | F G |" (chords split evenly)</span>
+<span class="sd">        - iReal-style: "C-7 F7 | Bb^7 | Eh7 A7b9 |"</span>
 
 <span class="sd">        Example:</span>
-<span class="sd">            &gt;&gt;&gt; Score.from_string(&quot;| Dm7 | G7 | C^7 | % |&quot;).measures  # % means repeat</span>
-<span class="sd">            [[&#39;D-7&#39;], [&#39;G7&#39;], [&#39;C^7&#39;], [&#39;C^7&#39;]]</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">            &gt;&gt;&gt; Score.from_string("| Dm7 | G7 | C^7 | % |").measures  # % means repeat</span>
+<span class="sd">            [['D-7'], ['G7'], ['C^7'], ['C^7']]</span>
+<span class="sd">        """</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">.util</span><span class="w"> </span><span class="kn">import</span> <span class="n">parse_chord_string</span>
 
         <span class="n">measures</span> <span class="o">=</span> <span class="n">parse_chord_string</span><span class="p">(</span><span class="n">chord_string</span><span class="p">)</span>
@@ -237,34 +840,34 @@
 
 
 <div class="viewcode-block" id="Score.from_ireal_url">
-<a class="viewcode-back" href="../../module_docs/accompy/base.html#accompy.Score.from_ireal_url">[docs]</a>
+<a class="viewcode-back" href="../../_autosummary/accompy.base.html#accompy.Score.from_ireal_url">[docs]</a>
     <span class="nd">@classmethod</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">from_ireal_url</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">url</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Score&quot;</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">from_ireal_url</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">url</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"Score"</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Parse an iReal Pro URL into a Score.</span>
 
 <span class="sd">        Example::</span>
-<span class="sd">            url = &quot;irealb://Autumn%20Leaves=...&quot;</span>
+<span class="sd">            url = "irealb://Autumn%20Leaves=..."</span>
 <span class="sd">            score = Score.from_ireal_url(url)</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">.util</span><span class="w"> </span><span class="kn">import</span> <span class="n">parse_ireal_url</span>
 
         <span class="k">return</span> <span class="n">parse_ireal_url</span><span class="p">(</span><span class="n">url</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="Score.to_chord_sequence">
-<a class="viewcode-back" href="../../module_docs/accompy/base.html#accompy.Score.to_chord_sequence">[docs]</a>
+<a class="viewcode-back" href="../../_autosummary/accompy.base.html#accompy.Score.to_chord_sequence">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">to_chord_sequence</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">tempo</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">120</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Convert Score to a ChordSequence (from the converter pipeline).</span>
+<span class="w">        </span><span class="sd">"""Convert Score to a ChordSequence (from the converter pipeline).</span>
 
 <span class="sd">        Each chord gets a duration proportional to its share of the bar.</span>
 
 <span class="sd">        Example:</span>
-<span class="sd">            &gt;&gt;&gt; score = Score.from_string(&quot;| Dm7 | G7 | C^7 |&quot;)</span>
+<span class="sd">            &gt;&gt;&gt; score = Score.from_string("| Dm7 | G7 | C^7 |")</span>
 <span class="sd">            &gt;&gt;&gt; cs = score.to_chord_sequence(tempo=160)</span>
 <span class="sd">            &gt;&gt;&gt; len(cs)</span>
 <span class="sd">            3</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">.converters</span><span class="w"> </span><span class="kn">import</span> <span class="n">ChordSequence</span>
 
         <span class="n">beats_per_bar</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">time_signature</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
@@ -293,10 +896,10 @@
 
 
 <div class="viewcode-block" id="AccompanimentConfig">
-<a class="viewcode-back" href="../../module_docs/accompy/base.html#accompy.AccompanimentConfig">[docs]</a>
+<a class="viewcode-back" href="../../_autosummary/accompy.base.html#accompy.AccompanimentConfig">[docs]</a>
 <span class="nd">@dataclass</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">AccompanimentConfig</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Configuration for accompaniment generation.</span>
 
 <span class="sd">    This is the single source of truth for all configuration options,</span>
@@ -314,32 +917,32 @@
 <span class="sd">        chord_resolver: Optional custom chord resolution function</span>
 <span class="sd">        pattern_source: Optional custom pattern provider</span>
 <span class="sd">        synthesis_backend: Optional custom synthesis backend</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="c1"># Core settings</span>
-    <span class="n">style</span><span class="p">:</span> <span class="n">StyleName</span> <span class="o">=</span> <span class="s2">&quot;swing&quot;</span>
+    <span class="n">style</span><span class="p">:</span> <span class="n">StyleName</span> <span class="o">=</span> <span class="s2">"swing"</span>
     <span class="n">tempo</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">120</span>
     <span class="n">repeats</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">2</span>
     <span class="n">instruments</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">bool</span><span class="p">]</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span>
         <span class="n">default_factory</span><span class="o">=</span><span class="k">lambda</span><span class="p">:</span> <span class="p">{</span>
-            <span class="s2">&quot;drums&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
-            <span class="s2">&quot;bass&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
-            <span class="s2">&quot;piano&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
-            <span class="s2">&quot;guitar&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+            <span class="s2">"drums"</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+            <span class="s2">"bass"</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+            <span class="s2">"piano"</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+            <span class="s2">"guitar"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
         <span class="p">}</span>
     <span class="p">)</span>
     <span class="n">volumes</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span>
         <span class="n">default_factory</span><span class="o">=</span><span class="k">lambda</span><span class="p">:</span> <span class="p">{</span>
-            <span class="s2">&quot;drums&quot;</span><span class="p">:</span> <span class="mf">0.8</span><span class="p">,</span>
-            <span class="s2">&quot;bass&quot;</span><span class="p">:</span> <span class="mf">0.9</span><span class="p">,</span>
-            <span class="s2">&quot;piano&quot;</span><span class="p">:</span> <span class="mf">0.7</span><span class="p">,</span>
+            <span class="s2">"drums"</span><span class="p">:</span> <span class="mf">0.8</span><span class="p">,</span>
+            <span class="s2">"bass"</span><span class="p">:</span> <span class="mf">0.9</span><span class="p">,</span>
+            <span class="s2">"piano"</span><span class="p">:</span> <span class="mf">0.7</span><span class="p">,</span>
         <span class="p">}</span>
     <span class="p">)</span>
 
     <span class="c1"># Synthesis settings</span>
     <span class="n">soundfont</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Path</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">sample_rate</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">44100</span>
-    <span class="n">output_format</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;wav&quot;</span><span class="p">,</span> <span class="s2">&quot;mp3&quot;</span><span class="p">,</span> <span class="s2">&quot;flac&quot;</span><span class="p">,</span> <span class="s2">&quot;midi&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;wav&quot;</span>
+    <span class="n">output_format</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">"wav"</span><span class="p">,</span> <span class="s2">"mp3"</span><span class="p">,</span> <span class="s2">"flac"</span><span class="p">,</span> <span class="s2">"midi"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"wav"</span>
 
     <span class="c1"># Extensibility hooks (dependency injection)</span>
     <span class="c1"># NOTE: These are populated at runtime to avoid circular imports</span>
@@ -348,9 +951,9 @@
     <span class="n">synthesis_backend</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># SynthesizerBackend protocol</span>
 
 <div class="viewcode-block" id="AccompanimentConfig.with_overrides">
-<a class="viewcode-back" href="../../module_docs/accompy/base.html#accompy.AccompanimentConfig.with_overrides">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">with_overrides</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;AccompanimentConfig&quot;</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<a class="viewcode-back" href="../../_autosummary/accompy.base.html#accompy.AccompanimentConfig.with_overrides">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">with_overrides</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"AccompanimentConfig"</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Create a new config with specified overrides.</span>
 
 <span class="sd">        This enables immutable updates to configuration.</span>
@@ -360,7 +963,7 @@
 <span class="sd">            &gt;&gt;&gt; fast_config = config.with_overrides(tempo=180)</span>
 <span class="sd">            &gt;&gt;&gt; config.tempo, fast_config.tempo</span>
 <span class="sd">            (120, 180)</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">replace</span>
 
         <span class="k">return</span> <span class="n">replace</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
@@ -369,20 +972,20 @@
 
 
 <div class="viewcode-block" id="ensure_score">
-<a class="viewcode-back" href="../../module_docs/accompy/base.html#accompy.ensure_score">[docs]</a>
+<a class="viewcode-back" href="../../_autosummary/accompy.base.html#accompy.ensure_score">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">ensure_score</span><span class="p">(</span>
     <span class="n">chords</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
     <span class="o">*</span><span class="p">,</span>
-    <span class="n">title</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;Untitled&quot;</span><span class="p">,</span>
-    <span class="n">key</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;C&quot;</span><span class="p">,</span>
+    <span class="n">title</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"Untitled"</span><span class="p">,</span>
+    <span class="n">key</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"C"</span><span class="p">,</span>
     <span class="n">time_signature</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Score</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Coerce common chord-progression formats into a `Score`.</span>
 
 <span class="sd">    Supported inputs:</span>
 <span class="sd">    - `Score`: returned as-is</span>
-<span class="sd">    - `str`: chord string (e.g. `&quot;| C | Am | F | G |&quot;`) OR iReal URL (`irealbook://...`)</span>
+<span class="sd">    - `str`: chord string (e.g. `"| C | Am | F | G |"`) OR iReal URL (`irealbook://...`)</span>
 <span class="sd">    - `Iterable[tuple[str, int|float]]`: list of `(chord, beats)` like in `accompany`</span>
 <span class="sd">    - `Iterable[str]`: chord symbols, one per bar</span>
 <span class="sd">    - `list[list[str]]`: already-parsed measures</span>
@@ -393,11 +996,11 @@
 <span class="sd">      by grouping chords into bars.</span>
 
 <span class="sd">    Examples:</span>
-<span class="sd">        &gt;&gt;&gt; ensure_score(&quot;| C | Am | F | G |&quot;, time_signature=(4, 4)).measures</span>
-<span class="sd">        [[&#39;C&#39;], [&#39;A-&#39;], [&#39;F&#39;], [&#39;G&#39;]]</span>
-<span class="sd">        &gt;&gt;&gt; ensure_score([(&quot;F#m7b5&quot;, 4), (&quot;B7&quot;, 4), (&quot;Em&quot;, 8)], key=&quot;E&quot;).measures[:3]</span>
-<span class="sd">        [[&#39;F#h7&#39;], [&#39;B7&#39;], [&#39;E-&#39;]]</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">        &gt;&gt;&gt; ensure_score("| C | Am | F | G |", time_signature=(4, 4)).measures</span>
+<span class="sd">        [['C'], ['A-'], ['F'], ['G']]</span>
+<span class="sd">        &gt;&gt;&gt; ensure_score([("F#m7b5", 4), ("B7", 4), ("Em", 8)], key="E").measures[:3]</span>
+<span class="sd">        [['F#h7'], ['B7'], ['E-']]</span>
+<span class="sd">    """</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">.util</span><span class="w"> </span><span class="kn">import</span> <span class="n">normalize_chord_symbol</span><span class="p">,</span> <span class="n">score_from_chord_specs</span>
 
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">chords</span><span class="p">,</span> <span class="n">Score</span><span class="p">):</span>
@@ -405,7 +1008,7 @@
 
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">chords</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
         <span class="n">s</span> <span class="o">=</span> <span class="n">chords</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
-        <span class="k">if</span> <span class="n">s</span><span class="o">.</span><span class="n">startswith</span><span class="p">((</span><span class="s2">&quot;irealbook://&quot;</span><span class="p">,</span> <span class="s2">&quot;irealb://&quot;</span><span class="p">)):</span>
+        <span class="k">if</span> <span class="n">s</span><span class="o">.</span><span class="n">startswith</span><span class="p">((</span><span class="s2">"irealbook://"</span><span class="p">,</span> <span class="s2">"irealb://"</span><span class="p">)):</span>
             <span class="k">return</span> <span class="n">Score</span><span class="o">.</span><span class="n">from_ireal_url</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">Score</span><span class="o">.</span><span class="n">from_string</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="n">title</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="n">key</span><span class="p">,</span> <span class="n">time_signature</span><span class="o">=</span><span class="n">time_signature</span><span class="p">)</span>
 
@@ -447,37 +1050,59 @@
             <span class="p">)</span>
 
     <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
-        <span class="s2">&quot;Unsupported chords input. Expected Score, chord string, iReal URL, &quot;</span>
-        <span class="s2">&quot;list of (chord, beats) tuples, iterable of chord symbols, or measures list.&quot;</span>
+        <span class="s2">"Unsupported chords input. Expected Score, chord string, iReal URL, "</span>
+        <span class="s2">"list of (chord, beats) tuples, iterable of chord symbols, or measures list."</span>
     <span class="p">)</span></div>
 
 </pre></div>
 
-           </div>
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
           </div>
-          <footer>
-
-  <hr/>
-
-  <div role="contentinfo">
-    <p></p>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
   </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../_static/scripts/bootstrap.js?digest=cb8930eaaf36d9849b67"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=cb8930eaaf36d9849b67"></script>
 
-  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
-    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
-    provided by <a href="https://readthedocs.org">Read the Docs</a>.
-   
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.21.0.
+</p></div>
+      
+    </div>
+  
+</div>
 
-</footer>
-        </div>
-      </div>
-    </section>
-  </div>
-  <script>
-      jQuery(function () {
-          SphinxRtdTheme.Navigation.enable(true);
-      });
-  </script> 
-
-</body>
+  </footer>
+  </body>
 </html>

@@ -1,0 +1,20 @@
+accompy.renderers
+=================
+
+.. automodule:: accompy.renderers
+
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+   
+      generate_midi_events
+      events_to_midi_file
+   
+.. rubric:: Modules
+
+.. autosummary::
+   :toctree:
+   :recursive:
+
+   midi

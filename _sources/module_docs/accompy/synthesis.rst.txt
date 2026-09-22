@@ -1,4 +1,0 @@
-accompy.synthesis
-=================
-.. automodule:: accompy.synthesis
-   :members:

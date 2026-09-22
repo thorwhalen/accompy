@@ -1,4 +1,0 @@
-accompy.pipeline
-================
-.. automodule:: accompy.pipeline
-   :members:

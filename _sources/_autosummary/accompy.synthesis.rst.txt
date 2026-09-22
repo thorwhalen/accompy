@@ -1,0 +1,25 @@
+accompy.synthesis
+=================
+
+.. automodule:: accompy.synthesis
+
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+   
+      get_default_backend
+   
+   .. rubric:: Classes
+
+   .. autosummary::
+   
+      SynthesizerBackend
+   
+.. rubric:: Modules
+
+.. autosummary::
+   :toctree:
+   :recursive:
+
+   fluidsynth

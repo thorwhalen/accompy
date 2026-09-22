@@ -1,0 +1,16 @@
+accompy.midi\_generators
+========================
+
+.. automodule:: accompy.midi_generators
+
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+   
+      chordseq_to_midi_builtin_accompaniment
+      chordseq_to_midi_mma
+      noteseq_to_midi_midiutil
+      noteseq_to_midi_mido
+      noteseq_to_midi_pretty_midi
+   

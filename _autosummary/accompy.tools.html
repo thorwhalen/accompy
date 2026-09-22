@@ -1,0 +1,757 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<link rel="alternate" type="text/markdown" href="accompy.tools.html.md">
+<link rel="describedby" href="../llms.txt" type="text/markdown">
+<link rel="alternate" type="text/markdown" href="accompy.tools.html.md">
+<link rel="describedby" href="llms.txt">
+    <title>accompy.tools &#8212; accompy</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=cb8930eaaf36d9849b67" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=cb8930eaaf36d9849b67" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=d75fae25" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/epythet.css?v=fbe2051b" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../_static/scripts/fontawesome.js?digest=cb8930eaaf36d9849b67"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=cb8930eaaf36d9849b67" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=cb8930eaaf36d9849b67" />
+
+    <script src="../_static/documentation_options.js?v=0cf6a877"></script>
+    <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=fd10adb8"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_autosummary/accompy.tools';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="accompy.util" href="accompy.util.html" />
+    <link rel="prev" title="accompy.synthesis.fluidsynth" href="accompy.synthesis.fluidsynth.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="0.3.12" />
+  
+    
+    <script src="../_static/searchtools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <script src="../searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">accompy</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../api.html">
+    API reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../ai-agents.html">
+    For AI agents
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+  </ul>
+</div></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/thorwhalen/accompy" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i><span class="visually-hidden">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../api.html">
+    API reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../ai-agents.html">
+    For AI agents
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+  </ul>
+</div></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/thorwhalen/accompy" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i><span class="visually-hidden">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item pst-sidebar-collapse"><button id="pst-collapse-sidebar-button" aria-expanded="true" aria-controls="pst-primary-sidebar">
+  <svg class="pst-icon" role="img" aria-hidden="true" focusable="false" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+    <path fill="currentColor" d="M3 15.5C2.36232 15.5 1.74874 15.2564 1.28478 14.8189C0.820828 14.3815 0.541576 13.7832 0.504167 13.1467L0.5 13L0.5 3C0.499965 2.36232 0.743605 1.74874 1.18107 1.28478C1.61854 0.820828 2.21676 0.541576 2.85333 0.504167L3 0.5L13 0.5C13.6377 0.499965 14.2513 0.743605 14.7152 1.18107C15.1792 1.61854 15.4584 2.21676 15.4958 2.85333L15.5 3L15.5 13C15.5 13.6377 15.2564 14.2513 14.8189 14.7152C14.3815 15.1792 13.7832 15.4584 13.1467 15.4958L13 15.5L3 15.5ZM3 13.8333L10.5 13.8333L10.5 2.16667L3 2.16667C2.79589 2.16669 2.59889 2.24163 2.44636 2.37726C2.29383 2.5129 2.19638 2.69979 2.1725 2.9025L2.16667 3L2.16667 13C2.16669 13.2041 2.24163 13.4011 2.37726 13.5536C2.5129 13.7062 2.69979 13.8036 2.9025 13.8275L3 13.8333ZM6.65583 10.325L6.5775 10.2558L4.91083 8.58917C4.76735 8.44567 4.68116 8.25476 4.66843 8.05223C4.65569 7.84971 4.71729 7.6495 4.84167 7.48917L4.91083 7.41083L6.5775 5.74417C6.72747 5.59471 6.9287 5.50794 7.14032 5.50148C7.35194 5.49502 7.55809 5.56935 7.7169 5.70937C7.8757 5.8494 7.97525 6.04463 7.99533 6.25539C8.01541 6.46616 7.95451 6.67667 7.825 6.84417L7.75583 6.9225L6.67917 8L7.75583 9.0775C7.89931 9.22099 7.98551 9.41191 7.99824 9.61443C8.01097 9.81695 7.94938 10.0172 7.825 10.1775L7.75583 10.2558C7.61234 10.3993 7.42142 10.4855 7.2189 10.4982C7.01638 10.511 6.81617 10.4494 6.65583 10.325Z"/>
+  </svg>
+  <span class="pst-collapse-sidebar-label">Collapse Sidebar</span>
+  <span class="pst-expand-sidebar-label">Expand Sidebar</span>
+</button></div>
+        <div class="sidebar-primary-item">
+
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="accompy.html">accompy</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="accompy.audio_renderers.html">accompy.audio_renderers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="accompy.base.html">accompy.base</a></li>
+<li class="toctree-l2"><a class="reference internal" href="accompy.chord_parsers.html">accompy.chord_parsers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="accompy.chord_resolution.html">accompy.chord_resolution</a></li>
+<li class="toctree-l2"><a class="reference internal" href="accompy.chord_resolvers.html">accompy.chord_resolvers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="accompy.converters.html">accompy.converters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="accompy.data_access.html">accompy.data_access</a></li>
+<li class="toctree-l2"><a class="reference internal" href="accompy.main.html">accompy.main</a></li>
+<li class="toctree-l2"><a class="reference internal" href="accompy.midi_generators.html">accompy.midi_generators</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="accompy.patterns.html">accompy.patterns</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="accompy.patterns.builtin.html">accompy.patterns.builtin</a></li>
+<li class="toctree-l3"><a class="reference internal" href="accompy.patterns.dataclasses.html">accompy.patterns.dataclasses</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2"><a class="reference internal" href="accompy.pipeline.html">accompy.pipeline</a></li>
+<li class="toctree-l2"><a class="reference internal" href="accompy.protocols.html">accompy.protocols</a></li>
+<li class="toctree-l2"><a class="reference internal" href="accompy.realtime.html">accompy.realtime</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="accompy.renderers.html">accompy.renderers</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="accompy.renderers.midi.html">accompy.renderers.midi</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2"><a class="reference internal" href="accompy.rendering.html">accompy.rendering</a></li>
+<li class="toctree-l2"><a class="reference internal" href="accompy.rhythmic_skeletons.html">accompy.rhythmic_skeletons</a></li>
+<li class="toctree-l2"><a class="reference internal" href="accompy.setup_utils.html">accompy.setup_utils</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="accompy.synthesis.html">accompy.synthesis</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="accompy.synthesis.fluidsynth.html">accompy.synthesis.fluidsynth</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">accompy.tools</a></li>
+<li class="toctree-l2"><a class="reference internal" href="accompy.util.html">accompy.util</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="accompy.wips.html">accompy.wips</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="accompy.wips.audio_renderers.html">accompy.wips.audio_renderers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="accompy.wips.chord_parsers.html">accompy.wips.chord_parsers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="accompy.wips.chord_resolvers.html">accompy.wips.chord_resolvers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="accompy.wips.midi_generators.html">accompy.wips.midi_generators</a></li>
+<li class="toctree-l3"><a class="reference internal" href="accompy.wips.pipeline.html">accompy.wips.pipeline</a></li>
+<li class="toctree-l3"><a class="reference internal" href="accompy.wips.types.html">accompy.wips.types</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../api.html" class="nav-link">API reference</a></li>
+    
+    
+    <li class="breadcrumb-item"><a href="accompy.html" class="nav-link">accompy</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">accompy.tools</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="module-accompy.tools">
+<span id="accompy-tools"></span><h1>accompy.tools<a class="headerlink" href="#module-accompy.tools" title="Link to this heading">#</a></h1>
+<p>Tools for generating accompaniment audio from Score objects.</p>
+<p>Provides a pluggable <code class="docutils literal notranslate"><span class="pre">score_to_wav</span></code> engine architecture.  The default engine
+uses MMA (Musical MIDI Accompaniment), but any callable with the
+<a class="reference internal" href="#accompy.tools.ScoreToWav" title="accompy.tools.ScoreToWav"><code class="xref py py-data docutils literal notranslate"><span class="pre">ScoreToWav</span></code></a> signature can be swapped in — including engines built from
+accompy’s own converter pipeline.</p>
+<p>Quick start:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">accompy</span><span class="w"> </span><span class="kn">import</span> <span class="n">Score</span><span class="p">,</span> <span class="n">generate_wav</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">score</span> <span class="o">=</span> <span class="n">Score</span><span class="o">.</span><span class="n">from_string</span><span class="p">(</span><span class="s2">"| Dm7 | G7 | C^7 |"</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">generate_wav</span><span class="p">(</span><span class="n">score</span><span class="p">,</span> <span class="s2">"/tmp/test.wav"</span><span class="p">,</span> <span class="n">groove</span><span class="o">=</span><span class="s2">"BossaNova"</span><span class="p">,</span> <span class="n">tempo</span><span class="o">=</span><span class="mi">140</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Using an alternative engine:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">accompy.tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">make_converter_engine</span><span class="p">,</span> <span class="n">generate_wav</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">engine</span> <span class="o">=</span> <span class="n">make_converter_engine</span><span class="p">(</span><span class="n">resolver</span><span class="o">=</span><span class="s2">"pychord"</span><span class="p">,</span> <span class="n">midi_gen</span><span class="o">=</span><span class="s2">"pretty_midi"</span><span class="p">,</span>
+<span class="gp">... </span>                                <span class="n">audio_renderer</span><span class="o">=</span><span class="s2">"fluidsynth"</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">generate_wav</span><span class="p">(</span><span class="n">score</span><span class="p">,</span> <span class="s2">"/tmp/test.wav"</span><span class="p">,</span> <span class="n">score_to_wav</span><span class="o">=</span><span class="n">engine</span><span class="p">,</span> <span class="n">tempo</span><span class="o">=</span><span class="mi">140</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class="rubric">Module Attributes</p>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#accompy.tools.generate_mma_wav" title="accompy.tools.generate_mma_wav"><code class="xref py py-obj docutils literal notranslate"><span class="pre">generate_mma_wav</span></code></a>(score, output_path, *[, ...])</p></td>
+<td><p>Alias for <a class="reference internal" href="#accompy.tools.mma_score_to_wav" title="accompy.tools.mma_score_to_wav"><code class="xref py py-func docutils literal notranslate"><span class="pre">mma_score_to_wav()</span></code></a>.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p class="rubric">Functions</p>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#accompy.tools.generate_mma_wav" title="accompy.tools.generate_mma_wav"><code class="xref py py-obj docutils literal notranslate"><span class="pre">generate_mma_wav</span></code></a>(score, output_path, *[, ...])</p></td>
+<td><p>Alias for <a class="reference internal" href="#accompy.tools.mma_score_to_wav" title="accompy.tools.mma_score_to_wav"><code class="xref py py-func docutils literal notranslate"><span class="pre">mma_score_to_wav()</span></code></a>.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#accompy.tools.generate_variations" title="accompy.tools.generate_variations"><code class="xref py py-obj docutils literal notranslate"><span class="pre">generate_variations</span></code></a>(score, output_dir, *[, ...])</p></td>
+<td><p>Batch-generate WAV files for many key / tempo / groove combinations.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#accompy.tools.generate_wav" title="accompy.tools.generate_wav"><code class="xref py py-obj docutils literal notranslate"><span class="pre">generate_wav</span></code></a>(score, output_path, *[, ...])</p></td>
+<td><p>Generate a WAV file from a Score using a pluggable engine.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#accompy.tools.make_converter_engine" title="accompy.tools.make_converter_engine"><code class="xref py py-obj docutils literal notranslate"><span class="pre">make_converter_engine</span></code></a>(*[, resolver, ...])</p></td>
+<td><p>Create a <a class="reference internal" href="#accompy.tools.ScoreToWav" title="accompy.tools.ScoreToWav"><code class="xref py py-data docutils literal notranslate"><span class="pre">ScoreToWav</span></code></a> engine from accompy's converter pipeline.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#accompy.tools.mma_score_to_wav" title="accompy.tools.mma_score_to_wav"><code class="xref py py-obj docutils literal notranslate"><span class="pre">mma_score_to_wav</span></code></a>(score, output_path, *[, ...])</p></td>
+<td><p>Render a Score to WAV using MMA (Musical MIDI Accompaniment).</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p class="rubric">Classes</p>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#accompy.tools.ScoreToWav" title="accompy.tools.ScoreToWav"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ScoreToWav</span></code></a>(*args, **kwargs)</p></td>
+<td><p>Callable that renders a <code class="xref py py-class docutils literal notranslate"><span class="pre">Score</span></code> to a WAV file.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<dl class="py class">
+<dt class="sig sig-object py" id="accompy.tools.ScoreToWav">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">accompy.tools.</span></span><span class="sig-name descname"><span class="pre">ScoreToWav</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/accompy/tools.html#ScoreToWav"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#accompy.tools.ScoreToWav" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Protocol" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Protocol</span></code></a></p>
+<p>Callable that renders a <code class="xref py py-class docutils literal notranslate"><span class="pre">Score</span></code> to a WAV file.</p>
+<p>Any function matching this signature can be used as a <code class="docutils literal notranslate"><span class="pre">score_to_wav</span></code>
+engine in <a class="reference internal" href="#accompy.tools.generate_wav" title="accompy.tools.generate_wav"><code class="xref py py-func docutils literal notranslate"><span class="pre">generate_wav()</span></code></a> and <a class="reference internal" href="#accompy.tools.generate_variations" title="accompy.tools.generate_variations"><code class="xref py py-func docutils literal notranslate"><span class="pre">generate_variations()</span></code></a>.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="accompy.tools.generate_mma_wav">
+<span class="sig-prename descclassname"><span class="pre">accompy.tools.</span></span><span class="sig-name descname"><span class="pre">generate_mma_wav</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">score</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_path</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">groove</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Swing'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tempo</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">120</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">repeats</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#accompy.tools.generate_mma_wav" title="Link to this definition">#</a></dt>
+<dd><p>Alias for <a class="reference internal" href="#accompy.tools.mma_score_to_wav" title="accompy.tools.mma_score_to_wav"><code class="xref py py-func docutils literal notranslate"><span class="pre">mma_score_to_wav()</span></code></a>.  Kept for backward compatibility.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/pathlib.html#pathlib.Path" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Path</span></code></a></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="accompy.tools.generate_variations">
+<span class="sig-prename descclassname"><span class="pre">accompy.tools.</span></span><span class="sig-name descname"><span class="pre">generate_variations</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">score</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_dir</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">keys</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">('C',)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tempos</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(120,)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">grooves</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">('Swing',)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">repeats</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filename_template</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'{title}_{key}_{tempo}bpm_{groove}.wav'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">score_to_wav</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/accompy/tools.html#generate_variations"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#accompy.tools.generate_variations" title="Link to this definition">#</a></dt>
+<dd><p>Batch-generate WAV files for many key / tempo / groove combinations.</p>
+<p>Produces one WAV for each <code class="docutils literal notranslate"><span class="pre">(key,</span> <span class="pre">tempo,</span> <span class="pre">groove)</span></code> triple (cycled from the
+shortest sequences).  Useful for creating practice backing-track
+collections.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>score</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="accompy.base.html#accompy.base.Score" title="accompy.base.Score"><code class="xref py py-class docutils literal notranslate"><span class="pre">Score</span></code></a></span>) – Base <code class="xref py py-class docutils literal notranslate"><span class="pre">Score</span></code> (will be transposed per key).</p></li>
+<li><p><strong>output_dir</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/pathlib.html#pathlib.Path" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Path</span></code></a>]</span>) – Directory for output files.</p></li>
+<li><p><strong>keys</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Sequence" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Sequence</span></code></a>[<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>]</span>) – Keys to transpose to.</p></li>
+<li><p><strong>tempos</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Sequence" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Sequence</span></code></a>[<a class="reference external" href="https://docs.python.org/3/builtins/functions.html#int" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>]</span>) – Tempos in BPM to cycle through.</p></li>
+<li><p><strong>grooves</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Sequence" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Sequence</span></code></a>[<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>]</span>) – Groove / style names to cycle through.</p></li>
+<li><p><strong>repeats</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#int" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>) – Number of repeats per file.</p></li>
+<li><p><strong>filename_template</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>) – Template for filenames. Placeholders:
+<code class="docutils literal notranslate"><span class="pre">{title}</span></code>, <code class="docutils literal notranslate"><span class="pre">{key}</span></code>, <code class="docutils literal notranslate"><span class="pre">{tempo}</span></code>, <code class="docutils literal notranslate"><span class="pre">{groove}</span></code>.</p></li>
+<li><p><strong>score_to_wav</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.14)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference internal" href="#accompy.tools.ScoreToWav" title="accompy.tools.ScoreToWav"><code class="xref py py-class docutils literal notranslate"><span class="pre">ScoreToWav</span></code></a>]</span>) – Engine callable.  Defaults to <a class="reference internal" href="#accompy.tools.mma_score_to_wav" title="accompy.tools.mma_score_to_wav"><code class="xref py py-func docutils literal notranslate"><span class="pre">mma_score_to_wav()</span></code></a>.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#list" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/pathlib.html#pathlib.Path" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Path</span></code></a>]</span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>List of Paths to successfully generated files.</p>
+</dd>
+</dl>
+<p>Example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">accompy</span><span class="w"> </span><span class="kn">import</span> <span class="n">Score</span><span class="p">,</span> <span class="n">generate_variations</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">score</span> <span class="o">=</span> <span class="n">Score</span><span class="o">.</span><span class="n">from_string</span><span class="p">(</span><span class="s2">"| C6 | Do | C6/E | Fo |"</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="s2">"C"</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">generate_variations</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="n">score</span><span class="p">,</span> <span class="s2">"/tmp/variations"</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">keys</span><span class="o">=</span><span class="p">[</span><span class="s2">"C"</span><span class="p">,</span> <span class="s2">"G"</span><span class="p">,</span> <span class="s2">"F"</span><span class="p">],</span>
+<span class="gp">... </span>    <span class="n">tempos</span><span class="o">=</span><span class="p">[</span><span class="mi">100</span><span class="p">,</span> <span class="mi">120</span><span class="p">],</span>
+<span class="gp">... </span>    <span class="n">grooves</span><span class="o">=</span><span class="p">[</span><span class="s2">"Swing"</span><span class="p">,</span> <span class="s2">"BossaNova"</span><span class="p">],</span>
+<span class="gp">... </span><span class="p">)</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># With a custom engine:</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">accompy.tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">make_converter_engine</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">engine</span> <span class="o">=</span> <span class="n">make_converter_engine</span><span class="p">(</span><span class="n">audio_renderer</span><span class="o">=</span><span class="s2">"fluidsynth"</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">generate_variations</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="n">score</span><span class="p">,</span> <span class="s2">"/tmp/variations"</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">keys</span><span class="o">=</span><span class="p">[</span><span class="s2">"C"</span><span class="p">,</span> <span class="s2">"G"</span><span class="p">],</span>
+<span class="gp">... </span>    <span class="n">tempos</span><span class="o">=</span><span class="p">[</span><span class="mi">100</span><span class="p">,</span> <span class="mi">120</span><span class="p">],</span>
+<span class="gp">... </span>    <span class="n">grooves</span><span class="o">=</span><span class="p">[</span><span class="s2">"Swing"</span><span class="p">],</span>
+<span class="gp">... </span>    <span class="n">score_to_wav</span><span class="o">=</span><span class="n">engine</span><span class="p">,</span>
+<span class="gp">... </span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="accompy.tools.generate_wav">
+<span class="sig-prename descclassname"><span class="pre">accompy.tools.</span></span><span class="sig-name descname"><span class="pre">generate_wav</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">score</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_path</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">groove</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Swing'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tempo</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">120</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">repeats</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">score_to_wav</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/accompy/tools.html#generate_wav"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#accompy.tools.generate_wav" title="Link to this definition">#</a></dt>
+<dd><p>Generate a WAV file from a Score using a pluggable engine.</p>
+<p>By default uses MMA (Musical MIDI Accompaniment).  Pass a custom
+<code class="docutils literal notranslate"><span class="pre">score_to_wav</span></code> callable to use a different backend — for instance one
+built with <a class="reference internal" href="#accompy.tools.make_converter_engine" title="accompy.tools.make_converter_engine"><code class="xref py py-func docutils literal notranslate"><span class="pre">make_converter_engine()</span></code></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>score</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="accompy.base.html#accompy.base.Score" title="accompy.base.Score"><code class="xref py py-class docutils literal notranslate"><span class="pre">Score</span></code></a></span>) – A <code class="xref py py-class docutils literal notranslate"><span class="pre">Score</span></code> with chord measures.</p></li>
+<li><p><strong>output_path</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/pathlib.html#pathlib.Path" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Path</span></code></a>]</span>) – Destination WAV file path.</p></li>
+<li><p><strong>groove</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>) – Groove / style name (interpretation depends on the engine).</p></li>
+<li><p><strong>tempo</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#int" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>) – Tempo in BPM.</p></li>
+<li><p><strong>repeats</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#int" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>) – Number of times to repeat the progression.</p></li>
+<li><p><strong>score_to_wav</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.14)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference internal" href="#accompy.tools.ScoreToWav" title="accompy.tools.ScoreToWav"><code class="xref py py-class docutils literal notranslate"><span class="pre">ScoreToWav</span></code></a>]</span>) – Engine callable.  Defaults to <a class="reference internal" href="#accompy.tools.mma_score_to_wav" title="accompy.tools.mma_score_to_wav"><code class="xref py py-func docutils literal notranslate"><span class="pre">mma_score_to_wav()</span></code></a>.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/pathlib.html#pathlib.Path" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Path</span></code></a></span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Path to the generated WAV file.</p>
+</dd>
+</dl>
+<p>Example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">accompy</span><span class="w"> </span><span class="kn">import</span> <span class="n">Score</span><span class="p">,</span> <span class="n">generate_wav</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">score</span> <span class="o">=</span> <span class="n">Score</span><span class="o">.</span><span class="n">from_string</span><span class="p">(</span><span class="s2">"| Dm7 | G7 | C^7 |"</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">generate_wav</span><span class="p">(</span><span class="n">score</span><span class="p">,</span> <span class="s2">"/tmp/test.wav"</span><span class="p">,</span> <span class="n">groove</span><span class="o">=</span><span class="s2">"BossaNova"</span><span class="p">,</span> <span class="n">tempo</span><span class="o">=</span><span class="mi">140</span><span class="p">)</span>
+<span class="go">PosixPath('/tmp/test.wav')</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># With a custom engine:</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">accompy.tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">make_converter_engine</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">engine</span> <span class="o">=</span> <span class="n">make_converter_engine</span><span class="p">(</span><span class="n">audio_renderer</span><span class="o">=</span><span class="s2">"fluidsynth"</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">generate_wav</span><span class="p">(</span><span class="n">score</span><span class="p">,</span> <span class="s2">"/tmp/test.wav"</span><span class="p">,</span> <span class="n">score_to_wav</span><span class="o">=</span><span class="n">engine</span><span class="p">,</span> <span class="n">tempo</span><span class="o">=</span><span class="mi">140</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="accompy.tools.make_converter_engine">
+<span class="sig-prename descclassname"><span class="pre">accompy.tools.</span></span><span class="sig-name descname"><span class="pre">make_converter_engine</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">resolver</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">midi_gen</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">audio_renderer</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">soundfont</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sr</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">44100</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/accompy/tools.html#make_converter_engine"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#accompy.tools.make_converter_engine" title="Link to this definition">#</a></dt>
+<dd><p>Create a <a class="reference internal" href="#accompy.tools.ScoreToWav" title="accompy.tools.ScoreToWav"><code class="xref py py-data docutils literal notranslate"><span class="pre">ScoreToWav</span></code></a> engine from accompy’s converter pipeline.</p>
+<p>This wraps the <code class="docutils literal notranslate"><span class="pre">ChordSequence</span> <span class="pre">→</span> <span class="pre">NoteSequence</span> <span class="pre">→</span> <span class="pre">MidiData</span> <span class="pre">→</span> <span class="pre">AudioData</span></code>
+converter chain into the same interface that <a class="reference internal" href="#accompy.tools.generate_wav" title="accompy.tools.generate_wav"><code class="xref py py-func docutils literal notranslate"><span class="pre">generate_wav()</span></code></a> expects,
+so you can swap it in place of the default MMA engine.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>resolver</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.14)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>]</span>) – Chord resolver name (e.g. <code class="docutils literal notranslate"><span class="pre">&quot;pychord&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;tonal&quot;</span></code>).</p></li>
+<li><p><strong>midi_gen</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.14)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>]</span>) – MIDI generator name (e.g. <code class="docutils literal notranslate"><span class="pre">&quot;pretty_midi&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;midiutil&quot;</span></code>).</p></li>
+<li><p><strong>audio_renderer</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.14)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>]</span>) – Audio renderer name (e.g. <code class="docutils literal notranslate"><span class="pre">&quot;fluidsynth&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;pretty_midi&quot;</span></code>).</p></li>
+<li><p><strong>soundfont</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.14)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>]</span>) – Path to a SoundFont file (for FluidSynth-based renderers).</p></li>
+<li><p><strong>sr</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#int" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>) – Sample rate.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="#accompy.tools.ScoreToWav" title="accompy.tools.ScoreToWav"><code class="xref py py-class docutils literal notranslate"><span class="pre">ScoreToWav</span></code></a></span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A callable matching the <a class="reference internal" href="#accompy.tools.ScoreToWav" title="accompy.tools.ScoreToWav"><code class="xref py py-data docutils literal notranslate"><span class="pre">ScoreToWav</span></code></a> protocol.</p>
+</dd>
+</dl>
+<p>Example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">engine</span> <span class="o">=</span> <span class="n">make_converter_engine</span><span class="p">(</span><span class="n">audio_renderer</span><span class="o">=</span><span class="s2">"fluidsynth"</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">generate_wav</span><span class="p">(</span><span class="n">score</span><span class="p">,</span> <span class="s2">"/tmp/out.wav"</span><span class="p">,</span> <span class="n">score_to_wav</span><span class="o">=</span><span class="n">engine</span><span class="p">,</span> <span class="n">tempo</span><span class="o">=</span><span class="mi">120</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="accompy.tools.mma_score_to_wav">
+<span class="sig-prename descclassname"><span class="pre">accompy.tools.</span></span><span class="sig-name descname"><span class="pre">mma_score_to_wav</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">score</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_path</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">groove</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Swing'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tempo</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">120</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">repeats</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/accompy/tools.html#mma_score_to_wav"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#accompy.tools.mma_score_to_wav" title="Link to this definition">#</a></dt>
+<dd><p>Render a Score to WAV using MMA (Musical MIDI Accompaniment).</p>
+<p>Accepts any valid MMA groove name (e.g. <code class="docutils literal notranslate"><span class="pre">&quot;Bebop&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;GypsyJazz&quot;</span></code>).
+Run <code class="docutils literal notranslate"><span class="pre">mma</span> <span class="pre">-Dg</span></code> to list available grooves.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>score</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="accompy.base.html#accompy.base.Score" title="accompy.base.Score"><code class="xref py py-class docutils literal notranslate"><span class="pre">Score</span></code></a></span>) – A <code class="xref py py-class docutils literal notranslate"><span class="pre">Score</span></code> with chord measures.</p></li>
+<li><p><strong>output_path</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/pathlib.html#pathlib.Path" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Path</span></code></a>]</span>) – Destination WAV file path.</p></li>
+<li><p><strong>groove</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>) – MMA groove name (case-sensitive).</p></li>
+<li><p><strong>tempo</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#int" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>) – Tempo in BPM.</p></li>
+<li><p><strong>repeats</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#int" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>) – Number of times to repeat the progression.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/pathlib.html#pathlib.Path" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Path</span></code></a></span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Path to the generated WAV file.</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/builtins/exceptions.html#RuntimeError" title="(in Python v3.14)"><strong>RuntimeError</strong></a> – If MMA is not installed or the groove is invalid.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="accompy.synthesis.fluidsynth.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">accompy.synthesis.fluidsynth</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="accompy.util.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">accompy.util</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#accompy.tools.ScoreToWav"><code class="docutils literal notranslate"><span class="pre">ScoreToWav</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#accompy.tools.generate_mma_wav"><code class="docutils literal notranslate"><span class="pre">generate_mma_wav()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#accompy.tools.generate_variations"><code class="docutils literal notranslate"><span class="pre">generate_variations()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#accompy.tools.generate_wav"><code class="docutils literal notranslate"><span class="pre">generate_wav()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#accompy.tools.make_converter_engine"><code class="docutils literal notranslate"><span class="pre">make_converter_engine()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#accompy.tools.mma_score_to_wav"><code class="docutils literal notranslate"><span class="pre">mma_score_to_wav()</span></code></a></li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+
+  <div class="tocsection sourcelink">
+    <a href="../_sources/_autosummary/accompy.tools.rst.txt">
+      <i class="fa-solid fa-file-lines"></i> Show Source
+    </a>
+  </div>
+</div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=cb8930eaaf36d9849b67"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=cb8930eaaf36d9849b67"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.21.0.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

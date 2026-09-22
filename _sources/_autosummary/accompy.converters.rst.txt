@@ -1,0 +1,22 @@
+accompy.converters
+==================
+
+.. automodule:: accompy.converters
+
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+   
+      convert
+   
+   .. rubric:: Classes
+
+   .. autosummary::
+   
+      AudioData
+      ChordSequence
+      ConverterRegistry
+      MidiData
+      NoteSequence
+   

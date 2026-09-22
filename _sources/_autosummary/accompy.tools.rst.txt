@@ -1,0 +1,28 @@
+accompy.tools
+=============
+
+.. automodule:: accompy.tools
+
+   
+   .. rubric:: Module Attributes
+
+   .. autosummary::
+   
+      generate_mma_wav
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+   
+      generate_mma_wav
+      generate_variations
+      generate_wav
+      make_converter_engine
+      mma_score_to_wav
+   
+   .. rubric:: Classes
+
+   .. autosummary::
+   
+      ScoreToWav
+   

@@ -1,0 +1,18 @@
+accompy.chord\_parsers
+======================
+
+.. automodule:: accompy.chord_parsers
+
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+   
+      parse_chord_sheet
+      parse_chordpro
+      parse_ireal_url
+      parse_musicgen_chord_format
+      parse_nashville
+      parse_plain_text
+      parse_roman_numeral
+   

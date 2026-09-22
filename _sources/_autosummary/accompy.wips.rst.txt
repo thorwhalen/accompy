@@ -1,0 +1,18 @@
+accompy.wips
+============
+
+.. automodule:: accompy.wips
+
+   
+.. rubric:: Modules
+
+.. autosummary::
+   :toctree:
+   :recursive:
+
+   audio_renderers
+   chord_parsers
+   chord_resolvers
+   midi_generators
+   pipeline
+   types

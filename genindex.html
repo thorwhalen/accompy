@@ -1,111 +1,688 @@
 
-
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" data-content_root="./">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Index &mdash; accompy 0.3.10 documentation</title>
-      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
-      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
-      <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
-      <link rel="stylesheet" type="text/css" href="_static/graphviz.css?v=4ae1632d" />
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="alternate" type="text/markdown" href="genindex.html.md">
+<link rel="describedby" href="llms.txt" type="text/markdown">
+    <title>Index &#8212; accompy</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=cb8930eaaf36d9849b67" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=cb8930eaaf36d9849b67" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=d75fae25" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/epythet.css?v=fbe2051b" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="_static/scripts/fontawesome.js?digest=cb8930eaaf36d9849b67"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=cb8930eaaf36d9849b67" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=cb8930eaaf36d9849b67" />
+
+    <script src="_static/documentation_options.js?v=0cf6a877"></script>
+    <script src="_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=fd10adb8"></script>
+    <script type="module">import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.12.1/dist/mermaid.esm.min.mjs";
+
+
+
+
+
+const initStyles = () => {
+    const defaultStyle = document.createElement('style');
+    defaultStyle.textContent = "pre.mermaid {\n    /* Same as .mermaid-container > pre */\n    display: block;\n    width: 100%;\n}\n\npre.mermaid > svg {\n    /* Same as .mermaid-container > pre > svg */\n    height: 500px;\n    width: 100%;\n    max-width: 100% !important;\n}";
+    document.head.appendChild(defaultStyle);
+
+    const fullscreenStyle = document.createElement('style');
+    fullscreenStyle.textContent = ".mermaid-container {\n    position: relative;\n    display: flex;\n    flex-direction: row;\n    width: 100%;\n}\n\n.mermaid-container > pre {\n    display: block;\n    width: 100%;\n}\n\n.mermaid-container > pre > svg {\n    height: 500px;\n    width: 100%;\n    max-width: 100% !important;\n}\n\n.mermaid-fullscreen-btn {\n    position: absolute;\n    width: 28px;\n    height: 28px;\n    background: rgba(255, 255, 255, 0.95);\n    border: 1px solid rgba(0, 0, 0, 0.3);\n    border-radius: 4px;\n    cursor: pointer;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n    transition: all 0.2s;\n    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);\n    font-size: 14px;\n    line-height: 1;\n    padding: 0;\n    color: #333;\n}\n\n.mermaid-fullscreen-btn:hover {\n    opacity: 100% !important;\n    background: rgba(255, 255, 255, 1);\n    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);\n    transform: scale(1.1);\n}\n\n.mermaid-fullscreen-btn.dark-theme {\n    background: rgba(50, 50, 50, 0.95);\n    border: 1px solid rgba(255, 255, 255, 0.3);\n    color: #e0e0e0;\n}\n\n.mermaid-fullscreen-btn.dark-theme:hover {\n    background: rgba(60, 60, 60, 1);\n    box-shadow: 0 3px 10px rgba(255, 255, 255, 0.2);\n}\n\n.mermaid-fullscreen-modal {\n    display: none;\n    position: fixed !important;\n    top: 0 !important;\n    left: 0 !important;\n    width: 95vw;\n    height: 100vh;\n    background: rgba(255, 255, 255, 0.98);\n    z-index: 9999;\n    padding: 20px;\n    overflow: auto;\n}\n\n.mermaid-fullscreen-modal.dark-theme {\n    background: rgba(0, 0, 0, 0.98);\n}\n\n.mermaid-fullscreen-modal.active {\n    display: flex;\n    align-items: center;\n    justify-content: center;\n}\n\n.mermaid-container-fullscreen {\n    position: relative;\n    width: 95vw;\n    height: 90vh;\n    max-width: 95vw;\n    max-height: 90vh;\n    background: white;\n    border-radius: 8px;\n    padding: 20px;\n    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);\n    overflow: auto;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n}\n\n.mermaid-container-fullscreen.dark-theme {\n    background: #1a1a1a;\n    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8);\n}\n\n.mermaid-container-fullscreen pre.mermaid {\n    width: 100%;\n    height: 100%;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n}\n\n.mermaid-container-fullscreen .mermaid svg {\n    height: 100% !important;\n    width: 100% !important;\n    cursor: grab;\n}\n\n.mermaid-fullscreen-close {\n    position: fixed !important;\n    top: 20px !important;\n    right: 20px !important;\n    width: 40px;\n    height: 40px;\n    background: rgba(255, 255, 255, 0.95);\n    border: 1px solid rgba(0, 0, 0, 0.2);\n    border-radius: 50%;\n    cursor: pointer;\n    z-index: 10000;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);\n    transition: all 0.2s;\n    font-size: 24px;\n    line-height: 1;\n    color: #333;\n}\n\n.mermaid-fullscreen-close:hover {\n    background: white;\n    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);\n    transform: scale(1.1);\n}\n\n.mermaid-fullscreen-close.dark-theme {\n    background: rgba(50, 50, 50, 0.95);\n    border: 1px solid rgba(255, 255, 255, 0.2);\n    color: #e0e0e0;\n}\n\n.mermaid-fullscreen-close.dark-theme:hover {\n    background: rgba(60, 60, 60, 1);\n    box-shadow: 0 6px 16px rgba(255, 255, 255, 0.2);\n}\n\n.mermaid-fullscreen-modal .mermaid-fullscreen-btn {\n    display: none !important;\n}";
+    document.head.appendChild(fullscreenStyle);
+}
+
+// Detect if page has dark background
+const isDarkTheme = () => {
+    // We use a set of heuristics:
+    // 1. Check for common dark mode classes or attributes
+    // 2. Check computed background color brightness
+    if (document.documentElement.classList.contains('dark') ||
+        document.documentElement.getAttribute('data-theme') === 'dark' ||
+        document.body.classList.contains('dark') ||
+        document.body.getAttribute('data-theme') === 'dark') {
+        // console.log("Dark theme detected via class/attribute");
+        return true;
+    }
+    if (document.documentElement.classList.contains('light') ||
+        document.documentElement.getAttribute('data-theme') === 'light' ||
+        document.body.classList.contains('light') ||
+        document.body.getAttribute('data-theme') === 'light') {
+        // console.log("Light theme detected via class/attribute");
+        return false;
+    }
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        // console.log("Dark theme detected via prefers-color-scheme");
+        return true;
+    }
+    const bgColor = window.getComputedStyle(document.body).backgroundColor;
+    const match = bgColor.match(/rgb\((\d+),\s*(\d+),\s*(\d+)/);
+    if (match) {
+        const r = parseInt(match[1]);
+        const g = parseInt(match[2]);
+        const b = parseInt(match[3]);
+        const brightness = (r * 299 + g * 587 + b * 114) / 1000;
+        // console.log("Background color brightness:", brightness);
+        return brightness < 128;
+    }
+    // console.log("No dark or light theme detected, defaulting to light theme");
+    return false;
+};
+
+let darkTheme = isDarkTheme();
+let modal = null;
+let modalContent = null;
+let previousScrollOffset = [window.scrollX, window.scrollY];
+let _lazyObserver = null;
+let _renderQueue = Promise.resolve();
+let closeModal = () => {};
+
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && modal?.classList.contains('active')) {
+        closeModal();
+    }
+});
+
+// Apply d3 zoom to each SVG. Idempotent: an SVG already wrapped is skipped,
+// so this is safe to call both for the initial batch and for diagrams that
+// render lazily once they become visible.
+const addZoomToSvgs = (svgs) => {
+    svgs.each(function() {
+        if (this.getAttribute('data-zoom-applied') === 'true') return;
+        var svg = d3.select(this);
+        svg.html("<g class='wrapper'>" + svg.html() + "</g>");
+        var inner = svg.select("g");
+        var zoom = d3.zoom().on("zoom", function(event) {
+            inner.attr("transform", event.transform);
+        });
+        svg.call(zoom);
+        this.setAttribute('data-zoom-applied', 'true');
+    });
+};
+
+const runMermaid = async (rerun) => {
+    console.log("Running mermaid diagrams, rerun =", rerun);
+    // clear all existing mermaid charts
+    let all_mermaids = document.querySelectorAll(".mermaid");
+
+    if (rerun) {
+        // Disconnect any previous lazy rendering observer
+        if (_lazyObserver) {
+            _lazyObserver.disconnect();
+            _lazyObserver = null;
+        }
+
+        all_mermaids.forEach((el) => {
+            el.removeAttribute('data-mermaid-deferred');
+            el.removeAttribute('data-mermaid-render-failed');
+            if(!el.hasAttribute("data-original-code")) {
+                // store original code
+                // console.log(`Storing original code for first run: `, el.innerHTML);
+                el.setAttribute('data-original-code', el.innerHTML);
+            }
+            if(el.getAttribute("data-processed") === "true") {
+                // remove and restore original
+                el.removeAttribute("data-processed");
+                // console.log(`Restoring original code for re-run: `, el.getAttribute('data-original-code'));
+                el.innerHTML = el.getAttribute('data-original-code');
+            } else {
+                // store original code
+                // console.log(`Storing original code for re-run: `, el.innerHTML);
+                el.setAttribute('data-original-code', el.innerHTML);
+            }
+        });
+
+        // Separate visible and hidden elements. Mermaid's layout engine measures
+        // text dimensions via the DOM, which fails for elements hidden by a parent
+        // (e.g., Reveal.js non-active slides, sphinx-design unopened tabs),
+        // producing broken SVGs. Render visible elements now, defer hidden ones.
+        const visible = [];
+        const hidden = [];
+        all_mermaids.forEach((el) => {
+            // offsetParent is null for display:none ancestors.
+            // getClientRects().length > 0 catches position:fixed elements
+            // (which also have null offsetParent but are still visible).
+            if (el.offsetParent !== null || el.getClientRects().length > 0) {
+                visible.push(el);
+            } else {
+                hidden.push(el);
+                el.setAttribute('data-mermaid-deferred', 'true');
+            }
+        });
+
+        if (visible.length > 0) {
+            try {
+                await mermaid.run({ nodes: visible });
+            } catch (e) {
+                console.error("Mermaid rendering failed:", e);
+            }
+        }
+
+        // Lazily render hidden elements when they become visible.
+        // Uses a promise chain (_renderQueue) to serialize rendering,
+        // since IntersectionObserver may report multiple entries at once
+        // and mermaid.run() is not safe to call concurrently.
+        if (hidden.length > 0) {
+            if (typeof IntersectionObserver === 'undefined') {
+                console.warn("IntersectionObserver not available; hidden mermaid diagrams will not render.");
+            } else {
+                _renderQueue = Promise.resolve();
+                _lazyObserver = new IntersectionObserver((entries) => {
+                    for (const entry of entries) {
+                        if (entry.isIntersecting && entry.target.getAttribute("data-processed") !== "true") {
+                            _lazyObserver.unobserve(entry.target);
+                            const el = entry.target;
+                            _renderQueue = _renderQueue.then(async () => {
+                                try {
+                                    await mermaid.run({ nodes: [el] });
+                                    el.removeAttribute('data-mermaid-deferred');
+                                    // Apply zoom to the now-rendered diagram, matching
+                                    // the decoration visible diagrams receive.
+                                    if (false) {
+                                        addZoomToSvgs(d3.selectAll("").select(function() {
+                                            return this.querySelector("svg");
+                                        }));
+                                    }
+                                } catch (e) {
+                                    console.error("Mermaid deferred rendering failed:", e);
+                                    el.removeAttribute('data-mermaid-deferred');
+                                    el.setAttribute('data-mermaid-render-failed', 'true');
+                                }
+                            });
+                        }
+                    }
+                });
+                hidden.forEach((el) => _lazyObserver.observe(el));
+            }
+        }
+    }
+
+    all_mermaids = document.querySelectorAll(".mermaid");
+    // Exclude deferred (hidden) and render-failed elements from completion checks
+    const mermaids_active = document.querySelectorAll(".mermaid:not([data-mermaid-deferred]):not([data-mermaid-render-failed])");
+    const mermaids_processed = document.querySelectorAll(".mermaid:not([data-mermaid-deferred]):not([data-mermaid-render-failed])[data-processed='true']");
+
+    if (false) {
+        const mermaids_to_add_zoom = 0 === -1 ? mermaids_active.length : 0;
+        if(mermaids_to_add_zoom > 0) {
+            var svgs = d3.selectAll("").select(function() {
+                return this.querySelector("svg");
+            });
+            // Wait until every active (visible) diagram has rendered. Deferred
+            // diagrams are excluded, so a fixed d3_node_count that counts a
+            // hidden diagram no longer loops forever waiting for its SVG.
+            if(mermaids_active.length !== mermaids_processed.length) {
+                setTimeout(() => runMermaid(false), 200);
+                return;
+            }
+            addZoomToSvgs(svgs);
+        }
+    } else if(mermaids_active.length !== mermaids_processed.length) {
+        // Wait for mermaid to process all diagrams
+        setTimeout(() => runMermaid(false), 200);
+        return;
+    }
+
+    // Stop here if not adding fullscreen capability
+    if (!true) return;
+
+    if (modal !== null ) {
+        // Destroy existing modal
+        modal.remove();
+        modal = null;
+        modalContent = null;
+    }
+
+    modal = document.createElement('div');
+    modal.className = 'mermaid-fullscreen-modal' + (darkTheme ? ' dark-theme' : '');
+    modal.setAttribute('role', 'dialog');
+    modal.setAttribute('aria-modal', 'true');
+    modal.setAttribute('aria-label', 'Fullscreen diagram viewer');
+    modal.innerHTML = `
+        <button class="mermaid-fullscreen-close${darkTheme ? ' dark-theme' : ''}" aria-label="Close fullscreen">✕</button>
+        <div class="mermaid-container-fullscreen${darkTheme ? ' dark-theme' : ''}"></div>
+    `;
+    document.body.appendChild(modal);
+
+    modalContent = modal.querySelector('.mermaid-container-fullscreen');
+    const closeBtn = modal.querySelector('.mermaid-fullscreen-close');
+
+    closeModal = () => {
+        modal.classList.remove('active');
+        modalContent.innerHTML = '';
+        document.body.style.overflow = ''
+        window.scrollTo({left: previousScrollOffset[0], top: previousScrollOffset[1], behavior: 'instant'});
+    };
+
+    closeBtn.addEventListener('click', closeModal);
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) closeModal();
+    });
+    document.querySelectorAll('.mermaid').forEach((mermaidDiv) => {
+        if (mermaidDiv.parentNode.classList.contains('mermaid-container') ||
+            mermaidDiv.closest('.mermaid-fullscreen-modal')) {
+            // Already processed, adjust button class if needed
+            const existingBtn = mermaidDiv.parentNode.querySelector('.mermaid-fullscreen-btn');
+            if (existingBtn) {
+                existingBtn.className = 'mermaid-fullscreen-btn' + (darkTheme ? ' dark-theme' : '');
+            }
+            return;
+        }
+
+        const container = document.createElement('div');
+        container.className = 'mermaid-container';
+        mermaidDiv.parentNode.insertBefore(container, mermaidDiv);
+        container.appendChild(mermaidDiv);
+
+        const fullscreenBtn = document.createElement('button');
+        fullscreenBtn.className = 'mermaid-fullscreen-btn' + (darkTheme ? ' dark-theme' : '');
+        fullscreenBtn.setAttribute('aria-label', 'View diagram in fullscreen');
+        fullscreenBtn.textContent = "\u26f6";
+        fullscreenBtn.style.opacity = "50%";
+
+        // Calculate dynamic position based on diagram's margin and padding
+        const diagramStyle = window.getComputedStyle(mermaidDiv);
+        const marginTop = parseFloat(diagramStyle.marginTop) || 0;
+        const marginRight = parseFloat(diagramStyle.marginRight) || 0;
+        const paddingTop = parseFloat(diagramStyle.paddingTop) || 0;
+        const paddingRight = parseFloat(diagramStyle.paddingRight) || 0;
+        fullscreenBtn.style.top = `${marginTop + paddingTop + 4}px`;
+        fullscreenBtn.style.right = `${marginRight + paddingRight + 4}px`;
+
+        fullscreenBtn.addEventListener('click', () => {
+            previousScrollOffset = [window.scrollX, window.scrollY];
+            const clone = mermaidDiv.cloneNode(true);
+            modalContent.innerHTML = '';
+            modalContent.appendChild(clone);
+
+            const svg = clone.querySelector('svg');
+            if (svg) {
+                svg.removeAttribute('width');
+                svg.removeAttribute('height');
+                svg.style.width = '100%';
+                svg.style.height = 'auto';
+                svg.style.maxWidth = '100%';
+                svg.style.display = 'block';
+
+                if (false) {
+                    setTimeout(() => {
+                        const g = svg.querySelector('g');
+                        if (g) {
+                            var svgD3 = d3.select(svg);
+                            svgD3.html("<g class='wrapper'>" + svgD3.html() + "</g>");
+                            var inner = svgD3.select("g");
+                            var zoom = d3.zoom().on("zoom", function(event) {
+                                inner.attr("transform", event.transform);
+                            });
+                            svgD3.call(zoom);
+                        }
+                    }, 100);
+                }
+            }
+
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        });
+        container.appendChild(fullscreenBtn);
+    });
+};
+
+
+
+const load = async () => {
+    initStyles();
+
+
+    await runMermaid(true);
+
+    const reRunIfThemeChanges = async () => {
+        const newDarkTheme = isDarkTheme();
+        if (newDarkTheme !== darkTheme) {
+            darkTheme = newDarkTheme;
+            console.log("Theme change detected, re-running mermaid with", darkTheme ? "dark" : "default", "theme");
+            await mermaid.initialize(
+                {...{"startOnLoad": false},
+                ...{ darkMode: darkTheme, theme: darkTheme ? "dark" : "default" },
+                }
+            );
+            await runMermaid(true);
+        }
+    };
+
+    // Update theme classes when theme changes
+    const themeObserver = new MutationObserver(reRunIfThemeChanges);
+    themeObserver.observe(document.documentElement, {
+        attributes: true,
+        attributeFilter: ['class', 'style', 'data-theme']
+    });
+    themeObserver.observe(document.body, {
+        attributes: true,
+        attributeFilter: ['class', 'style', 'data-theme']
+    });
+};
+
+
+
+
+
+console.log("Initializing mermaid with", darkTheme ? "dark" : "default", "theme");
+mermaid.initialize(
+    {...{"startOnLoad": false},
+    ...{ darkMode: darkTheme, theme: darkTheme ? "dark" : "default" },
+    }
+);
+
+window.addEventListener("load", load);
+window.runMermaid = runMermaid;</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'genindex';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <link rel="index" title="Index" href="#" />
+    <link rel="search" title="Search" href="search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="0.3.12" />
+  
+    
+    <script src="_static/searchtools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <script src="searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
 
   
-      <script src="_static/jquery.js?v=5d32c60e"></script>
-      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="_static/documentation_options.js?v=9f76a604"></script>
-      <script src="_static/doctools.js?v=fd6eb6e6"></script>
-      <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
-      <script src="_static/toggleprompt.js?v=d7ede5d2"></script>
-      <script src="_static/clipboard.min.js?v=a7894cd8"></script>
-      <script src="_static/copybutton.js?v=f281be69"></script>
-    <script src="_static/js/theme.js"></script>
-    <link rel="index" title="Index" href="#" />
-    <link rel="search" title="Search" href="search.html" /> 
-</head>
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
 
-<body class="wy-body-for-nav"> 
-  <div class="wy-grid-for-nav">
-    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
-      <div class="wy-side-scroll">
-        <div class="wy-side-nav-search" >
-
-          
-          
-          <a href="index.html" class="icon icon-home">
-            accompy
-          </a>
-<div role="search">
-  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
-    <input type="hidden" name="check_keywords" value="yes" />
-    <input type="hidden" name="area" value="default" />
-  </form>
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
 </div>
-        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/accompy.html">accompy</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/accompy/_seed_data.html">accompy._seed_data</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/accompy/_seed_data/config.html">accompy._seed_data.config</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/accompy/_seed_data/resources.html">accompy._seed_data.resources</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/accompy/audio_renderers.html">accompy.audio_renderers</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/accompy/base.html">accompy.base</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/accompy/chord_parsers.html">accompy.chord_parsers</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/accompy/chord_resolution.html">accompy.chord_resolution</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/accompy/chord_resolvers.html">accompy.chord_resolvers</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/accompy/converters.html">accompy.converters</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/accompy/data_access.html">accompy.data_access</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/accompy/main.html">accompy.main</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/accompy/midi_generators.html">accompy.midi_generators</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/accompy/patterns.html">accompy.patterns</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/accompy/patterns/builtin.html">accompy.patterns.builtin</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/accompy/patterns/dataclasses.html">accompy.patterns.dataclasses</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/accompy/pipeline.html">accompy.pipeline</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/accompy/protocols.html">accompy.protocols</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/accompy/realtime.html">accompy.realtime</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/accompy/renderers.html">accompy.renderers</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/accompy/renderers/midi.html">accompy.renderers.midi</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/accompy/rendering.html">accompy.rendering</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/accompy/rhythmic_skeletons.html">accompy.rhythmic_skeletons</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/accompy/setup_utils.html">accompy.setup_utils</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/accompy/synthesis.html">accompy.synthesis</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/accompy/synthesis/fluidsynth.html">accompy.synthesis.fluidsynth</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/accompy/tools.html">accompy.tools</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/accompy/util.html">accompy.util</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/accompy/wips.html">accompy.wips</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/accompy/wips/audio_renderers.html">accompy.wips.audio_renderers</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/accompy/wips/chord_parsers.html">accompy.wips.chord_parsers</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/accompy/wips/chord_resolvers.html">accompy.wips.chord_resolvers</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/accompy/wips/midi_generators.html">accompy.wips.midi_generators</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/accompy/wips/pipeline.html">accompy.wips.pipeline</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/accompy/wips/types.html">accompy.wips.types</a></li>
-</ul>
 
-        </div>
-      </div>
-    </nav>
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
-          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="index.html">accompy</a>
-      </nav>
+  
+    
+  
 
-      <div class="wy-nav-content">
-        <div class="rst-content">
-          <div role="navigation" aria-label="Page navigation">
-  <ul class="wy-breadcrumbs">
-      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
-      <li class="breadcrumb-item active">Index</li>
-      <li class="wy-breadcrumbs-aside">
-      </li>
+<a class="navbar-brand logo" href="index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">accompy</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="api.html">
+    API reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="ai-agents.html">
+    For AI agents
+  </a>
+</li>
+
   </ul>
-  <hr/>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+  </ul>
+</div></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/thorwhalen/accompy" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i><span class="visually-hidden">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
 </div>
-          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
-           <div itemprop="articleBody">
-             
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar hide-on-wide">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="api.html">
+    API reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="ai-agents.html">
+    For AI agents
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+  </ul>
+</div></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/thorwhalen/accompy" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i><span class="visually-hidden">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none"></div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
 
 <h1 id="index">Index</h1>
 
@@ -134,287 +711,266 @@
 <h2 id="A">A</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="module_docs/accompy.html#accompy.AccompanimentConfig">AccompanimentConfig (class in accompy)</a>
+      <li><a href="_autosummary/accompy.html#accompy.AccompanimentConfig">AccompanimentConfig (class in accompy)</a>
 
       <ul>
-        <li><a href="module_docs/accompy/base.html#accompy.base.AccompanimentConfig">(class in accompy.base)</a>
+        <li><a href="_autosummary/accompy.base.html#accompy.base.AccompanimentConfig">(class in accompy.base)</a>
 </li>
       </ul></li>
       <li>
     accompy
 
       <ul>
-        <li><a href="module_docs/accompy.html#module-accompy">module</a>
-</li>
-      </ul></li>
-      <li>
-    accompy._seed_data
-
-      <ul>
-        <li><a href="module_docs/accompy/_seed_data.html#module-accompy._seed_data">module</a>
-</li>
-      </ul></li>
-      <li>
-    accompy._seed_data.config
-
-      <ul>
-        <li><a href="module_docs/accompy/_seed_data/config.html#module-accompy._seed_data.config">module</a>
-</li>
-      </ul></li>
-      <li>
-    accompy._seed_data.resources
-
-      <ul>
-        <li><a href="module_docs/accompy/_seed_data/resources.html#module-accompy._seed_data.resources">module</a>
+        <li><a href="_autosummary/accompy.html#module-accompy">module</a>
 </li>
       </ul></li>
       <li>
     accompy.audio_renderers
 
       <ul>
-        <li><a href="module_docs/accompy/audio_renderers.html#module-accompy.audio_renderers">module</a>
+        <li><a href="_autosummary/accompy.audio_renderers.html#module-accompy.audio_renderers">module</a>
 </li>
       </ul></li>
       <li>
     accompy.base
 
       <ul>
-        <li><a href="module_docs/accompy/base.html#module-accompy.base">module</a>
+        <li><a href="_autosummary/accompy.base.html#module-accompy.base">module</a>
 </li>
       </ul></li>
       <li>
     accompy.chord_parsers
 
       <ul>
-        <li><a href="module_docs/accompy/chord_parsers.html#module-accompy.chord_parsers">module</a>
+        <li><a href="_autosummary/accompy.chord_parsers.html#module-accompy.chord_parsers">module</a>
 </li>
       </ul></li>
       <li>
     accompy.chord_resolution
 
       <ul>
-        <li><a href="module_docs/accompy/chord_resolution.html#module-accompy.chord_resolution">module</a>
+        <li><a href="_autosummary/accompy.chord_resolution.html#module-accompy.chord_resolution">module</a>
 </li>
       </ul></li>
       <li>
     accompy.chord_resolvers
 
       <ul>
-        <li><a href="module_docs/accompy/chord_resolvers.html#module-accompy.chord_resolvers">module</a>
+        <li><a href="_autosummary/accompy.chord_resolvers.html#module-accompy.chord_resolvers">module</a>
 </li>
       </ul></li>
       <li>
     accompy.converters
 
       <ul>
-        <li><a href="module_docs/accompy/converters.html#module-accompy.converters">module</a>
+        <li><a href="_autosummary/accompy.converters.html#module-accompy.converters">module</a>
 </li>
       </ul></li>
       <li>
     accompy.data_access
 
       <ul>
-        <li><a href="module_docs/accompy/data_access.html#module-accompy.data_access">module</a>
+        <li><a href="_autosummary/accompy.data_access.html#module-accompy.data_access">module</a>
 </li>
       </ul></li>
       <li>
     accompy.main
 
       <ul>
-        <li><a href="module_docs/accompy/main.html#module-accompy.main">module</a>
+        <li><a href="_autosummary/accompy.main.html#module-accompy.main">module</a>
 </li>
       </ul></li>
       <li>
     accompy.midi_generators
 
       <ul>
-        <li><a href="module_docs/accompy/midi_generators.html#module-accompy.midi_generators">module</a>
+        <li><a href="_autosummary/accompy.midi_generators.html#module-accompy.midi_generators">module</a>
 </li>
       </ul></li>
       <li>
     accompy.patterns
 
       <ul>
-        <li><a href="module_docs/accompy/patterns.html#module-accompy.patterns">module</a>
+        <li><a href="_autosummary/accompy.patterns.html#module-accompy.patterns">module</a>
 </li>
       </ul></li>
       <li>
     accompy.patterns.builtin
 
       <ul>
-        <li><a href="module_docs/accompy/patterns/builtin.html#module-accompy.patterns.builtin">module</a>
+        <li><a href="_autosummary/accompy.patterns.builtin.html#module-accompy.patterns.builtin">module</a>
 </li>
       </ul></li>
       <li>
     accompy.patterns.dataclasses
 
       <ul>
-        <li><a href="module_docs/accompy/patterns/dataclasses.html#module-accompy.patterns.dataclasses">module</a>
+        <li><a href="_autosummary/accompy.patterns.dataclasses.html#module-accompy.patterns.dataclasses">module</a>
 </li>
       </ul></li>
       <li>
     accompy.pipeline
 
       <ul>
-        <li><a href="module_docs/accompy/pipeline.html#module-accompy.pipeline">module</a>
+        <li><a href="_autosummary/accompy.pipeline.html#module-accompy.pipeline">module</a>
 </li>
       </ul></li>
       <li>
     accompy.protocols
 
       <ul>
-        <li><a href="module_docs/accompy/protocols.html#module-accompy.protocols">module</a>
+        <li><a href="_autosummary/accompy.protocols.html#module-accompy.protocols">module</a>
 </li>
       </ul></li>
       <li>
     accompy.realtime
 
       <ul>
-        <li><a href="module_docs/accompy/realtime.html#module-accompy.realtime">module</a>
+        <li><a href="_autosummary/accompy.realtime.html#module-accompy.realtime">module</a>
 </li>
       </ul></li>
       <li>
     accompy.renderers
 
       <ul>
-        <li><a href="module_docs/accompy/renderers.html#module-accompy.renderers">module</a>
+        <li><a href="_autosummary/accompy.renderers.html#module-accompy.renderers">module</a>
+</li>
+      </ul></li>
+      <li>
+    accompy.renderers.midi
+
+      <ul>
+        <li><a href="_autosummary/accompy.renderers.midi.html#module-accompy.renderers.midi">module</a>
 </li>
       </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li>
-    accompy.renderers.midi
-
-      <ul>
-        <li><a href="module_docs/accompy/renderers/midi.html#module-accompy.renderers.midi">module</a>
-</li>
-      </ul></li>
-      <li>
     accompy.rendering
 
       <ul>
-        <li><a href="module_docs/accompy/rendering.html#module-accompy.rendering">module</a>
+        <li><a href="_autosummary/accompy.rendering.html#module-accompy.rendering">module</a>
 </li>
       </ul></li>
       <li>
     accompy.rhythmic_skeletons
 
       <ul>
-        <li><a href="module_docs/accompy/rhythmic_skeletons.html#module-accompy.rhythmic_skeletons">module</a>
+        <li><a href="_autosummary/accompy.rhythmic_skeletons.html#module-accompy.rhythmic_skeletons">module</a>
 </li>
       </ul></li>
       <li>
     accompy.setup_utils
 
       <ul>
-        <li><a href="module_docs/accompy/setup_utils.html#module-accompy.setup_utils">module</a>
+        <li><a href="_autosummary/accompy.setup_utils.html#module-accompy.setup_utils">module</a>
 </li>
       </ul></li>
       <li>
     accompy.synthesis
 
       <ul>
-        <li><a href="module_docs/accompy/synthesis.html#module-accompy.synthesis">module</a>
+        <li><a href="_autosummary/accompy.synthesis.html#module-accompy.synthesis">module</a>
 </li>
       </ul></li>
       <li>
     accompy.synthesis.fluidsynth
 
       <ul>
-        <li><a href="module_docs/accompy/synthesis/fluidsynth.html#module-accompy.synthesis.fluidsynth">module</a>
+        <li><a href="_autosummary/accompy.synthesis.fluidsynth.html#module-accompy.synthesis.fluidsynth">module</a>
 </li>
       </ul></li>
       <li>
     accompy.tools
 
       <ul>
-        <li><a href="module_docs/accompy/tools.html#module-accompy.tools">module</a>
+        <li><a href="_autosummary/accompy.tools.html#module-accompy.tools">module</a>
 </li>
       </ul></li>
       <li>
     accompy.util
 
       <ul>
-        <li><a href="module_docs/accompy/util.html#module-accompy.util">module</a>
+        <li><a href="_autosummary/accompy.util.html#module-accompy.util">module</a>
 </li>
       </ul></li>
       <li>
     accompy.wips
 
       <ul>
-        <li><a href="module_docs/accompy/wips.html#module-accompy.wips">module</a>
+        <li><a href="_autosummary/accompy.wips.html#module-accompy.wips">module</a>
 </li>
       </ul></li>
       <li>
     accompy.wips.audio_renderers
 
       <ul>
-        <li><a href="module_docs/accompy/wips/audio_renderers.html#module-accompy.wips.audio_renderers">module</a>
+        <li><a href="_autosummary/accompy.wips.audio_renderers.html#module-accompy.wips.audio_renderers">module</a>
 </li>
       </ul></li>
       <li>
     accompy.wips.chord_parsers
 
       <ul>
-        <li><a href="module_docs/accompy/wips/chord_parsers.html#module-accompy.wips.chord_parsers">module</a>
+        <li><a href="_autosummary/accompy.wips.chord_parsers.html#module-accompy.wips.chord_parsers">module</a>
 </li>
       </ul></li>
       <li>
     accompy.wips.chord_resolvers
 
       <ul>
-        <li><a href="module_docs/accompy/wips/chord_resolvers.html#module-accompy.wips.chord_resolvers">module</a>
+        <li><a href="_autosummary/accompy.wips.chord_resolvers.html#module-accompy.wips.chord_resolvers">module</a>
 </li>
       </ul></li>
       <li>
     accompy.wips.midi_generators
 
       <ul>
-        <li><a href="module_docs/accompy/wips/midi_generators.html#module-accompy.wips.midi_generators">module</a>
+        <li><a href="_autosummary/accompy.wips.midi_generators.html#module-accompy.wips.midi_generators">module</a>
 </li>
       </ul></li>
       <li>
     accompy.wips.pipeline
 
       <ul>
-        <li><a href="module_docs/accompy/wips/pipeline.html#module-accompy.wips.pipeline">module</a>
+        <li><a href="_autosummary/accompy.wips.pipeline.html#module-accompy.wips.pipeline">module</a>
 </li>
       </ul></li>
       <li>
     accompy.wips.types
 
       <ul>
-        <li><a href="module_docs/accompy/wips/types.html#module-accompy.wips.types">module</a>
+        <li><a href="_autosummary/accompy.wips.types.html#module-accompy.wips.types">module</a>
 </li>
       </ul></li>
-      <li><a href="module_docs/accompy.html#accompy.apply_skeleton">apply_skeleton() (in module accompy)</a>
+      <li><a href="_autosummary/accompy.html#accompy.apply_skeleton">apply_skeleton() (in module accompy)</a>
 
       <ul>
-        <li><a href="module_docs/accompy/rhythmic_skeletons.html#accompy.rhythmic_skeletons.apply_skeleton">(in module accompy.rhythmic_skeletons)</a>
+        <li><a href="_autosummary/accompy.rhythmic_skeletons.html#accompy.rhythmic_skeletons.apply_skeleton">(in module accompy.rhythmic_skeletons)</a>
 </li>
       </ul></li>
-      <li><a href="module_docs/accompy.html#accompy.DrumPattern.at_tempo">at_tempo() (accompy.DrumPattern method)</a>
+      <li><a href="_autosummary/accompy.html#accompy.DrumPattern.at_tempo">at_tempo() (accompy.DrumPattern method)</a>
 
       <ul>
-        <li><a href="module_docs/accompy/patterns/dataclasses.html#accompy.patterns.dataclasses.DrumPattern.at_tempo">(accompy.patterns.dataclasses.DrumPattern method)</a>
+        <li><a href="_autosummary/accompy.patterns.dataclasses.html#accompy.patterns.dataclasses.DrumPattern.at_tempo">(accompy.patterns.dataclasses.DrumPattern method)</a>
 </li>
-        <li><a href="module_docs/accompy/patterns.html#accompy.patterns.DrumPattern.at_tempo">(accompy.patterns.DrumPattern method)</a>
+        <li><a href="_autosummary/accompy.patterns.html#accompy.patterns.DrumPattern.at_tempo">(accompy.patterns.DrumPattern method)</a>
 </li>
       </ul></li>
-      <li><a href="module_docs/accompy.html#accompy.AudioData">AudioData (class in accompy)</a>
+      <li><a href="_autosummary/accompy.html#accompy.AudioData">AudioData (class in accompy)</a>
 
       <ul>
-        <li><a href="module_docs/accompy/converters.html#accompy.converters.AudioData">(class in accompy.converters)</a>
+        <li><a href="_autosummary/accompy.converters.html#accompy.converters.AudioData">(class in accompy.converters)</a>
 </li>
       </ul></li>
-      <li><a href="module_docs/accompy/protocols.html#accompy.protocols.AudioRenderer">AudioRenderer (class in accompy.protocols)</a>
+      <li><a href="_autosummary/accompy.protocols.html#accompy.protocols.AudioRenderer">AudioRenderer (class in accompy.protocols)</a>
 </li>
-      <li><a href="module_docs/accompy/patterns.html#accompy.patterns.PatternRegistry.available_styles">available_styles() (accompy.patterns.PatternRegistry method)</a>
+      <li><a href="_autosummary/accompy.patterns.html#accompy.patterns.PatternRegistry.available_styles">available_styles() (accompy.patterns.PatternRegistry method)</a>
 
       <ul>
-        <li><a href="module_docs/accompy.html#accompy.PatternSource.available_styles">(accompy.PatternSource method)</a>
+        <li><a href="_autosummary/accompy.html#accompy.PatternSource.available_styles">(accompy.PatternSource method)</a>
 </li>
-        <li><a href="module_docs/accompy/protocols.html#accompy.protocols.PatternSource.available_styles">(accompy.protocols.PatternSource method)</a>
+        <li><a href="_autosummary/accompy.protocols.html#accompy.protocols.PatternSource.available_styles">(accompy.protocols.PatternSource method)</a>
 </li>
       </ul></li>
   </ul></td>
@@ -423,26 +979,26 @@
 <h2 id="B">B</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="module_docs/accompy.html#accompy.BassPattern">BassPattern (class in accompy)</a>
+      <li><a href="_autosummary/accompy.html#accompy.BassPattern">BassPattern (class in accompy)</a>
 
       <ul>
-        <li><a href="module_docs/accompy/patterns.html#accompy.patterns.BassPattern">(class in accompy.patterns)</a>
+        <li><a href="_autosummary/accompy.patterns.html#accompy.patterns.BassPattern">(class in accompy.patterns)</a>
 </li>
-        <li><a href="module_docs/accompy/patterns/dataclasses.html#accompy.patterns.dataclasses.BassPattern">(class in accompy.patterns.dataclasses)</a>
+        <li><a href="_autosummary/accompy.patterns.dataclasses.html#accompy.patterns.dataclasses.BassPattern">(class in accompy.patterns.dataclasses)</a>
 </li>
       </ul></li>
-      <li><a href="module_docs/accompy.html#accompy.DrumHit.beat">beat (accompy.DrumHit attribute)</a>
+      <li><a href="_autosummary/accompy.html#accompy.DrumHit.beat">beat (accompy.DrumHit attribute)</a>
 
       <ul>
-        <li><a href="module_docs/accompy.html#accompy.NoteEvent.beat">(accompy.NoteEvent attribute)</a>
+        <li><a href="_autosummary/accompy.html#accompy.NoteEvent.beat">(accompy.NoteEvent attribute)</a>
 </li>
-        <li><a href="module_docs/accompy/patterns/dataclasses.html#accompy.patterns.dataclasses.DrumHit.beat">(accompy.patterns.dataclasses.DrumHit attribute)</a>
+        <li><a href="_autosummary/accompy.patterns.dataclasses.html#accompy.patterns.dataclasses.DrumHit.beat">(accompy.patterns.dataclasses.DrumHit attribute)</a>
 </li>
-        <li><a href="module_docs/accompy/patterns/dataclasses.html#accompy.patterns.dataclasses.NoteEvent.beat">(accompy.patterns.dataclasses.NoteEvent attribute)</a>
+        <li><a href="_autosummary/accompy.patterns.dataclasses.html#accompy.patterns.dataclasses.NoteEvent.beat">(accompy.patterns.dataclasses.NoteEvent attribute)</a>
 </li>
-        <li><a href="module_docs/accompy/patterns.html#accompy.patterns.DrumHit.beat">(accompy.patterns.DrumHit attribute)</a>
+        <li><a href="_autosummary/accompy.patterns.html#accompy.patterns.DrumHit.beat">(accompy.patterns.DrumHit attribute)</a>
 </li>
-        <li><a href="module_docs/accompy/patterns.html#accompy.patterns.NoteEvent.beat">(accompy.patterns.NoteEvent attribute)</a>
+        <li><a href="_autosummary/accompy.patterns.html#accompy.patterns.NoteEvent.beat">(accompy.patterns.NoteEvent attribute)</a>
 </li>
       </ul></li>
   </ul></td>
@@ -451,108 +1007,108 @@
 <h2 id="C">C</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="module_docs/accompy/base.html#accompy.base.MidiEvent.channel">channel (accompy.base.MidiEvent attribute)</a>
+      <li><a href="_autosummary/accompy.base.html#accompy.base.MidiEvent.channel">channel (accompy.base.MidiEvent attribute)</a>
 
       <ul>
-        <li><a href="module_docs/accompy.html#accompy.MidiEvent.channel">(accompy.MidiEvent attribute)</a>
+        <li><a href="_autosummary/accompy.html#accompy.MidiEvent.channel">(accompy.MidiEvent attribute)</a>
 </li>
       </ul></li>
-      <li><a href="module_docs/accompy.html#accompy.check_dependencies">check_dependencies() (in module accompy)</a>
+      <li><a href="_autosummary/accompy.html#accompy.check_dependencies">check_dependencies() (in module accompy)</a>
 
       <ul>
-        <li><a href="module_docs/accompy/main.html#accompy.main.check_dependencies">(in module accompy.main)</a>
+        <li><a href="_autosummary/accompy.main.html#accompy.main.check_dependencies">(in module accompy.main)</a>
 </li>
       </ul></li>
-      <li><a href="module_docs/accompy.html#accompy.AccompanimentConfig.chord_resolver">chord_resolver (accompy.AccompanimentConfig attribute)</a>
+      <li><a href="_autosummary/accompy.html#accompy.AccompanimentConfig.chord_resolver">chord_resolver (accompy.AccompanimentConfig attribute)</a>
 
       <ul>
-        <li><a href="module_docs/accompy/base.html#accompy.base.AccompanimentConfig.chord_resolver">(accompy.base.AccompanimentConfig attribute)</a>
+        <li><a href="_autosummary/accompy.base.html#accompy.base.AccompanimentConfig.chord_resolver">(accompy.base.AccompanimentConfig attribute)</a>
 </li>
       </ul></li>
-      <li><a href="module_docs/accompy.html#accompy.chord_to_notes">chord_to_notes() (in module accompy)</a>
+      <li><a href="_autosummary/accompy.html#accompy.chord_to_notes">chord_to_notes() (in module accompy)</a>
 
       <ul>
-        <li><a href="module_docs/accompy/chord_resolution.html#accompy.chord_resolution.chord_to_notes">(in module accompy.chord_resolution)</a>
+        <li><a href="_autosummary/accompy.chord_resolution.html#accompy.chord_resolution.chord_to_notes">(in module accompy.chord_resolution)</a>
 </li>
       </ul></li>
-      <li><a href="module_docs/accompy.html#accompy.ChordEvent">ChordEvent (class in accompy)</a>
+      <li><a href="_autosummary/accompy.html#accompy.ChordEvent">ChordEvent (class in accompy)</a>
 
       <ul>
-        <li><a href="module_docs/accompy/base.html#accompy.base.ChordEvent">(class in accompy.base)</a>
+        <li><a href="_autosummary/accompy.base.html#accompy.base.ChordEvent">(class in accompy.base)</a>
 </li>
       </ul></li>
-      <li><a href="module_docs/accompy.html#accompy.ChordResolver">ChordResolver (class in accompy)</a>
+      <li><a href="_autosummary/accompy.html#accompy.ChordResolver">ChordResolver (class in accompy)</a>
 
       <ul>
-        <li><a href="module_docs/accompy/protocols.html#accompy.protocols.ChordResolver">(class in accompy.protocols)</a>
+        <li><a href="_autosummary/accompy.protocols.html#accompy.protocols.ChordResolver">(class in accompy.protocols)</a>
 </li>
       </ul></li>
-      <li><a href="module_docs/accompy.html#accompy.chords_to_audio">chords_to_audio() (in module accompy)</a>
+      <li><a href="_autosummary/accompy.html#accompy.chords_to_audio">chords_to_audio() (in module accompy)</a>
 
       <ul>
-        <li><a href="module_docs/accompy/pipeline.html#accompy.pipeline.chords_to_audio">(in module accompy.pipeline)</a>
+        <li><a href="_autosummary/accompy.pipeline.html#accompy.pipeline.chords_to_audio">(in module accompy.pipeline)</a>
 </li>
       </ul></li>
-      <li><a href="module_docs/accompy.html#accompy.chords_to_midi">chords_to_midi() (in module accompy)</a>
+      <li><a href="_autosummary/accompy.html#accompy.chords_to_midi">chords_to_midi() (in module accompy)</a>
 
       <ul>
-        <li><a href="module_docs/accompy/pipeline.html#accompy.pipeline.chords_to_midi">(in module accompy.pipeline)</a>
+        <li><a href="_autosummary/accompy.pipeline.html#accompy.pipeline.chords_to_midi">(in module accompy.pipeline)</a>
 </li>
       </ul></li>
-      <li><a href="module_docs/accompy.html#accompy.chords_to_notes">chords_to_notes() (in module accompy)</a>
+      <li><a href="_autosummary/accompy.html#accompy.chords_to_notes">chords_to_notes() (in module accompy)</a>
 
       <ul>
-        <li><a href="module_docs/accompy/pipeline.html#accompy.pipeline.chords_to_notes">(in module accompy.pipeline)</a>
+        <li><a href="_autosummary/accompy.pipeline.html#accompy.pipeline.chords_to_notes">(in module accompy.pipeline)</a>
 </li>
       </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="module_docs/accompy.html#accompy.chords_to_sequence">chords_to_sequence() (in module accompy)</a>
+      <li><a href="_autosummary/accompy.html#accompy.chords_to_sequence">chords_to_sequence() (in module accompy)</a>
 
       <ul>
-        <li><a href="module_docs/accompy/pipeline.html#accompy.pipeline.chords_to_sequence">(in module accompy.pipeline)</a>
+        <li><a href="_autosummary/accompy.pipeline.html#accompy.pipeline.chords_to_sequence">(in module accompy.pipeline)</a>
 </li>
       </ul></li>
-      <li><a href="module_docs/accompy/audio_renderers.html#accompy.audio_renderers.chordseq_to_audio_musicgen">chordseq_to_audio_musicgen() (in module accompy.audio_renderers)</a>
+      <li><a href="_autosummary/accompy.audio_renderers.html#accompy.audio_renderers.chordseq_to_audio_musicgen">chordseq_to_audio_musicgen() (in module accompy.audio_renderers)</a>
 </li>
-      <li><a href="module_docs/accompy/midi_generators.html#accompy.midi_generators.chordseq_to_midi_builtin_accompaniment">chordseq_to_midi_builtin_accompaniment() (in module accompy.midi_generators)</a>
+      <li><a href="_autosummary/accompy.midi_generators.html#accompy.midi_generators.chordseq_to_midi_builtin_accompaniment">chordseq_to_midi_builtin_accompaniment() (in module accompy.midi_generators)</a>
 </li>
-      <li><a href="module_docs/accompy/midi_generators.html#accompy.midi_generators.chordseq_to_midi_mma">chordseq_to_midi_mma() (in module accompy.midi_generators)</a>
+      <li><a href="_autosummary/accompy.midi_generators.html#accompy.midi_generators.chordseq_to_midi_mma">chordseq_to_midi_mma() (in module accompy.midi_generators)</a>
 </li>
-      <li><a href="module_docs/accompy/chord_resolvers.html#accompy.chord_resolvers.chordseq_to_noteseq_mingus">chordseq_to_noteseq_mingus() (in module accompy.chord_resolvers)</a>
+      <li><a href="_autosummary/accompy.chord_resolvers.html#accompy.chord_resolvers.chordseq_to_noteseq_mingus">chordseq_to_noteseq_mingus() (in module accompy.chord_resolvers)</a>
 </li>
-      <li><a href="module_docs/accompy/chord_resolvers.html#accompy.chord_resolvers.chordseq_to_noteseq_music21">chordseq_to_noteseq_music21() (in module accompy.chord_resolvers)</a>
+      <li><a href="_autosummary/accompy.chord_resolvers.html#accompy.chord_resolvers.chordseq_to_noteseq_music21">chordseq_to_noteseq_music21() (in module accompy.chord_resolvers)</a>
 </li>
-      <li><a href="module_docs/accompy/chord_resolvers.html#accompy.chord_resolvers.chordseq_to_noteseq_pychord">chordseq_to_noteseq_pychord() (in module accompy.chord_resolvers)</a>
+      <li><a href="_autosummary/accompy.chord_resolvers.html#accompy.chord_resolvers.chordseq_to_noteseq_pychord">chordseq_to_noteseq_pychord() (in module accompy.chord_resolvers)</a>
 </li>
-      <li><a href="module_docs/accompy/chord_resolvers.html#accompy.chord_resolvers.chordseq_to_noteseq_tonal">chordseq_to_noteseq_tonal() (in module accompy.chord_resolvers)</a>
+      <li><a href="_autosummary/accompy.chord_resolvers.html#accompy.chord_resolvers.chordseq_to_noteseq_tonal">chordseq_to_noteseq_tonal() (in module accompy.chord_resolvers)</a>
 </li>
-      <li><a href="module_docs/accompy.html#accompy.ChordSequence">ChordSequence (class in accompy)</a>
+      <li><a href="_autosummary/accompy.html#accompy.ChordSequence">ChordSequence (class in accompy)</a>
 
       <ul>
-        <li><a href="module_docs/accompy/converters.html#accompy.converters.ChordSequence">(class in accompy.converters)</a>
+        <li><a href="_autosummary/accompy.converters.html#accompy.converters.ChordSequence">(class in accompy.converters)</a>
 </li>
       </ul></li>
-      <li><a href="module_docs/accompy.html#accompy.CompingPattern">CompingPattern (class in accompy)</a>
+      <li><a href="_autosummary/accompy.html#accompy.CompingPattern">CompingPattern (class in accompy)</a>
 
       <ul>
-        <li><a href="module_docs/accompy/patterns.html#accompy.patterns.CompingPattern">(class in accompy.patterns)</a>
+        <li><a href="_autosummary/accompy.patterns.html#accompy.patterns.CompingPattern">(class in accompy.patterns)</a>
 </li>
-        <li><a href="module_docs/accompy/patterns/dataclasses.html#accompy.patterns.dataclasses.CompingPattern">(class in accompy.patterns.dataclasses)</a>
+        <li><a href="_autosummary/accompy.patterns.dataclasses.html#accompy.patterns.dataclasses.CompingPattern">(class in accompy.patterns.dataclasses)</a>
 </li>
       </ul></li>
-      <li><a href="module_docs/accompy.html#accompy.convert">convert() (in module accompy)</a>
+      <li><a href="_autosummary/accompy.html#accompy.convert">convert() (in module accompy)</a>
 
       <ul>
-        <li><a href="module_docs/accompy/converters.html#accompy.converters.convert">(in module accompy.converters)</a>
+        <li><a href="_autosummary/accompy.converters.html#accompy.converters.convert">(in module accompy.converters)</a>
 </li>
       </ul></li>
-      <li><a href="module_docs/accompy/synthesis/fluidsynth.html#accompy.synthesis.fluidsynth.convert_audio">convert_audio() (in module accompy.synthesis.fluidsynth)</a>
+      <li><a href="_autosummary/accompy.synthesis.fluidsynth.html#accompy.synthesis.fluidsynth.convert_audio">convert_audio() (in module accompy.synthesis.fluidsynth)</a>
 </li>
-      <li><a href="module_docs/accompy.html#accompy.ConverterRegistry">ConverterRegistry (class in accompy)</a>
+      <li><a href="_autosummary/accompy.html#accompy.ConverterRegistry">ConverterRegistry (class in accompy)</a>
 
       <ul>
-        <li><a href="module_docs/accompy/converters.html#accompy.converters.ConverterRegistry">(class in accompy.converters)</a>
+        <li><a href="_autosummary/accompy.converters.html#accompy.converters.ConverterRegistry">(class in accompy.converters)</a>
 </li>
       </ul></li>
   </ul></td>
@@ -561,54 +1117,54 @@
 <h2 id="D">D</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="module_docs/accompy.html#accompy.diagnose_issues">diagnose_issues() (in module accompy)</a>
+      <li><a href="_autosummary/accompy.html#accompy.diagnose_issues">diagnose_issues() (in module accompy)</a>
 
       <ul>
-        <li><a href="module_docs/accompy/setup_utils.html#accompy.setup_utils.diagnose_issues">(in module accompy.setup_utils)</a>
+        <li><a href="_autosummary/accompy.setup_utils.html#accompy.setup_utils.diagnose_issues">(in module accompy.setup_utils)</a>
 </li>
       </ul></li>
-      <li><a href="module_docs/accompy.html#accompy.DrumHit.drum">drum (accompy.DrumHit attribute)</a>
+      <li><a href="_autosummary/accompy.html#accompy.DrumHit.drum">drum (accompy.DrumHit attribute)</a>
 
       <ul>
-        <li><a href="module_docs/accompy/patterns/dataclasses.html#accompy.patterns.dataclasses.DrumHit.drum">(accompy.patterns.dataclasses.DrumHit attribute)</a>
+        <li><a href="_autosummary/accompy.patterns.dataclasses.html#accompy.patterns.dataclasses.DrumHit.drum">(accompy.patterns.dataclasses.DrumHit attribute)</a>
 </li>
-        <li><a href="module_docs/accompy/patterns.html#accompy.patterns.DrumHit.drum">(accompy.patterns.DrumHit attribute)</a>
+        <li><a href="_autosummary/accompy.patterns.html#accompy.patterns.DrumHit.drum">(accompy.patterns.DrumHit attribute)</a>
 </li>
       </ul></li>
-      <li><a href="module_docs/accompy.html#accompy.DrumHit">DrumHit (class in accompy)</a>
+      <li><a href="_autosummary/accompy.html#accompy.DrumHit">DrumHit (class in accompy)</a>
 
       <ul>
-        <li><a href="module_docs/accompy/patterns.html#accompy.patterns.DrumHit">(class in accompy.patterns)</a>
+        <li><a href="_autosummary/accompy.patterns.html#accompy.patterns.DrumHit">(class in accompy.patterns)</a>
 </li>
-        <li><a href="module_docs/accompy/patterns/dataclasses.html#accompy.patterns.dataclasses.DrumHit">(class in accompy.patterns.dataclasses)</a>
+        <li><a href="_autosummary/accompy.patterns.dataclasses.html#accompy.patterns.dataclasses.DrumHit">(class in accompy.patterns.dataclasses)</a>
 </li>
       </ul></li>
-      <li><a href="module_docs/accompy.html#accompy.DrumPattern">DrumPattern (class in accompy)</a>
+      <li><a href="_autosummary/accompy.html#accompy.DrumPattern">DrumPattern (class in accompy)</a>
 
       <ul>
-        <li><a href="module_docs/accompy/patterns.html#accompy.patterns.DrumPattern">(class in accompy.patterns)</a>
+        <li><a href="_autosummary/accompy.patterns.html#accompy.patterns.DrumPattern">(class in accompy.patterns)</a>
 </li>
-        <li><a href="module_docs/accompy/patterns/dataclasses.html#accompy.patterns.dataclasses.DrumPattern">(class in accompy.patterns.dataclasses)</a>
+        <li><a href="_autosummary/accompy.patterns.dataclasses.html#accompy.patterns.dataclasses.DrumPattern">(class in accompy.patterns.dataclasses)</a>
 </li>
       </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="module_docs/accompy/base.html#accompy.base.MidiEvent.duration">duration (accompy.base.MidiEvent attribute)</a>
+      <li><a href="_autosummary/accompy.base.html#accompy.base.MidiEvent.duration">duration (accompy.base.MidiEvent attribute)</a>
 
       <ul>
-        <li><a href="module_docs/accompy.html#accompy.MidiEvent.duration">(accompy.MidiEvent attribute)</a>
+        <li><a href="_autosummary/accompy.html#accompy.MidiEvent.duration">(accompy.MidiEvent attribute)</a>
 </li>
-        <li><a href="module_docs/accompy.html#accompy.NoteEvent.duration">(accompy.NoteEvent attribute)</a>
+        <li><a href="_autosummary/accompy.html#accompy.NoteEvent.duration">(accompy.NoteEvent attribute)</a>
 </li>
-        <li><a href="module_docs/accompy/patterns/dataclasses.html#accompy.patterns.dataclasses.NoteEvent.duration">(accompy.patterns.dataclasses.NoteEvent attribute)</a>
+        <li><a href="_autosummary/accompy.patterns.dataclasses.html#accompy.patterns.dataclasses.NoteEvent.duration">(accompy.patterns.dataclasses.NoteEvent attribute)</a>
 </li>
-        <li><a href="module_docs/accompy/patterns.html#accompy.patterns.NoteEvent.duration">(accompy.patterns.NoteEvent attribute)</a>
+        <li><a href="_autosummary/accompy.patterns.html#accompy.patterns.NoteEvent.duration">(accompy.patterns.NoteEvent attribute)</a>
 </li>
       </ul></li>
-      <li><a href="module_docs/accompy.html#accompy.ChordSequence.durations">durations (accompy.ChordSequence property)</a>
+      <li><a href="_autosummary/accompy.html#accompy.ChordSequence.durations">durations (accompy.ChordSequence property)</a>
 
       <ul>
-        <li><a href="module_docs/accompy/converters.html#accompy.converters.ChordSequence.durations">(accompy.converters.ChordSequence property)</a>
+        <li><a href="_autosummary/accompy.converters.html#accompy.converters.ChordSequence.durations">(accompy.converters.ChordSequence property)</a>
 </li>
       </ul></li>
   </ul></td>
@@ -617,24 +1173,24 @@
 <h2 id="E">E</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="module_docs/accompy.html#accompy.ensure_score">ensure_score() (in module accompy)</a>
+      <li><a href="_autosummary/accompy.html#accompy.ensure_score">ensure_score() (in module accompy)</a>
 
       <ul>
-        <li><a href="module_docs/accompy/base.html#accompy.base.ensure_score">(in module accompy.base)</a>
+        <li><a href="_autosummary/accompy.base.html#accompy.base.ensure_score">(in module accompy.base)</a>
 </li>
       </ul></li>
-      <li><a href="module_docs/accompy/realtime.html#accompy.realtime.RealtimeAccompaniment.events">events() (accompy.realtime.RealtimeAccompaniment method)</a>
+      <li><a href="_autosummary/accompy.realtime.html#accompy.realtime.RealtimeAccompaniment.events">events() (accompy.realtime.RealtimeAccompaniment method)</a>
 
       <ul>
-        <li><a href="module_docs/accompy.html#accompy.RealtimeAccompaniment.events">(accompy.RealtimeAccompaniment method)</a>
+        <li><a href="_autosummary/accompy.html#accompy.RealtimeAccompaniment.events">(accompy.RealtimeAccompaniment method)</a>
 </li>
       </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="module_docs/accompy/renderers.html#accompy.renderers.events_to_midi_file">events_to_midi_file() (in module accompy.renderers)</a>
+      <li><a href="_autosummary/accompy.renderers.html#accompy.renderers.events_to_midi_file">events_to_midi_file() (in module accompy.renderers)</a>
 
       <ul>
-        <li><a href="module_docs/accompy/renderers/midi.html#accompy.renderers.midi.events_to_midi_file">(in module accompy.renderers.midi)</a>
+        <li><a href="_autosummary/accompy.renderers.midi.html#accompy.renderers.midi.events_to_midi_file">(in module accompy.renderers.midi)</a>
 </li>
       </ul></li>
   </ul></td>
@@ -643,34 +1199,34 @@
 <h2 id="F">F</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="module_docs/accompy.html#accompy.file_to_audio">file_to_audio() (in module accompy)</a>
+      <li><a href="_autosummary/accompy.html#accompy.file_to_audio">file_to_audio() (in module accompy)</a>
 
       <ul>
-        <li><a href="module_docs/accompy/pipeline.html#accompy.pipeline.file_to_audio">(in module accompy.pipeline)</a>
+        <li><a href="_autosummary/accompy.pipeline.html#accompy.pipeline.file_to_audio">(in module accompy.pipeline)</a>
 </li>
       </ul></li>
-      <li><a href="module_docs/accompy.html#accompy.file_to_midi">file_to_midi() (in module accompy)</a>
+      <li><a href="_autosummary/accompy.html#accompy.file_to_midi">file_to_midi() (in module accompy)</a>
 
       <ul>
-        <li><a href="module_docs/accompy/pipeline.html#accompy.pipeline.file_to_midi">(in module accompy.pipeline)</a>
+        <li><a href="_autosummary/accompy.pipeline.html#accompy.pipeline.file_to_midi">(in module accompy.pipeline)</a>
 </li>
       </ul></li>
-      <li><a href="module_docs/accompy/synthesis/fluidsynth.html#accompy.synthesis.fluidsynth.find_default_soundfont">find_default_soundfont() (in module accompy.synthesis.fluidsynth)</a>
+      <li><a href="_autosummary/accompy.synthesis.fluidsynth.html#accompy.synthesis.fluidsynth.find_default_soundfont">find_default_soundfont() (in module accompy.synthesis.fluidsynth)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="module_docs/accompy/synthesis/fluidsynth.html#accompy.synthesis.fluidsynth.FluidSynthBackend">FluidSynthBackend (class in accompy.synthesis.fluidsynth)</a>
+      <li><a href="_autosummary/accompy.synthesis.fluidsynth.html#accompy.synthesis.fluidsynth.FluidSynthBackend">FluidSynthBackend (class in accompy.synthesis.fluidsynth)</a>
 </li>
-      <li><a href="module_docs/accompy/base.html#accompy.base.Score.from_ireal_url">from_ireal_url() (accompy.base.Score class method)</a>
+      <li><a href="_autosummary/accompy.base.html#accompy.base.Score.from_ireal_url">from_ireal_url() (accompy.base.Score class method)</a>
 
       <ul>
-        <li><a href="module_docs/accompy.html#accompy.Score.from_ireal_url">(accompy.Score class method)</a>
+        <li><a href="_autosummary/accompy.html#accompy.Score.from_ireal_url">(accompy.Score class method)</a>
 </li>
       </ul></li>
-      <li><a href="module_docs/accompy/base.html#accompy.base.Score.from_string">from_string() (accompy.base.Score class method)</a>
+      <li><a href="_autosummary/accompy.base.html#accompy.base.Score.from_string">from_string() (accompy.base.Score class method)</a>
 
       <ul>
-        <li><a href="module_docs/accompy.html#accompy.Score.from_string">(accompy.Score class method)</a>
+        <li><a href="_autosummary/accompy.html#accompy.Score.from_string">(accompy.Score class method)</a>
 </li>
       </ul></li>
   </ul></td>
@@ -679,81 +1235,81 @@
 <h2 id="G">G</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="module_docs/accompy/protocols.html#accompy.protocols.MidiEventGenerator.generate">generate() (accompy.protocols.MidiEventGenerator method)</a>
+      <li><a href="_autosummary/accompy.protocols.html#accompy.protocols.MidiEventGenerator.generate">generate() (accompy.protocols.MidiEventGenerator method)</a>
 </li>
-      <li><a href="module_docs/accompy.html#accompy.generate_accompaniment">generate_accompaniment() (in module accompy)</a>
+      <li><a href="_autosummary/accompy.html#accompy.generate_accompaniment">generate_accompaniment() (in module accompy)</a>
 
       <ul>
-        <li><a href="module_docs/accompy/main.html#accompy.main.generate_accompaniment">(in module accompy.main)</a>
+        <li><a href="_autosummary/accompy.main.html#accompy.main.generate_accompaniment">(in module accompy.main)</a>
 </li>
       </ul></li>
-      <li><a href="module_docs/accompy/renderers/midi.html#accompy.renderers.midi.generate_builtin_midi">generate_builtin_midi() (in module accompy.renderers.midi)</a>
+      <li><a href="_autosummary/accompy.renderers.midi.html#accompy.renderers.midi.generate_builtin_midi">generate_builtin_midi() (in module accompy.renderers.midi)</a>
 </li>
-      <li><a href="module_docs/accompy/renderers.html#accompy.renderers.generate_midi_events">generate_midi_events() (in module accompy.renderers)</a>
+      <li><a href="_autosummary/accompy.renderers.html#accompy.renderers.generate_midi_events">generate_midi_events() (in module accompy.renderers)</a>
 
       <ul>
-        <li><a href="module_docs/accompy/renderers/midi.html#accompy.renderers.midi.generate_midi_events">(in module accompy.renderers.midi)</a>
-</li>
-      </ul></li>
-      <li><a href="module_docs/accompy.html#accompy.generate_mma_wav">generate_mma_wav() (in module accompy)</a>
-
-      <ul>
-        <li><a href="module_docs/accompy/tools.html#accompy.tools.generate_mma_wav">(in module accompy.tools)</a>
+        <li><a href="_autosummary/accompy.renderers.midi.html#accompy.renderers.midi.generate_midi_events">(in module accompy.renderers.midi)</a>
 </li>
       </ul></li>
-      <li><a href="module_docs/accompy.html#accompy.generate_variations">generate_variations() (in module accompy)</a>
+      <li><a href="_autosummary/accompy.html#accompy.generate_mma_wav">generate_mma_wav() (in module accompy)</a>
 
       <ul>
-        <li><a href="module_docs/accompy/tools.html#accompy.tools.generate_variations">(in module accompy.tools)</a>
+        <li><a href="_autosummary/accompy.tools.html#accompy.tools.generate_mma_wav">(in module accompy.tools)</a>
 </li>
       </ul></li>
-      <li><a href="module_docs/accompy.html#accompy.generate_wav">generate_wav() (in module accompy)</a>
+      <li><a href="_autosummary/accompy.html#accompy.generate_variations">generate_variations() (in module accompy)</a>
 
       <ul>
-        <li><a href="module_docs/accompy/tools.html#accompy.tools.generate_wav">(in module accompy.tools)</a>
+        <li><a href="_autosummary/accompy.tools.html#accompy.tools.generate_variations">(in module accompy.tools)</a>
 </li>
       </ul></li>
-      <li><a href="module_docs/accompy.html#accompy.ConverterRegistry.get">get() (accompy.ConverterRegistry method)</a>
+      <li><a href="_autosummary/accompy.html#accompy.generate_wav">generate_wav() (in module accompy)</a>
 
       <ul>
-        <li><a href="module_docs/accompy/converters.html#accompy.converters.ConverterRegistry.get">(accompy.converters.ConverterRegistry method)</a>
+        <li><a href="_autosummary/accompy.tools.html#accompy.tools.generate_wav">(in module accompy.tools)</a>
+</li>
+      </ul></li>
+      <li><a href="_autosummary/accompy.html#accompy.ConverterRegistry.get">get() (accompy.ConverterRegistry method)</a>
+
+      <ul>
+        <li><a href="_autosummary/accompy.converters.html#accompy.converters.ConverterRegistry.get">(accompy.converters.ConverterRegistry method)</a>
 </li>
       </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="module_docs/accompy.html#accompy.get_app_folder">get_app_folder() (in module accompy)</a>
+      <li><a href="_autosummary/accompy.html#accompy.get_app_folder">get_app_folder() (in module accompy)</a>
 </li>
-      <li><a href="module_docs/accompy.html#accompy.get_artifact_dir">get_artifact_dir() (in module accompy)</a>
+      <li><a href="_autosummary/accompy.html#accompy.get_artifact_dir">get_artifact_dir() (in module accompy)</a>
 </li>
-      <li><a href="module_docs/accompy.html#accompy.get_chord_resolver">get_chord_resolver() (in module accompy)</a>
+      <li><a href="_autosummary/accompy.html#accompy.get_chord_resolver">get_chord_resolver() (in module accompy)</a>
 
       <ul>
-        <li><a href="module_docs/accompy/chord_resolution.html#accompy.chord_resolution.get_chord_resolver">(in module accompy.chord_resolution)</a>
+        <li><a href="_autosummary/accompy.chord_resolution.html#accompy.chord_resolution.get_chord_resolver">(in module accompy.chord_resolution)</a>
 </li>
       </ul></li>
-      <li><a href="module_docs/accompy.html#accompy.get_config">get_config() (in module accompy)</a>
+      <li><a href="_autosummary/accompy.html#accompy.get_config">get_config() (in module accompy)</a>
 </li>
-      <li><a href="module_docs/accompy/synthesis.html#accompy.synthesis.get_default_backend">get_default_backend() (in module accompy.synthesis)</a>
+      <li><a href="_autosummary/accompy.synthesis.html#accompy.synthesis.get_default_backend">get_default_backend() (in module accompy.synthesis)</a>
 </li>
-      <li><a href="module_docs/accompy.html#accompy.get_pattern_registry">get_pattern_registry() (in module accompy)</a>
+      <li><a href="_autosummary/accompy.html#accompy.get_pattern_registry">get_pattern_registry() (in module accompy)</a>
 
       <ul>
-        <li><a href="module_docs/accompy/patterns.html#accompy.patterns.get_pattern_registry">(in module accompy.patterns)</a>
+        <li><a href="_autosummary/accompy.patterns.html#accompy.patterns.get_pattern_registry">(in module accompy.patterns)</a>
 </li>
       </ul></li>
-      <li><a href="module_docs/accompy/patterns.html#accompy.patterns.PatternRegistry.get_patterns">get_patterns() (accompy.patterns.PatternRegistry method)</a>
+      <li><a href="_autosummary/accompy.patterns.html#accompy.patterns.PatternRegistry.get_patterns">get_patterns() (accompy.patterns.PatternRegistry method)</a>
 
       <ul>
-        <li><a href="module_docs/accompy.html#accompy.PatternSource.get_patterns">(accompy.PatternSource method)</a>
+        <li><a href="_autosummary/accompy.html#accompy.PatternSource.get_patterns">(accompy.PatternSource method)</a>
 </li>
-        <li><a href="module_docs/accompy/protocols.html#accompy.protocols.PatternSource.get_patterns">(accompy.protocols.PatternSource method)</a>
+        <li><a href="_autosummary/accompy.protocols.html#accompy.protocols.PatternSource.get_patterns">(accompy.protocols.PatternSource method)</a>
 </li>
-        <li><a href="module_docs/accompy.html#accompy.get_patterns">(in module accompy)</a>
+        <li><a href="_autosummary/accompy.html#accompy.get_patterns">(in module accompy)</a>
 </li>
-        <li><a href="module_docs/accompy/patterns.html#accompy.patterns.get_patterns">(in module accompy.patterns)</a>
+        <li><a href="_autosummary/accompy.patterns.html#accompy.patterns.get_patterns">(in module accompy.patterns)</a>
 </li>
       </ul></li>
-      <li><a href="module_docs/accompy.html#accompy.get_resource">get_resource() (in module accompy)</a>
+      <li><a href="_autosummary/accompy.html#accompy.get_resource">get_resource() (in module accompy)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -761,12 +1317,12 @@
 <h2 id="H">H</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="module_docs/accompy.html#accompy.CompingPattern.hits">hits (accompy.CompingPattern attribute)</a>
+      <li><a href="_autosummary/accompy.html#accompy.CompingPattern.hits">hits (accompy.CompingPattern attribute)</a>
 
       <ul>
-        <li><a href="module_docs/accompy/patterns.html#accompy.patterns.CompingPattern.hits">(accompy.patterns.CompingPattern attribute)</a>
+        <li><a href="_autosummary/accompy.patterns.html#accompy.patterns.CompingPattern.hits">(accompy.patterns.CompingPattern attribute)</a>
 </li>
-        <li><a href="module_docs/accompy/patterns/dataclasses.html#accompy.patterns.dataclasses.CompingPattern.hits">(accompy.patterns.dataclasses.CompingPattern attribute)</a>
+        <li><a href="_autosummary/accompy.patterns.dataclasses.html#accompy.patterns.dataclasses.CompingPattern.hits">(accompy.patterns.dataclasses.CompingPattern attribute)</a>
 </li>
       </ul></li>
   </ul></td>
@@ -775,20 +1331,20 @@
 <h2 id="I">I</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="module_docs/accompy.html#accompy.AccompanimentConfig.instruments">instruments (accompy.AccompanimentConfig attribute)</a>
+      <li><a href="_autosummary/accompy.html#accompy.AccompanimentConfig.instruments">instruments (accompy.AccompanimentConfig attribute)</a>
 
       <ul>
-        <li><a href="module_docs/accompy/base.html#accompy.base.AccompanimentConfig.instruments">(accompy.base.AccompanimentConfig attribute)</a>
+        <li><a href="_autosummary/accompy.base.html#accompy.base.AccompanimentConfig.instruments">(accompy.base.AccompanimentConfig attribute)</a>
 </li>
       </ul></li>
-      <li><a href="module_docs/accompy/protocols.html#accompy.protocols.SynthesizerBackend.is_available">is_available() (accompy.protocols.SynthesizerBackend class method)</a>
+      <li><a href="_autosummary/accompy.protocols.html#accompy.protocols.SynthesizerBackend.is_available">is_available() (accompy.protocols.SynthesizerBackend class method)</a>
 
       <ul>
-        <li><a href="module_docs/accompy/synthesis/fluidsynth.html#accompy.synthesis.fluidsynth.FluidSynthBackend.is_available">(accompy.synthesis.fluidsynth.FluidSynthBackend class method)</a>
+        <li><a href="_autosummary/accompy.synthesis.fluidsynth.html#accompy.synthesis.fluidsynth.FluidSynthBackend.is_available">(accompy.synthesis.fluidsynth.FluidSynthBackend class method)</a>
 </li>
-        <li><a href="module_docs/accompy/synthesis.html#accompy.synthesis.SynthesizerBackend.is_available">(accompy.synthesis.SynthesizerBackend class method)</a>
+        <li><a href="_autosummary/accompy.synthesis.html#accompy.synthesis.SynthesizerBackend.is_available">(accompy.synthesis.SynthesizerBackend class method)</a>
 </li>
-        <li><a href="module_docs/accompy.html#accompy.SynthesizerBackend.is_available">(accompy.SynthesizerBackend class method)</a>
+        <li><a href="_autosummary/accompy.html#accompy.SynthesizerBackend.is_available">(accompy.SynthesizerBackend class method)</a>
 </li>
       </ul></li>
   </ul></td>
@@ -797,48 +1353,48 @@
 <h2 id="L">L</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="module_docs/accompy.html#accompy.list_available_converters">list_available_converters() (in module accompy)</a>
+      <li><a href="_autosummary/accompy.html#accompy.list_available_converters">list_available_converters() (in module accompy)</a>
 
       <ul>
-        <li><a href="module_docs/accompy/pipeline.html#accompy.pipeline.list_available_converters">(in module accompy.pipeline)</a>
+        <li><a href="_autosummary/accompy.pipeline.html#accompy.pipeline.list_available_converters">(in module accompy.pipeline)</a>
 </li>
       </ul></li>
-      <li><a href="module_docs/accompy.html#accompy.ConverterRegistry.list_converters">list_converters() (accompy.ConverterRegistry method)</a>
+      <li><a href="_autosummary/accompy.html#accompy.ConverterRegistry.list_converters">list_converters() (accompy.ConverterRegistry method)</a>
 
       <ul>
-        <li><a href="module_docs/accompy/converters.html#accompy.converters.ConverterRegistry.list_converters">(accompy.converters.ConverterRegistry method)</a>
+        <li><a href="_autosummary/accompy.converters.html#accompy.converters.ConverterRegistry.list_converters">(accompy.converters.ConverterRegistry method)</a>
 </li>
       </ul></li>
-      <li><a href="module_docs/accompy.html#accompy.ConverterRegistry.list_pairs">list_pairs() (accompy.ConverterRegistry method)</a>
+      <li><a href="_autosummary/accompy.html#accompy.ConverterRegistry.list_pairs">list_pairs() (accompy.ConverterRegistry method)</a>
 
       <ul>
-        <li><a href="module_docs/accompy/converters.html#accompy.converters.ConverterRegistry.list_pairs">(accompy.converters.ConverterRegistry method)</a>
+        <li><a href="_autosummary/accompy.converters.html#accompy.converters.ConverterRegistry.list_pairs">(accompy.converters.ConverterRegistry method)</a>
 </li>
       </ul></li>
-      <li><a href="module_docs/accompy.html#accompy.list_skeletons">list_skeletons() (in module accompy)</a>
+      <li><a href="_autosummary/accompy.html#accompy.list_skeletons">list_skeletons() (in module accompy)</a>
 
       <ul>
-        <li><a href="module_docs/accompy/rhythmic_skeletons.html#accompy.rhythmic_skeletons.list_skeletons">(in module accompy.rhythmic_skeletons)</a>
+        <li><a href="_autosummary/accompy.rhythmic_skeletons.html#accompy.rhythmic_skeletons.list_skeletons">(in module accompy.rhythmic_skeletons)</a>
 </li>
       </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="module_docs/accompy.html#accompy.load_resource_json">load_resource_json() (in module accompy)</a>
+      <li><a href="_autosummary/accompy.html#accompy.load_resource_json">load_resource_json() (in module accompy)</a>
 
       <ul>
-        <li><a href="module_docs/accompy/data_access.html#accompy.data_access.load_resource_json">(in module accompy.data_access)</a>
+        <li><a href="_autosummary/accompy.data_access.html#accompy.data_access.load_resource_json">(in module accompy.data_access)</a>
 </li>
       </ul></li>
-      <li><a href="module_docs/accompy.html#accompy.load_resource_lines">load_resource_lines() (in module accompy)</a>
+      <li><a href="_autosummary/accompy.html#accompy.load_resource_lines">load_resource_lines() (in module accompy)</a>
 
       <ul>
-        <li><a href="module_docs/accompy/data_access.html#accompy.data_access.load_resource_lines">(in module accompy.data_access)</a>
+        <li><a href="_autosummary/accompy.data_access.html#accompy.data_access.load_resource_lines">(in module accompy.data_access)</a>
 </li>
       </ul></li>
-      <li><a href="module_docs/accompy.html#accompy.load_resource_text">load_resource_text() (in module accompy)</a>
+      <li><a href="_autosummary/accompy.html#accompy.load_resource_text">load_resource_text() (in module accompy)</a>
 
       <ul>
-        <li><a href="module_docs/accompy/data_access.html#accompy.data_access.load_resource_text">(in module accompy.data_access)</a>
+        <li><a href="_autosummary/accompy.data_access.html#accompy.data_access.load_resource_text">(in module accompy.data_access)</a>
 </li>
       </ul></li>
   </ul></td>
@@ -847,124 +1403,118 @@
 <h2 id="M">M</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="module_docs/accompy.html#accompy.make_converter_engine">make_converter_engine() (in module accompy)</a>
+      <li><a href="_autosummary/accompy.html#accompy.make_converter_engine">make_converter_engine() (in module accompy)</a>
 
       <ul>
-        <li><a href="module_docs/accompy/tools.html#accompy.tools.make_converter_engine">(in module accompy.tools)</a>
+        <li><a href="_autosummary/accompy.tools.html#accompy.tools.make_converter_engine">(in module accompy.tools)</a>
 </li>
       </ul></li>
-      <li><a href="module_docs/accompy.html#accompy.midi_to_audio">midi_to_audio() (in module accompy)</a>
+      <li><a href="_autosummary/accompy.html#accompy.midi_to_audio">midi_to_audio() (in module accompy)</a>
 
       <ul>
-        <li><a href="module_docs/accompy/pipeline.html#accompy.pipeline.midi_to_audio">(in module accompy.pipeline)</a>
+        <li><a href="_autosummary/accompy.pipeline.html#accompy.pipeline.midi_to_audio">(in module accompy.pipeline)</a>
 </li>
       </ul></li>
-      <li><a href="module_docs/accompy/audio_renderers.html#accompy.audio_renderers.midi_to_audio_dawdreamer">midi_to_audio_dawdreamer() (in module accompy.audio_renderers)</a>
+      <li><a href="_autosummary/accompy.audio_renderers.html#accompy.audio_renderers.midi_to_audio_dawdreamer">midi_to_audio_dawdreamer() (in module accompy.audio_renderers)</a>
 </li>
-      <li><a href="module_docs/accompy/audio_renderers.html#accompy.audio_renderers.midi_to_audio_fluidsynth">midi_to_audio_fluidsynth() (in module accompy.audio_renderers)</a>
+      <li><a href="_autosummary/accompy.audio_renderers.html#accompy.audio_renderers.midi_to_audio_fluidsynth">midi_to_audio_fluidsynth() (in module accompy.audio_renderers)</a>
 </li>
-      <li><a href="module_docs/accompy/audio_renderers.html#accompy.audio_renderers.midi_to_audio_pretty_midi">midi_to_audio_pretty_midi() (in module accompy.audio_renderers)</a>
+      <li><a href="_autosummary/accompy.audio_renderers.html#accompy.audio_renderers.midi_to_audio_pretty_midi">midi_to_audio_pretty_midi() (in module accompy.audio_renderers)</a>
 </li>
-      <li><a href="module_docs/accompy/audio_renderers.html#accompy.audio_renderers.midi_to_audio_tonal">midi_to_audio_tonal() (in module accompy.audio_renderers)</a>
+      <li><a href="_autosummary/accompy.audio_renderers.html#accompy.audio_renderers.midi_to_audio_tonal">midi_to_audio_tonal() (in module accompy.audio_renderers)</a>
 </li>
-      <li><a href="module_docs/accompy.html#accompy.MidiData">MidiData (class in accompy)</a>
+      <li><a href="_autosummary/accompy.html#accompy.MidiData">MidiData (class in accompy)</a>
 
       <ul>
-        <li><a href="module_docs/accompy/converters.html#accompy.converters.MidiData">(class in accompy.converters)</a>
+        <li><a href="_autosummary/accompy.converters.html#accompy.converters.MidiData">(class in accompy.converters)</a>
 </li>
       </ul></li>
-      <li><a href="module_docs/accompy.html#accompy.MidiEvent">MidiEvent (class in accompy)</a>
+      <li><a href="_autosummary/accompy.html#accompy.MidiEvent">MidiEvent (class in accompy)</a>
 
       <ul>
-        <li><a href="module_docs/accompy/base.html#accompy.base.MidiEvent">(class in accompy.base)</a>
+        <li><a href="_autosummary/accompy.base.html#accompy.base.MidiEvent">(class in accompy.base)</a>
 </li>
       </ul></li>
-      <li><a href="module_docs/accompy/protocols.html#accompy.protocols.MidiEventGenerator">MidiEventGenerator (class in accompy.protocols)</a>
+      <li><a href="_autosummary/accompy.protocols.html#accompy.protocols.MidiEventGenerator">MidiEventGenerator (class in accompy.protocols)</a>
 </li>
-      <li><a href="module_docs/accompy.html#accompy.mma_score_to_wav">mma_score_to_wav() (in module accompy)</a>
+      <li><a href="_autosummary/accompy.html#accompy.mma_score_to_wav">mma_score_to_wav() (in module accompy)</a>
 
       <ul>
-        <li><a href="module_docs/accompy/tools.html#accompy.tools.mma_score_to_wav">(in module accompy.tools)</a>
+        <li><a href="_autosummary/accompy.tools.html#accompy.tools.mma_score_to_wav">(in module accompy.tools)</a>
 </li>
       </ul></li>
       <li>
     module
 
       <ul>
-        <li><a href="module_docs/accompy.html#module-accompy">accompy</a>
+        <li><a href="_autosummary/accompy.html#module-accompy">accompy</a>
 </li>
-        <li><a href="module_docs/accompy/_seed_data.html#module-accompy._seed_data">accompy._seed_data</a>
+        <li><a href="_autosummary/accompy.audio_renderers.html#module-accompy.audio_renderers">accompy.audio_renderers</a>
 </li>
-        <li><a href="module_docs/accompy/_seed_data/config.html#module-accompy._seed_data.config">accompy._seed_data.config</a>
+        <li><a href="_autosummary/accompy.base.html#module-accompy.base">accompy.base</a>
 </li>
-        <li><a href="module_docs/accompy/_seed_data/resources.html#module-accompy._seed_data.resources">accompy._seed_data.resources</a>
+        <li><a href="_autosummary/accompy.chord_parsers.html#module-accompy.chord_parsers">accompy.chord_parsers</a>
 </li>
-        <li><a href="module_docs/accompy/audio_renderers.html#module-accompy.audio_renderers">accompy.audio_renderers</a>
+        <li><a href="_autosummary/accompy.chord_resolution.html#module-accompy.chord_resolution">accompy.chord_resolution</a>
 </li>
-        <li><a href="module_docs/accompy/base.html#module-accompy.base">accompy.base</a>
+        <li><a href="_autosummary/accompy.chord_resolvers.html#module-accompy.chord_resolvers">accompy.chord_resolvers</a>
 </li>
-        <li><a href="module_docs/accompy/chord_parsers.html#module-accompy.chord_parsers">accompy.chord_parsers</a>
+        <li><a href="_autosummary/accompy.converters.html#module-accompy.converters">accompy.converters</a>
 </li>
-        <li><a href="module_docs/accompy/chord_resolution.html#module-accompy.chord_resolution">accompy.chord_resolution</a>
+        <li><a href="_autosummary/accompy.data_access.html#module-accompy.data_access">accompy.data_access</a>
 </li>
-        <li><a href="module_docs/accompy/chord_resolvers.html#module-accompy.chord_resolvers">accompy.chord_resolvers</a>
+        <li><a href="_autosummary/accompy.main.html#module-accompy.main">accompy.main</a>
 </li>
-        <li><a href="module_docs/accompy/converters.html#module-accompy.converters">accompy.converters</a>
+        <li><a href="_autosummary/accompy.midi_generators.html#module-accompy.midi_generators">accompy.midi_generators</a>
 </li>
-        <li><a href="module_docs/accompy/data_access.html#module-accompy.data_access">accompy.data_access</a>
+        <li><a href="_autosummary/accompy.patterns.html#module-accompy.patterns">accompy.patterns</a>
 </li>
-        <li><a href="module_docs/accompy/main.html#module-accompy.main">accompy.main</a>
+        <li><a href="_autosummary/accompy.patterns.builtin.html#module-accompy.patterns.builtin">accompy.patterns.builtin</a>
 </li>
-        <li><a href="module_docs/accompy/midi_generators.html#module-accompy.midi_generators">accompy.midi_generators</a>
+        <li><a href="_autosummary/accompy.patterns.dataclasses.html#module-accompy.patterns.dataclasses">accompy.patterns.dataclasses</a>
 </li>
-        <li><a href="module_docs/accompy/patterns.html#module-accompy.patterns">accompy.patterns</a>
+        <li><a href="_autosummary/accompy.pipeline.html#module-accompy.pipeline">accompy.pipeline</a>
 </li>
-        <li><a href="module_docs/accompy/patterns/builtin.html#module-accompy.patterns.builtin">accompy.patterns.builtin</a>
+        <li><a href="_autosummary/accompy.protocols.html#module-accompy.protocols">accompy.protocols</a>
 </li>
-        <li><a href="module_docs/accompy/patterns/dataclasses.html#module-accompy.patterns.dataclasses">accompy.patterns.dataclasses</a>
+        <li><a href="_autosummary/accompy.realtime.html#module-accompy.realtime">accompy.realtime</a>
 </li>
-        <li><a href="module_docs/accompy/pipeline.html#module-accompy.pipeline">accompy.pipeline</a>
+        <li><a href="_autosummary/accompy.renderers.html#module-accompy.renderers">accompy.renderers</a>
 </li>
-        <li><a href="module_docs/accompy/protocols.html#module-accompy.protocols">accompy.protocols</a>
+        <li><a href="_autosummary/accompy.renderers.midi.html#module-accompy.renderers.midi">accompy.renderers.midi</a>
 </li>
-        <li><a href="module_docs/accompy/realtime.html#module-accompy.realtime">accompy.realtime</a>
+        <li><a href="_autosummary/accompy.rendering.html#module-accompy.rendering">accompy.rendering</a>
 </li>
-        <li><a href="module_docs/accompy/renderers.html#module-accompy.renderers">accompy.renderers</a>
+        <li><a href="_autosummary/accompy.rhythmic_skeletons.html#module-accompy.rhythmic_skeletons">accompy.rhythmic_skeletons</a>
 </li>
-        <li><a href="module_docs/accompy/renderers/midi.html#module-accompy.renderers.midi">accompy.renderers.midi</a>
+        <li><a href="_autosummary/accompy.setup_utils.html#module-accompy.setup_utils">accompy.setup_utils</a>
 </li>
-        <li><a href="module_docs/accompy/rendering.html#module-accompy.rendering">accompy.rendering</a>
+        <li><a href="_autosummary/accompy.synthesis.html#module-accompy.synthesis">accompy.synthesis</a>
 </li>
-        <li><a href="module_docs/accompy/rhythmic_skeletons.html#module-accompy.rhythmic_skeletons">accompy.rhythmic_skeletons</a>
+        <li><a href="_autosummary/accompy.synthesis.fluidsynth.html#module-accompy.synthesis.fluidsynth">accompy.synthesis.fluidsynth</a>
 </li>
-        <li><a href="module_docs/accompy/setup_utils.html#module-accompy.setup_utils">accompy.setup_utils</a>
+        <li><a href="_autosummary/accompy.tools.html#module-accompy.tools">accompy.tools</a>
 </li>
-        <li><a href="module_docs/accompy/synthesis.html#module-accompy.synthesis">accompy.synthesis</a>
+        <li><a href="_autosummary/accompy.util.html#module-accompy.util">accompy.util</a>
 </li>
-        <li><a href="module_docs/accompy/synthesis/fluidsynth.html#module-accompy.synthesis.fluidsynth">accompy.synthesis.fluidsynth</a>
+        <li><a href="_autosummary/accompy.wips.html#module-accompy.wips">accompy.wips</a>
 </li>
-        <li><a href="module_docs/accompy/tools.html#module-accompy.tools">accompy.tools</a>
+        <li><a href="_autosummary/accompy.wips.audio_renderers.html#module-accompy.wips.audio_renderers">accompy.wips.audio_renderers</a>
 </li>
-        <li><a href="module_docs/accompy/util.html#module-accompy.util">accompy.util</a>
+        <li><a href="_autosummary/accompy.wips.chord_parsers.html#module-accompy.wips.chord_parsers">accompy.wips.chord_parsers</a>
 </li>
-        <li><a href="module_docs/accompy/wips.html#module-accompy.wips">accompy.wips</a>
+        <li><a href="_autosummary/accompy.wips.chord_resolvers.html#module-accompy.wips.chord_resolvers">accompy.wips.chord_resolvers</a>
 </li>
-        <li><a href="module_docs/accompy/wips/audio_renderers.html#module-accompy.wips.audio_renderers">accompy.wips.audio_renderers</a>
+        <li><a href="_autosummary/accompy.wips.midi_generators.html#module-accompy.wips.midi_generators">accompy.wips.midi_generators</a>
 </li>
-        <li><a href="module_docs/accompy/wips/chord_parsers.html#module-accompy.wips.chord_parsers">accompy.wips.chord_parsers</a>
+        <li><a href="_autosummary/accompy.wips.pipeline.html#module-accompy.wips.pipeline">accompy.wips.pipeline</a>
 </li>
-        <li><a href="module_docs/accompy/wips/chord_resolvers.html#module-accompy.wips.chord_resolvers">accompy.wips.chord_resolvers</a>
-</li>
-        <li><a href="module_docs/accompy/wips/midi_generators.html#module-accompy.wips.midi_generators">accompy.wips.midi_generators</a>
-</li>
-        <li><a href="module_docs/accompy/wips/pipeline.html#module-accompy.wips.pipeline">accompy.wips.pipeline</a>
-</li>
-        <li><a href="module_docs/accompy/wips/types.html#module-accompy.wips.types">accompy.wips.types</a>
+        <li><a href="_autosummary/accompy.wips.types.html#module-accompy.wips.types">accompy.wips.types</a>
 </li>
       </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="module_docs/accompy/chord_resolution.html#accompy.chord_resolution.music21_resolver">music21_resolver() (in module accompy.chord_resolution)</a>
+      <li><a href="_autosummary/accompy.chord_resolution.html#accompy.chord_resolution.music21_resolver">music21_resolver() (in module accompy.chord_resolution)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -972,42 +1522,42 @@
 <h2 id="N">N</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="module_docs/accompy.html#accompy.CompingPattern.name">name (accompy.CompingPattern attribute)</a>
+      <li><a href="_autosummary/accompy.html#accompy.CompingPattern.name">name (accompy.CompingPattern attribute)</a>
 
       <ul>
-        <li><a href="module_docs/accompy/patterns.html#accompy.patterns.CompingPattern.name">(accompy.patterns.CompingPattern attribute)</a>
+        <li><a href="_autosummary/accompy.patterns.html#accompy.patterns.CompingPattern.name">(accompy.patterns.CompingPattern attribute)</a>
 </li>
-        <li><a href="module_docs/accompy/patterns/dataclasses.html#accompy.patterns.dataclasses.CompingPattern.name">(accompy.patterns.dataclasses.CompingPattern attribute)</a>
+        <li><a href="_autosummary/accompy.patterns.dataclasses.html#accompy.patterns.dataclasses.CompingPattern.name">(accompy.patterns.dataclasses.CompingPattern attribute)</a>
 </li>
       </ul></li>
-      <li><a href="module_docs/accompy/util.html#accompy.util.normalize_chord_symbol">normalize_chord_symbol() (in module accompy.util)</a>
+      <li><a href="_autosummary/accompy.util.html#accompy.util.normalize_chord_symbol">normalize_chord_symbol() (in module accompy.util)</a>
 </li>
-      <li><a href="module_docs/accompy/base.html#accompy.base.MidiEvent.note">note (accompy.base.MidiEvent attribute)</a>
+      <li><a href="_autosummary/accompy.base.html#accompy.base.MidiEvent.note">note (accompy.base.MidiEvent attribute)</a>
 
       <ul>
-        <li><a href="module_docs/accompy.html#accompy.MidiEvent.note">(accompy.MidiEvent attribute)</a>
+        <li><a href="_autosummary/accompy.html#accompy.MidiEvent.note">(accompy.MidiEvent attribute)</a>
 </li>
       </ul></li>
-      <li><a href="module_docs/accompy.html#accompy.NoteEvent">NoteEvent (class in accompy)</a>
+      <li><a href="_autosummary/accompy.html#accompy.NoteEvent">NoteEvent (class in accompy)</a>
 
       <ul>
-        <li><a href="module_docs/accompy/patterns.html#accompy.patterns.NoteEvent">(class in accompy.patterns)</a>
+        <li><a href="_autosummary/accompy.patterns.html#accompy.patterns.NoteEvent">(class in accompy.patterns)</a>
 </li>
-        <li><a href="module_docs/accompy/patterns/dataclasses.html#accompy.patterns.dataclasses.NoteEvent">(class in accompy.patterns.dataclasses)</a>
+        <li><a href="_autosummary/accompy.patterns.dataclasses.html#accompy.patterns.dataclasses.NoteEvent">(class in accompy.patterns.dataclasses)</a>
 </li>
       </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="module_docs/accompy/midi_generators.html#accompy.midi_generators.noteseq_to_midi_midiutil">noteseq_to_midi_midiutil() (in module accompy.midi_generators)</a>
+      <li><a href="_autosummary/accompy.midi_generators.html#accompy.midi_generators.noteseq_to_midi_midiutil">noteseq_to_midi_midiutil() (in module accompy.midi_generators)</a>
 </li>
-      <li><a href="module_docs/accompy/midi_generators.html#accompy.midi_generators.noteseq_to_midi_mido">noteseq_to_midi_mido() (in module accompy.midi_generators)</a>
+      <li><a href="_autosummary/accompy.midi_generators.html#accompy.midi_generators.noteseq_to_midi_mido">noteseq_to_midi_mido() (in module accompy.midi_generators)</a>
 </li>
-      <li><a href="module_docs/accompy/midi_generators.html#accompy.midi_generators.noteseq_to_midi_pretty_midi">noteseq_to_midi_pretty_midi() (in module accompy.midi_generators)</a>
+      <li><a href="_autosummary/accompy.midi_generators.html#accompy.midi_generators.noteseq_to_midi_pretty_midi">noteseq_to_midi_pretty_midi() (in module accompy.midi_generators)</a>
 </li>
-      <li><a href="module_docs/accompy.html#accompy.NoteSequence">NoteSequence (class in accompy)</a>
+      <li><a href="_autosummary/accompy.html#accompy.NoteSequence">NoteSequence (class in accompy)</a>
 
       <ul>
-        <li><a href="module_docs/accompy/converters.html#accompy.converters.NoteSequence">(class in accompy.converters)</a>
+        <li><a href="_autosummary/accompy.converters.html#accompy.converters.NoteSequence">(class in accompy.converters)</a>
 </li>
       </ul></li>
   </ul></td>
@@ -1016,10 +1566,10 @@
 <h2 id="O">O</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="module_docs/accompy.html#accompy.AccompanimentConfig.output_format">output_format (accompy.AccompanimentConfig attribute)</a>
+      <li><a href="_autosummary/accompy.html#accompy.AccompanimentConfig.output_format">output_format (accompy.AccompanimentConfig attribute)</a>
 
       <ul>
-        <li><a href="module_docs/accompy/base.html#accompy.base.AccompanimentConfig.output_format">(accompy.base.AccompanimentConfig attribute)</a>
+        <li><a href="_autosummary/accompy.base.html#accompy.base.AccompanimentConfig.output_format">(accompy.base.AccompanimentConfig attribute)</a>
 </li>
       </ul></li>
   </ul></td>
@@ -1028,84 +1578,84 @@
 <h2 id="P">P</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="module_docs/accompy/chord_parsers.html#accompy.chord_parsers.parse_chord_sheet">parse_chord_sheet() (in module accompy.chord_parsers)</a>
+      <li><a href="_autosummary/accompy.chord_parsers.html#accompy.chord_parsers.parse_chord_sheet">parse_chord_sheet() (in module accompy.chord_parsers)</a>
 </li>
-      <li><a href="module_docs/accompy/util.html#accompy.util.parse_chord_string">parse_chord_string() (in module accompy.util)</a>
+      <li><a href="_autosummary/accompy.util.html#accompy.util.parse_chord_string">parse_chord_string() (in module accompy.util)</a>
 </li>
-      <li><a href="module_docs/accompy/chord_parsers.html#accompy.chord_parsers.parse_chordpro">parse_chordpro() (in module accompy.chord_parsers)</a>
+      <li><a href="_autosummary/accompy.chord_parsers.html#accompy.chord_parsers.parse_chordpro">parse_chordpro() (in module accompy.chord_parsers)</a>
 </li>
-      <li><a href="module_docs/accompy.html#accompy.parse_ireal_html">parse_ireal_html() (in module accompy)</a>
+      <li><a href="_autosummary/accompy.html#accompy.parse_ireal_html">parse_ireal_html() (in module accompy)</a>
 
       <ul>
-        <li><a href="module_docs/accompy/util.html#accompy.util.parse_ireal_html">(in module accompy.util)</a>
+        <li><a href="_autosummary/accompy.util.html#accompy.util.parse_ireal_html">(in module accompy.util)</a>
 </li>
       </ul></li>
-      <li><a href="module_docs/accompy.html#accompy.parse_ireal_url">parse_ireal_url() (in module accompy)</a>
+      <li><a href="_autosummary/accompy.html#accompy.parse_ireal_url">parse_ireal_url() (in module accompy)</a>
 
       <ul>
-        <li><a href="module_docs/accompy/chord_parsers.html#accompy.chord_parsers.parse_ireal_url">(in module accompy.chord_parsers)</a>
+        <li><a href="_autosummary/accompy.chord_parsers.html#accompy.chord_parsers.parse_ireal_url">(in module accompy.chord_parsers)</a>
 </li>
-        <li><a href="module_docs/accompy/util.html#accompy.util.parse_ireal_url">(in module accompy.util)</a>
+        <li><a href="_autosummary/accompy.util.html#accompy.util.parse_ireal_url">(in module accompy.util)</a>
 </li>
       </ul></li>
-      <li><a href="module_docs/accompy/util.html#accompy.util.parse_ireal_url_fallback">parse_ireal_url_fallback() (in module accompy.util)</a>
+      <li><a href="_autosummary/accompy.util.html#accompy.util.parse_ireal_url_fallback">parse_ireal_url_fallback() (in module accompy.util)</a>
 </li>
-      <li><a href="module_docs/accompy/chord_parsers.html#accompy.chord_parsers.parse_musicgen_chord_format">parse_musicgen_chord_format() (in module accompy.chord_parsers)</a>
+      <li><a href="_autosummary/accompy.chord_parsers.html#accompy.chord_parsers.parse_musicgen_chord_format">parse_musicgen_chord_format() (in module accompy.chord_parsers)</a>
 </li>
-      <li><a href="module_docs/accompy/chord_parsers.html#accompy.chord_parsers.parse_nashville">parse_nashville() (in module accompy.chord_parsers)</a>
+      <li><a href="_autosummary/accompy.chord_parsers.html#accompy.chord_parsers.parse_nashville">parse_nashville() (in module accompy.chord_parsers)</a>
 </li>
-      <li><a href="module_docs/accompy/chord_parsers.html#accompy.chord_parsers.parse_plain_text">parse_plain_text() (in module accompy.chord_parsers)</a>
+      <li><a href="_autosummary/accompy.chord_parsers.html#accompy.chord_parsers.parse_plain_text">parse_plain_text() (in module accompy.chord_parsers)</a>
 </li>
-      <li><a href="module_docs/accompy/chord_parsers.html#accompy.chord_parsers.parse_roman_numeral">parse_roman_numeral() (in module accompy.chord_parsers)</a>
+      <li><a href="_autosummary/accompy.chord_parsers.html#accompy.chord_parsers.parse_roman_numeral">parse_roman_numeral() (in module accompy.chord_parsers)</a>
 </li>
-      <li><a href="module_docs/accompy/util.html#accompy.util.parse_time_sig">parse_time_sig() (in module accompy.util)</a>
+      <li><a href="_autosummary/accompy.util.html#accompy.util.parse_time_sig">parse_time_sig() (in module accompy.util)</a>
 </li>
-      <li><a href="module_docs/accompy.html#accompy.AccompanimentConfig.pattern_source">pattern_source (accompy.AccompanimentConfig attribute)</a>
+      <li><a href="_autosummary/accompy.html#accompy.AccompanimentConfig.pattern_source">pattern_source (accompy.AccompanimentConfig attribute)</a>
 
       <ul>
-        <li><a href="module_docs/accompy/base.html#accompy.base.AccompanimentConfig.pattern_source">(accompy.base.AccompanimentConfig attribute)</a>
+        <li><a href="_autosummary/accompy.base.html#accompy.base.AccompanimentConfig.pattern_source">(accompy.base.AccompanimentConfig attribute)</a>
 </li>
       </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="module_docs/accompy/patterns.html#accompy.patterns.PatternRegistry">PatternRegistry (class in accompy.patterns)</a>
+      <li><a href="_autosummary/accompy.patterns.html#accompy.patterns.PatternRegistry">PatternRegistry (class in accompy.patterns)</a>
 </li>
-      <li><a href="module_docs/accompy.html#accompy.PatternSource">PatternSource (class in accompy)</a>
+      <li><a href="_autosummary/accompy.html#accompy.PatternSource">PatternSource (class in accompy)</a>
 
       <ul>
-        <li><a href="module_docs/accompy/protocols.html#accompy.protocols.PatternSource">(class in accompy.protocols)</a>
+        <li><a href="_autosummary/accompy.protocols.html#accompy.protocols.PatternSource">(class in accompy.protocols)</a>
 </li>
       </ul></li>
-      <li><a href="module_docs/accompy.html#accompy.NoteEvent.pitch_offset">pitch_offset (accompy.NoteEvent attribute)</a>
+      <li><a href="_autosummary/accompy.html#accompy.NoteEvent.pitch_offset">pitch_offset (accompy.NoteEvent attribute)</a>
 
       <ul>
-        <li><a href="module_docs/accompy/patterns/dataclasses.html#accompy.patterns.dataclasses.NoteEvent.pitch_offset">(accompy.patterns.dataclasses.NoteEvent attribute)</a>
+        <li><a href="_autosummary/accompy.patterns.dataclasses.html#accompy.patterns.dataclasses.NoteEvent.pitch_offset">(accompy.patterns.dataclasses.NoteEvent attribute)</a>
 </li>
-        <li><a href="module_docs/accompy/patterns.html#accompy.patterns.NoteEvent.pitch_offset">(accompy.patterns.NoteEvent attribute)</a>
-</li>
-      </ul></li>
-      <li><a href="module_docs/accompy/realtime.html#accompy.realtime.RealtimeAccompaniment.play">play() (accompy.realtime.RealtimeAccompaniment method)</a>
-
-      <ul>
-        <li><a href="module_docs/accompy.html#accompy.RealtimeAccompaniment.play">(accompy.RealtimeAccompaniment method)</a>
+        <li><a href="_autosummary/accompy.patterns.html#accompy.patterns.NoteEvent.pitch_offset">(accompy.patterns.NoteEvent attribute)</a>
 </li>
       </ul></li>
-      <li><a href="module_docs/accompy.html#accompy.play_audio">play_audio() (in module accompy)</a>
+      <li><a href="_autosummary/accompy.realtime.html#accompy.realtime.RealtimeAccompaniment.play">play() (accompy.realtime.RealtimeAccompaniment method)</a>
 
       <ul>
-        <li><a href="module_docs/accompy/main.html#accompy.main.play_audio">(in module accompy.main)</a>
+        <li><a href="_autosummary/accompy.html#accompy.RealtimeAccompaniment.play">(accompy.RealtimeAccompaniment method)</a>
 </li>
       </ul></li>
-      <li><a href="module_docs/accompy.html#accompy.print_diagnostic_report">print_diagnostic_report() (in module accompy)</a>
+      <li><a href="_autosummary/accompy.html#accompy.play_audio">play_audio() (in module accompy)</a>
 
       <ul>
-        <li><a href="module_docs/accompy/setup_utils.html#accompy.setup_utils.print_diagnostic_report">(in module accompy.setup_utils)</a>
+        <li><a href="_autosummary/accompy.main.html#accompy.main.play_audio">(in module accompy.main)</a>
 </li>
       </ul></li>
-      <li><a href="module_docs/accompy.html#accompy.print_setup_instructions">print_setup_instructions() (in module accompy)</a>
+      <li><a href="_autosummary/accompy.html#accompy.print_diagnostic_report">print_diagnostic_report() (in module accompy)</a>
 
       <ul>
-        <li><a href="module_docs/accompy/main.html#accompy.main.print_setup_instructions">(in module accompy.main)</a>
+        <li><a href="_autosummary/accompy.setup_utils.html#accompy.setup_utils.print_diagnostic_report">(in module accompy.setup_utils)</a>
+</li>
+      </ul></li>
+      <li><a href="_autosummary/accompy.html#accompy.print_setup_instructions">print_setup_instructions() (in module accompy)</a>
+
+      <ul>
+        <li><a href="_autosummary/accompy.main.html#accompy.main.print_setup_instructions">(in module accompy.main)</a>
 </li>
       </ul></li>
   </ul></td>
@@ -1114,98 +1664,98 @@
 <h2 id="R">R</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="module_docs/accompy.html#accompy.RealtimeAccompaniment">RealtimeAccompaniment (class in accompy)</a>
+      <li><a href="_autosummary/accompy.html#accompy.RealtimeAccompaniment">RealtimeAccompaniment (class in accompy)</a>
 
       <ul>
-        <li><a href="module_docs/accompy/realtime.html#accompy.realtime.RealtimeAccompaniment">(class in accompy.realtime)</a>
+        <li><a href="_autosummary/accompy.realtime.html#accompy.realtime.RealtimeAccompaniment">(class in accompy.realtime)</a>
 </li>
       </ul></li>
-      <li><a href="module_docs/accompy.html#accompy.ConverterRegistry.register">register() (accompy.ConverterRegistry method)</a>
+      <li><a href="_autosummary/accompy.html#accompy.ConverterRegistry.register">register() (accompy.ConverterRegistry method)</a>
 
       <ul>
-        <li><a href="module_docs/accompy/converters.html#accompy.converters.ConverterRegistry.register">(accompy.converters.ConverterRegistry method)</a>
+        <li><a href="_autosummary/accompy.converters.html#accompy.converters.ConverterRegistry.register">(accompy.converters.ConverterRegistry method)</a>
 </li>
       </ul></li>
-      <li><a href="module_docs/accompy/patterns.html#accompy.patterns.PatternRegistry.register_builtin_patterns">register_builtin_patterns() (accompy.patterns.PatternRegistry method)</a>
+      <li><a href="_autosummary/accompy.patterns.html#accompy.patterns.PatternRegistry.register_builtin_patterns">register_builtin_patterns() (accompy.patterns.PatternRegistry method)</a>
 </li>
-      <li><a href="module_docs/accompy.html#accompy.register_skeleton">register_skeleton() (in module accompy)</a>
+      <li><a href="_autosummary/accompy.html#accompy.register_skeleton">register_skeleton() (in module accompy)</a>
 
       <ul>
-        <li><a href="module_docs/accompy/rhythmic_skeletons.html#accompy.rhythmic_skeletons.register_skeleton">(in module accompy.rhythmic_skeletons)</a>
+        <li><a href="_autosummary/accompy.rhythmic_skeletons.html#accompy.rhythmic_skeletons.register_skeleton">(in module accompy.rhythmic_skeletons)</a>
 </li>
       </ul></li>
-      <li><a href="module_docs/accompy.html#accompy.register_style">register_style() (in module accompy)</a>
+      <li><a href="_autosummary/accompy.html#accompy.register_style">register_style() (in module accompy)</a>
 
       <ul>
-        <li><a href="module_docs/accompy/patterns.html#accompy.patterns.register_style">(in module accompy.patterns)</a>
+        <li><a href="_autosummary/accompy.patterns.html#accompy.patterns.register_style">(in module accompy.patterns)</a>
 </li>
       </ul></li>
-      <li><a href="module_docs/accompy/protocols.html#accompy.protocols.AudioRenderer.render">render() (accompy.protocols.AudioRenderer method)</a>
+      <li><a href="_autosummary/accompy.protocols.html#accompy.protocols.AudioRenderer.render">render() (accompy.protocols.AudioRenderer method)</a>
 </li>
-      <li><a href="module_docs/accompy.html#accompy.render_chords">render_chords() (in module accompy)</a>
+      <li><a href="_autosummary/accompy.html#accompy.render_chords">render_chords() (in module accompy)</a>
 
       <ul>
-        <li><a href="module_docs/accompy/rendering.html#accompy.rendering.render_chords">(in module accompy.rendering)</a>
+        <li><a href="_autosummary/accompy.rendering.html#accompy.rendering.render_chords">(in module accompy.rendering)</a>
 </li>
       </ul></li>
-      <li><a href="module_docs/accompy.html#accompy.render_chords_batch">render_chords_batch() (in module accompy)</a>
+      <li><a href="_autosummary/accompy.html#accompy.render_chords_batch">render_chords_batch() (in module accompy)</a>
 
       <ul>
-        <li><a href="module_docs/accompy/rendering.html#accompy.rendering.render_chords_batch">(in module accompy.rendering)</a>
+        <li><a href="_autosummary/accompy.rendering.html#accompy.rendering.render_chords_batch">(in module accompy.rendering)</a>
 </li>
       </ul></li>
-      <li><a href="module_docs/accompy/protocols.html#accompy.protocols.SynthesizerBackend.render_to_bytes">render_to_bytes() (accompy.protocols.SynthesizerBackend method)</a>
+      <li><a href="_autosummary/accompy.protocols.html#accompy.protocols.SynthesizerBackend.render_to_bytes">render_to_bytes() (accompy.protocols.SynthesizerBackend method)</a>
 
       <ul>
-        <li><a href="module_docs/accompy/synthesis.html#accompy.synthesis.SynthesizerBackend.render_to_bytes">(accompy.synthesis.SynthesizerBackend method)</a>
+        <li><a href="_autosummary/accompy.synthesis.html#accompy.synthesis.SynthesizerBackend.render_to_bytes">(accompy.synthesis.SynthesizerBackend method)</a>
 </li>
-        <li><a href="module_docs/accompy.html#accompy.SynthesizerBackend.render_to_bytes">(accompy.SynthesizerBackend method)</a>
+        <li><a href="_autosummary/accompy.html#accompy.SynthesizerBackend.render_to_bytes">(accompy.SynthesizerBackend method)</a>
 </li>
       </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="module_docs/accompy/protocols.html#accompy.protocols.AudioRenderer.render_to_file">render_to_file() (accompy.protocols.AudioRenderer method)</a>
+      <li><a href="_autosummary/accompy.protocols.html#accompy.protocols.AudioRenderer.render_to_file">render_to_file() (accompy.protocols.AudioRenderer method)</a>
 
       <ul>
-        <li><a href="module_docs/accompy/protocols.html#accompy.protocols.SynthesizerBackend.render_to_file">(accompy.protocols.SynthesizerBackend method)</a>
+        <li><a href="_autosummary/accompy.protocols.html#accompy.protocols.SynthesizerBackend.render_to_file">(accompy.protocols.SynthesizerBackend method)</a>
 </li>
-        <li><a href="module_docs/accompy/synthesis/fluidsynth.html#accompy.synthesis.fluidsynth.FluidSynthBackend.render_to_file">(accompy.synthesis.fluidsynth.FluidSynthBackend method)</a>
+        <li><a href="_autosummary/accompy.synthesis.fluidsynth.html#accompy.synthesis.fluidsynth.FluidSynthBackend.render_to_file">(accompy.synthesis.fluidsynth.FluidSynthBackend method)</a>
 </li>
-        <li><a href="module_docs/accompy/synthesis.html#accompy.synthesis.SynthesizerBackend.render_to_file">(accompy.synthesis.SynthesizerBackend method)</a>
+        <li><a href="_autosummary/accompy.synthesis.html#accompy.synthesis.SynthesizerBackend.render_to_file">(accompy.synthesis.SynthesizerBackend method)</a>
 </li>
-        <li><a href="module_docs/accompy.html#accompy.SynthesizerBackend.render_to_file">(accompy.SynthesizerBackend method)</a>
+        <li><a href="_autosummary/accompy.html#accompy.SynthesizerBackend.render_to_file">(accompy.SynthesizerBackend method)</a>
 </li>
       </ul></li>
-      <li><a href="module_docs/accompy.html#accompy.AccompanimentConfig.repeats">repeats (accompy.AccompanimentConfig attribute)</a>
+      <li><a href="_autosummary/accompy.html#accompy.AccompanimentConfig.repeats">repeats (accompy.AccompanimentConfig attribute)</a>
 
       <ul>
-        <li><a href="module_docs/accompy/base.html#accompy.base.AccompanimentConfig.repeats">(accompy.base.AccompanimentConfig attribute)</a>
+        <li><a href="_autosummary/accompy.base.html#accompy.base.AccompanimentConfig.repeats">(accompy.base.AccompanimentConfig attribute)</a>
 </li>
       </ul></li>
-      <li><a href="module_docs/accompy.html#accompy.resolve_skeleton">resolve_skeleton() (in module accompy)</a>
+      <li><a href="_autosummary/accompy.html#accompy.resolve_skeleton">resolve_skeleton() (in module accompy)</a>
 
       <ul>
-        <li><a href="module_docs/accompy/rhythmic_skeletons.html#accompy.rhythmic_skeletons.resolve_skeleton">(in module accompy.rhythmic_skeletons)</a>
+        <li><a href="_autosummary/accompy.rhythmic_skeletons.html#accompy.rhythmic_skeletons.resolve_skeleton">(in module accompy.rhythmic_skeletons)</a>
 </li>
       </ul></li>
-      <li><a href="module_docs/accompy/chord_resolvers.html#accompy.chord_resolvers.resolve_with_mingus">resolve_with_mingus() (in module accompy.chord_resolvers)</a>
+      <li><a href="_autosummary/accompy.chord_resolvers.html#accompy.chord_resolvers.resolve_with_mingus">resolve_with_mingus() (in module accompy.chord_resolvers)</a>
 </li>
-      <li><a href="module_docs/accompy/chord_resolvers.html#accompy.chord_resolvers.resolve_with_music21">resolve_with_music21() (in module accompy.chord_resolvers)</a>
+      <li><a href="_autosummary/accompy.chord_resolvers.html#accompy.chord_resolvers.resolve_with_music21">resolve_with_music21() (in module accompy.chord_resolvers)</a>
 </li>
-      <li><a href="module_docs/accompy/chord_resolvers.html#accompy.chord_resolvers.resolve_with_pychord">resolve_with_pychord() (in module accompy.chord_resolvers)</a>
+      <li><a href="_autosummary/accompy.chord_resolvers.html#accompy.chord_resolvers.resolve_with_pychord">resolve_with_pychord() (in module accompy.chord_resolvers)</a>
 </li>
-      <li><a href="module_docs/accompy/chord_resolvers.html#accompy.chord_resolvers.resolve_with_tonal">resolve_with_tonal() (in module accompy.chord_resolvers)</a>
+      <li><a href="_autosummary/accompy.chord_resolvers.html#accompy.chord_resolvers.resolve_with_tonal">resolve_with_tonal() (in module accompy.chord_resolvers)</a>
 </li>
-      <li><a href="module_docs/accompy.html#accompy.rhythm_to_audio">rhythm_to_audio() (in module accompy)</a>
+      <li><a href="_autosummary/accompy.html#accompy.rhythm_to_audio">rhythm_to_audio() (in module accompy)</a>
 
       <ul>
-        <li><a href="module_docs/accompy/pipeline.html#accompy.pipeline.rhythm_to_audio">(in module accompy.pipeline)</a>
+        <li><a href="_autosummary/accompy.pipeline.html#accompy.pipeline.rhythm_to_audio">(in module accompy.pipeline)</a>
 </li>
       </ul></li>
-      <li><a href="module_docs/accompy.html#accompy.rhythm_to_midi">rhythm_to_midi() (in module accompy)</a>
+      <li><a href="_autosummary/accompy.html#accompy.rhythm_to_midi">rhythm_to_midi() (in module accompy)</a>
 
       <ul>
-        <li><a href="module_docs/accompy/pipeline.html#accompy.pipeline.rhythm_to_midi">(in module accompy.pipeline)</a>
+        <li><a href="_autosummary/accompy.pipeline.html#accompy.pipeline.rhythm_to_midi">(in module accompy.pipeline)</a>
 </li>
       </ul></li>
   </ul></td>
@@ -1214,88 +1764,88 @@
 <h2 id="S">S</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="module_docs/accompy.html#accompy.AccompanimentConfig.sample_rate">sample_rate (accompy.AccompanimentConfig attribute)</a>
+      <li><a href="_autosummary/accompy.html#accompy.AccompanimentConfig.sample_rate">sample_rate (accompy.AccompanimentConfig attribute)</a>
 
       <ul>
-        <li><a href="module_docs/accompy/base.html#accompy.base.AccompanimentConfig.sample_rate">(accompy.base.AccompanimentConfig attribute)</a>
+        <li><a href="_autosummary/accompy.base.html#accompy.base.AccompanimentConfig.sample_rate">(accompy.base.AccompanimentConfig attribute)</a>
 </li>
       </ul></li>
-      <li><a href="module_docs/accompy.html#accompy.Score">Score (class in accompy)</a>
+      <li><a href="_autosummary/accompy.html#accompy.Score">Score (class in accompy)</a>
 
       <ul>
-        <li><a href="module_docs/accompy/base.html#accompy.base.Score">(class in accompy.base)</a>
+        <li><a href="_autosummary/accompy.base.html#accompy.base.Score">(class in accompy.base)</a>
 </li>
       </ul></li>
-      <li><a href="module_docs/accompy/util.html#accompy.util.score_from_chord_specs">score_from_chord_specs() (in module accompy.util)</a>
+      <li><a href="_autosummary/accompy.util.html#accompy.util.score_from_chord_specs">score_from_chord_specs() (in module accompy.util)</a>
 </li>
-      <li><a href="module_docs/accompy.html#accompy.ScoreToWav">ScoreToWav (class in accompy)</a>
+      <li><a href="_autosummary/accompy.html#accompy.ScoreToWav">ScoreToWav (class in accompy)</a>
 
       <ul>
-        <li><a href="module_docs/accompy/tools.html#accompy.tools.ScoreToWav">(class in accompy.tools)</a>
-</li>
-      </ul></li>
-      <li><a href="module_docs/accompy.html#accompy.set_chord_resolver">set_chord_resolver() (in module accompy)</a>
-
-      <ul>
-        <li><a href="module_docs/accompy/chord_resolution.html#accompy.chord_resolution.set_chord_resolver">(in module accompy.chord_resolution)</a>
+        <li><a href="_autosummary/accompy.tools.html#accompy.tools.ScoreToWav">(class in accompy.tools)</a>
 </li>
       </ul></li>
-      <li><a href="module_docs/accompy/realtime.html#accompy.realtime.RealtimeAccompaniment.set_chords">set_chords() (accompy.realtime.RealtimeAccompaniment method)</a>
+      <li><a href="_autosummary/accompy.html#accompy.set_chord_resolver">set_chord_resolver() (in module accompy)</a>
 
       <ul>
-        <li><a href="module_docs/accompy.html#accompy.RealtimeAccompaniment.set_chords">(accompy.RealtimeAccompaniment method)</a>
+        <li><a href="_autosummary/accompy.chord_resolution.html#accompy.chord_resolution.set_chord_resolver">(in module accompy.chord_resolution)</a>
 </li>
       </ul></li>
-      <li><a href="module_docs/accompy.html#accompy.ConverterRegistry.set_default">set_default() (accompy.ConverterRegistry method)</a>
+      <li><a href="_autosummary/accompy.realtime.html#accompy.realtime.RealtimeAccompaniment.set_chords">set_chords() (accompy.realtime.RealtimeAccompaniment method)</a>
 
       <ul>
-        <li><a href="module_docs/accompy/converters.html#accompy.converters.ConverterRegistry.set_default">(accompy.converters.ConverterRegistry method)</a>
+        <li><a href="_autosummary/accompy.html#accompy.RealtimeAccompaniment.set_chords">(accompy.RealtimeAccompaniment method)</a>
 </li>
       </ul></li>
-      <li><a href="module_docs/accompy.html#accompy.setup_soundfont">setup_soundfont() (in module accompy)</a>
+      <li><a href="_autosummary/accompy.html#accompy.ConverterRegistry.set_default">set_default() (accompy.ConverterRegistry method)</a>
 
       <ul>
-        <li><a href="module_docs/accompy/setup_utils.html#accompy.setup_utils.setup_soundfont">(in module accompy.setup_utils)</a>
+        <li><a href="_autosummary/accompy.converters.html#accompy.converters.ConverterRegistry.set_default">(accompy.converters.ConverterRegistry method)</a>
+</li>
+      </ul></li>
+      <li><a href="_autosummary/accompy.html#accompy.setup_soundfont">setup_soundfont() (in module accompy)</a>
+
+      <ul>
+        <li><a href="_autosummary/accompy.setup_utils.html#accompy.setup_utils.setup_soundfont">(in module accompy.setup_utils)</a>
 </li>
       </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="module_docs/accompy.html#accompy.AccompanimentConfig.soundfont">soundfont (accompy.AccompanimentConfig attribute)</a>
+      <li><a href="_autosummary/accompy.html#accompy.AccompanimentConfig.soundfont">soundfont (accompy.AccompanimentConfig attribute)</a>
 
       <ul>
-        <li><a href="module_docs/accompy/base.html#accompy.base.AccompanimentConfig.soundfont">(accompy.base.AccompanimentConfig attribute)</a>
+        <li><a href="_autosummary/accompy.base.html#accompy.base.AccompanimentConfig.soundfont">(accompy.base.AccompanimentConfig attribute)</a>
 </li>
       </ul></li>
-      <li><a href="module_docs/accompy/realtime.html#accompy.realtime.RealtimeAccompaniment.stop">stop() (accompy.realtime.RealtimeAccompaniment method)</a>
+      <li><a href="_autosummary/accompy.realtime.html#accompy.realtime.RealtimeAccompaniment.stop">stop() (accompy.realtime.RealtimeAccompaniment method)</a>
 
       <ul>
-        <li><a href="module_docs/accompy.html#accompy.RealtimeAccompaniment.stop">(accompy.RealtimeAccompaniment method)</a>
+        <li><a href="_autosummary/accompy.html#accompy.RealtimeAccompaniment.stop">(accompy.RealtimeAccompaniment method)</a>
 </li>
       </ul></li>
-      <li><a href="module_docs/accompy.html#accompy.AccompanimentConfig.style">style (accompy.AccompanimentConfig attribute)</a>
+      <li><a href="_autosummary/accompy.html#accompy.AccompanimentConfig.style">style (accompy.AccompanimentConfig attribute)</a>
 
       <ul>
-        <li><a href="module_docs/accompy/base.html#accompy.base.AccompanimentConfig.style">(accompy.base.AccompanimentConfig attribute)</a>
+        <li><a href="_autosummary/accompy.base.html#accompy.base.AccompanimentConfig.style">(accompy.base.AccompanimentConfig attribute)</a>
 </li>
       </ul></li>
-      <li><a href="module_docs/accompy.html#accompy.ChordSequence.symbols">symbols (accompy.ChordSequence property)</a>
+      <li><a href="_autosummary/accompy.html#accompy.ChordSequence.symbols">symbols (accompy.ChordSequence property)</a>
 
       <ul>
-        <li><a href="module_docs/accompy/converters.html#accompy.converters.ChordSequence.symbols">(accompy.converters.ChordSequence property)</a>
+        <li><a href="_autosummary/accompy.converters.html#accompy.converters.ChordSequence.symbols">(accompy.converters.ChordSequence property)</a>
 </li>
       </ul></li>
-      <li><a href="module_docs/accompy.html#accompy.AccompanimentConfig.synthesis_backend">synthesis_backend (accompy.AccompanimentConfig attribute)</a>
+      <li><a href="_autosummary/accompy.html#accompy.AccompanimentConfig.synthesis_backend">synthesis_backend (accompy.AccompanimentConfig attribute)</a>
 
       <ul>
-        <li><a href="module_docs/accompy/base.html#accompy.base.AccompanimentConfig.synthesis_backend">(accompy.base.AccompanimentConfig attribute)</a>
+        <li><a href="_autosummary/accompy.base.html#accompy.base.AccompanimentConfig.synthesis_backend">(accompy.base.AccompanimentConfig attribute)</a>
 </li>
       </ul></li>
-      <li><a href="module_docs/accompy.html#accompy.SynthesizerBackend">SynthesizerBackend (class in accompy)</a>
+      <li><a href="_autosummary/accompy.html#accompy.SynthesizerBackend">SynthesizerBackend (class in accompy)</a>
 
       <ul>
-        <li><a href="module_docs/accompy/protocols.html#accompy.protocols.SynthesizerBackend">(class in accompy.protocols)</a>
+        <li><a href="_autosummary/accompy.protocols.html#accompy.protocols.SynthesizerBackend">(class in accompy.protocols)</a>
 </li>
-        <li><a href="module_docs/accompy/synthesis.html#accompy.synthesis.SynthesizerBackend">(class in accompy.synthesis)</a>
+        <li><a href="_autosummary/accompy.synthesis.html#accompy.synthesis.SynthesizerBackend">(class in accompy.synthesis)</a>
 </li>
       </ul></li>
   </ul></td>
@@ -1304,72 +1854,72 @@
 <h2 id="T">T</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="module_docs/accompy.html#accompy.AccompanimentConfig.tempo">tempo (accompy.AccompanimentConfig attribute)</a>
+      <li><a href="_autosummary/accompy.html#accompy.AccompanimentConfig.tempo">tempo (accompy.AccompanimentConfig attribute)</a>
 
       <ul>
-        <li><a href="module_docs/accompy/base.html#accompy.base.AccompanimentConfig.tempo">(accompy.base.AccompanimentConfig attribute)</a>
+        <li><a href="_autosummary/accompy.base.html#accompy.base.AccompanimentConfig.tempo">(accompy.base.AccompanimentConfig attribute)</a>
 </li>
       </ul></li>
-      <li><a href="module_docs/accompy/base.html#accompy.base.MidiEvent.time">time (accompy.base.MidiEvent attribute)</a>
+      <li><a href="_autosummary/accompy.base.html#accompy.base.MidiEvent.time">time (accompy.base.MidiEvent attribute)</a>
 
       <ul>
-        <li><a href="module_docs/accompy.html#accompy.MidiEvent.time">(accompy.MidiEvent attribute)</a>
+        <li><a href="_autosummary/accompy.html#accompy.MidiEvent.time">(accompy.MidiEvent attribute)</a>
 </li>
       </ul></li>
-      <li><a href="module_docs/accompy/converters.html#accompy.converters.MidiData.to_bytes">to_bytes() (accompy.converters.MidiData method)</a>
+      <li><a href="_autosummary/accompy.converters.html#accompy.converters.MidiData.to_bytes">to_bytes() (accompy.converters.MidiData method)</a>
 
       <ul>
-        <li><a href="module_docs/accompy.html#accompy.MidiData.to_bytes">(accompy.MidiData method)</a>
+        <li><a href="_autosummary/accompy.html#accompy.MidiData.to_bytes">(accompy.MidiData method)</a>
 </li>
       </ul></li>
-      <li><a href="module_docs/accompy/base.html#accompy.base.Score.to_chord_sequence">to_chord_sequence() (accompy.base.Score method)</a>
+      <li><a href="_autosummary/accompy.base.html#accompy.base.Score.to_chord_sequence">to_chord_sequence() (accompy.base.Score method)</a>
 
       <ul>
-        <li><a href="module_docs/accompy.html#accompy.Score.to_chord_sequence">(accompy.Score method)</a>
+        <li><a href="_autosummary/accompy.html#accompy.Score.to_chord_sequence">(accompy.Score method)</a>
 </li>
       </ul></li>
-      <li><a href="module_docs/accompy/converters.html#accompy.converters.MidiData.to_pretty_midi">to_pretty_midi() (accompy.converters.MidiData method)</a>
+      <li><a href="_autosummary/accompy.converters.html#accompy.converters.MidiData.to_pretty_midi">to_pretty_midi() (accompy.converters.MidiData method)</a>
 
       <ul>
-        <li><a href="module_docs/accompy.html#accompy.MidiData.to_pretty_midi">(accompy.MidiData method)</a>
+        <li><a href="_autosummary/accompy.html#accompy.MidiData.to_pretty_midi">(accompy.MidiData method)</a>
 </li>
       </ul></li>
-      <li><a href="module_docs/accompy.html#accompy.ChordSequence.to_score">to_score() (accompy.ChordSequence method)</a>
+      <li><a href="_autosummary/accompy.html#accompy.ChordSequence.to_score">to_score() (accompy.ChordSequence method)</a>
 
       <ul>
-        <li><a href="module_docs/accompy/converters.html#accompy.converters.ChordSequence.to_score">(accompy.converters.ChordSequence method)</a>
+        <li><a href="_autosummary/accompy.converters.html#accompy.converters.ChordSequence.to_score">(accompy.converters.ChordSequence method)</a>
 </li>
       </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="module_docs/accompy.html#accompy.AudioData.to_wav_bytes">to_wav_bytes() (accompy.AudioData method)</a>
+      <li><a href="_autosummary/accompy.html#accompy.AudioData.to_wav_bytes">to_wav_bytes() (accompy.AudioData method)</a>
 
       <ul>
-        <li><a href="module_docs/accompy/converters.html#accompy.converters.AudioData.to_wav_bytes">(accompy.converters.AudioData method)</a>
+        <li><a href="_autosummary/accompy.converters.html#accompy.converters.AudioData.to_wav_bytes">(accompy.converters.AudioData method)</a>
 </li>
       </ul></li>
-      <li><a href="module_docs/accompy.html#accompy.tonal_resolver">tonal_resolver() (in module accompy)</a>
+      <li><a href="_autosummary/accompy.html#accompy.tonal_resolver">tonal_resolver() (in module accompy)</a>
 
       <ul>
-        <li><a href="module_docs/accompy/chord_resolution.html#accompy.chord_resolution.tonal_resolver">(in module accompy.chord_resolution)</a>
+        <li><a href="_autosummary/accompy.chord_resolution.html#accompy.chord_resolution.tonal_resolver">(in module accompy.chord_resolution)</a>
 </li>
       </ul></li>
-      <li><a href="module_docs/accompy.html#accompy.transpose_chord">transpose_chord() (in module accompy)</a>
+      <li><a href="_autosummary/accompy.html#accompy.transpose_chord">transpose_chord() (in module accompy)</a>
 
       <ul>
-        <li><a href="module_docs/accompy/util.html#accompy.util.transpose_chord">(in module accompy.util)</a>
+        <li><a href="_autosummary/accompy.util.html#accompy.util.transpose_chord">(in module accompy.util)</a>
 </li>
       </ul></li>
-      <li><a href="module_docs/accompy.html#accompy.transpose_note">transpose_note() (in module accompy)</a>
+      <li><a href="_autosummary/accompy.html#accompy.transpose_note">transpose_note() (in module accompy)</a>
 
       <ul>
-        <li><a href="module_docs/accompy/util.html#accompy.util.transpose_note">(in module accompy.util)</a>
+        <li><a href="_autosummary/accompy.util.html#accompy.util.transpose_note">(in module accompy.util)</a>
 </li>
       </ul></li>
-      <li><a href="module_docs/accompy.html#accompy.transpose_score">transpose_score() (in module accompy)</a>
+      <li><a href="_autosummary/accompy.html#accompy.transpose_score">transpose_score() (in module accompy)</a>
 
       <ul>
-        <li><a href="module_docs/accompy/util.html#accompy.util.transpose_score">(in module accompy.util)</a>
+        <li><a href="_autosummary/accompy.util.html#accompy.util.transpose_score">(in module accompy.util)</a>
 </li>
       </ul></li>
   </ul></td>
@@ -1378,36 +1928,36 @@
 <h2 id="V">V</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="module_docs/accompy/base.html#accompy.base.MidiEvent.velocity">velocity (accompy.base.MidiEvent attribute)</a>
+      <li><a href="_autosummary/accompy.base.html#accompy.base.MidiEvent.velocity">velocity (accompy.base.MidiEvent attribute)</a>
 
       <ul>
-        <li><a href="module_docs/accompy.html#accompy.DrumHit.velocity">(accompy.DrumHit attribute)</a>
+        <li><a href="_autosummary/accompy.html#accompy.DrumHit.velocity">(accompy.DrumHit attribute)</a>
 </li>
-        <li><a href="module_docs/accompy.html#accompy.MidiEvent.velocity">(accompy.MidiEvent attribute)</a>
+        <li><a href="_autosummary/accompy.html#accompy.MidiEvent.velocity">(accompy.MidiEvent attribute)</a>
 </li>
-        <li><a href="module_docs/accompy.html#accompy.NoteEvent.velocity">(accompy.NoteEvent attribute)</a>
+        <li><a href="_autosummary/accompy.html#accompy.NoteEvent.velocity">(accompy.NoteEvent attribute)</a>
 </li>
-        <li><a href="module_docs/accompy/patterns/dataclasses.html#accompy.patterns.dataclasses.DrumHit.velocity">(accompy.patterns.dataclasses.DrumHit attribute)</a>
+        <li><a href="_autosummary/accompy.patterns.dataclasses.html#accompy.patterns.dataclasses.DrumHit.velocity">(accompy.patterns.dataclasses.DrumHit attribute)</a>
 </li>
-        <li><a href="module_docs/accompy/patterns/dataclasses.html#accompy.patterns.dataclasses.NoteEvent.velocity">(accompy.patterns.dataclasses.NoteEvent attribute)</a>
+        <li><a href="_autosummary/accompy.patterns.dataclasses.html#accompy.patterns.dataclasses.NoteEvent.velocity">(accompy.patterns.dataclasses.NoteEvent attribute)</a>
 </li>
-        <li><a href="module_docs/accompy/patterns.html#accompy.patterns.DrumHit.velocity">(accompy.patterns.DrumHit attribute)</a>
+        <li><a href="_autosummary/accompy.patterns.html#accompy.patterns.DrumHit.velocity">(accompy.patterns.DrumHit attribute)</a>
 </li>
-        <li><a href="module_docs/accompy/patterns.html#accompy.patterns.NoteEvent.velocity">(accompy.patterns.NoteEvent attribute)</a>
+        <li><a href="_autosummary/accompy.patterns.html#accompy.patterns.NoteEvent.velocity">(accompy.patterns.NoteEvent attribute)</a>
 </li>
       </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="module_docs/accompy.html#accompy.verify_and_setup">verify_and_setup() (in module accompy)</a>
+      <li><a href="_autosummary/accompy.html#accompy.verify_and_setup">verify_and_setup() (in module accompy)</a>
 
       <ul>
-        <li><a href="module_docs/accompy/setup_utils.html#accompy.setup_utils.verify_and_setup">(in module accompy.setup_utils)</a>
+        <li><a href="_autosummary/accompy.setup_utils.html#accompy.setup_utils.verify_and_setup">(in module accompy.setup_utils)</a>
 </li>
       </ul></li>
-      <li><a href="module_docs/accompy.html#accompy.AccompanimentConfig.volumes">volumes (accompy.AccompanimentConfig attribute)</a>
+      <li><a href="_autosummary/accompy.html#accompy.AccompanimentConfig.volumes">volumes (accompy.AccompanimentConfig attribute)</a>
 
       <ul>
-        <li><a href="module_docs/accompy/base.html#accompy.base.AccompanimentConfig.volumes">(accompy.base.AccompanimentConfig attribute)</a>
+        <li><a href="_autosummary/accompy.base.html#accompy.base.AccompanimentConfig.volumes">(accompy.base.AccompanimentConfig attribute)</a>
 </li>
       </ul></li>
   </ul></td>
@@ -1416,20 +1966,20 @@
 <h2 id="W">W</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="module_docs/accompy.html#accompy.AccompanimentConfig.with_overrides">with_overrides() (accompy.AccompanimentConfig method)</a>
+      <li><a href="_autosummary/accompy.html#accompy.AccompanimentConfig.with_overrides">with_overrides() (accompy.AccompanimentConfig method)</a>
 
       <ul>
-        <li><a href="module_docs/accompy/base.html#accompy.base.AccompanimentConfig.with_overrides">(accompy.base.AccompanimentConfig method)</a>
+        <li><a href="_autosummary/accompy.base.html#accompy.base.AccompanimentConfig.with_overrides">(accompy.base.AccompanimentConfig method)</a>
 </li>
       </ul></li>
-      <li><a href="module_docs/accompy.html#accompy.AudioData.write">write() (accompy.AudioData method)</a>
+      <li><a href="_autosummary/accompy.html#accompy.AudioData.write">write() (accompy.AudioData method)</a>
 
       <ul>
-        <li><a href="module_docs/accompy/converters.html#accompy.converters.AudioData.write">(accompy.converters.AudioData method)</a>
+        <li><a href="_autosummary/accompy.converters.html#accompy.converters.AudioData.write">(accompy.converters.AudioData method)</a>
 </li>
-        <li><a href="module_docs/accompy/converters.html#accompy.converters.MidiData.write">(accompy.converters.MidiData method)</a>
+        <li><a href="_autosummary/accompy.converters.html#accompy.converters.MidiData.write">(accompy.converters.MidiData method)</a>
 </li>
-        <li><a href="module_docs/accompy.html#accompy.MidiData.write">(accompy.MidiData method)</a>
+        <li><a href="_autosummary/accompy.html#accompy.MidiData.write">(accompy.MidiData method)</a>
 </li>
       </ul></li>
   </ul></td>
@@ -1437,31 +1987,53 @@
 
 
 
-           </div>
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
           </div>
-          <footer>
-
-  <hr/>
-
-  <div role="contentinfo">
-    <p></p>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
   </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="_static/scripts/bootstrap.js?digest=cb8930eaaf36d9849b67"></script>
+<script defer src="_static/scripts/pydata-sphinx-theme.js?digest=cb8930eaaf36d9849b67"></script>
 
-  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
-    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
-    provided by <a href="https://readthedocs.org">Read the Docs</a>.
-   
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.21.0.
+</p></div>
+      
+    </div>
+  
+</div>
 
-</footer>
-        </div>
-      </div>
-    </section>
-  </div>
-  <script>
-      jQuery(function () {
-          SphinxRtdTheme.Navigation.enable(true);
-      });
-  </script> 
-
-</body>
+  </footer>
+  </body>
 </html>

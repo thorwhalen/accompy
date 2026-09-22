@@ -1,0 +1,15 @@
+accompy.main
+============
+
+.. automodule:: accompy.main
+
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+   
+      check_dependencies
+      generate_accompaniment
+      play_audio
+      print_setup_instructions
+   

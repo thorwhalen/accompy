@@ -1,0 +1,33 @@
+accompy.patterns
+================
+
+.. automodule:: accompy.patterns
+
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+   
+      get_pattern_registry
+      get_patterns
+      register_style
+   
+   .. rubric:: Classes
+
+   .. autosummary::
+   
+      DrumPattern
+      BassPattern
+      CompingPattern
+      DrumHit
+      NoteEvent
+      PatternRegistry
+   
+.. rubric:: Modules
+
+.. autosummary::
+   :toctree:
+   :recursive:
+
+   builtin
+   dataclasses

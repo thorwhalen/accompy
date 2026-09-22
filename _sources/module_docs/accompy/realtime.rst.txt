@@ -1,4 +1,0 @@
-accompy.realtime
-================
-.. automodule:: accompy.realtime
-   :members:

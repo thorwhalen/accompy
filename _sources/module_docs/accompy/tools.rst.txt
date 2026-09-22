@@ -1,4 +1,0 @@
-accompy.tools
-=============
-.. automodule:: accompy.tools
-   :members:

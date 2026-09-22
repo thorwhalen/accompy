@@ -1,0 +1,19 @@
+accompy.chord\_resolvers
+========================
+
+.. automodule:: accompy.chord_resolvers
+
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+   
+      chordseq_to_noteseq_mingus
+      chordseq_to_noteseq_music21
+      chordseq_to_noteseq_pychord
+      chordseq_to_noteseq_tonal
+      resolve_with_mingus
+      resolve_with_music21
+      resolve_with_pychord
+      resolve_with_tonal
+   

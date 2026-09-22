@@ -1,0 +1,112 @@
+﻿accompy
+=======
+
+.. automodule:: accompy
+
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+   
+      generate_accompaniment
+      ensure_score
+      play_audio
+      check_dependencies
+      print_setup_instructions
+      convert
+      chords_to_sequence
+      chords_to_notes
+      chords_to_midi
+      chords_to_audio
+      midi_to_audio
+      file_to_audio
+      file_to_midi
+      list_available_converters
+      rhythm_to_midi
+      rhythm_to_audio
+      resolve_skeleton
+      apply_skeleton
+      register_skeleton
+      list_skeletons
+      parse_ireal_html
+      parse_ireal_url
+      transpose_score
+      transpose_chord
+      transpose_note
+      generate_wav
+      generate_mma_wav
+      mma_score_to_wav
+      make_converter_engine
+      generate_variations
+      render_chords
+      render_chords_batch
+      get_patterns
+      get_pattern_registry
+      register_style
+      verify_and_setup
+      setup_soundfont
+      diagnose_issues
+      print_diagnostic_report
+      chord_to_notes
+      get_chord_resolver
+      set_chord_resolver
+      tonal_resolver
+      get_app_folder
+      get_resource
+      get_config
+      get_artifact_dir
+      load_resource_text
+      load_resource_lines
+      load_resource_json
+   
+   .. rubric:: Classes
+
+   .. autosummary::
+   
+      Score
+      ChordEvent
+      AccompanimentConfig
+      MidiEvent
+      ChordSequence
+      NoteSequence
+      MidiData
+      AudioData
+      ConverterRegistry
+      ScoreToWav
+      DrumPattern
+      BassPattern
+      CompingPattern
+      DrumHit
+      NoteEvent
+      ChordResolver
+      PatternSource
+      SynthesizerBackend
+      RealtimeAccompaniment
+   
+.. rubric:: Modules
+
+.. autosummary::
+   :toctree:
+   :recursive:
+
+   audio_renderers
+   base
+   chord_parsers
+   chord_resolution
+   chord_resolvers
+   converters
+   data_access
+   main
+   midi_generators
+   patterns
+   pipeline
+   protocols
+   realtime
+   renderers
+   rendering
+   rhythmic_skeletons
+   setup_utils
+   synthesis
+   tools
+   util
+   wips

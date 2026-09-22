@@ -1,114 +1,717 @@
 
-
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" data-content_root="../../">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>accompy.converters &mdash; accompy 0.3.10 documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
-      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
-      <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
-      <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="alternate" type="text/markdown" href="converters.html.md">
+<link rel="describedby" href="../../llms.txt" type="text/markdown">
+    <title>accompy.converters &#8212; accompy</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=cb8930eaaf36d9849b67" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=cb8930eaaf36d9849b67" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=d75fae25" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/epythet.css?v=fbe2051b" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../../_static/scripts/fontawesome.js?digest=cb8930eaaf36d9849b67"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=cb8930eaaf36d9849b67" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=cb8930eaaf36d9849b67" />
+
+    <script src="../../_static/documentation_options.js?v=0cf6a877"></script>
+    <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=fd10adb8"></script>
+    <script type="module">import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.12.1/dist/mermaid.esm.min.mjs";
+
+
+
+
+
+const initStyles = () => {
+    const defaultStyle = document.createElement('style');
+    defaultStyle.textContent = "pre.mermaid {\n    /* Same as .mermaid-container > pre */\n    display: block;\n    width: 100%;\n}\n\npre.mermaid > svg {\n    /* Same as .mermaid-container > pre > svg */\n    height: 500px;\n    width: 100%;\n    max-width: 100% !important;\n}";
+    document.head.appendChild(defaultStyle);
+
+    const fullscreenStyle = document.createElement('style');
+    fullscreenStyle.textContent = ".mermaid-container {\n    position: relative;\n    display: flex;\n    flex-direction: row;\n    width: 100%;\n}\n\n.mermaid-container > pre {\n    display: block;\n    width: 100%;\n}\n\n.mermaid-container > pre > svg {\n    height: 500px;\n    width: 100%;\n    max-width: 100% !important;\n}\n\n.mermaid-fullscreen-btn {\n    position: absolute;\n    width: 28px;\n    height: 28px;\n    background: rgba(255, 255, 255, 0.95);\n    border: 1px solid rgba(0, 0, 0, 0.3);\n    border-radius: 4px;\n    cursor: pointer;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n    transition: all 0.2s;\n    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);\n    font-size: 14px;\n    line-height: 1;\n    padding: 0;\n    color: #333;\n}\n\n.mermaid-fullscreen-btn:hover {\n    opacity: 100% !important;\n    background: rgba(255, 255, 255, 1);\n    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);\n    transform: scale(1.1);\n}\n\n.mermaid-fullscreen-btn.dark-theme {\n    background: rgba(50, 50, 50, 0.95);\n    border: 1px solid rgba(255, 255, 255, 0.3);\n    color: #e0e0e0;\n}\n\n.mermaid-fullscreen-btn.dark-theme:hover {\n    background: rgba(60, 60, 60, 1);\n    box-shadow: 0 3px 10px rgba(255, 255, 255, 0.2);\n}\n\n.mermaid-fullscreen-modal {\n    display: none;\n    position: fixed !important;\n    top: 0 !important;\n    left: 0 !important;\n    width: 95vw;\n    height: 100vh;\n    background: rgba(255, 255, 255, 0.98);\n    z-index: 9999;\n    padding: 20px;\n    overflow: auto;\n}\n\n.mermaid-fullscreen-modal.dark-theme {\n    background: rgba(0, 0, 0, 0.98);\n}\n\n.mermaid-fullscreen-modal.active {\n    display: flex;\n    align-items: center;\n    justify-content: center;\n}\n\n.mermaid-container-fullscreen {\n    position: relative;\n    width: 95vw;\n    height: 90vh;\n    max-width: 95vw;\n    max-height: 90vh;\n    background: white;\n    border-radius: 8px;\n    padding: 20px;\n    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);\n    overflow: auto;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n}\n\n.mermaid-container-fullscreen.dark-theme {\n    background: #1a1a1a;\n    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8);\n}\n\n.mermaid-container-fullscreen pre.mermaid {\n    width: 100%;\n    height: 100%;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n}\n\n.mermaid-container-fullscreen .mermaid svg {\n    height: 100% !important;\n    width: 100% !important;\n    cursor: grab;\n}\n\n.mermaid-fullscreen-close {\n    position: fixed !important;\n    top: 20px !important;\n    right: 20px !important;\n    width: 40px;\n    height: 40px;\n    background: rgba(255, 255, 255, 0.95);\n    border: 1px solid rgba(0, 0, 0, 0.2);\n    border-radius: 50%;\n    cursor: pointer;\n    z-index: 10000;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);\n    transition: all 0.2s;\n    font-size: 24px;\n    line-height: 1;\n    color: #333;\n}\n\n.mermaid-fullscreen-close:hover {\n    background: white;\n    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);\n    transform: scale(1.1);\n}\n\n.mermaid-fullscreen-close.dark-theme {\n    background: rgba(50, 50, 50, 0.95);\n    border: 1px solid rgba(255, 255, 255, 0.2);\n    color: #e0e0e0;\n}\n\n.mermaid-fullscreen-close.dark-theme:hover {\n    background: rgba(60, 60, 60, 1);\n    box-shadow: 0 6px 16px rgba(255, 255, 255, 0.2);\n}\n\n.mermaid-fullscreen-modal .mermaid-fullscreen-btn {\n    display: none !important;\n}";
+    document.head.appendChild(fullscreenStyle);
+}
+
+// Detect if page has dark background
+const isDarkTheme = () => {
+    // We use a set of heuristics:
+    // 1. Check for common dark mode classes or attributes
+    // 2. Check computed background color brightness
+    if (document.documentElement.classList.contains('dark') ||
+        document.documentElement.getAttribute('data-theme') === 'dark' ||
+        document.body.classList.contains('dark') ||
+        document.body.getAttribute('data-theme') === 'dark') {
+        // console.log("Dark theme detected via class/attribute");
+        return true;
+    }
+    if (document.documentElement.classList.contains('light') ||
+        document.documentElement.getAttribute('data-theme') === 'light' ||
+        document.body.classList.contains('light') ||
+        document.body.getAttribute('data-theme') === 'light') {
+        // console.log("Light theme detected via class/attribute");
+        return false;
+    }
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        // console.log("Dark theme detected via prefers-color-scheme");
+        return true;
+    }
+    const bgColor = window.getComputedStyle(document.body).backgroundColor;
+    const match = bgColor.match(/rgb\((\d+),\s*(\d+),\s*(\d+)/);
+    if (match) {
+        const r = parseInt(match[1]);
+        const g = parseInt(match[2]);
+        const b = parseInt(match[3]);
+        const brightness = (r * 299 + g * 587 + b * 114) / 1000;
+        // console.log("Background color brightness:", brightness);
+        return brightness < 128;
+    }
+    // console.log("No dark or light theme detected, defaulting to light theme");
+    return false;
+};
+
+let darkTheme = isDarkTheme();
+let modal = null;
+let modalContent = null;
+let previousScrollOffset = [window.scrollX, window.scrollY];
+let _lazyObserver = null;
+let _renderQueue = Promise.resolve();
+let closeModal = () => {};
+
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && modal?.classList.contains('active')) {
+        closeModal();
+    }
+});
+
+// Apply d3 zoom to each SVG. Idempotent: an SVG already wrapped is skipped,
+// so this is safe to call both for the initial batch and for diagrams that
+// render lazily once they become visible.
+const addZoomToSvgs = (svgs) => {
+    svgs.each(function() {
+        if (this.getAttribute('data-zoom-applied') === 'true') return;
+        var svg = d3.select(this);
+        svg.html("<g class='wrapper'>" + svg.html() + "</g>");
+        var inner = svg.select("g");
+        var zoom = d3.zoom().on("zoom", function(event) {
+            inner.attr("transform", event.transform);
+        });
+        svg.call(zoom);
+        this.setAttribute('data-zoom-applied', 'true');
+    });
+};
+
+const runMermaid = async (rerun) => {
+    console.log("Running mermaid diagrams, rerun =", rerun);
+    // clear all existing mermaid charts
+    let all_mermaids = document.querySelectorAll(".mermaid");
+
+    if (rerun) {
+        // Disconnect any previous lazy rendering observer
+        if (_lazyObserver) {
+            _lazyObserver.disconnect();
+            _lazyObserver = null;
+        }
+
+        all_mermaids.forEach((el) => {
+            el.removeAttribute('data-mermaid-deferred');
+            el.removeAttribute('data-mermaid-render-failed');
+            if(!el.hasAttribute("data-original-code")) {
+                // store original code
+                // console.log(`Storing original code for first run: `, el.innerHTML);
+                el.setAttribute('data-original-code', el.innerHTML);
+            }
+            if(el.getAttribute("data-processed") === "true") {
+                // remove and restore original
+                el.removeAttribute("data-processed");
+                // console.log(`Restoring original code for re-run: `, el.getAttribute('data-original-code'));
+                el.innerHTML = el.getAttribute('data-original-code');
+            } else {
+                // store original code
+                // console.log(`Storing original code for re-run: `, el.innerHTML);
+                el.setAttribute('data-original-code', el.innerHTML);
+            }
+        });
+
+        // Separate visible and hidden elements. Mermaid's layout engine measures
+        // text dimensions via the DOM, which fails for elements hidden by a parent
+        // (e.g., Reveal.js non-active slides, sphinx-design unopened tabs),
+        // producing broken SVGs. Render visible elements now, defer hidden ones.
+        const visible = [];
+        const hidden = [];
+        all_mermaids.forEach((el) => {
+            // offsetParent is null for display:none ancestors.
+            // getClientRects().length > 0 catches position:fixed elements
+            // (which also have null offsetParent but are still visible).
+            if (el.offsetParent !== null || el.getClientRects().length > 0) {
+                visible.push(el);
+            } else {
+                hidden.push(el);
+                el.setAttribute('data-mermaid-deferred', 'true');
+            }
+        });
+
+        if (visible.length > 0) {
+            try {
+                await mermaid.run({ nodes: visible });
+            } catch (e) {
+                console.error("Mermaid rendering failed:", e);
+            }
+        }
+
+        // Lazily render hidden elements when they become visible.
+        // Uses a promise chain (_renderQueue) to serialize rendering,
+        // since IntersectionObserver may report multiple entries at once
+        // and mermaid.run() is not safe to call concurrently.
+        if (hidden.length > 0) {
+            if (typeof IntersectionObserver === 'undefined') {
+                console.warn("IntersectionObserver not available; hidden mermaid diagrams will not render.");
+            } else {
+                _renderQueue = Promise.resolve();
+                _lazyObserver = new IntersectionObserver((entries) => {
+                    for (const entry of entries) {
+                        if (entry.isIntersecting && entry.target.getAttribute("data-processed") !== "true") {
+                            _lazyObserver.unobserve(entry.target);
+                            const el = entry.target;
+                            _renderQueue = _renderQueue.then(async () => {
+                                try {
+                                    await mermaid.run({ nodes: [el] });
+                                    el.removeAttribute('data-mermaid-deferred');
+                                    // Apply zoom to the now-rendered diagram, matching
+                                    // the decoration visible diagrams receive.
+                                    if (false) {
+                                        addZoomToSvgs(d3.selectAll("").select(function() {
+                                            return this.querySelector("svg");
+                                        }));
+                                    }
+                                } catch (e) {
+                                    console.error("Mermaid deferred rendering failed:", e);
+                                    el.removeAttribute('data-mermaid-deferred');
+                                    el.setAttribute('data-mermaid-render-failed', 'true');
+                                }
+                            });
+                        }
+                    }
+                });
+                hidden.forEach((el) => _lazyObserver.observe(el));
+            }
+        }
+    }
+
+    all_mermaids = document.querySelectorAll(".mermaid");
+    // Exclude deferred (hidden) and render-failed elements from completion checks
+    const mermaids_active = document.querySelectorAll(".mermaid:not([data-mermaid-deferred]):not([data-mermaid-render-failed])");
+    const mermaids_processed = document.querySelectorAll(".mermaid:not([data-mermaid-deferred]):not([data-mermaid-render-failed])[data-processed='true']");
+
+    if (false) {
+        const mermaids_to_add_zoom = 0 === -1 ? mermaids_active.length : 0;
+        if(mermaids_to_add_zoom > 0) {
+            var svgs = d3.selectAll("").select(function() {
+                return this.querySelector("svg");
+            });
+            // Wait until every active (visible) diagram has rendered. Deferred
+            // diagrams are excluded, so a fixed d3_node_count that counts a
+            // hidden diagram no longer loops forever waiting for its SVG.
+            if(mermaids_active.length !== mermaids_processed.length) {
+                setTimeout(() => runMermaid(false), 200);
+                return;
+            }
+            addZoomToSvgs(svgs);
+        }
+    } else if(mermaids_active.length !== mermaids_processed.length) {
+        // Wait for mermaid to process all diagrams
+        setTimeout(() => runMermaid(false), 200);
+        return;
+    }
+
+    // Stop here if not adding fullscreen capability
+    if (!true) return;
+
+    if (modal !== null ) {
+        // Destroy existing modal
+        modal.remove();
+        modal = null;
+        modalContent = null;
+    }
+
+    modal = document.createElement('div');
+    modal.className = 'mermaid-fullscreen-modal' + (darkTheme ? ' dark-theme' : '');
+    modal.setAttribute('role', 'dialog');
+    modal.setAttribute('aria-modal', 'true');
+    modal.setAttribute('aria-label', 'Fullscreen diagram viewer');
+    modal.innerHTML = `
+        <button class="mermaid-fullscreen-close${darkTheme ? ' dark-theme' : ''}" aria-label="Close fullscreen">✕</button>
+        <div class="mermaid-container-fullscreen${darkTheme ? ' dark-theme' : ''}"></div>
+    `;
+    document.body.appendChild(modal);
+
+    modalContent = modal.querySelector('.mermaid-container-fullscreen');
+    const closeBtn = modal.querySelector('.mermaid-fullscreen-close');
+
+    closeModal = () => {
+        modal.classList.remove('active');
+        modalContent.innerHTML = '';
+        document.body.style.overflow = ''
+        window.scrollTo({left: previousScrollOffset[0], top: previousScrollOffset[1], behavior: 'instant'});
+    };
+
+    closeBtn.addEventListener('click', closeModal);
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) closeModal();
+    });
+    document.querySelectorAll('.mermaid').forEach((mermaidDiv) => {
+        if (mermaidDiv.parentNode.classList.contains('mermaid-container') ||
+            mermaidDiv.closest('.mermaid-fullscreen-modal')) {
+            // Already processed, adjust button class if needed
+            const existingBtn = mermaidDiv.parentNode.querySelector('.mermaid-fullscreen-btn');
+            if (existingBtn) {
+                existingBtn.className = 'mermaid-fullscreen-btn' + (darkTheme ? ' dark-theme' : '');
+            }
+            return;
+        }
+
+        const container = document.createElement('div');
+        container.className = 'mermaid-container';
+        mermaidDiv.parentNode.insertBefore(container, mermaidDiv);
+        container.appendChild(mermaidDiv);
+
+        const fullscreenBtn = document.createElement('button');
+        fullscreenBtn.className = 'mermaid-fullscreen-btn' + (darkTheme ? ' dark-theme' : '');
+        fullscreenBtn.setAttribute('aria-label', 'View diagram in fullscreen');
+        fullscreenBtn.textContent = "\u26f6";
+        fullscreenBtn.style.opacity = "50%";
+
+        // Calculate dynamic position based on diagram's margin and padding
+        const diagramStyle = window.getComputedStyle(mermaidDiv);
+        const marginTop = parseFloat(diagramStyle.marginTop) || 0;
+        const marginRight = parseFloat(diagramStyle.marginRight) || 0;
+        const paddingTop = parseFloat(diagramStyle.paddingTop) || 0;
+        const paddingRight = parseFloat(diagramStyle.paddingRight) || 0;
+        fullscreenBtn.style.top = `${marginTop + paddingTop + 4}px`;
+        fullscreenBtn.style.right = `${marginRight + paddingRight + 4}px`;
+
+        fullscreenBtn.addEventListener('click', () => {
+            previousScrollOffset = [window.scrollX, window.scrollY];
+            const clone = mermaidDiv.cloneNode(true);
+            modalContent.innerHTML = '';
+            modalContent.appendChild(clone);
+
+            const svg = clone.querySelector('svg');
+            if (svg) {
+                svg.removeAttribute('width');
+                svg.removeAttribute('height');
+                svg.style.width = '100%';
+                svg.style.height = 'auto';
+                svg.style.maxWidth = '100%';
+                svg.style.display = 'block';
+
+                if (false) {
+                    setTimeout(() => {
+                        const g = svg.querySelector('g');
+                        if (g) {
+                            var svgD3 = d3.select(svg);
+                            svgD3.html("<g class='wrapper'>" + svgD3.html() + "</g>");
+                            var inner = svgD3.select("g");
+                            var zoom = d3.zoom().on("zoom", function(event) {
+                                inner.attr("transform", event.transform);
+                            });
+                            svgD3.call(zoom);
+                        }
+                    }, 100);
+                }
+            }
+
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        });
+        container.appendChild(fullscreenBtn);
+    });
+};
+
+
+
+const load = async () => {
+    initStyles();
+
+
+    await runMermaid(true);
+
+    const reRunIfThemeChanges = async () => {
+        const newDarkTheme = isDarkTheme();
+        if (newDarkTheme !== darkTheme) {
+            darkTheme = newDarkTheme;
+            console.log("Theme change detected, re-running mermaid with", darkTheme ? "dark" : "default", "theme");
+            await mermaid.initialize(
+                {...{"startOnLoad": false},
+                ...{ darkMode: darkTheme, theme: darkTheme ? "dark" : "default" },
+                }
+            );
+            await runMermaid(true);
+        }
+    };
+
+    // Update theme classes when theme changes
+    const themeObserver = new MutationObserver(reRunIfThemeChanges);
+    themeObserver.observe(document.documentElement, {
+        attributes: true,
+        attributeFilter: ['class', 'style', 'data-theme']
+    });
+    themeObserver.observe(document.body, {
+        attributes: true,
+        attributeFilter: ['class', 'style', 'data-theme']
+    });
+};
+
+
+
+
+
+console.log("Initializing mermaid with", darkTheme ? "dark" : "default", "theme");
+mermaid.initialize(
+    {...{"startOnLoad": false},
+    ...{ darkMode: darkTheme, theme: darkTheme ? "dark" : "default" },
+    }
+);
+
+window.addEventListener("load", load);
+window.runMermaid = runMermaid;</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/accompy/converters';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="0.3.12" />
+  
+    
+    <script src="../../_static/searchtools.js"></script>
+    <script src="../../_static/language_data.js"></script>
+    <script src="../../searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
 
   
-      <script src="../../_static/jquery.js?v=5d32c60e"></script>
-      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../_static/documentation_options.js?v=9f76a604"></script>
-      <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
-      <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
-      <script src="../../_static/toggleprompt.js?v=d7ede5d2"></script>
-      <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
-      <script src="../../_static/copybutton.js?v=f281be69"></script>
-    <script src="../../_static/js/theme.js"></script>
-    <link rel="index" title="Index" href="../../genindex.html" />
-    <link rel="search" title="Search" href="../../search.html" /> 
-</head>
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
 
-<body class="wy-body-for-nav"> 
-  <div class="wy-grid-for-nav">
-    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
-      <div class="wy-side-scroll">
-        <div class="wy-side-nav-search" >
-
-          
-          
-          <a href="../../index.html" class="icon icon-home">
-            accompy
-          </a>
-<div role="search">
-  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
-    <input type="hidden" name="check_keywords" value="yes" />
-    <input type="hidden" name="area" value="default" />
-  </form>
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
 </div>
-        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy.html">accompy</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/_seed_data.html">accompy._seed_data</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/_seed_data/config.html">accompy._seed_data.config</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/_seed_data/resources.html">accompy._seed_data.resources</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/audio_renderers.html">accompy.audio_renderers</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/base.html">accompy.base</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/chord_parsers.html">accompy.chord_parsers</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/chord_resolution.html">accompy.chord_resolution</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/chord_resolvers.html">accompy.chord_resolvers</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/converters.html">accompy.converters</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/data_access.html">accompy.data_access</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/main.html">accompy.main</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/midi_generators.html">accompy.midi_generators</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/patterns.html">accompy.patterns</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/patterns/builtin.html">accompy.patterns.builtin</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/patterns/dataclasses.html">accompy.patterns.dataclasses</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/pipeline.html">accompy.pipeline</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/protocols.html">accompy.protocols</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/realtime.html">accompy.realtime</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/renderers.html">accompy.renderers</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/renderers/midi.html">accompy.renderers.midi</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/rendering.html">accompy.rendering</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/rhythmic_skeletons.html">accompy.rhythmic_skeletons</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/setup_utils.html">accompy.setup_utils</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/synthesis.html">accompy.synthesis</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/synthesis/fluidsynth.html">accompy.synthesis.fluidsynth</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/tools.html">accompy.tools</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/util.html">accompy.util</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/wips.html">accompy.wips</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/wips/audio_renderers.html">accompy.wips.audio_renderers</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/wips/chord_parsers.html">accompy.wips.chord_parsers</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/wips/chord_resolvers.html">accompy.wips.chord_resolvers</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/wips/midi_generators.html">accompy.wips.midi_generators</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/wips/pipeline.html">accompy.wips.pipeline</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/wips/types.html">accompy.wips.types</a></li>
-</ul>
 
-        </div>
-      </div>
-    </nav>
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
-          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="../../index.html">accompy</a>
-      </nav>
+  
+    
+  
 
-      <div class="wy-nav-content">
-        <div class="rst-content">
-          <div role="navigation" aria-label="Page navigation">
-  <ul class="wy-breadcrumbs">
-      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
-          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
-      <li class="breadcrumb-item active">accompy.converters</li>
-      <li class="wy-breadcrumbs-aside">
-      </li>
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">accompy</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../api.html">
+    API reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../ai-agents.html">
+    For AI agents
+  </a>
+</li>
+
   </ul>
-  <hr/>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+  </ul>
+</div></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/thorwhalen/accompy" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i><span class="visually-hidden">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
 </div>
-          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
-           <div itemprop="articleBody">
-             
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar hide-on-wide">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../api.html">
+    API reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../ai-agents.html">
+    For AI agents
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+  </ul>
+</div></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/thorwhalen/accompy" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i><span class="visually-hidden">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../index.html" class="nav-link">Module code</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">accompy.converters</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
   <h1>Source code for accompy.converters</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span></span><span class="sd">"""</span>
 <span class="sd">Core types for the chord-to-audio pipeline.</span>
 
 <span class="sd">Defines the data types that flow through the pipeline, plus a converter</span>
@@ -127,7 +730,7 @@
 <span class="sd">    &gt;&gt;&gt; to_midi = converter[ChordSequence, MidiData]</span>
 <span class="sd">    &gt;&gt;&gt; # Or convert in one call</span>
 <span class="sd">    &gt;&gt;&gt; midi = convert(chord_seq, MidiData)  # doctest: +SKIP</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 
@@ -148,7 +751,7 @@
 <span class="c1"># ---------------------------------------------------------------------------</span>
 
 <span class="c1"># A chord sheet is raw text in some notation format (ChordPro, iReal URL, plain)</span>
-<span class="n">ChordSheet</span> <span class="o">=</span> <span class="n">NewType</span><span class="p">(</span><span class="s2">&quot;ChordSheet&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span>
+<span class="n">ChordSheet</span> <span class="o">=</span> <span class="n">NewType</span><span class="p">(</span><span class="s2">"ChordSheet"</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span>
 
 <span class="c1"># A chord event: (chord_symbol, duration_in_beats)</span>
 <span class="n">ChordEvent</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span>
@@ -156,25 +759,25 @@
 
 <span class="c1"># An ordered sequence of chord events with optional metadata</span>
 <div class="viewcode-block" id="ChordSequence">
-<a class="viewcode-back" href="../../module_docs/accompy/converters.html#accompy.ChordSequence">[docs]</a>
+<a class="viewcode-back" href="../../_autosummary/accompy.converters.html#accompy.ChordSequence">[docs]</a>
 <span class="nd">@dataclass</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">ChordSequence</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Ordered sequence of (chord_symbol, duration_beats) pairs with metadata.</span>
+<span class="w">    </span><span class="sd">"""Ordered sequence of (chord_symbol, duration_beats) pairs with metadata.</span>
 
 <span class="sd">    This is the canonical internal representation of a chord progression.</span>
 
-<span class="sd">    &gt;&gt;&gt; cs = ChordSequence([(&quot;Dm7&quot;, 4.0), (&quot;G7&quot;, 4.0), (&quot;Cmaj7&quot;, 8.0)])</span>
+<span class="sd">    &gt;&gt;&gt; cs = ChordSequence([("Dm7", 4.0), ("G7", 4.0), ("Cmaj7", 8.0)])</span>
 <span class="sd">    &gt;&gt;&gt; len(cs)</span>
 <span class="sd">    3</span>
 <span class="sd">    &gt;&gt;&gt; cs[0]</span>
-<span class="sd">    (&#39;Dm7&#39;, 4.0)</span>
+<span class="sd">    ('Dm7', 4.0)</span>
 <span class="sd">    &gt;&gt;&gt; cs.total_beats</span>
 <span class="sd">    16.0</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="n">chords</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">ChordEvent</span><span class="p">]</span>
-    <span class="n">title</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
-    <span class="n">key</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;C&quot;</span>
+    <span class="n">title</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">""</span>
+    <span class="n">key</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"C"</span>
     <span class="n">tempo</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">120</span>
     <span class="n">time_signature</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
 
@@ -193,30 +796,30 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">symbols</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Just the chord symbols, without durations.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Just the chord symbols, without durations."""</span>
         <span class="k">return</span> <span class="p">[</span><span class="n">sym</span> <span class="k">for</span> <span class="n">sym</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">chords</span><span class="p">]</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">durations</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Just the durations, without symbols.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Just the durations, without symbols."""</span>
         <span class="k">return</span> <span class="p">[</span><span class="n">dur</span> <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">dur</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">chords</span><span class="p">]</span>
 
 <div class="viewcode-block" id="ChordSequence.to_score">
-<a class="viewcode-back" href="../../module_docs/accompy/converters.html#accompy.ChordSequence.to_score">[docs]</a>
+<a class="viewcode-back" href="../../_autosummary/accompy.converters.html#accompy.ChordSequence.to_score">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">to_score</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Convert to an accompy Score for pattern-based accompaniment.</span>
+<span class="w">        </span><span class="sd">"""Convert to an accompy Score for pattern-based accompaniment.</span>
 
 <span class="sd">        Example:</span>
-<span class="sd">            &gt;&gt;&gt; cs = ChordSequence([(&quot;Dm7&quot;, 4.0), (&quot;G7&quot;, 4.0)])</span>
+<span class="sd">            &gt;&gt;&gt; cs = ChordSequence([("Dm7", 4.0), ("G7", 4.0)])</span>
 <span class="sd">            &gt;&gt;&gt; score = cs.to_score()</span>
 <span class="sd">            &gt;&gt;&gt; len(score)</span>
 <span class="sd">            2</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">ensure_score</span>
 
         <span class="k">return</span> <span class="n">ensure_score</span><span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">chords</span><span class="p">,</span>
-            <span class="n">title</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">title</span> <span class="ow">or</span> <span class="s2">&quot;Untitled&quot;</span><span class="p">,</span>
+            <span class="n">title</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">title</span> <span class="ow">or</span> <span class="s2">"Untitled"</span><span class="p">,</span>
             <span class="n">key</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">key</span><span class="p">,</span>
             <span class="n">time_signature</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">time_signature</span><span class="p">,</span>
         <span class="p">)</span></div>
@@ -229,10 +832,10 @@
 
 
 <div class="viewcode-block" id="NoteSequence">
-<a class="viewcode-back" href="../../module_docs/accompy/converters.html#accompy.NoteSequence">[docs]</a>
+<a class="viewcode-back" href="../../_autosummary/accompy.converters.html#accompy.NoteSequence">[docs]</a>
 <span class="nd">@dataclass</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">NoteSequence</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Ordered sequence of (midi_notes, duration_beats) with metadata.</span>
+<span class="w">    </span><span class="sd">"""Ordered sequence of (midi_notes, duration_beats) with metadata.</span>
 
 <span class="sd">    Represents resolved chords — chord symbols have been converted to</span>
 <span class="sd">    concrete MIDI note numbers.</span>
@@ -240,7 +843,7 @@
 <span class="sd">    &gt;&gt;&gt; ns = NoteSequence([([60, 64, 67], 4.0), ([62, 65, 69], 4.0)])</span>
 <span class="sd">    &gt;&gt;&gt; ns[0]</span>
 <span class="sd">    ([60, 64, 67], 4.0)</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="n">notes</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">NoteEvent</span><span class="p">]</span>
     <span class="n">tempo</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">120</span>
@@ -262,19 +865,19 @@
 
 
 <div class="viewcode-block" id="MidiData">
-<a class="viewcode-back" href="../../module_docs/accompy/converters.html#accompy.MidiData">[docs]</a>
+<a class="viewcode-back" href="../../_autosummary/accompy.converters.html#accompy.MidiData">[docs]</a>
 <span class="nd">@dataclass</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">MidiData</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Container for MIDI data — either as bytes or as a pretty_midi object.</span>
+<span class="w">    </span><span class="sd">"""Container for MIDI data — either as bytes or as a pretty_midi object.</span>
 
 <span class="sd">    Wraps MIDI content so converters have a uniform interface regardless</span>
 <span class="sd">    of which MIDI library produced the data.</span>
 
 <span class="sd">    &gt;&gt;&gt; import io</span>
-<span class="sd">    &gt;&gt;&gt; md = MidiData(bytes_=b&#39;MThd...&#39;, tempo=120)</span>
+<span class="sd">    &gt;&gt;&gt; md = MidiData(bytes_=b'MThd...', tempo=120)</span>
 <span class="sd">    &gt;&gt;&gt; md.has_bytes</span>
 <span class="sd">    True</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="n">bytes_</span><span class="p">:</span> <span class="nb">bytes</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">pretty_midi_obj</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># pretty_midi.PrettyMIDI, lazy import</span>
@@ -290,9 +893,9 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">pretty_midi_obj</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
 
 <div class="viewcode-block" id="MidiData.to_bytes">
-<a class="viewcode-back" href="../../module_docs/accompy/converters.html#accompy.MidiData.to_bytes">[docs]</a>
+<a class="viewcode-back" href="../../_autosummary/accompy.converters.html#accompy.MidiData.to_bytes">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">to_bytes</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bytes</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get MIDI as bytes, converting from pretty_midi if needed.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Get MIDI as bytes, converting from pretty_midi if needed."""</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">bytes_</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">bytes_</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">pretty_midi_obj</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
@@ -301,13 +904,13 @@
             <span class="n">buf</span> <span class="o">=</span> <span class="n">io</span><span class="o">.</span><span class="n">BytesIO</span><span class="p">()</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">pretty_midi_obj</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">buf</span><span class="p">)</span>
             <span class="k">return</span> <span class="n">buf</span><span class="o">.</span><span class="n">getvalue</span><span class="p">()</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;MidiData has no content&quot;</span><span class="p">)</span></div>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"MidiData has no content"</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="MidiData.to_pretty_midi">
-<a class="viewcode-back" href="../../module_docs/accompy/converters.html#accompy.MidiData.to_pretty_midi">[docs]</a>
+<a class="viewcode-back" href="../../_autosummary/accompy.converters.html#accompy.MidiData.to_pretty_midi">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">to_pretty_midi</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get as pretty_midi.PrettyMIDI, converting from bytes if needed.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Get as pretty_midi.PrettyMIDI, converting from bytes if needed."""</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">pretty_midi_obj</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">pretty_midi_obj</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">bytes_</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
@@ -315,14 +918,14 @@
             <span class="kn">import</span><span class="w"> </span><span class="nn">pretty_midi</span>
 
             <span class="k">return</span> <span class="n">pretty_midi</span><span class="o">.</span><span class="n">PrettyMIDI</span><span class="p">(</span><span class="n">io</span><span class="o">.</span><span class="n">BytesIO</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bytes_</span><span class="p">))</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;MidiData has no content&quot;</span><span class="p">)</span></div>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"MidiData has no content"</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="MidiData.write">
-<a class="viewcode-back" href="../../module_docs/accompy/converters.html#accompy.MidiData.write">[docs]</a>
+<a class="viewcode-back" href="../../_autosummary/accompy.converters.html#accompy.MidiData.write">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">write</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Write MIDI to a file. Returns the path.&quot;&quot;&quot;</span>
-        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s2">&quot;wb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Write MIDI to a file. Returns the path."""</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s2">"wb"</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
             <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">to_bytes</span><span class="p">())</span>
         <span class="k">return</span> <span class="n">path</span></div>
 </div>
@@ -330,16 +933,16 @@
 
 
 <div class="viewcode-block" id="AudioData">
-<a class="viewcode-back" href="../../module_docs/accompy/converters.html#accompy.AudioData">[docs]</a>
+<a class="viewcode-back" href="../../_autosummary/accompy.converters.html#accompy.AudioData">[docs]</a>
 <span class="nd">@dataclass</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">AudioData</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Container for audio data — numpy array + sample rate.</span>
+<span class="w">    </span><span class="sd">"""Container for audio data — numpy array + sample rate.</span>
 
 <span class="sd">    &gt;&gt;&gt; import numpy as np</span>
 <span class="sd">    &gt;&gt;&gt; ad = AudioData(waveform=np.zeros(44100), sr=44100)</span>
 <span class="sd">    &gt;&gt;&gt; ad.duration_seconds</span>
 <span class="sd">    1.0</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="n">waveform</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span>
     <span class="n">sr</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">44100</span>
@@ -349,9 +952,9 @@
         <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">waveform</span><span class="p">)</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">sr</span>
 
 <div class="viewcode-block" id="AudioData.to_wav_bytes">
-<a class="viewcode-back" href="../../module_docs/accompy/converters.html#accompy.AudioData.to_wav_bytes">[docs]</a>
+<a class="viewcode-back" href="../../_autosummary/accompy.converters.html#accompy.AudioData.to_wav_bytes">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">to_wav_bytes</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bytes</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Convert to WAV file bytes.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Convert to WAV file bytes."""</span>
         <span class="kn">import</span><span class="w"> </span><span class="nn">io</span>
         <span class="kn">import</span><span class="w"> </span><span class="nn">wave</span>
 
@@ -363,7 +966,7 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="n">normalized</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">waveform</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int16</span><span class="p">)</span>
 
-        <span class="k">with</span> <span class="n">wave</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">buf</span><span class="p">,</span> <span class="s2">&quot;wb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">wf</span><span class="p">:</span>
+        <span class="k">with</span> <span class="n">wave</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">buf</span><span class="p">,</span> <span class="s2">"wb"</span><span class="p">)</span> <span class="k">as</span> <span class="n">wf</span><span class="p">:</span>
             <span class="n">wf</span><span class="o">.</span><span class="n">setnchannels</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
             <span class="n">wf</span><span class="o">.</span><span class="n">setsampwidth</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
             <span class="n">wf</span><span class="o">.</span><span class="n">setframerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sr</span><span class="p">)</span>
@@ -372,11 +975,11 @@
 
 
 <div class="viewcode-block" id="AudioData.write">
-<a class="viewcode-back" href="../../module_docs/accompy/converters.html#accompy.AudioData.write">[docs]</a>
+<a class="viewcode-back" href="../../_autosummary/accompy.converters.html#accompy.AudioData.write">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">write</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Write audio to a WAV file. Returns the path.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Write audio to a WAV file. Returns the path."""</span>
         <span class="n">wav_bytes</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">to_wav_bytes</span><span class="p">()</span>
-        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s2">&quot;wb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s2">"wb"</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
             <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">wav_bytes</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">path</span></div>
 </div>
@@ -388,28 +991,28 @@
 <span class="c1"># ---------------------------------------------------------------------------</span>
 
 <span class="c1"># Type variables for generic converter signatures</span>
-<span class="n">S</span> <span class="o">=</span> <span class="n">TypeVar</span><span class="p">(</span><span class="s2">&quot;S&quot;</span><span class="p">)</span>
-<span class="n">T</span> <span class="o">=</span> <span class="n">TypeVar</span><span class="p">(</span><span class="s2">&quot;T&quot;</span><span class="p">)</span>
+<span class="n">S</span> <span class="o">=</span> <span class="n">TypeVar</span><span class="p">(</span><span class="s2">"S"</span><span class="p">)</span>
+<span class="n">T</span> <span class="o">=</span> <span class="n">TypeVar</span><span class="p">(</span><span class="s2">"T"</span><span class="p">)</span>
 
 <span class="c1"># A converter is a callable: source -&gt; target</span>
 <span class="n">Converter</span> <span class="o">=</span> <span class="n">Callable</span>  <span class="c1"># Callable[[S], T]</span>
 
 
 <div class="viewcode-block" id="ConverterRegistry">
-<a class="viewcode-back" href="../../module_docs/accompy/converters.html#accompy.ConverterRegistry">[docs]</a>
+<a class="viewcode-back" href="../../_autosummary/accompy.converters.html#accompy.ConverterRegistry">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">ConverterRegistry</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Registry mapping (source_type, target_type) to named converter functions.</span>
+<span class="w">    </span><span class="sd">"""Registry mapping (source_type, target_type) to named converter functions.</span>
 
 <span class="sd">    Supports multiple converters for the same type pair, distinguished by name.</span>
 <span class="sd">    The first registered converter becomes the default.</span>
 
 <span class="sd">    &gt;&gt;&gt; reg = ConverterRegistry()</span>
-<span class="sd">    &gt;&gt;&gt; reg.register(str, int, int, name=&#39;builtin&#39;)</span>
-<span class="sd">    &gt;&gt;&gt; reg[str, int](&#39;42&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; reg.register(str, int, int, name='builtin')</span>
+<span class="sd">    &gt;&gt;&gt; reg[str, int]('42')</span>
 <span class="sd">    42</span>
 <span class="sd">    &gt;&gt;&gt; reg.list_converters(str, int)</span>
-<span class="sd">    [&#39;builtin&#39;]</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    ['builtin']</span>
+<span class="sd">    """</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="c1"># {(source_type, target_type): {name: converter_func}}</span>
@@ -418,17 +1021,17 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_defaults</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">type</span><span class="p">,</span> <span class="nb">type</span><span class="p">],</span> <span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
 
 <div class="viewcode-block" id="ConverterRegistry.register">
-<a class="viewcode-back" href="../../module_docs/accompy/converters.html#accompy.ConverterRegistry.register">[docs]</a>
+<a class="viewcode-back" href="../../_autosummary/accompy.converters.html#accompy.ConverterRegistry.register">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">register</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">source_type</span><span class="p">:</span> <span class="nb">type</span><span class="p">,</span>
         <span class="n">target_type</span><span class="p">:</span> <span class="nb">type</span><span class="p">,</span>
         <span class="n">func</span><span class="p">:</span> <span class="n">Converter</span><span class="p">,</span>
         <span class="o">*</span><span class="p">,</span>
-        <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+        <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">""</span><span class="p">,</span>
         <span class="n">is_default</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Register a converter function.</span>
+<span class="w">        </span><span class="sd">"""Register a converter function.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            source_type: The input type</span>
@@ -436,8 +1039,8 @@
 <span class="sd">            func: The converter function (source -&gt; target)</span>
 <span class="sd">            name: Name for this converter (defaults to func.__name__)</span>
 <span class="sd">            is_default: If True, make this the default converter for this pair</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">name</span> <span class="o">=</span> <span class="n">name</span> <span class="ow">or</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="s2">&quot;__name__&quot;</span><span class="p">,</span> <span class="s2">&quot;unnamed&quot;</span><span class="p">)</span>
+<span class="sd">        """</span>
+        <span class="n">name</span> <span class="o">=</span> <span class="n">name</span> <span class="ow">or</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="s2">"__name__"</span><span class="p">,</span> <span class="s2">"unnamed"</span><span class="p">)</span>
         <span class="n">key</span> <span class="o">=</span> <span class="p">(</span><span class="n">source_type</span><span class="p">,</span> <span class="n">target_type</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_converters</span><span class="p">:</span>
@@ -452,52 +1055,52 @@
 
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">type</span><span class="p">,</span> <span class="nb">type</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Converter</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the default converter for a (source, target) pair.</span>
+<span class="w">        </span><span class="sd">"""Get the default converter for a (source, target) pair.</span>
 
 <span class="sd">        &gt;&gt;&gt; reg = ConverterRegistry()</span>
-<span class="sd">        &gt;&gt;&gt; reg.register(str, int, int, name=&#39;builtin&#39;)</span>
-<span class="sd">        &gt;&gt;&gt; reg[str, int](&#39;42&#39;)</span>
+<span class="sd">        &gt;&gt;&gt; reg.register(str, int, int, name='builtin')</span>
+<span class="sd">        &gt;&gt;&gt; reg[str, int]('42')</span>
 <span class="sd">        42</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">source_type</span><span class="p">,</span> <span class="n">target_type</span> <span class="o">=</span> <span class="n">key</span>
         <span class="n">pair_key</span> <span class="o">=</span> <span class="p">(</span><span class="n">source_type</span><span class="p">,</span> <span class="n">target_type</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">pair_key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_converters</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;No converter registered for </span><span class="si">{</span><span class="n">source_type</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2"> -&gt; &quot;</span>
-                <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">target_type</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="sa">f</span><span class="s2">"No converter registered for </span><span class="si">{</span><span class="n">source_type</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2"> -&gt; "</span>
+                <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">target_type</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">"</span>
             <span class="p">)</span>
 
         <span class="n">default_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_defaults</span><span class="p">[</span><span class="n">pair_key</span><span class="p">]</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_converters</span><span class="p">[</span><span class="n">pair_key</span><span class="p">][</span><span class="n">default_name</span><span class="p">]</span>
 
 <div class="viewcode-block" id="ConverterRegistry.get">
-<a class="viewcode-back" href="../../module_docs/accompy/converters.html#accompy.ConverterRegistry.get">[docs]</a>
+<a class="viewcode-back" href="../../_autosummary/accompy.converters.html#accompy.ConverterRegistry.get">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">get</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">source_type</span><span class="p">:</span> <span class="nb">type</span><span class="p">,</span> <span class="n">target_type</span><span class="p">:</span> <span class="nb">type</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Converter</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get a specific named converter, or the default if name is None.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Get a specific named converter, or the default if name is None."""</span>
         <span class="n">key</span> <span class="o">=</span> <span class="p">(</span><span class="n">source_type</span><span class="p">,</span> <span class="n">target_type</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_converters</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;No converter for </span><span class="si">{</span><span class="n">source_type</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2"> -&gt; </span><span class="si">{</span><span class="n">target_type</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="sa">f</span><span class="s2">"No converter for </span><span class="si">{</span><span class="n">source_type</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2"> -&gt; </span><span class="si">{</span><span class="n">target_type</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">"</span>
             <span class="p">)</span>
         <span class="k">if</span> <span class="n">name</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_defaults</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
         <span class="k">if</span> <span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_converters</span><span class="p">[</span><span class="n">key</span><span class="p">]:</span>
             <span class="n">available</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_converters</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
             <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;No converter named &#39;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">&#39; for &quot;</span>
-                <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">source_type</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2"> -&gt; </span><span class="si">{</span><span class="n">target_type</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">. &quot;</span>
-                <span class="sa">f</span><span class="s2">&quot;Available: </span><span class="si">{</span><span class="n">available</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="sa">f</span><span class="s2">"No converter named '</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">' for "</span>
+                <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">source_type</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2"> -&gt; </span><span class="si">{</span><span class="n">target_type</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">. "</span>
+                <span class="sa">f</span><span class="s2">"Available: </span><span class="si">{</span><span class="n">available</span><span class="si">}</span><span class="s2">"</span>
             <span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_converters</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="n">name</span><span class="p">]</span></div>
 
 
 <div class="viewcode-block" id="ConverterRegistry.list_converters">
-<a class="viewcode-back" href="../../module_docs/accompy/converters.html#accompy.ConverterRegistry.list_converters">[docs]</a>
+<a class="viewcode-back" href="../../_autosummary/accompy.converters.html#accompy.ConverterRegistry.list_converters">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">list_converters</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">source_type</span><span class="p">:</span> <span class="nb">type</span><span class="p">,</span> <span class="n">target_type</span><span class="p">:</span> <span class="nb">type</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;List available converter names for a type pair.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""List available converter names for a type pair."""</span>
         <span class="n">key</span> <span class="o">=</span> <span class="p">(</span><span class="n">source_type</span><span class="p">,</span> <span class="n">target_type</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_converters</span><span class="p">:</span>
             <span class="k">return</span> <span class="p">[]</span>
@@ -505,19 +1108,19 @@
 
 
 <div class="viewcode-block" id="ConverterRegistry.list_pairs">
-<a class="viewcode-back" href="../../module_docs/accompy/converters.html#accompy.ConverterRegistry.list_pairs">[docs]</a>
+<a class="viewcode-back" href="../../_autosummary/accompy.converters.html#accompy.ConverterRegistry.list_pairs">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">list_pairs</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;List all registered (source, target) type name pairs.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""List all registered (source, target) type name pairs."""</span>
         <span class="k">return</span> <span class="p">[(</span><span class="n">s</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="n">t</span><span class="o">.</span><span class="vm">__name__</span><span class="p">)</span> <span class="k">for</span> <span class="n">s</span><span class="p">,</span> <span class="n">t</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_converters</span><span class="o">.</span><span class="n">keys</span><span class="p">()]</span></div>
 
 
 <div class="viewcode-block" id="ConverterRegistry.set_default">
-<a class="viewcode-back" href="../../module_docs/accompy/converters.html#accompy.ConverterRegistry.set_default">[docs]</a>
+<a class="viewcode-back" href="../../_autosummary/accompy.converters.html#accompy.ConverterRegistry.set_default">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">set_default</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">source_type</span><span class="p">:</span> <span class="nb">type</span><span class="p">,</span> <span class="n">target_type</span><span class="p">:</span> <span class="nb">type</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Change the default converter for a type pair.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Change the default converter for a type pair."""</span>
         <span class="n">key</span> <span class="o">=</span> <span class="p">(</span><span class="n">source_type</span><span class="p">,</span> <span class="n">target_type</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_converters</span> <span class="ow">or</span> <span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_converters</span><span class="p">[</span><span class="n">key</span><span class="p">]:</span>
-            <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;No converter named &#39;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">&#39; for this pair&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"No converter named '</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">' for this pair"</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_defaults</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">name</span></div>
 </div>
 
@@ -528,9 +1131,9 @@
 
 
 <div class="viewcode-block" id="convert">
-<a class="viewcode-back" href="../../module_docs/accompy/converters.html#accompy.convert">[docs]</a>
+<a class="viewcode-back" href="../../_autosummary/accompy.converters.html#accompy.convert">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">convert</span><span class="p">(</span><span class="n">source</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">target_type</span><span class="p">:</span> <span class="nb">type</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">via</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Convert source to target_type using the registered converter.</span>
+<span class="w">    </span><span class="sd">"""Convert source to target_type using the registered converter.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        source: The source data</span>
@@ -544,38 +1147,60 @@
 
 <span class="sd">        &gt;&gt;&gt; # After converters are registered:</span>
 <span class="sd">        &gt;&gt;&gt; # audio = convert(chord_seq, AudioData)</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">source_type</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span><span class="n">source</span><span class="p">)</span>
     <span class="n">func</span> <span class="o">=</span> <span class="n">converter</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">source_type</span><span class="p">,</span> <span class="n">target_type</span><span class="p">,</span> <span class="n">via</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="n">source</span><span class="p">)</span></div>
 
 </pre></div>
 
-           </div>
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
           </div>
-          <footer>
-
-  <hr/>
-
-  <div role="contentinfo">
-    <p></p>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
   </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../_static/scripts/bootstrap.js?digest=cb8930eaaf36d9849b67"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=cb8930eaaf36d9849b67"></script>
 
-  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
-    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
-    provided by <a href="https://readthedocs.org">Read the Docs</a>.
-   
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.21.0.
+</p></div>
+      
+    </div>
+  
+</div>
 
-</footer>
-        </div>
-      </div>
-    </section>
-  </div>
-  <script>
-      jQuery(function () {
-          SphinxRtdTheme.Navigation.enable(true);
-      });
-  </script> 
-
-</body>
+  </footer>
+  </body>
 </html>

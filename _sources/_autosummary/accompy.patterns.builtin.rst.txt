@@ -1,0 +1,6 @@
+accompy.patterns.builtin
+========================
+
+.. automodule:: accompy.patterns.builtin
+
+   

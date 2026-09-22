@@ -1,4 +1,0 @@
-accompy.wips.audio_renderers
-============================
-.. automodule:: accompy.wips.audio_renderers
-   :members:

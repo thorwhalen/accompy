@@ -1,0 +1,21 @@
+accompy.base
+============
+
+.. automodule:: accompy.base
+
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+   
+      ensure_score
+   
+   .. rubric:: Classes
+
+   .. autosummary::
+   
+      AccompanimentConfig
+      ChordEvent
+      MidiEvent
+      Score
+   

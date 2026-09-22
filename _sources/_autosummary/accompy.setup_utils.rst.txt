@@ -1,0 +1,15 @@
+accompy.setup\_utils
+====================
+
+.. automodule:: accompy.setup_utils
+
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+   
+      diagnose_issues
+      print_diagnostic_report
+      setup_soundfont
+      verify_and_setup
+   

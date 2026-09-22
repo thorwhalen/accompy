@@ -1,0 +1,13 @@
+accompy.rendering
+=================
+
+.. automodule:: accompy.rendering
+
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+   
+      render_chords
+      render_chords_batch
+   

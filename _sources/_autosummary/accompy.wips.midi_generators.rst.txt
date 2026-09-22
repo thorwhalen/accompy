@@ -1,0 +1,6 @@
+accompy.wips.midi\_generators
+=============================
+
+.. automodule:: accompy.wips.midi_generators
+
+   

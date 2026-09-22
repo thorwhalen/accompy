@@ -1,0 +1,6 @@
+accompy.wips.chord\_parsers
+===========================
+
+.. automodule:: accompy.wips.chord_parsers
+
+   

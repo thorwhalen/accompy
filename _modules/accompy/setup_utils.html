@@ -1,119 +1,722 @@
 
-
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" data-content_root="../../">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>accompy.setup_utils &mdash; accompy 0.3.10 documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
-      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
-      <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
-      <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="alternate" type="text/markdown" href="setup_utils.html.md">
+<link rel="describedby" href="../../llms.txt" type="text/markdown">
+    <title>accompy.setup_utils &#8212; accompy</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=cb8930eaaf36d9849b67" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=cb8930eaaf36d9849b67" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=d75fae25" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/epythet.css?v=fbe2051b" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../../_static/scripts/fontawesome.js?digest=cb8930eaaf36d9849b67"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=cb8930eaaf36d9849b67" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=cb8930eaaf36d9849b67" />
+
+    <script src="../../_static/documentation_options.js?v=0cf6a877"></script>
+    <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=fd10adb8"></script>
+    <script type="module">import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.12.1/dist/mermaid.esm.min.mjs";
+
+
+
+
+
+const initStyles = () => {
+    const defaultStyle = document.createElement('style');
+    defaultStyle.textContent = "pre.mermaid {\n    /* Same as .mermaid-container > pre */\n    display: block;\n    width: 100%;\n}\n\npre.mermaid > svg {\n    /* Same as .mermaid-container > pre > svg */\n    height: 500px;\n    width: 100%;\n    max-width: 100% !important;\n}";
+    document.head.appendChild(defaultStyle);
+
+    const fullscreenStyle = document.createElement('style');
+    fullscreenStyle.textContent = ".mermaid-container {\n    position: relative;\n    display: flex;\n    flex-direction: row;\n    width: 100%;\n}\n\n.mermaid-container > pre {\n    display: block;\n    width: 100%;\n}\n\n.mermaid-container > pre > svg {\n    height: 500px;\n    width: 100%;\n    max-width: 100% !important;\n}\n\n.mermaid-fullscreen-btn {\n    position: absolute;\n    width: 28px;\n    height: 28px;\n    background: rgba(255, 255, 255, 0.95);\n    border: 1px solid rgba(0, 0, 0, 0.3);\n    border-radius: 4px;\n    cursor: pointer;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n    transition: all 0.2s;\n    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);\n    font-size: 14px;\n    line-height: 1;\n    padding: 0;\n    color: #333;\n}\n\n.mermaid-fullscreen-btn:hover {\n    opacity: 100% !important;\n    background: rgba(255, 255, 255, 1);\n    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);\n    transform: scale(1.1);\n}\n\n.mermaid-fullscreen-btn.dark-theme {\n    background: rgba(50, 50, 50, 0.95);\n    border: 1px solid rgba(255, 255, 255, 0.3);\n    color: #e0e0e0;\n}\n\n.mermaid-fullscreen-btn.dark-theme:hover {\n    background: rgba(60, 60, 60, 1);\n    box-shadow: 0 3px 10px rgba(255, 255, 255, 0.2);\n}\n\n.mermaid-fullscreen-modal {\n    display: none;\n    position: fixed !important;\n    top: 0 !important;\n    left: 0 !important;\n    width: 95vw;\n    height: 100vh;\n    background: rgba(255, 255, 255, 0.98);\n    z-index: 9999;\n    padding: 20px;\n    overflow: auto;\n}\n\n.mermaid-fullscreen-modal.dark-theme {\n    background: rgba(0, 0, 0, 0.98);\n}\n\n.mermaid-fullscreen-modal.active {\n    display: flex;\n    align-items: center;\n    justify-content: center;\n}\n\n.mermaid-container-fullscreen {\n    position: relative;\n    width: 95vw;\n    height: 90vh;\n    max-width: 95vw;\n    max-height: 90vh;\n    background: white;\n    border-radius: 8px;\n    padding: 20px;\n    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);\n    overflow: auto;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n}\n\n.mermaid-container-fullscreen.dark-theme {\n    background: #1a1a1a;\n    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8);\n}\n\n.mermaid-container-fullscreen pre.mermaid {\n    width: 100%;\n    height: 100%;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n}\n\n.mermaid-container-fullscreen .mermaid svg {\n    height: 100% !important;\n    width: 100% !important;\n    cursor: grab;\n}\n\n.mermaid-fullscreen-close {\n    position: fixed !important;\n    top: 20px !important;\n    right: 20px !important;\n    width: 40px;\n    height: 40px;\n    background: rgba(255, 255, 255, 0.95);\n    border: 1px solid rgba(0, 0, 0, 0.2);\n    border-radius: 50%;\n    cursor: pointer;\n    z-index: 10000;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);\n    transition: all 0.2s;\n    font-size: 24px;\n    line-height: 1;\n    color: #333;\n}\n\n.mermaid-fullscreen-close:hover {\n    background: white;\n    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);\n    transform: scale(1.1);\n}\n\n.mermaid-fullscreen-close.dark-theme {\n    background: rgba(50, 50, 50, 0.95);\n    border: 1px solid rgba(255, 255, 255, 0.2);\n    color: #e0e0e0;\n}\n\n.mermaid-fullscreen-close.dark-theme:hover {\n    background: rgba(60, 60, 60, 1);\n    box-shadow: 0 6px 16px rgba(255, 255, 255, 0.2);\n}\n\n.mermaid-fullscreen-modal .mermaid-fullscreen-btn {\n    display: none !important;\n}";
+    document.head.appendChild(fullscreenStyle);
+}
+
+// Detect if page has dark background
+const isDarkTheme = () => {
+    // We use a set of heuristics:
+    // 1. Check for common dark mode classes or attributes
+    // 2. Check computed background color brightness
+    if (document.documentElement.classList.contains('dark') ||
+        document.documentElement.getAttribute('data-theme') === 'dark' ||
+        document.body.classList.contains('dark') ||
+        document.body.getAttribute('data-theme') === 'dark') {
+        // console.log("Dark theme detected via class/attribute");
+        return true;
+    }
+    if (document.documentElement.classList.contains('light') ||
+        document.documentElement.getAttribute('data-theme') === 'light' ||
+        document.body.classList.contains('light') ||
+        document.body.getAttribute('data-theme') === 'light') {
+        // console.log("Light theme detected via class/attribute");
+        return false;
+    }
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        // console.log("Dark theme detected via prefers-color-scheme");
+        return true;
+    }
+    const bgColor = window.getComputedStyle(document.body).backgroundColor;
+    const match = bgColor.match(/rgb\((\d+),\s*(\d+),\s*(\d+)/);
+    if (match) {
+        const r = parseInt(match[1]);
+        const g = parseInt(match[2]);
+        const b = parseInt(match[3]);
+        const brightness = (r * 299 + g * 587 + b * 114) / 1000;
+        // console.log("Background color brightness:", brightness);
+        return brightness < 128;
+    }
+    // console.log("No dark or light theme detected, defaulting to light theme");
+    return false;
+};
+
+let darkTheme = isDarkTheme();
+let modal = null;
+let modalContent = null;
+let previousScrollOffset = [window.scrollX, window.scrollY];
+let _lazyObserver = null;
+let _renderQueue = Promise.resolve();
+let closeModal = () => {};
+
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && modal?.classList.contains('active')) {
+        closeModal();
+    }
+});
+
+// Apply d3 zoom to each SVG. Idempotent: an SVG already wrapped is skipped,
+// so this is safe to call both for the initial batch and for diagrams that
+// render lazily once they become visible.
+const addZoomToSvgs = (svgs) => {
+    svgs.each(function() {
+        if (this.getAttribute('data-zoom-applied') === 'true') return;
+        var svg = d3.select(this);
+        svg.html("<g class='wrapper'>" + svg.html() + "</g>");
+        var inner = svg.select("g");
+        var zoom = d3.zoom().on("zoom", function(event) {
+            inner.attr("transform", event.transform);
+        });
+        svg.call(zoom);
+        this.setAttribute('data-zoom-applied', 'true');
+    });
+};
+
+const runMermaid = async (rerun) => {
+    console.log("Running mermaid diagrams, rerun =", rerun);
+    // clear all existing mermaid charts
+    let all_mermaids = document.querySelectorAll(".mermaid");
+
+    if (rerun) {
+        // Disconnect any previous lazy rendering observer
+        if (_lazyObserver) {
+            _lazyObserver.disconnect();
+            _lazyObserver = null;
+        }
+
+        all_mermaids.forEach((el) => {
+            el.removeAttribute('data-mermaid-deferred');
+            el.removeAttribute('data-mermaid-render-failed');
+            if(!el.hasAttribute("data-original-code")) {
+                // store original code
+                // console.log(`Storing original code for first run: `, el.innerHTML);
+                el.setAttribute('data-original-code', el.innerHTML);
+            }
+            if(el.getAttribute("data-processed") === "true") {
+                // remove and restore original
+                el.removeAttribute("data-processed");
+                // console.log(`Restoring original code for re-run: `, el.getAttribute('data-original-code'));
+                el.innerHTML = el.getAttribute('data-original-code');
+            } else {
+                // store original code
+                // console.log(`Storing original code for re-run: `, el.innerHTML);
+                el.setAttribute('data-original-code', el.innerHTML);
+            }
+        });
+
+        // Separate visible and hidden elements. Mermaid's layout engine measures
+        // text dimensions via the DOM, which fails for elements hidden by a parent
+        // (e.g., Reveal.js non-active slides, sphinx-design unopened tabs),
+        // producing broken SVGs. Render visible elements now, defer hidden ones.
+        const visible = [];
+        const hidden = [];
+        all_mermaids.forEach((el) => {
+            // offsetParent is null for display:none ancestors.
+            // getClientRects().length > 0 catches position:fixed elements
+            // (which also have null offsetParent but are still visible).
+            if (el.offsetParent !== null || el.getClientRects().length > 0) {
+                visible.push(el);
+            } else {
+                hidden.push(el);
+                el.setAttribute('data-mermaid-deferred', 'true');
+            }
+        });
+
+        if (visible.length > 0) {
+            try {
+                await mermaid.run({ nodes: visible });
+            } catch (e) {
+                console.error("Mermaid rendering failed:", e);
+            }
+        }
+
+        // Lazily render hidden elements when they become visible.
+        // Uses a promise chain (_renderQueue) to serialize rendering,
+        // since IntersectionObserver may report multiple entries at once
+        // and mermaid.run() is not safe to call concurrently.
+        if (hidden.length > 0) {
+            if (typeof IntersectionObserver === 'undefined') {
+                console.warn("IntersectionObserver not available; hidden mermaid diagrams will not render.");
+            } else {
+                _renderQueue = Promise.resolve();
+                _lazyObserver = new IntersectionObserver((entries) => {
+                    for (const entry of entries) {
+                        if (entry.isIntersecting && entry.target.getAttribute("data-processed") !== "true") {
+                            _lazyObserver.unobserve(entry.target);
+                            const el = entry.target;
+                            _renderQueue = _renderQueue.then(async () => {
+                                try {
+                                    await mermaid.run({ nodes: [el] });
+                                    el.removeAttribute('data-mermaid-deferred');
+                                    // Apply zoom to the now-rendered diagram, matching
+                                    // the decoration visible diagrams receive.
+                                    if (false) {
+                                        addZoomToSvgs(d3.selectAll("").select(function() {
+                                            return this.querySelector("svg");
+                                        }));
+                                    }
+                                } catch (e) {
+                                    console.error("Mermaid deferred rendering failed:", e);
+                                    el.removeAttribute('data-mermaid-deferred');
+                                    el.setAttribute('data-mermaid-render-failed', 'true');
+                                }
+                            });
+                        }
+                    }
+                });
+                hidden.forEach((el) => _lazyObserver.observe(el));
+            }
+        }
+    }
+
+    all_mermaids = document.querySelectorAll(".mermaid");
+    // Exclude deferred (hidden) and render-failed elements from completion checks
+    const mermaids_active = document.querySelectorAll(".mermaid:not([data-mermaid-deferred]):not([data-mermaid-render-failed])");
+    const mermaids_processed = document.querySelectorAll(".mermaid:not([data-mermaid-deferred]):not([data-mermaid-render-failed])[data-processed='true']");
+
+    if (false) {
+        const mermaids_to_add_zoom = 0 === -1 ? mermaids_active.length : 0;
+        if(mermaids_to_add_zoom > 0) {
+            var svgs = d3.selectAll("").select(function() {
+                return this.querySelector("svg");
+            });
+            // Wait until every active (visible) diagram has rendered. Deferred
+            // diagrams are excluded, so a fixed d3_node_count that counts a
+            // hidden diagram no longer loops forever waiting for its SVG.
+            if(mermaids_active.length !== mermaids_processed.length) {
+                setTimeout(() => runMermaid(false), 200);
+                return;
+            }
+            addZoomToSvgs(svgs);
+        }
+    } else if(mermaids_active.length !== mermaids_processed.length) {
+        // Wait for mermaid to process all diagrams
+        setTimeout(() => runMermaid(false), 200);
+        return;
+    }
+
+    // Stop here if not adding fullscreen capability
+    if (!true) return;
+
+    if (modal !== null ) {
+        // Destroy existing modal
+        modal.remove();
+        modal = null;
+        modalContent = null;
+    }
+
+    modal = document.createElement('div');
+    modal.className = 'mermaid-fullscreen-modal' + (darkTheme ? ' dark-theme' : '');
+    modal.setAttribute('role', 'dialog');
+    modal.setAttribute('aria-modal', 'true');
+    modal.setAttribute('aria-label', 'Fullscreen diagram viewer');
+    modal.innerHTML = `
+        <button class="mermaid-fullscreen-close${darkTheme ? ' dark-theme' : ''}" aria-label="Close fullscreen">✕</button>
+        <div class="mermaid-container-fullscreen${darkTheme ? ' dark-theme' : ''}"></div>
+    `;
+    document.body.appendChild(modal);
+
+    modalContent = modal.querySelector('.mermaid-container-fullscreen');
+    const closeBtn = modal.querySelector('.mermaid-fullscreen-close');
+
+    closeModal = () => {
+        modal.classList.remove('active');
+        modalContent.innerHTML = '';
+        document.body.style.overflow = ''
+        window.scrollTo({left: previousScrollOffset[0], top: previousScrollOffset[1], behavior: 'instant'});
+    };
+
+    closeBtn.addEventListener('click', closeModal);
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) closeModal();
+    });
+    document.querySelectorAll('.mermaid').forEach((mermaidDiv) => {
+        if (mermaidDiv.parentNode.classList.contains('mermaid-container') ||
+            mermaidDiv.closest('.mermaid-fullscreen-modal')) {
+            // Already processed, adjust button class if needed
+            const existingBtn = mermaidDiv.parentNode.querySelector('.mermaid-fullscreen-btn');
+            if (existingBtn) {
+                existingBtn.className = 'mermaid-fullscreen-btn' + (darkTheme ? ' dark-theme' : '');
+            }
+            return;
+        }
+
+        const container = document.createElement('div');
+        container.className = 'mermaid-container';
+        mermaidDiv.parentNode.insertBefore(container, mermaidDiv);
+        container.appendChild(mermaidDiv);
+
+        const fullscreenBtn = document.createElement('button');
+        fullscreenBtn.className = 'mermaid-fullscreen-btn' + (darkTheme ? ' dark-theme' : '');
+        fullscreenBtn.setAttribute('aria-label', 'View diagram in fullscreen');
+        fullscreenBtn.textContent = "\u26f6";
+        fullscreenBtn.style.opacity = "50%";
+
+        // Calculate dynamic position based on diagram's margin and padding
+        const diagramStyle = window.getComputedStyle(mermaidDiv);
+        const marginTop = parseFloat(diagramStyle.marginTop) || 0;
+        const marginRight = parseFloat(diagramStyle.marginRight) || 0;
+        const paddingTop = parseFloat(diagramStyle.paddingTop) || 0;
+        const paddingRight = parseFloat(diagramStyle.paddingRight) || 0;
+        fullscreenBtn.style.top = `${marginTop + paddingTop + 4}px`;
+        fullscreenBtn.style.right = `${marginRight + paddingRight + 4}px`;
+
+        fullscreenBtn.addEventListener('click', () => {
+            previousScrollOffset = [window.scrollX, window.scrollY];
+            const clone = mermaidDiv.cloneNode(true);
+            modalContent.innerHTML = '';
+            modalContent.appendChild(clone);
+
+            const svg = clone.querySelector('svg');
+            if (svg) {
+                svg.removeAttribute('width');
+                svg.removeAttribute('height');
+                svg.style.width = '100%';
+                svg.style.height = 'auto';
+                svg.style.maxWidth = '100%';
+                svg.style.display = 'block';
+
+                if (false) {
+                    setTimeout(() => {
+                        const g = svg.querySelector('g');
+                        if (g) {
+                            var svgD3 = d3.select(svg);
+                            svgD3.html("<g class='wrapper'>" + svgD3.html() + "</g>");
+                            var inner = svgD3.select("g");
+                            var zoom = d3.zoom().on("zoom", function(event) {
+                                inner.attr("transform", event.transform);
+                            });
+                            svgD3.call(zoom);
+                        }
+                    }, 100);
+                }
+            }
+
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        });
+        container.appendChild(fullscreenBtn);
+    });
+};
+
+
+
+const load = async () => {
+    initStyles();
+
+
+    await runMermaid(true);
+
+    const reRunIfThemeChanges = async () => {
+        const newDarkTheme = isDarkTheme();
+        if (newDarkTheme !== darkTheme) {
+            darkTheme = newDarkTheme;
+            console.log("Theme change detected, re-running mermaid with", darkTheme ? "dark" : "default", "theme");
+            await mermaid.initialize(
+                {...{"startOnLoad": false},
+                ...{ darkMode: darkTheme, theme: darkTheme ? "dark" : "default" },
+                }
+            );
+            await runMermaid(true);
+        }
+    };
+
+    // Update theme classes when theme changes
+    const themeObserver = new MutationObserver(reRunIfThemeChanges);
+    themeObserver.observe(document.documentElement, {
+        attributes: true,
+        attributeFilter: ['class', 'style', 'data-theme']
+    });
+    themeObserver.observe(document.body, {
+        attributes: true,
+        attributeFilter: ['class', 'style', 'data-theme']
+    });
+};
+
+
+
+
+
+console.log("Initializing mermaid with", darkTheme ? "dark" : "default", "theme");
+mermaid.initialize(
+    {...{"startOnLoad": false},
+    ...{ darkMode: darkTheme, theme: darkTheme ? "dark" : "default" },
+    }
+);
+
+window.addEventListener("load", load);
+window.runMermaid = runMermaid;</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/accompy/setup_utils';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="0.3.12" />
+  
+    
+    <script src="../../_static/searchtools.js"></script>
+    <script src="../../_static/language_data.js"></script>
+    <script src="../../searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
 
   
-      <script src="../../_static/jquery.js?v=5d32c60e"></script>
-      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../_static/documentation_options.js?v=9f76a604"></script>
-      <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
-      <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
-      <script src="../../_static/toggleprompt.js?v=d7ede5d2"></script>
-      <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
-      <script src="../../_static/copybutton.js?v=f281be69"></script>
-    <script src="../../_static/js/theme.js"></script>
-    <link rel="index" title="Index" href="../../genindex.html" />
-    <link rel="search" title="Search" href="../../search.html" /> 
-</head>
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
 
-<body class="wy-body-for-nav"> 
-  <div class="wy-grid-for-nav">
-    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
-      <div class="wy-side-scroll">
-        <div class="wy-side-nav-search" >
-
-          
-          
-          <a href="../../index.html" class="icon icon-home">
-            accompy
-          </a>
-<div role="search">
-  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
-    <input type="hidden" name="check_keywords" value="yes" />
-    <input type="hidden" name="area" value="default" />
-  </form>
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
 </div>
-        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy.html">accompy</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/_seed_data.html">accompy._seed_data</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/_seed_data/config.html">accompy._seed_data.config</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/_seed_data/resources.html">accompy._seed_data.resources</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/audio_renderers.html">accompy.audio_renderers</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/base.html">accompy.base</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/chord_parsers.html">accompy.chord_parsers</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/chord_resolution.html">accompy.chord_resolution</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/chord_resolvers.html">accompy.chord_resolvers</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/converters.html">accompy.converters</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/data_access.html">accompy.data_access</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/main.html">accompy.main</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/midi_generators.html">accompy.midi_generators</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/patterns.html">accompy.patterns</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/patterns/builtin.html">accompy.patterns.builtin</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/patterns/dataclasses.html">accompy.patterns.dataclasses</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/pipeline.html">accompy.pipeline</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/protocols.html">accompy.protocols</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/realtime.html">accompy.realtime</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/renderers.html">accompy.renderers</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/renderers/midi.html">accompy.renderers.midi</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/rendering.html">accompy.rendering</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/rhythmic_skeletons.html">accompy.rhythmic_skeletons</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/setup_utils.html">accompy.setup_utils</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/synthesis.html">accompy.synthesis</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/synthesis/fluidsynth.html">accompy.synthesis.fluidsynth</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/tools.html">accompy.tools</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/util.html">accompy.util</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/wips.html">accompy.wips</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/wips/audio_renderers.html">accompy.wips.audio_renderers</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/wips/chord_parsers.html">accompy.wips.chord_parsers</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/wips/chord_resolvers.html">accompy.wips.chord_resolvers</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/wips/midi_generators.html">accompy.wips.midi_generators</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/wips/pipeline.html">accompy.wips.pipeline</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/wips/types.html">accompy.wips.types</a></li>
-</ul>
 
-        </div>
-      </div>
-    </nav>
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
-          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="../../index.html">accompy</a>
-      </nav>
+  
+    
+  
 
-      <div class="wy-nav-content">
-        <div class="rst-content">
-          <div role="navigation" aria-label="Page navigation">
-  <ul class="wy-breadcrumbs">
-      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
-          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
-      <li class="breadcrumb-item active">accompy.setup_utils</li>
-      <li class="wy-breadcrumbs-aside">
-      </li>
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">accompy</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../api.html">
+    API reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../ai-agents.html">
+    For AI agents
+  </a>
+</li>
+
   </ul>
-  <hr/>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+  </ul>
+</div></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/thorwhalen/accompy" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i><span class="visually-hidden">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
 </div>
-          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
-           <div itemprop="articleBody">
-             
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar hide-on-wide">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../api.html">
+    API reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../ai-agents.html">
+    For AI agents
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+  </ul>
+</div></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/thorwhalen/accompy" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i><span class="visually-hidden">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../index.html" class="nav-link">Module code</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">accompy.setup_utils</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
   <h1>Source code for accompy.setup_utils</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span></span><span class="sd">"""</span>
 <span class="sd">Setup and configuration utilities for accompy.</span>
 
 <span class="sd">This module provides automatic setup, verification, and troubleshooting</span>
 <span class="sd">tools to help users get accompy configured correctly.</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">subprocess</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
@@ -123,11 +726,11 @@
 
 
 <div class="viewcode-block" id="verify_and_setup">
-<a class="viewcode-back" href="../../module_docs/accompy/setup_utils.html#accompy.verify_and_setup">[docs]</a>
+<a class="viewcode-back" href="../../_autosummary/accompy.setup_utils.html#accompy.verify_and_setup">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">verify_and_setup</span><span class="p">(</span>
     <span class="n">interactive</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">auto_fix</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">bool</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Verify all dependencies and optionally auto-configure.</span>
 
 <span class="sd">    Args:</span>
@@ -135,14 +738,14 @@
 <span class="sd">        auto_fix: If True and interactive=False, automatically fix issues without prompting</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">        Dict mapping dependency name to whether it&#39;s available</span>
+<span class="sd">        Dict mapping dependency name to whether it's available</span>
 
 <span class="sd">    Example:</span>
 <span class="sd">        &gt;&gt;&gt; from accompy.setup_utils import verify_and_setup</span>
 <span class="sd">        &gt;&gt;&gt; status = verify_and_setup(interactive=False)</span>
 <span class="sd">        &gt;&gt;&gt; if all(status.values()):</span>
-<span class="sd">        ...     print(&quot;Ready to use!&quot;)</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">        ...     print("Ready to use!")</span>
+<span class="sd">    """</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">.main</span><span class="w"> </span><span class="kn">import</span> <span class="n">check_dependencies</span>
 
     <span class="n">deps</span> <span class="o">=</span> <span class="n">check_dependencies</span><span class="p">()</span>
@@ -151,40 +754,40 @@
         <span class="k">return</span> <span class="n">deps</span>
 
     <span class="c1"># Try to fix missing dependencies</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">deps</span><span class="p">[</span><span class="s2">&quot;fluidsynth&quot;</span><span class="p">]:</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">deps</span><span class="p">[</span><span class="s2">"fluidsynth"</span><span class="p">]:</span>
         <span class="k">if</span> <span class="n">interactive</span><span class="p">:</span>
-            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">⚠️  FluidSynth not found (required for audio rendering)&quot;</span><span class="p">)</span>
-            <span class="k">if</span> <span class="n">_prompt_yes_no</span><span class="p">(</span><span class="s2">&quot;Would you like to install FluidSynth now?&quot;</span><span class="p">):</span>
-                <span class="n">deps</span><span class="p">[</span><span class="s2">&quot;fluidsynth&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_install_fluidsynth</span><span class="p">()</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">⚠️  FluidSynth not found (required for audio rendering)"</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">_prompt_yes_no</span><span class="p">(</span><span class="s2">"Would you like to install FluidSynth now?"</span><span class="p">):</span>
+                <span class="n">deps</span><span class="p">[</span><span class="s2">"fluidsynth"</span><span class="p">]</span> <span class="o">=</span> <span class="n">_install_fluidsynth</span><span class="p">()</span>
         <span class="k">elif</span> <span class="n">auto_fix</span><span class="p">:</span>
-            <span class="n">deps</span><span class="p">[</span><span class="s2">&quot;fluidsynth&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_install_fluidsynth</span><span class="p">()</span>
+            <span class="n">deps</span><span class="p">[</span><span class="s2">"fluidsynth"</span><span class="p">]</span> <span class="o">=</span> <span class="n">_install_fluidsynth</span><span class="p">()</span>
 
-    <span class="k">if</span> <span class="n">deps</span><span class="p">[</span><span class="s2">&quot;fluidsynth&quot;</span><span class="p">]</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">deps</span><span class="p">[</span><span class="s2">&quot;soundfont&quot;</span><span class="p">]:</span>
+    <span class="k">if</span> <span class="n">deps</span><span class="p">[</span><span class="s2">"fluidsynth"</span><span class="p">]</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">deps</span><span class="p">[</span><span class="s2">"soundfont"</span><span class="p">]:</span>
         <span class="k">if</span> <span class="n">interactive</span><span class="p">:</span>
-            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">⚠️  SoundFont file not found (required for instrument sounds)&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">⚠️  SoundFont file not found (required for instrument sounds)"</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">_prompt_yes_no</span><span class="p">(</span>
-                <span class="s2">&quot;Would you like to download and configure a SoundFont now?&quot;</span>
+                <span class="s2">"Would you like to download and configure a SoundFont now?"</span>
             <span class="p">):</span>
-                <span class="n">deps</span><span class="p">[</span><span class="s2">&quot;soundfont&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_setup_soundfont</span><span class="p">()</span>
+                <span class="n">deps</span><span class="p">[</span><span class="s2">"soundfont"</span><span class="p">]</span> <span class="o">=</span> <span class="n">_setup_soundfont</span><span class="p">()</span>
         <span class="k">elif</span> <span class="n">auto_fix</span><span class="p">:</span>
-            <span class="n">deps</span><span class="p">[</span><span class="s2">&quot;soundfont&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_setup_soundfont</span><span class="p">()</span>
+            <span class="n">deps</span><span class="p">[</span><span class="s2">"soundfont"</span><span class="p">]</span> <span class="o">=</span> <span class="n">_setup_soundfont</span><span class="p">()</span>
 
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">deps</span><span class="p">[</span><span class="s2">&quot;midiutil&quot;</span><span class="p">]:</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">deps</span><span class="p">[</span><span class="s2">"midiutil"</span><span class="p">]:</span>
         <span class="k">if</span> <span class="n">interactive</span><span class="p">:</span>
-            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">⚠️  midiutil not found (required for MIDI generation)&quot;</span><span class="p">)</span>
-            <span class="k">if</span> <span class="n">_prompt_yes_no</span><span class="p">(</span><span class="s2">&quot;Would you like to install midiutil now?&quot;</span><span class="p">):</span>
-                <span class="n">deps</span><span class="p">[</span><span class="s2">&quot;midiutil&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_install_python_package</span><span class="p">(</span><span class="s2">&quot;midiutil&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">⚠️  midiutil not found (required for MIDI generation)"</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">_prompt_yes_no</span><span class="p">(</span><span class="s2">"Would you like to install midiutil now?"</span><span class="p">):</span>
+                <span class="n">deps</span><span class="p">[</span><span class="s2">"midiutil"</span><span class="p">]</span> <span class="o">=</span> <span class="n">_install_python_package</span><span class="p">(</span><span class="s2">"midiutil"</span><span class="p">)</span>
         <span class="k">elif</span> <span class="n">auto_fix</span><span class="p">:</span>
-            <span class="n">deps</span><span class="p">[</span><span class="s2">&quot;midiutil&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_install_python_package</span><span class="p">(</span><span class="s2">&quot;midiutil&quot;</span><span class="p">)</span>
+            <span class="n">deps</span><span class="p">[</span><span class="s2">"midiutil"</span><span class="p">]</span> <span class="o">=</span> <span class="n">_install_python_package</span><span class="p">(</span><span class="s2">"midiutil"</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">deps</span></div>
 
 
 
 <div class="viewcode-block" id="diagnose_issues">
-<a class="viewcode-back" href="../../module_docs/accompy/setup_utils.html#accompy.diagnose_issues">[docs]</a>
+<a class="viewcode-back" href="../../_autosummary/accompy.setup_utils.html#accompy.diagnose_issues">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">diagnose_issues</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Diagnose common setup issues and provide solutions.</span>
 
 <span class="sd">    Returns:</span>
@@ -194,9 +797,9 @@
 
 <span class="sd">        from accompy.setup_utils import diagnose_issues</span>
 <span class="sd">        for issue, desc, solution in diagnose_issues():</span>
-<span class="sd">            print(f&quot;{issue}: {desc}&quot;)</span>
-<span class="sd">            print(f&quot;Solution: {solution}&quot;)</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">            print(f"{issue}: {desc}")</span>
+<span class="sd">            print(f"Solution: {solution}")</span>
+<span class="sd">    """</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">.main</span><span class="w"> </span><span class="kn">import</span> <span class="n">check_dependencies</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">.synthesis.fluidsynth</span><span class="w"> </span><span class="kn">import</span> <span class="n">find_default_soundfont</span>
 
@@ -204,51 +807,51 @@
     <span class="n">deps</span> <span class="o">=</span> <span class="n">check_dependencies</span><span class="p">()</span>
 
     <span class="c1"># Check FluidSynth</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">deps</span><span class="p">[</span><span class="s2">&quot;fluidsynth&quot;</span><span class="p">]:</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">deps</span><span class="p">[</span><span class="s2">"fluidsynth"</span><span class="p">]:</span>
         <span class="n">issues</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
             <span class="p">(</span>
-                <span class="s2">&quot;FluidSynth not installed&quot;</span><span class="p">,</span>
-                <span class="s2">&quot;FluidSynth is required to render MIDI files to audio&quot;</span><span class="p">,</span>
+                <span class="s2">"FluidSynth not installed"</span><span class="p">,</span>
+                <span class="s2">"FluidSynth is required to render MIDI files to audio"</span><span class="p">,</span>
                 <span class="n">_get_fluidsynth_install_command</span><span class="p">(),</span>
             <span class="p">)</span>
         <span class="p">)</span>
 
     <span class="c1"># Check SoundFont</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">deps</span><span class="p">[</span><span class="s2">&quot;soundfont&quot;</span><span class="p">]:</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">deps</span><span class="p">[</span><span class="s2">"soundfont"</span><span class="p">]:</span>
         <span class="n">issues</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
             <span class="p">(</span>
-                <span class="s2">&quot;SoundFont file not found&quot;</span><span class="p">,</span>
-                <span class="sa">f</span><span class="s2">&quot;Checked: </span><span class="si">{</span><span class="n">Path</span><span class="o">.</span><span class="n">home</span><span class="p">()</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="s1">&#39;.fluidsynth&#39;</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="s1">&#39;default_sound_font.sf2&#39;</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
-                <span class="s1">&#39;Run: python -c &quot;from accompy.setup_utils import setup_soundfont; setup_soundfont()&quot;&#39;</span><span class="p">,</span>
+                <span class="s2">"SoundFont file not found"</span><span class="p">,</span>
+                <span class="sa">f</span><span class="s2">"Checked: </span><span class="si">{</span><span class="n">Path</span><span class="o">.</span><span class="n">home</span><span class="p">()</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="s1">'.fluidsynth'</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="s1">'default_sound_font.sf2'</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
+                <span class="s1">'Run: python -c "from accompy.setup_utils import setup_soundfont; setup_soundfont()"'</span><span class="p">,</span>
             <span class="p">)</span>
         <span class="p">)</span>
 
     <span class="c1"># Check FluidSynth version compatibility</span>
-    <span class="k">if</span> <span class="n">deps</span><span class="p">[</span><span class="s2">&quot;fluidsynth&quot;</span><span class="p">]:</span>
+    <span class="k">if</span> <span class="n">deps</span><span class="p">[</span><span class="s2">"fluidsynth"</span><span class="p">]:</span>
         <span class="n">version_issue</span> <span class="o">=</span> <span class="n">_check_fluidsynth_version</span><span class="p">()</span>
         <span class="k">if</span> <span class="n">version_issue</span><span class="p">:</span>
             <span class="n">issues</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">version_issue</span><span class="p">)</span>
 
     <span class="c1"># Check SoundFont file validity</span>
-    <span class="k">if</span> <span class="n">deps</span><span class="p">[</span><span class="s2">&quot;soundfont&quot;</span><span class="p">]:</span>
+    <span class="k">if</span> <span class="n">deps</span><span class="p">[</span><span class="s2">"soundfont"</span><span class="p">]:</span>
         <span class="n">sf_path</span> <span class="o">=</span> <span class="n">find_default_soundfont</span><span class="p">()</span>
         <span class="k">if</span> <span class="n">sf_path</span> <span class="ow">and</span> <span class="n">sf_path</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
             <span class="k">if</span> <span class="n">sf_path</span><span class="o">.</span><span class="n">stat</span><span class="p">()</span><span class="o">.</span><span class="n">st_size</span> <span class="o">&lt;</span> <span class="mi">1000</span><span class="p">:</span>  <span class="c1"># Less than 1KB is suspicious</span>
                 <span class="n">issues</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
                     <span class="p">(</span>
-                        <span class="s2">&quot;SoundFont file appears corrupted&quot;</span><span class="p">,</span>
-                        <span class="sa">f</span><span class="s2">&quot;File at </span><span class="si">{</span><span class="n">sf_path</span><span class="si">}</span><span class="s2"> is only </span><span class="si">{</span><span class="n">sf_path</span><span class="o">.</span><span class="n">stat</span><span class="p">()</span><span class="o">.</span><span class="n">st_size</span><span class="si">}</span><span class="s2"> bytes&quot;</span><span class="p">,</span>
-                        <span class="s2">&quot;Delete the file and run setup again to download a valid SoundFont&quot;</span><span class="p">,</span>
+                        <span class="s2">"SoundFont file appears corrupted"</span><span class="p">,</span>
+                        <span class="sa">f</span><span class="s2">"File at </span><span class="si">{</span><span class="n">sf_path</span><span class="si">}</span><span class="s2"> is only </span><span class="si">{</span><span class="n">sf_path</span><span class="o">.</span><span class="n">stat</span><span class="p">()</span><span class="o">.</span><span class="n">st_size</span><span class="si">}</span><span class="s2"> bytes"</span><span class="p">,</span>
+                        <span class="s2">"Delete the file and run setup again to download a valid SoundFont"</span><span class="p">,</span>
                     <span class="p">)</span>
                 <span class="p">)</span>
 
     <span class="c1"># Check Python dependencies</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">deps</span><span class="p">[</span><span class="s2">&quot;midiutil&quot;</span><span class="p">]:</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">deps</span><span class="p">[</span><span class="s2">"midiutil"</span><span class="p">]:</span>
         <span class="n">issues</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
             <span class="p">(</span>
-                <span class="s2">&quot;midiutil not installed&quot;</span><span class="p">,</span>
-                <span class="s2">&quot;midiutil is required for MIDI file generation&quot;</span><span class="p">,</span>
-                <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">sys</span><span class="o">.</span><span class="n">executable</span><span class="si">}</span><span class="s2"> -m pip install midiutil&quot;</span><span class="p">,</span>
+                <span class="s2">"midiutil not installed"</span><span class="p">,</span>
+                <span class="s2">"midiutil is required for MIDI file generation"</span><span class="p">,</span>
+                <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">sys</span><span class="o">.</span><span class="n">executable</span><span class="si">}</span><span class="s2"> -m pip install midiutil"</span><span class="p">,</span>
             <span class="p">)</span>
         <span class="p">)</span>
 
@@ -257,9 +860,9 @@
 
 
 <div class="viewcode-block" id="setup_soundfont">
-<a class="viewcode-back" href="../../module_docs/accompy/setup_utils.html#accompy.setup_soundfont">[docs]</a>
+<a class="viewcode-back" href="../../_autosummary/accompy.setup_utils.html#accompy.setup_soundfont">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">setup_soundfont</span><span class="p">(</span><span class="n">force</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Download and configure a SoundFont file.</span>
 
 <span class="sd">    Args:</span>
@@ -272,37 +875,37 @@
 
 <span class="sd">        from accompy.setup_utils import setup_soundfont</span>
 <span class="sd">        if setup_soundfont():</span>
-<span class="sd">            print(&quot;SoundFont configured successfully!&quot;)</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">target_path</span> <span class="o">=</span> <span class="n">Path</span><span class="o">.</span><span class="n">home</span><span class="p">()</span> <span class="o">/</span> <span class="s2">&quot;.fluidsynth&quot;</span> <span class="o">/</span> <span class="s2">&quot;default_sound_font.sf2&quot;</span>
+<span class="sd">            print("SoundFont configured successfully!")</span>
+<span class="sd">    """</span>
+    <span class="n">target_path</span> <span class="o">=</span> <span class="n">Path</span><span class="o">.</span><span class="n">home</span><span class="p">()</span> <span class="o">/</span> <span class="s2">".fluidsynth"</span> <span class="o">/</span> <span class="s2">"default_sound_font.sf2"</span>
 
     <span class="c1"># Check if already exists</span>
     <span class="k">if</span> <span class="n">target_path</span><span class="o">.</span><span class="n">exists</span><span class="p">()</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">force</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">target_path</span><span class="o">.</span><span class="n">stat</span><span class="p">()</span><span class="o">.</span><span class="n">st_size</span> <span class="o">&gt;</span> <span class="mi">1000</span><span class="p">:</span>  <span class="c1"># At least 1KB</span>
-            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;✓ SoundFont already exists at </span><span class="si">{</span><span class="n">target_path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"✓ SoundFont already exists at </span><span class="si">{</span><span class="n">target_path</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
             <span class="k">return</span> <span class="kc">True</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;⚠️  Existing SoundFont appears corrupted, will re-download&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"⚠️  Existing SoundFont appears corrupted, will re-download"</span><span class="p">)</span>
 
     <span class="c1"># Check if FluidSynth installation includes a SoundFont</span>
     <span class="n">bundled_sf</span> <span class="o">=</span> <span class="n">_find_bundled_soundfont</span><span class="p">()</span>
     <span class="k">if</span> <span class="n">bundled_sf</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Found bundled SoundFont: </span><span class="si">{</span><span class="n">bundled_sf</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Found bundled SoundFont: </span><span class="si">{</span><span class="n">bundled_sf</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">_link_soundfont</span><span class="p">(</span><span class="n">bundled_sf</span><span class="p">,</span> <span class="n">target_path</span><span class="p">)</span>
 
     <span class="c1"># Download SoundFont</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Downloading SoundFont file...&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"Downloading SoundFont file..."</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">_download_soundfont</span><span class="p">(</span><span class="n">target_path</span><span class="p">)</span></div>
 
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_find_bundled_soundfont</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Path</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Find SoundFont files bundled with FluidSynth installation.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Find SoundFont files bundled with FluidSynth installation."""</span>
     <span class="n">search_paths</span> <span class="o">=</span> <span class="p">[</span>
-        <span class="n">Path</span><span class="p">(</span><span class="s2">&quot;/opt/homebrew/Cellar/fluid-synth&quot;</span><span class="p">),</span>
-        <span class="n">Path</span><span class="p">(</span><span class="s2">&quot;/usr/local/Cellar/fluid-synth&quot;</span><span class="p">),</span>
-        <span class="n">Path</span><span class="p">(</span><span class="s2">&quot;/usr/share/sounds/sf2&quot;</span><span class="p">),</span>
-        <span class="n">Path</span><span class="p">(</span><span class="s2">&quot;/usr/share/soundfonts&quot;</span><span class="p">),</span>
+        <span class="n">Path</span><span class="p">(</span><span class="s2">"/opt/homebrew/Cellar/fluid-synth"</span><span class="p">),</span>
+        <span class="n">Path</span><span class="p">(</span><span class="s2">"/usr/local/Cellar/fluid-synth"</span><span class="p">),</span>
+        <span class="n">Path</span><span class="p">(</span><span class="s2">"/usr/share/sounds/sf2"</span><span class="p">),</span>
+        <span class="n">Path</span><span class="p">(</span><span class="s2">"/usr/share/soundfonts"</span><span class="p">),</span>
     <span class="p">]</span>
 
     <span class="k">for</span> <span class="n">base_path</span> <span class="ow">in</span> <span class="n">search_paths</span><span class="p">:</span>
@@ -310,20 +913,20 @@
             <span class="k">continue</span>
 
         <span class="c1"># Search recursively for .sf2 files</span>
-        <span class="k">for</span> <span class="n">sf_file</span> <span class="ow">in</span> <span class="n">base_path</span><span class="o">.</span><span class="n">rglob</span><span class="p">(</span><span class="s2">&quot;*.sf2&quot;</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">sf_file</span> <span class="ow">in</span> <span class="n">base_path</span><span class="o">.</span><span class="n">rglob</span><span class="p">(</span><span class="s2">"*.sf2"</span><span class="p">):</span>
             <span class="c1"># Skip obviously corrupt files</span>
             <span class="k">if</span> <span class="n">sf_file</span><span class="o">.</span><span class="n">stat</span><span class="p">()</span><span class="o">.</span><span class="n">st_size</span> <span class="o">&lt;</span> <span class="mi">1000</span><span class="p">:</span>
                 <span class="k">continue</span>
-            <span class="c1"># Prefer files with &quot;vintage&quot;, &quot;dreams&quot;, &quot;fluid&quot; or &quot;GM&quot; in name</span>
+            <span class="c1"># Prefer files with "vintage", "dreams", "fluid" or "GM" in name</span>
             <span class="n">name_lower</span> <span class="o">=</span> <span class="n">sf_file</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
             <span class="k">if</span> <span class="nb">any</span><span class="p">(</span>
                 <span class="n">keyword</span> <span class="ow">in</span> <span class="n">name_lower</span>
-                <span class="k">for</span> <span class="n">keyword</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;vintage&quot;</span><span class="p">,</span> <span class="s2">&quot;dreams&quot;</span><span class="p">,</span> <span class="s2">&quot;fluid&quot;</span><span class="p">,</span> <span class="s2">&quot;gm&quot;</span><span class="p">]</span>
+                <span class="k">for</span> <span class="n">keyword</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">"vintage"</span><span class="p">,</span> <span class="s2">"dreams"</span><span class="p">,</span> <span class="s2">"fluid"</span><span class="p">,</span> <span class="s2">"gm"</span><span class="p">]</span>
             <span class="p">):</span>
                 <span class="k">return</span> <span class="n">sf_file</span>
 
         <span class="c1"># If no preferred file found, return any valid .sf2 file</span>
-        <span class="k">for</span> <span class="n">sf_file</span> <span class="ow">in</span> <span class="n">base_path</span><span class="o">.</span><span class="n">rglob</span><span class="p">(</span><span class="s2">&quot;*.sf2&quot;</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">sf_file</span> <span class="ow">in</span> <span class="n">base_path</span><span class="o">.</span><span class="n">rglob</span><span class="p">(</span><span class="s2">"*.sf2"</span><span class="p">):</span>
             <span class="k">if</span> <span class="n">sf_file</span><span class="o">.</span><span class="n">stat</span><span class="p">()</span><span class="o">.</span><span class="n">st_size</span> <span class="o">&gt;</span> <span class="mi">1000</span><span class="p">:</span>
                 <span class="k">return</span> <span class="n">sf_file</span>
 
@@ -331,7 +934,7 @@
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_link_soundfont</span><span class="p">(</span><span class="n">source</span><span class="p">:</span> <span class="n">Path</span><span class="p">,</span> <span class="n">target</span><span class="p">:</span> <span class="n">Path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Create a symlink to a SoundFont file.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Create a symlink to a SoundFont file."""</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">target</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">parents</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
@@ -342,78 +945,78 @@
         <span class="c1"># Create symlink</span>
         <span class="n">target</span><span class="o">.</span><span class="n">symlink_to</span><span class="p">(</span><span class="n">source</span><span class="p">)</span>
 
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;✓ Linked SoundFont: </span><span class="si">{</span><span class="n">target</span><span class="si">}</span><span class="s2"> -&gt; </span><span class="si">{</span><span class="n">source</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"✓ Linked SoundFont: </span><span class="si">{</span><span class="n">target</span><span class="si">}</span><span class="s2"> -&gt; </span><span class="si">{</span><span class="n">source</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
         <span class="k">return</span> <span class="kc">True</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;✗ Failed to link SoundFont: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"✗ Failed to link SoundFont: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
         <span class="k">return</span> <span class="kc">False</span>
 
 
-<span class="k">def</span><span class="w"> </span><span class="nf">_download_soundfont</span><span class="p">(</span><span class="n">target_path</span><span class="p">:</span> <span class="n">Path</span><span class="p">,</span> <span class="n">soundfont</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;auto&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_download_soundfont</span><span class="p">(</span><span class="n">target_path</span><span class="p">:</span> <span class="n">Path</span><span class="p">,</span> <span class="n">soundfont</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"auto"</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Download a SoundFont file from the internet.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        target_path: Where to save the soundfont</span>
 <span class="sd">        soundfont: Which soundfont to download. Options:</span>
-<span class="sd">            - &quot;auto&quot;: Try multiple sources in order</span>
-<span class="sd">            - &quot;generaluser&quot;: GeneralUser GS (30MB, good quality, balanced)</span>
-<span class="sd">            - &quot;musescore&quot;: MuseScore General (35MB, good all-around)</span>
+<span class="sd">            - "auto": Try multiple sources in order</span>
+<span class="sd">            - "generaluser": GeneralUser GS (30MB, good quality, balanced)</span>
+<span class="sd">            - "musescore": MuseScore General (35MB, good all-around)</span>
 <span class="sd">            - Custom URL starting with http:// or https://</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        True if successful, False otherwise</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="c1"># Define available soundfonts with metadata</span>
     <span class="n">soundfonts</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="s2">&quot;generaluser&quot;</span><span class="p">:</span> <span class="p">{</span>
-            <span class="s2">&quot;url&quot;</span><span class="p">:</span> <span class="s2">&quot;https://schristiancollins.com/soundfonts/GeneralUser_GS_1.471.zip&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;GeneralUser GS v1.471&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;size&quot;</span><span class="p">:</span> <span class="s2">&quot;~30MB&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;license&quot;</span><span class="p">:</span> <span class="s2">&quot;GeneralUser GS License v2.0 (free for commercial use)&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Excellent all-around soundfont with good bass and drums&quot;</span><span class="p">,</span>
+        <span class="s2">"generaluser"</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">"url"</span><span class="p">:</span> <span class="s2">"https://schristiancollins.com/soundfonts/GeneralUser_GS_1.471.zip"</span><span class="p">,</span>
+            <span class="s2">"name"</span><span class="p">:</span> <span class="s2">"GeneralUser GS v1.471"</span><span class="p">,</span>
+            <span class="s2">"size"</span><span class="p">:</span> <span class="s2">"~30MB"</span><span class="p">,</span>
+            <span class="s2">"license"</span><span class="p">:</span> <span class="s2">"GeneralUser GS License v2.0 (free for commercial use)"</span><span class="p">,</span>
+            <span class="s2">"description"</span><span class="p">:</span> <span class="s2">"Excellent all-around soundfont with good bass and drums"</span><span class="p">,</span>
         <span class="p">},</span>
-        <span class="s2">&quot;musescore&quot;</span><span class="p">:</span> <span class="p">{</span>
-            <span class="s2">&quot;url&quot;</span><span class="p">:</span> <span class="s2">&quot;https://ftp.osuosl.org/pub/musescore/soundfont/MuseScore_General/MuseScore_General.sf2&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;MuseScore General&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;size&quot;</span><span class="p">:</span> <span class="s2">&quot;~35MB&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;license&quot;</span><span class="p">:</span> <span class="s2">&quot;MIT/public domain&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;MuseScore&#39;s default soundfont, good quality&quot;</span><span class="p">,</span>
+        <span class="s2">"musescore"</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">"url"</span><span class="p">:</span> <span class="s2">"https://ftp.osuosl.org/pub/musescore/soundfont/MuseScore_General/MuseScore_General.sf2"</span><span class="p">,</span>
+            <span class="s2">"name"</span><span class="p">:</span> <span class="s2">"MuseScore General"</span><span class="p">,</span>
+            <span class="s2">"size"</span><span class="p">:</span> <span class="s2">"~35MB"</span><span class="p">,</span>
+            <span class="s2">"license"</span><span class="p">:</span> <span class="s2">"MIT/public domain"</span><span class="p">,</span>
+            <span class="s2">"description"</span><span class="p">:</span> <span class="s2">"MuseScore's default soundfont, good quality"</span><span class="p">,</span>
         <span class="p">},</span>
     <span class="p">}</span>
 
     <span class="c1"># Determine which soundfonts to try</span>
-    <span class="k">if</span> <span class="n">soundfont</span> <span class="o">==</span> <span class="s2">&quot;auto&quot;</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">soundfont</span> <span class="o">==</span> <span class="s2">"auto"</span><span class="p">:</span>
         <span class="n">urls_to_try</span> <span class="o">=</span> <span class="p">[</span>
-            <span class="p">(</span><span class="s2">&quot;generaluser&quot;</span><span class="p">,</span> <span class="n">soundfonts</span><span class="p">[</span><span class="s2">&quot;generaluser&quot;</span><span class="p">]),</span>
-            <span class="p">(</span><span class="s2">&quot;musescore&quot;</span><span class="p">,</span> <span class="n">soundfonts</span><span class="p">[</span><span class="s2">&quot;musescore&quot;</span><span class="p">]),</span>
+            <span class="p">(</span><span class="s2">"generaluser"</span><span class="p">,</span> <span class="n">soundfonts</span><span class="p">[</span><span class="s2">"generaluser"</span><span class="p">]),</span>
+            <span class="p">(</span><span class="s2">"musescore"</span><span class="p">,</span> <span class="n">soundfonts</span><span class="p">[</span><span class="s2">"musescore"</span><span class="p">]),</span>
         <span class="p">]</span>
-    <span class="k">elif</span> <span class="n">soundfont</span><span class="o">.</span><span class="n">startswith</span><span class="p">((</span><span class="s2">&quot;http://&quot;</span><span class="p">,</span> <span class="s2">&quot;https://&quot;</span><span class="p">)):</span>
-        <span class="n">urls_to_try</span> <span class="o">=</span> <span class="p">[(</span><span class="s2">&quot;custom&quot;</span><span class="p">,</span> <span class="p">{</span><span class="s2">&quot;url&quot;</span><span class="p">:</span> <span class="n">soundfont</span><span class="p">,</span> <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Custom SoundFont&quot;</span><span class="p">})]</span>
+    <span class="k">elif</span> <span class="n">soundfont</span><span class="o">.</span><span class="n">startswith</span><span class="p">((</span><span class="s2">"http://"</span><span class="p">,</span> <span class="s2">"https://"</span><span class="p">)):</span>
+        <span class="n">urls_to_try</span> <span class="o">=</span> <span class="p">[(</span><span class="s2">"custom"</span><span class="p">,</span> <span class="p">{</span><span class="s2">"url"</span><span class="p">:</span> <span class="n">soundfont</span><span class="p">,</span> <span class="s2">"name"</span><span class="p">:</span> <span class="s2">"Custom SoundFont"</span><span class="p">})]</span>
     <span class="k">elif</span> <span class="n">soundfont</span> <span class="ow">in</span> <span class="n">soundfonts</span><span class="p">:</span>
         <span class="n">urls_to_try</span> <span class="o">=</span> <span class="p">[(</span><span class="n">soundfont</span><span class="p">,</span> <span class="n">soundfonts</span><span class="p">[</span><span class="n">soundfont</span><span class="p">])]</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;✗ Unknown soundfont: </span><span class="si">{</span><span class="n">soundfont</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Available options: </span><span class="si">{</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">soundfonts</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"✗ Unknown soundfont: </span><span class="si">{</span><span class="n">soundfont</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Available options: </span><span class="si">{</span><span class="s1">', '</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">soundfonts</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
         <span class="k">return</span> <span class="kc">False</span>
 
     <span class="n">target_path</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">parents</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
     <span class="k">for</span> <span class="n">sf_key</span><span class="p">,</span> <span class="n">sf_info</span> <span class="ow">in</span> <span class="n">urls_to_try</span><span class="p">:</span>
         <span class="k">try</span><span class="p">:</span>
-            <span class="n">url</span> <span class="o">=</span> <span class="n">sf_info</span><span class="p">[</span><span class="s2">&quot;url&quot;</span><span class="p">]</span>
-            <span class="n">name</span> <span class="o">=</span> <span class="n">sf_info</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span>
-            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Attempting to download </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">...&quot;</span><span class="p">)</span>
-            <span class="k">if</span> <span class="s2">&quot;description&quot;</span> <span class="ow">in</span> <span class="n">sf_info</span><span class="p">:</span>
-                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  </span><span class="si">{</span><span class="n">sf_info</span><span class="p">[</span><span class="s1">&#39;description&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">url</span> <span class="o">=</span> <span class="n">sf_info</span><span class="p">[</span><span class="s2">"url"</span><span class="p">]</span>
+            <span class="n">name</span> <span class="o">=</span> <span class="n">sf_info</span><span class="p">[</span><span class="s2">"name"</span><span class="p">]</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">Attempting to download </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">..."</span><span class="p">)</span>
+            <span class="k">if</span> <span class="s2">"description"</span> <span class="ow">in</span> <span class="n">sf_info</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  </span><span class="si">{</span><span class="n">sf_info</span><span class="p">[</span><span class="s1">'description'</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 
-            <span class="c1"># Check if it&#39;s a zip file</span>
-            <span class="n">is_zip</span> <span class="o">=</span> <span class="n">url</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;.zip&quot;</span><span class="p">)</span>
-            <span class="n">download_path</span> <span class="o">=</span> <span class="n">target_path</span><span class="o">.</span><span class="n">with_suffix</span><span class="p">(</span><span class="s2">&quot;.zip&quot;</span><span class="p">)</span> <span class="k">if</span> <span class="n">is_zip</span> <span class="k">else</span> <span class="n">target_path</span>
+            <span class="c1"># Check if it's a zip file</span>
+            <span class="n">is_zip</span> <span class="o">=</span> <span class="n">url</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">".zip"</span><span class="p">)</span>
+            <span class="n">download_path</span> <span class="o">=</span> <span class="n">target_path</span><span class="o">.</span><span class="n">with_suffix</span><span class="p">(</span><span class="s2">".zip"</span><span class="p">)</span> <span class="k">if</span> <span class="n">is_zip</span> <span class="k">else</span> <span class="n">target_path</span>
 
             <span class="c1"># Try using curl (more likely to be available than wget)</span>
             <span class="n">result</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">run</span><span class="p">(</span>
-                <span class="p">[</span><span class="s2">&quot;curl&quot;</span><span class="p">,</span> <span class="s2">&quot;-L&quot;</span><span class="p">,</span> <span class="s2">&quot;-o&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">download_path</span><span class="p">),</span> <span class="n">url</span><span class="p">],</span>
+                <span class="p">[</span><span class="s2">"curl"</span><span class="p">,</span> <span class="s2">"-L"</span><span class="p">,</span> <span class="s2">"-o"</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">download_path</span><span class="p">),</span> <span class="n">url</span><span class="p">],</span>
                 <span class="n">capture_output</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
                 <span class="n">timeout</span><span class="o">=</span><span class="mi">600</span><span class="p">,</span>  <span class="c1"># 10 minute timeout for larger files</span>
             <span class="p">)</span>
@@ -421,14 +1024,14 @@
             <span class="k">if</span> <span class="n">result</span><span class="o">.</span><span class="n">returncode</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">download_path</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
                 <span class="c1"># Handle zip files</span>
                 <span class="k">if</span> <span class="n">is_zip</span><span class="p">:</span>
-                    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  Extracting zip file...&quot;</span><span class="p">)</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  Extracting zip file..."</span><span class="p">)</span>
                     <span class="k">try</span><span class="p">:</span>
                         <span class="kn">import</span><span class="w"> </span><span class="nn">zipfile</span>
 
-                        <span class="k">with</span> <span class="n">zipfile</span><span class="o">.</span><span class="n">ZipFile</span><span class="p">(</span><span class="n">download_path</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">zip_ref</span><span class="p">:</span>
+                        <span class="k">with</span> <span class="n">zipfile</span><span class="o">.</span><span class="n">ZipFile</span><span class="p">(</span><span class="n">download_path</span><span class="p">,</span> <span class="s2">"r"</span><span class="p">)</span> <span class="k">as</span> <span class="n">zip_ref</span><span class="p">:</span>
                             <span class="c1"># Find .sf2 file in zip</span>
                             <span class="n">sf2_files</span> <span class="o">=</span> <span class="p">[</span>
-                                <span class="n">f</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">zip_ref</span><span class="o">.</span><span class="n">namelist</span><span class="p">()</span> <span class="k">if</span> <span class="n">f</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;.sf2&quot;</span><span class="p">)</span>
+                                <span class="n">f</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">zip_ref</span><span class="o">.</span><span class="n">namelist</span><span class="p">()</span> <span class="k">if</span> <span class="n">f</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">".sf2"</span><span class="p">)</span>
                             <span class="p">]</span>
                             <span class="k">if</span> <span class="n">sf2_files</span><span class="p">:</span>
                                 <span class="c1"># Extract first .sf2 file</span>
@@ -437,129 +1040,129 @@
                                 <span class="n">extracted_path</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">target_path</span><span class="p">)</span>
                                 <span class="n">download_path</span><span class="o">.</span><span class="n">unlink</span><span class="p">()</span>  <span class="c1"># Remove zip</span>
                             <span class="k">else</span><span class="p">:</span>
-                                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;✗ No .sf2 file found in zip&quot;</span><span class="p">)</span>
+                                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"✗ No .sf2 file found in zip"</span><span class="p">)</span>
                                 <span class="n">download_path</span><span class="o">.</span><span class="n">unlink</span><span class="p">()</span>
                                 <span class="k">continue</span>
                     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-                        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;✗ Failed to extract zip: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"✗ Failed to extract zip: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
                         <span class="n">download_path</span><span class="o">.</span><span class="n">unlink</span><span class="p">()</span>
                         <span class="k">continue</span>
 
                 <span class="c1"># Verify file size</span>
                 <span class="k">if</span> <span class="n">target_path</span><span class="o">.</span><span class="n">stat</span><span class="p">()</span><span class="o">.</span><span class="n">st_size</span> <span class="o">&gt;</span> <span class="mi">1000000</span><span class="p">:</span>  <span class="c1"># At least 1MB</span>
-                    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;✓ Downloaded </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2"> to </span><span class="si">{</span><span class="n">target_path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-                    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  Size: </span><span class="si">{</span><span class="n">target_path</span><span class="o">.</span><span class="n">stat</span><span class="p">()</span><span class="o">.</span><span class="n">st_size</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">1024</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">1024</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">MB&quot;</span><span class="p">)</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"✓ Downloaded </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2"> to </span><span class="si">{</span><span class="n">target_path</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  Size: </span><span class="si">{</span><span class="n">target_path</span><span class="o">.</span><span class="n">stat</span><span class="p">()</span><span class="o">.</span><span class="n">st_size</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">1024</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">1024</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">MB"</span><span class="p">)</span>
                     <span class="k">return</span> <span class="kc">True</span>
                 <span class="k">else</span><span class="p">:</span>
-                    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;✗ Downloaded file is too small (corrupt?)&quot;</span><span class="p">)</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"✗ Downloaded file is too small (corrupt?)"</span><span class="p">)</span>
                     <span class="n">target_path</span><span class="o">.</span><span class="n">unlink</span><span class="p">()</span>
 
         <span class="k">except</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">TimeoutExpired</span><span class="p">:</span>
-            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;✗ Download timed out&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"✗ Download timed out"</span><span class="p">)</span>
         <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;✗ Download failed: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"✗ Download failed: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">⚠️  Automatic download failed. Please manually download a SoundFont:&quot;</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Recommended soundfonts (copyright-free, high quality):&quot;</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">1. GeneralUser GS (recommended for jazz/accompaniment):&quot;</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;   Download: https://schristiancollins.com/generaluser.php&quot;</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;   License: Free for commercial use&quot;</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;   Quality: Excellent bass and drums</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;2. Musyng Kite (larger, very high quality):&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">⚠️  Automatic download failed. Please manually download a SoundFont:"</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">Recommended soundfonts (copyright-free, high quality):"</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">1. GeneralUser GS (recommended for jazz/accompaniment):"</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"   Download: https://schristiancollins.com/generaluser.php"</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"   License: Free for commercial use"</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"   Quality: Excellent bass and drums</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"2. Musyng Kite (larger, very high quality):"</span><span class="p">)</span>
     <span class="nb">print</span><span class="p">(</span>
-        <span class="s2">&quot;   Download: https://www.polyphone.io/en/soundfonts/instrument-sets/258-musyng-kite&quot;</span>
+        <span class="s2">"   Download: https://www.polyphone.io/en/soundfonts/instrument-sets/258-musyng-kite"</span>
     <span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;   License: CC-BY-SA 3.0 (free, attribution required)&quot;</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;   Size: 339MB compressed / 990MB uncompressed</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;3. More options:&quot;</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;   Browse: https://musical-artifacts.com/artifacts?formats=sf2&quot;</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">After downloading, save as: ~/.fluidsynth/default_sound_font.sf2&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"   License: CC-BY-SA 3.0 (free, attribution required)"</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"   Size: 339MB compressed / 990MB uncompressed</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"3. More options:"</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"   Browse: https://musical-artifacts.com/artifacts?formats=sf2"</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">After downloading, save as: ~/.fluidsynth/default_sound_font.sf2"</span><span class="p">)</span>
     <span class="k">return</span> <span class="kc">False</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_install_fluidsynth</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Install FluidSynth using system package manager.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Install FluidSynth using system package manager."""</span>
     <span class="n">system</span> <span class="o">=</span> <span class="n">platform</span><span class="o">.</span><span class="n">system</span><span class="p">()</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
 
     <span class="k">try</span><span class="p">:</span>
-        <span class="k">if</span> <span class="n">system</span> <span class="o">==</span> <span class="s2">&quot;darwin&quot;</span><span class="p">:</span>  <span class="c1"># macOS</span>
-            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Installing FluidSynth via Homebrew...&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">system</span> <span class="o">==</span> <span class="s2">"darwin"</span><span class="p">:</span>  <span class="c1"># macOS</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">"Installing FluidSynth via Homebrew..."</span><span class="p">)</span>
             <span class="n">result</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">run</span><span class="p">(</span>
-                <span class="p">[</span><span class="s2">&quot;brew&quot;</span><span class="p">,</span> <span class="s2">&quot;install&quot;</span><span class="p">,</span> <span class="s2">&quot;fluid-synth&quot;</span><span class="p">],</span> <span class="n">capture_output</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="kc">True</span>
+                <span class="p">[</span><span class="s2">"brew"</span><span class="p">,</span> <span class="s2">"install"</span><span class="p">,</span> <span class="s2">"fluid-synth"</span><span class="p">],</span> <span class="n">capture_output</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="kc">True</span>
             <span class="p">)</span>
             <span class="k">if</span> <span class="n">result</span><span class="o">.</span><span class="n">returncode</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;✓ FluidSynth installed successfully&quot;</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">"✓ FluidSynth installed successfully"</span><span class="p">)</span>
                 <span class="k">return</span> <span class="kc">True</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;✗ Installation failed: </span><span class="si">{</span><span class="n">result</span><span class="o">.</span><span class="n">stderr</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"✗ Installation failed: </span><span class="si">{</span><span class="n">result</span><span class="o">.</span><span class="n">stderr</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
                 <span class="k">return</span> <span class="kc">False</span>
 
-        <span class="k">elif</span> <span class="n">system</span> <span class="o">==</span> <span class="s2">&quot;linux&quot;</span><span class="p">:</span>
-            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Installing FluidSynth via apt...&quot;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">system</span> <span class="o">==</span> <span class="s2">"linux"</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">"Installing FluidSynth via apt..."</span><span class="p">)</span>
             <span class="n">result</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">run</span><span class="p">(</span>
-                <span class="p">[</span><span class="s2">&quot;sudo&quot;</span><span class="p">,</span> <span class="s2">&quot;apt-get&quot;</span><span class="p">,</span> <span class="s2">&quot;install&quot;</span><span class="p">,</span> <span class="s2">&quot;-y&quot;</span><span class="p">,</span> <span class="s2">&quot;fluidsynth&quot;</span><span class="p">],</span>
+                <span class="p">[</span><span class="s2">"sudo"</span><span class="p">,</span> <span class="s2">"apt-get"</span><span class="p">,</span> <span class="s2">"install"</span><span class="p">,</span> <span class="s2">"-y"</span><span class="p">,</span> <span class="s2">"fluidsynth"</span><span class="p">],</span>
                 <span class="n">capture_output</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
                 <span class="n">text</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
             <span class="p">)</span>
             <span class="k">if</span> <span class="n">result</span><span class="o">.</span><span class="n">returncode</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;✓ FluidSynth installed successfully&quot;</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">"✓ FluidSynth installed successfully"</span><span class="p">)</span>
                 <span class="k">return</span> <span class="kc">True</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;✗ Installation failed: </span><span class="si">{</span><span class="n">result</span><span class="o">.</span><span class="n">stderr</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"✗ Installation failed: </span><span class="si">{</span><span class="n">result</span><span class="o">.</span><span class="n">stderr</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
                 <span class="k">return</span> <span class="kc">False</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;⚠️  Automatic installation not supported on </span><span class="si">{</span><span class="n">system</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Please install FluidSynth manually:&quot;</span><span class="p">)</span>
-            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;  Windows: https://github.com/FluidSynth/fluidsynth/releases&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"⚠️  Automatic installation not supported on </span><span class="si">{</span><span class="n">system</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">"Please install FluidSynth manually:"</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">"  Windows: https://github.com/FluidSynth/fluidsynth/releases"</span><span class="p">)</span>
             <span class="k">return</span> <span class="kc">False</span>
 
     <span class="k">except</span> <span class="ne">FileNotFoundError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;✗ Package manager not found: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"✗ Package manager not found: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
         <span class="nb">print</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;Please install FluidSynth manually: </span><span class="si">{</span><span class="n">_get_fluidsynth_install_command</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="sa">f</span><span class="s2">"Please install FluidSynth manually: </span><span class="si">{</span><span class="n">_get_fluidsynth_install_command</span><span class="p">()</span><span class="si">}</span><span class="s2">"</span>
         <span class="p">)</span>
         <span class="k">return</span> <span class="kc">False</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_install_python_package</span><span class="p">(</span><span class="n">package_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Install a Python package using pip.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Install a Python package using pip."""</span>
     <span class="k">try</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Installing </span><span class="si">{</span><span class="n">package_name</span><span class="si">}</span><span class="s2">...&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Installing </span><span class="si">{</span><span class="n">package_name</span><span class="si">}</span><span class="s2">..."</span><span class="p">)</span>
         <span class="n">result</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">run</span><span class="p">(</span>
-            <span class="p">[</span><span class="n">sys</span><span class="o">.</span><span class="n">executable</span><span class="p">,</span> <span class="s2">&quot;-m&quot;</span><span class="p">,</span> <span class="s2">&quot;pip&quot;</span><span class="p">,</span> <span class="s2">&quot;install&quot;</span><span class="p">,</span> <span class="n">package_name</span><span class="p">],</span>
+            <span class="p">[</span><span class="n">sys</span><span class="o">.</span><span class="n">executable</span><span class="p">,</span> <span class="s2">"-m"</span><span class="p">,</span> <span class="s2">"pip"</span><span class="p">,</span> <span class="s2">"install"</span><span class="p">,</span> <span class="n">package_name</span><span class="p">],</span>
             <span class="n">capture_output</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
             <span class="n">text</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
         <span class="p">)</span>
         <span class="k">if</span> <span class="n">result</span><span class="o">.</span><span class="n">returncode</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;✓ </span><span class="si">{</span><span class="n">package_name</span><span class="si">}</span><span class="s2"> installed successfully&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"✓ </span><span class="si">{</span><span class="n">package_name</span><span class="si">}</span><span class="s2"> installed successfully"</span><span class="p">)</span>
             <span class="k">return</span> <span class="kc">True</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;✗ Installation failed: </span><span class="si">{</span><span class="n">result</span><span class="o">.</span><span class="n">stderr</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"✗ Installation failed: </span><span class="si">{</span><span class="n">result</span><span class="o">.</span><span class="n">stderr</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
             <span class="k">return</span> <span class="kc">False</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;✗ Installation failed: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"✗ Installation failed: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
         <span class="k">return</span> <span class="kc">False</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_get_fluidsynth_install_command</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get the appropriate FluidSynth installation command for this system.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Get the appropriate FluidSynth installation command for this system."""</span>
     <span class="n">system</span> <span class="o">=</span> <span class="n">platform</span><span class="o">.</span><span class="n">system</span><span class="p">()</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
 
-    <span class="k">if</span> <span class="n">system</span> <span class="o">==</span> <span class="s2">&quot;darwin&quot;</span><span class="p">:</span>
-        <span class="k">return</span> <span class="s2">&quot;brew install fluid-synth&quot;</span>
-    <span class="k">elif</span> <span class="n">system</span> <span class="o">==</span> <span class="s2">&quot;linux&quot;</span><span class="p">:</span>
-        <span class="k">return</span> <span class="s2">&quot;sudo apt-get install fluidsynth&quot;</span>
-    <span class="k">elif</span> <span class="n">system</span> <span class="o">==</span> <span class="s2">&quot;windows&quot;</span><span class="p">:</span>
-        <span class="k">return</span> <span class="s2">&quot;Download from https://github.com/FluidSynth/fluidsynth/releases&quot;</span>
+    <span class="k">if</span> <span class="n">system</span> <span class="o">==</span> <span class="s2">"darwin"</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s2">"brew install fluid-synth"</span>
+    <span class="k">elif</span> <span class="n">system</span> <span class="o">==</span> <span class="s2">"linux"</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s2">"sudo apt-get install fluidsynth"</span>
+    <span class="k">elif</span> <span class="n">system</span> <span class="o">==</span> <span class="s2">"windows"</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s2">"Download from https://github.com/FluidSynth/fluidsynth/releases"</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="k">return</span> <span class="s2">&quot;See https://www.fluidsynth.org/ for installation instructions&quot;</span>
+        <span class="k">return</span> <span class="s2">"See https://www.fluidsynth.org/ for installation instructions"</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_check_fluidsynth_version</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Check if FluidSynth version is compatible.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Check if FluidSynth version is compatible."""</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">result</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">run</span><span class="p">(</span>
-            <span class="p">[</span><span class="s2">&quot;fluidsynth&quot;</span><span class="p">,</span> <span class="s2">&quot;--version&quot;</span><span class="p">],</span> <span class="n">capture_output</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="kc">True</span>
+            <span class="p">[</span><span class="s2">"fluidsynth"</span><span class="p">,</span> <span class="s2">"--version"</span><span class="p">],</span> <span class="n">capture_output</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="kc">True</span>
         <span class="p">)</span>
         <span class="c1"># Version check could be added here if needed</span>
         <span class="k">return</span> <span class="kc">None</span>
@@ -568,80 +1171,102 @@
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_prompt_yes_no</span><span class="p">(</span><span class="n">question</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">default</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Prompt user for yes/no answer.&quot;&quot;&quot;</span>
-    <span class="n">suffix</span> <span class="o">=</span> <span class="s2">&quot;[Y/n]&quot;</span> <span class="k">if</span> <span class="n">default</span> <span class="k">else</span> <span class="s2">&quot;[y/N]&quot;</span>
+<span class="w">    </span><span class="sd">"""Prompt user for yes/no answer."""</span>
+    <span class="n">suffix</span> <span class="o">=</span> <span class="s2">"[Y/n]"</span> <span class="k">if</span> <span class="n">default</span> <span class="k">else</span> <span class="s2">"[y/N]"</span>
     <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
-        <span class="n">response</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">question</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">suffix</span><span class="si">}</span><span class="s2">: &quot;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">question</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">suffix</span><span class="si">}</span><span class="s2">: "</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">response</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">default</span>
-        <span class="k">if</span> <span class="n">response</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;y&quot;</span><span class="p">,</span> <span class="s2">&quot;yes&quot;</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="n">response</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">"y"</span><span class="p">,</span> <span class="s2">"yes"</span><span class="p">]:</span>
             <span class="k">return</span> <span class="kc">True</span>
-        <span class="k">if</span> <span class="n">response</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;n&quot;</span><span class="p">,</span> <span class="s2">&quot;no&quot;</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="n">response</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">"n"</span><span class="p">,</span> <span class="s2">"no"</span><span class="p">]:</span>
             <span class="k">return</span> <span class="kc">False</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Please answer &#39;y&#39; or &#39;n&#39;&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"Please answer 'y' or 'n'"</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="print_diagnostic_report">
-<a class="viewcode-back" href="../../module_docs/accompy/setup_utils.html#accompy.print_diagnostic_report">[docs]</a>
+<a class="viewcode-back" href="../../_autosummary/accompy.setup_utils.html#accompy.print_diagnostic_report">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">print_diagnostic_report</span><span class="p">():</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Print a comprehensive diagnostic report.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Print a comprehensive diagnostic report."""</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">.main</span><span class="w"> </span><span class="kn">import</span> <span class="n">check_dependencies</span>
 
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;=&quot;</span> <span class="o">*</span> <span class="mi">60</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;accompy Diagnostic Report&quot;</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;=&quot;</span> <span class="o">*</span> <span class="mi">60</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"="</span> <span class="o">*</span> <span class="mi">60</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"accompy Diagnostic Report"</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"="</span> <span class="o">*</span> <span class="mi">60</span><span class="p">)</span>
 
     <span class="c1"># System info</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">System: </span><span class="si">{</span><span class="n">platform</span><span class="o">.</span><span class="n">system</span><span class="p">()</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">platform</span><span class="o">.</span><span class="n">release</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Python: </span><span class="si">{</span><span class="n">sys</span><span class="o">.</span><span class="n">version</span><span class="o">.</span><span class="n">split</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">sys</span><span class="o">.</span><span class="n">executable</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">System: </span><span class="si">{</span><span class="n">platform</span><span class="o">.</span><span class="n">system</span><span class="p">()</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">platform</span><span class="o">.</span><span class="n">release</span><span class="p">()</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Python: </span><span class="si">{</span><span class="n">sys</span><span class="o">.</span><span class="n">version</span><span class="o">.</span><span class="n">split</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">sys</span><span class="o">.</span><span class="n">executable</span><span class="si">}</span><span class="s2">)"</span><span class="p">)</span>
 
     <span class="c1"># Dependency status</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">--- Dependency Status ---&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">--- Dependency Status ---"</span><span class="p">)</span>
     <span class="n">deps</span> <span class="o">=</span> <span class="n">check_dependencies</span><span class="p">()</span>
     <span class="k">for</span> <span class="n">dep</span><span class="p">,</span> <span class="n">available</span> <span class="ow">in</span> <span class="n">deps</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-        <span class="n">status</span> <span class="o">=</span> <span class="s2">&quot;✓&quot;</span> <span class="k">if</span> <span class="n">available</span> <span class="k">else</span> <span class="s2">&quot;✗&quot;</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">status</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">dep</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="s1">&#39;available&#39;</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">available</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="s1">&#39;MISSING&#39;</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">status</span> <span class="o">=</span> <span class="s2">"✓"</span> <span class="k">if</span> <span class="n">available</span> <span class="k">else</span> <span class="s2">"✗"</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">status</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">dep</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="s1">'available'</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">available</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="s1">'MISSING'</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 
     <span class="c1"># Issues</span>
     <span class="n">issues</span> <span class="o">=</span> <span class="n">diagnose_issues</span><span class="p">()</span>
     <span class="k">if</span> <span class="n">issues</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">--- Issues Found ---&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">--- Issues Found ---"</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">issue</span><span class="p">,</span> <span class="n">desc</span><span class="p">,</span> <span class="n">solution</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">issues</span><span class="p">,</span> <span class="mi">1</span><span class="p">):</span>
-            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">. </span><span class="si">{</span><span class="n">issue</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;   Description: </span><span class="si">{</span><span class="n">desc</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;   Solution: </span><span class="si">{</span><span class="n">solution</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">. </span><span class="si">{</span><span class="n">issue</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"   Description: </span><span class="si">{</span><span class="n">desc</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"   Solution: </span><span class="si">{</span><span class="n">solution</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">✓ No issues found - all dependencies are properly configured!&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">✓ No issues found - all dependencies are properly configured!"</span><span class="p">)</span>
 
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="s2">&quot;=&quot;</span> <span class="o">*</span> <span class="mi">60</span><span class="p">)</span></div>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">"</span> <span class="o">+</span> <span class="s2">"="</span> <span class="o">*</span> <span class="mi">60</span><span class="p">)</span></div>
 
 </pre></div>
 
-           </div>
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
           </div>
-          <footer>
-
-  <hr/>
-
-  <div role="contentinfo">
-    <p></p>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
   </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../_static/scripts/bootstrap.js?digest=cb8930eaaf36d9849b67"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=cb8930eaaf36d9849b67"></script>
 
-  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
-    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
-    provided by <a href="https://readthedocs.org">Read the Docs</a>.
-   
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.21.0.
+</p></div>
+      
+    </div>
+  
+</div>
 
-</footer>
-        </div>
-      </div>
-    </section>
-  </div>
-  <script>
-      jQuery(function () {
-          SphinxRtdTheme.Navigation.enable(true);
-      });
-  </script> 
-
-</body>
+  </footer>
+  </body>
 </html>

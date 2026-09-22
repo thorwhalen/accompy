@@ -1,0 +1,16 @@
+accompy.audio\_renderers
+========================
+
+.. automodule:: accompy.audio_renderers
+
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+   
+      chordseq_to_audio_musicgen
+      midi_to_audio_dawdreamer
+      midi_to_audio_fluidsynth
+      midi_to_audio_pretty_midi
+      midi_to_audio_tonal
+   

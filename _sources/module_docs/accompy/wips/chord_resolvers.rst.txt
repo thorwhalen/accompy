@@ -1,4 +1,0 @@
-accompy.wips.chord_resolvers
-============================
-.. automodule:: accompy.wips.chord_resolvers
-   :members:

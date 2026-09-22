@@ -1,4 +1,0 @@
-accompy.rendering
-=================
-.. automodule:: accompy.rendering
-   :members:

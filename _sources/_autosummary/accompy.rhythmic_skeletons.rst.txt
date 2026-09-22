@@ -1,0 +1,15 @@
+accompy.rhythmic\_skeletons
+===========================
+
+.. automodule:: accompy.rhythmic_skeletons
+
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+   
+      apply_skeleton
+      list_skeletons
+      register_skeleton
+      resolve_skeleton
+   

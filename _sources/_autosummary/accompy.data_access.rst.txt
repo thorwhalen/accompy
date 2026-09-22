@@ -1,0 +1,14 @@
+accompy.data\_access
+====================
+
+.. automodule:: accompy.data_access
+
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+   
+      load_resource_json
+      load_resource_lines
+      load_resource_text
+   

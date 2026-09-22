@@ -1,4 +1,0 @@
-accompy.patterns.dataclasses
-============================
-.. automodule:: accompy.patterns.dataclasses
-   :members:

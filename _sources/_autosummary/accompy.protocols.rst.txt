@@ -1,0 +1,16 @@
+accompy.protocols
+=================
+
+.. automodule:: accompy.protocols
+
+   
+   .. rubric:: Classes
+
+   .. autosummary::
+   
+      AudioRenderer
+      ChordResolver
+      MidiEventGenerator
+      PatternSource
+      SynthesizerBackend
+   

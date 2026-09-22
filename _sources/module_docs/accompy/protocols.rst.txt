@@ -1,4 +1,0 @@
-accompy.protocols
-=================
-.. automodule:: accompy.protocols
-   :members:

@@ -1,0 +1,51 @@
+# accompy
+
+> Generate backing track audio from chord charts
+
+
+## Pages
+
+- [accompy 🎵](index.html.md): Generate backing track audio from chord charts in Python — like iReal Pro, but scriptable.
+- [API reference](api.html.md): | &#96;accompy&#96;   | accompy - Generate accompaniment audio from chord charts.   |
+- [accompy](_autosummary/accompy.html.md): accompy - Generate accompaniment audio from chord charts.
+- [accompy.audio_renderers](_autosummary/accompy.audio_renderers.html.md): Audio renderers — convert MidiData to AudioData.
+- [accompy.base](_autosummary/accompy.base.html.md): Core domain models for accompy.
+- [accompy.chord_parsers](_autosummary/accompy.chord_parsers.html.md): Chord sheet parsers — convert various text formats to ChordSequence.
+- [accompy.chord_resolution](_autosummary/accompy.chord_resolution.html.md): Chord symbol to MIDI notes resolution.
+- [accompy.chord_resolvers](_autosummary/accompy.chord_resolvers.html.md): Chord resolvers — convert chord symbols to MIDI note numbers.
+- [accompy.converters](_autosummary/accompy.converters.html.md): Core types for the chord-to-audio pipeline.
+- [accompy.data_access](_autosummary/accompy.data_access.html.md): Per-user data directory management for accompy.
+- [accompy.main](_autosummary/accompy.main.html.md): Main accompaniment generation module.
+- [accompy.midi_generators](_autosummary/accompy.midi_generators.html.md): MIDI generators — convert NoteSequence to MidiData.
+- [accompy.patterns](_autosummary/accompy.patterns.html.md): Pattern registry and access for accompany patterns.
+- [accompy.patterns.builtin](_autosummary/accompy.patterns.builtin.html.md): Built-in pattern definitions for all supported styles.
+- [accompy.patterns.dataclasses](_autosummary/accompy.patterns.dataclasses.html.md): Pattern data structures for accompaniment generation.
+- [accompy.pipeline](_autosummary/accompy.pipeline.html.md): High-level pipeline API — one-call chord-to-audio conversion.
+- [accompy.protocols](_autosummary/accompy.protocols.html.md): Protocols defining extensibility contracts for accompy.
+- [accompy.realtime](_autosummary/accompy.realtime.html.md): Real-time accompaniment support (foundation).
+- [accompy.renderers](_autosummary/accompy.renderers.html.md): MIDI and MMA rendering backends for accompy.
+- [accompy.renderers.midi](_autosummary/accompy.renderers.midi.html.md): MIDI event generation (stateless, iterator-based).
+- [accompy.rendering](_autosummary/accompy.rendering.html.md): High-quality chord rendering pipeline — from chord charts to AI-enhanced audio.
+- [accompy.rhythmic_skeletons](_autosummary/accompy.rhythmic_skeletons.html.md): Rhythmic skeletons — duration-only measure patterns for simple accompaniment.
+- [accompy.setup_utils](_autosummary/accompy.setup_utils.html.md): Setup and configuration utilities for accompy.
+- [accompy.synthesis](_autosummary/accompy.synthesis.html.md): Audio synthesis backends for accompy.
+- [accompy.synthesis.fluidsynth](_autosummary/accompy.synthesis.fluidsynth.html.md): FluidSynth synthesis backend.
+- [accompy.tools](_autosummary/accompy.tools.html.md): Tools for generating accompaniment audio from Score objects.
+- [accompy.util](_autosummary/accompy.util.html.md): Utility functions for chord parsing and normalization.
+- [accompy.wips](_autosummary/accompy.wips.html.md): Backward-compatibility shim — wips modules have moved to accompy top level.
+- [accompy.wips.audio_renderers](_autosummary/accompy.wips.audio_renderers.html.md): Backward-compat shim. Use &#96;accompy.audio_renderers&#96; instead.
+- [accompy.wips.chord_parsers](_autosummary/accompy.wips.chord_parsers.html.md): Backward-compat shim. Use &#96;accompy.chord_parsers&#96; instead.
+- [accompy.wips.chord_resolvers](_autosummary/accompy.wips.chord_resolvers.html.md): Backward-compat shim. Use &#96;accompy.chord_resolvers&#96; instead.
+- [accompy.wips.midi_generators](_autosummary/accompy.wips.midi_generators.html.md): Backward-compat shim. Use &#96;accompy.midi_generators&#96; instead.
+- [accompy.wips.pipeline](_autosummary/accompy.wips.pipeline.html.md): Backward-compat shim. Use &#96;accompy.pipeline&#96; instead.
+- [accompy.wips.types](_autosummary/accompy.wips.types.html.md): Backward-compat shim. Use &#96;accompy.converters&#96; instead.
+- [For AI agents](ai-agents.html.md): &#96;accompy&#96; ships artifacts for coding agents alongside its code. This page lists
+- [About this build](about-this-build.html.md): This documentation was built on &#42;&#42;2026-09-22 13:32 UTC&#42;&#42; from commit &lt;a href="https://github.com/tho...
+
+## Optional
+
+- [accompy.md](accompy.md): Complete documentation in a single file.
+
+## Build
+
+- [build_info.json](build_info.json): build provenance (commit, version, tool versions, whether the docs match the package)

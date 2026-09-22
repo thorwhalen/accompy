@@ -1,4 +1,0 @@
-accompy.synthesis.fluidsynth
-============================
-.. automodule:: accompy.synthesis.fluidsynth
-   :members:

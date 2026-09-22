@@ -1,4 +1,0 @@
-accompy
-=======
-.. automodule:: accompy
-   :members:

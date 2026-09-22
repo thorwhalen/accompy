@@ -1,119 +1,722 @@
 
-
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" data-content_root="../../">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>accompy.main &mdash; accompy 0.3.10 documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
-      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
-      <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
-      <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="alternate" type="text/markdown" href="main.html.md">
+<link rel="describedby" href="../../llms.txt" type="text/markdown">
+    <title>accompy.main &#8212; accompy</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=cb8930eaaf36d9849b67" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=cb8930eaaf36d9849b67" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=d75fae25" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/epythet.css?v=fbe2051b" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../../_static/scripts/fontawesome.js?digest=cb8930eaaf36d9849b67"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=cb8930eaaf36d9849b67" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=cb8930eaaf36d9849b67" />
+
+    <script src="../../_static/documentation_options.js?v=0cf6a877"></script>
+    <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=fd10adb8"></script>
+    <script type="module">import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.12.1/dist/mermaid.esm.min.mjs";
+
+
+
+
+
+const initStyles = () => {
+    const defaultStyle = document.createElement('style');
+    defaultStyle.textContent = "pre.mermaid {\n    /* Same as .mermaid-container > pre */\n    display: block;\n    width: 100%;\n}\n\npre.mermaid > svg {\n    /* Same as .mermaid-container > pre > svg */\n    height: 500px;\n    width: 100%;\n    max-width: 100% !important;\n}";
+    document.head.appendChild(defaultStyle);
+
+    const fullscreenStyle = document.createElement('style');
+    fullscreenStyle.textContent = ".mermaid-container {\n    position: relative;\n    display: flex;\n    flex-direction: row;\n    width: 100%;\n}\n\n.mermaid-container > pre {\n    display: block;\n    width: 100%;\n}\n\n.mermaid-container > pre > svg {\n    height: 500px;\n    width: 100%;\n    max-width: 100% !important;\n}\n\n.mermaid-fullscreen-btn {\n    position: absolute;\n    width: 28px;\n    height: 28px;\n    background: rgba(255, 255, 255, 0.95);\n    border: 1px solid rgba(0, 0, 0, 0.3);\n    border-radius: 4px;\n    cursor: pointer;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n    transition: all 0.2s;\n    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);\n    font-size: 14px;\n    line-height: 1;\n    padding: 0;\n    color: #333;\n}\n\n.mermaid-fullscreen-btn:hover {\n    opacity: 100% !important;\n    background: rgba(255, 255, 255, 1);\n    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);\n    transform: scale(1.1);\n}\n\n.mermaid-fullscreen-btn.dark-theme {\n    background: rgba(50, 50, 50, 0.95);\n    border: 1px solid rgba(255, 255, 255, 0.3);\n    color: #e0e0e0;\n}\n\n.mermaid-fullscreen-btn.dark-theme:hover {\n    background: rgba(60, 60, 60, 1);\n    box-shadow: 0 3px 10px rgba(255, 255, 255, 0.2);\n}\n\n.mermaid-fullscreen-modal {\n    display: none;\n    position: fixed !important;\n    top: 0 !important;\n    left: 0 !important;\n    width: 95vw;\n    height: 100vh;\n    background: rgba(255, 255, 255, 0.98);\n    z-index: 9999;\n    padding: 20px;\n    overflow: auto;\n}\n\n.mermaid-fullscreen-modal.dark-theme {\n    background: rgba(0, 0, 0, 0.98);\n}\n\n.mermaid-fullscreen-modal.active {\n    display: flex;\n    align-items: center;\n    justify-content: center;\n}\n\n.mermaid-container-fullscreen {\n    position: relative;\n    width: 95vw;\n    height: 90vh;\n    max-width: 95vw;\n    max-height: 90vh;\n    background: white;\n    border-radius: 8px;\n    padding: 20px;\n    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);\n    overflow: auto;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n}\n\n.mermaid-container-fullscreen.dark-theme {\n    background: #1a1a1a;\n    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8);\n}\n\n.mermaid-container-fullscreen pre.mermaid {\n    width: 100%;\n    height: 100%;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n}\n\n.mermaid-container-fullscreen .mermaid svg {\n    height: 100% !important;\n    width: 100% !important;\n    cursor: grab;\n}\n\n.mermaid-fullscreen-close {\n    position: fixed !important;\n    top: 20px !important;\n    right: 20px !important;\n    width: 40px;\n    height: 40px;\n    background: rgba(255, 255, 255, 0.95);\n    border: 1px solid rgba(0, 0, 0, 0.2);\n    border-radius: 50%;\n    cursor: pointer;\n    z-index: 10000;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);\n    transition: all 0.2s;\n    font-size: 24px;\n    line-height: 1;\n    color: #333;\n}\n\n.mermaid-fullscreen-close:hover {\n    background: white;\n    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);\n    transform: scale(1.1);\n}\n\n.mermaid-fullscreen-close.dark-theme {\n    background: rgba(50, 50, 50, 0.95);\n    border: 1px solid rgba(255, 255, 255, 0.2);\n    color: #e0e0e0;\n}\n\n.mermaid-fullscreen-close.dark-theme:hover {\n    background: rgba(60, 60, 60, 1);\n    box-shadow: 0 6px 16px rgba(255, 255, 255, 0.2);\n}\n\n.mermaid-fullscreen-modal .mermaid-fullscreen-btn {\n    display: none !important;\n}";
+    document.head.appendChild(fullscreenStyle);
+}
+
+// Detect if page has dark background
+const isDarkTheme = () => {
+    // We use a set of heuristics:
+    // 1. Check for common dark mode classes or attributes
+    // 2. Check computed background color brightness
+    if (document.documentElement.classList.contains('dark') ||
+        document.documentElement.getAttribute('data-theme') === 'dark' ||
+        document.body.classList.contains('dark') ||
+        document.body.getAttribute('data-theme') === 'dark') {
+        // console.log("Dark theme detected via class/attribute");
+        return true;
+    }
+    if (document.documentElement.classList.contains('light') ||
+        document.documentElement.getAttribute('data-theme') === 'light' ||
+        document.body.classList.contains('light') ||
+        document.body.getAttribute('data-theme') === 'light') {
+        // console.log("Light theme detected via class/attribute");
+        return false;
+    }
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        // console.log("Dark theme detected via prefers-color-scheme");
+        return true;
+    }
+    const bgColor = window.getComputedStyle(document.body).backgroundColor;
+    const match = bgColor.match(/rgb\((\d+),\s*(\d+),\s*(\d+)/);
+    if (match) {
+        const r = parseInt(match[1]);
+        const g = parseInt(match[2]);
+        const b = parseInt(match[3]);
+        const brightness = (r * 299 + g * 587 + b * 114) / 1000;
+        // console.log("Background color brightness:", brightness);
+        return brightness < 128;
+    }
+    // console.log("No dark or light theme detected, defaulting to light theme");
+    return false;
+};
+
+let darkTheme = isDarkTheme();
+let modal = null;
+let modalContent = null;
+let previousScrollOffset = [window.scrollX, window.scrollY];
+let _lazyObserver = null;
+let _renderQueue = Promise.resolve();
+let closeModal = () => {};
+
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && modal?.classList.contains('active')) {
+        closeModal();
+    }
+});
+
+// Apply d3 zoom to each SVG. Idempotent: an SVG already wrapped is skipped,
+// so this is safe to call both for the initial batch and for diagrams that
+// render lazily once they become visible.
+const addZoomToSvgs = (svgs) => {
+    svgs.each(function() {
+        if (this.getAttribute('data-zoom-applied') === 'true') return;
+        var svg = d3.select(this);
+        svg.html("<g class='wrapper'>" + svg.html() + "</g>");
+        var inner = svg.select("g");
+        var zoom = d3.zoom().on("zoom", function(event) {
+            inner.attr("transform", event.transform);
+        });
+        svg.call(zoom);
+        this.setAttribute('data-zoom-applied', 'true');
+    });
+};
+
+const runMermaid = async (rerun) => {
+    console.log("Running mermaid diagrams, rerun =", rerun);
+    // clear all existing mermaid charts
+    let all_mermaids = document.querySelectorAll(".mermaid");
+
+    if (rerun) {
+        // Disconnect any previous lazy rendering observer
+        if (_lazyObserver) {
+            _lazyObserver.disconnect();
+            _lazyObserver = null;
+        }
+
+        all_mermaids.forEach((el) => {
+            el.removeAttribute('data-mermaid-deferred');
+            el.removeAttribute('data-mermaid-render-failed');
+            if(!el.hasAttribute("data-original-code")) {
+                // store original code
+                // console.log(`Storing original code for first run: `, el.innerHTML);
+                el.setAttribute('data-original-code', el.innerHTML);
+            }
+            if(el.getAttribute("data-processed") === "true") {
+                // remove and restore original
+                el.removeAttribute("data-processed");
+                // console.log(`Restoring original code for re-run: `, el.getAttribute('data-original-code'));
+                el.innerHTML = el.getAttribute('data-original-code');
+            } else {
+                // store original code
+                // console.log(`Storing original code for re-run: `, el.innerHTML);
+                el.setAttribute('data-original-code', el.innerHTML);
+            }
+        });
+
+        // Separate visible and hidden elements. Mermaid's layout engine measures
+        // text dimensions via the DOM, which fails for elements hidden by a parent
+        // (e.g., Reveal.js non-active slides, sphinx-design unopened tabs),
+        // producing broken SVGs. Render visible elements now, defer hidden ones.
+        const visible = [];
+        const hidden = [];
+        all_mermaids.forEach((el) => {
+            // offsetParent is null for display:none ancestors.
+            // getClientRects().length > 0 catches position:fixed elements
+            // (which also have null offsetParent but are still visible).
+            if (el.offsetParent !== null || el.getClientRects().length > 0) {
+                visible.push(el);
+            } else {
+                hidden.push(el);
+                el.setAttribute('data-mermaid-deferred', 'true');
+            }
+        });
+
+        if (visible.length > 0) {
+            try {
+                await mermaid.run({ nodes: visible });
+            } catch (e) {
+                console.error("Mermaid rendering failed:", e);
+            }
+        }
+
+        // Lazily render hidden elements when they become visible.
+        // Uses a promise chain (_renderQueue) to serialize rendering,
+        // since IntersectionObserver may report multiple entries at once
+        // and mermaid.run() is not safe to call concurrently.
+        if (hidden.length > 0) {
+            if (typeof IntersectionObserver === 'undefined') {
+                console.warn("IntersectionObserver not available; hidden mermaid diagrams will not render.");
+            } else {
+                _renderQueue = Promise.resolve();
+                _lazyObserver = new IntersectionObserver((entries) => {
+                    for (const entry of entries) {
+                        if (entry.isIntersecting && entry.target.getAttribute("data-processed") !== "true") {
+                            _lazyObserver.unobserve(entry.target);
+                            const el = entry.target;
+                            _renderQueue = _renderQueue.then(async () => {
+                                try {
+                                    await mermaid.run({ nodes: [el] });
+                                    el.removeAttribute('data-mermaid-deferred');
+                                    // Apply zoom to the now-rendered diagram, matching
+                                    // the decoration visible diagrams receive.
+                                    if (false) {
+                                        addZoomToSvgs(d3.selectAll("").select(function() {
+                                            return this.querySelector("svg");
+                                        }));
+                                    }
+                                } catch (e) {
+                                    console.error("Mermaid deferred rendering failed:", e);
+                                    el.removeAttribute('data-mermaid-deferred');
+                                    el.setAttribute('data-mermaid-render-failed', 'true');
+                                }
+                            });
+                        }
+                    }
+                });
+                hidden.forEach((el) => _lazyObserver.observe(el));
+            }
+        }
+    }
+
+    all_mermaids = document.querySelectorAll(".mermaid");
+    // Exclude deferred (hidden) and render-failed elements from completion checks
+    const mermaids_active = document.querySelectorAll(".mermaid:not([data-mermaid-deferred]):not([data-mermaid-render-failed])");
+    const mermaids_processed = document.querySelectorAll(".mermaid:not([data-mermaid-deferred]):not([data-mermaid-render-failed])[data-processed='true']");
+
+    if (false) {
+        const mermaids_to_add_zoom = 0 === -1 ? mermaids_active.length : 0;
+        if(mermaids_to_add_zoom > 0) {
+            var svgs = d3.selectAll("").select(function() {
+                return this.querySelector("svg");
+            });
+            // Wait until every active (visible) diagram has rendered. Deferred
+            // diagrams are excluded, so a fixed d3_node_count that counts a
+            // hidden diagram no longer loops forever waiting for its SVG.
+            if(mermaids_active.length !== mermaids_processed.length) {
+                setTimeout(() => runMermaid(false), 200);
+                return;
+            }
+            addZoomToSvgs(svgs);
+        }
+    } else if(mermaids_active.length !== mermaids_processed.length) {
+        // Wait for mermaid to process all diagrams
+        setTimeout(() => runMermaid(false), 200);
+        return;
+    }
+
+    // Stop here if not adding fullscreen capability
+    if (!true) return;
+
+    if (modal !== null ) {
+        // Destroy existing modal
+        modal.remove();
+        modal = null;
+        modalContent = null;
+    }
+
+    modal = document.createElement('div');
+    modal.className = 'mermaid-fullscreen-modal' + (darkTheme ? ' dark-theme' : '');
+    modal.setAttribute('role', 'dialog');
+    modal.setAttribute('aria-modal', 'true');
+    modal.setAttribute('aria-label', 'Fullscreen diagram viewer');
+    modal.innerHTML = `
+        <button class="mermaid-fullscreen-close${darkTheme ? ' dark-theme' : ''}" aria-label="Close fullscreen">✕</button>
+        <div class="mermaid-container-fullscreen${darkTheme ? ' dark-theme' : ''}"></div>
+    `;
+    document.body.appendChild(modal);
+
+    modalContent = modal.querySelector('.mermaid-container-fullscreen');
+    const closeBtn = modal.querySelector('.mermaid-fullscreen-close');
+
+    closeModal = () => {
+        modal.classList.remove('active');
+        modalContent.innerHTML = '';
+        document.body.style.overflow = ''
+        window.scrollTo({left: previousScrollOffset[0], top: previousScrollOffset[1], behavior: 'instant'});
+    };
+
+    closeBtn.addEventListener('click', closeModal);
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) closeModal();
+    });
+    document.querySelectorAll('.mermaid').forEach((mermaidDiv) => {
+        if (mermaidDiv.parentNode.classList.contains('mermaid-container') ||
+            mermaidDiv.closest('.mermaid-fullscreen-modal')) {
+            // Already processed, adjust button class if needed
+            const existingBtn = mermaidDiv.parentNode.querySelector('.mermaid-fullscreen-btn');
+            if (existingBtn) {
+                existingBtn.className = 'mermaid-fullscreen-btn' + (darkTheme ? ' dark-theme' : '');
+            }
+            return;
+        }
+
+        const container = document.createElement('div');
+        container.className = 'mermaid-container';
+        mermaidDiv.parentNode.insertBefore(container, mermaidDiv);
+        container.appendChild(mermaidDiv);
+
+        const fullscreenBtn = document.createElement('button');
+        fullscreenBtn.className = 'mermaid-fullscreen-btn' + (darkTheme ? ' dark-theme' : '');
+        fullscreenBtn.setAttribute('aria-label', 'View diagram in fullscreen');
+        fullscreenBtn.textContent = "\u26f6";
+        fullscreenBtn.style.opacity = "50%";
+
+        // Calculate dynamic position based on diagram's margin and padding
+        const diagramStyle = window.getComputedStyle(mermaidDiv);
+        const marginTop = parseFloat(diagramStyle.marginTop) || 0;
+        const marginRight = parseFloat(diagramStyle.marginRight) || 0;
+        const paddingTop = parseFloat(diagramStyle.paddingTop) || 0;
+        const paddingRight = parseFloat(diagramStyle.paddingRight) || 0;
+        fullscreenBtn.style.top = `${marginTop + paddingTop + 4}px`;
+        fullscreenBtn.style.right = `${marginRight + paddingRight + 4}px`;
+
+        fullscreenBtn.addEventListener('click', () => {
+            previousScrollOffset = [window.scrollX, window.scrollY];
+            const clone = mermaidDiv.cloneNode(true);
+            modalContent.innerHTML = '';
+            modalContent.appendChild(clone);
+
+            const svg = clone.querySelector('svg');
+            if (svg) {
+                svg.removeAttribute('width');
+                svg.removeAttribute('height');
+                svg.style.width = '100%';
+                svg.style.height = 'auto';
+                svg.style.maxWidth = '100%';
+                svg.style.display = 'block';
+
+                if (false) {
+                    setTimeout(() => {
+                        const g = svg.querySelector('g');
+                        if (g) {
+                            var svgD3 = d3.select(svg);
+                            svgD3.html("<g class='wrapper'>" + svgD3.html() + "</g>");
+                            var inner = svgD3.select("g");
+                            var zoom = d3.zoom().on("zoom", function(event) {
+                                inner.attr("transform", event.transform);
+                            });
+                            svgD3.call(zoom);
+                        }
+                    }, 100);
+                }
+            }
+
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        });
+        container.appendChild(fullscreenBtn);
+    });
+};
+
+
+
+const load = async () => {
+    initStyles();
+
+
+    await runMermaid(true);
+
+    const reRunIfThemeChanges = async () => {
+        const newDarkTheme = isDarkTheme();
+        if (newDarkTheme !== darkTheme) {
+            darkTheme = newDarkTheme;
+            console.log("Theme change detected, re-running mermaid with", darkTheme ? "dark" : "default", "theme");
+            await mermaid.initialize(
+                {...{"startOnLoad": false},
+                ...{ darkMode: darkTheme, theme: darkTheme ? "dark" : "default" },
+                }
+            );
+            await runMermaid(true);
+        }
+    };
+
+    // Update theme classes when theme changes
+    const themeObserver = new MutationObserver(reRunIfThemeChanges);
+    themeObserver.observe(document.documentElement, {
+        attributes: true,
+        attributeFilter: ['class', 'style', 'data-theme']
+    });
+    themeObserver.observe(document.body, {
+        attributes: true,
+        attributeFilter: ['class', 'style', 'data-theme']
+    });
+};
+
+
+
+
+
+console.log("Initializing mermaid with", darkTheme ? "dark" : "default", "theme");
+mermaid.initialize(
+    {...{"startOnLoad": false},
+    ...{ darkMode: darkTheme, theme: darkTheme ? "dark" : "default" },
+    }
+);
+
+window.addEventListener("load", load);
+window.runMermaid = runMermaid;</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/accompy/main';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="0.3.12" />
+  
+    
+    <script src="../../_static/searchtools.js"></script>
+    <script src="../../_static/language_data.js"></script>
+    <script src="../../searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
 
   
-      <script src="../../_static/jquery.js?v=5d32c60e"></script>
-      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../_static/documentation_options.js?v=9f76a604"></script>
-      <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
-      <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
-      <script src="../../_static/toggleprompt.js?v=d7ede5d2"></script>
-      <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
-      <script src="../../_static/copybutton.js?v=f281be69"></script>
-    <script src="../../_static/js/theme.js"></script>
-    <link rel="index" title="Index" href="../../genindex.html" />
-    <link rel="search" title="Search" href="../../search.html" /> 
-</head>
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
 
-<body class="wy-body-for-nav"> 
-  <div class="wy-grid-for-nav">
-    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
-      <div class="wy-side-scroll">
-        <div class="wy-side-nav-search" >
-
-          
-          
-          <a href="../../index.html" class="icon icon-home">
-            accompy
-          </a>
-<div role="search">
-  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
-    <input type="hidden" name="check_keywords" value="yes" />
-    <input type="hidden" name="area" value="default" />
-  </form>
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
 </div>
-        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy.html">accompy</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/_seed_data.html">accompy._seed_data</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/_seed_data/config.html">accompy._seed_data.config</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/_seed_data/resources.html">accompy._seed_data.resources</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/audio_renderers.html">accompy.audio_renderers</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/base.html">accompy.base</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/chord_parsers.html">accompy.chord_parsers</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/chord_resolution.html">accompy.chord_resolution</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/chord_resolvers.html">accompy.chord_resolvers</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/converters.html">accompy.converters</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/data_access.html">accompy.data_access</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/main.html">accompy.main</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/midi_generators.html">accompy.midi_generators</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/patterns.html">accompy.patterns</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/patterns/builtin.html">accompy.patterns.builtin</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/patterns/dataclasses.html">accompy.patterns.dataclasses</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/pipeline.html">accompy.pipeline</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/protocols.html">accompy.protocols</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/realtime.html">accompy.realtime</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/renderers.html">accompy.renderers</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/renderers/midi.html">accompy.renderers.midi</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/rendering.html">accompy.rendering</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/rhythmic_skeletons.html">accompy.rhythmic_skeletons</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/setup_utils.html">accompy.setup_utils</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/synthesis.html">accompy.synthesis</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/synthesis/fluidsynth.html">accompy.synthesis.fluidsynth</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/tools.html">accompy.tools</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/util.html">accompy.util</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/wips.html">accompy.wips</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/wips/audio_renderers.html">accompy.wips.audio_renderers</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/wips/chord_parsers.html">accompy.wips.chord_parsers</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/wips/chord_resolvers.html">accompy.wips.chord_resolvers</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/wips/midi_generators.html">accompy.wips.midi_generators</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/wips/pipeline.html">accompy.wips.pipeline</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/wips/types.html">accompy.wips.types</a></li>
-</ul>
 
-        </div>
-      </div>
-    </nav>
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
-          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="../../index.html">accompy</a>
-      </nav>
+  
+    
+  
 
-      <div class="wy-nav-content">
-        <div class="rst-content">
-          <div role="navigation" aria-label="Page navigation">
-  <ul class="wy-breadcrumbs">
-      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
-          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
-      <li class="breadcrumb-item active">accompy.main</li>
-      <li class="wy-breadcrumbs-aside">
-      </li>
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">accompy</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../api.html">
+    API reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../ai-agents.html">
+    For AI agents
+  </a>
+</li>
+
   </ul>
-  <hr/>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+  </ul>
+</div></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/thorwhalen/accompy" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i><span class="visually-hidden">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
 </div>
-          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
-           <div itemprop="articleBody">
-             
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar hide-on-wide">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../api.html">
+    API reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../ai-agents.html">
+    For AI agents
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+  </ul>
+</div></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/thorwhalen/accompy" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i><span class="visually-hidden">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../index.html" class="nav-link">Module code</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">accompy.main</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
   <h1>Source code for accompy.main</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span></span><span class="sd">"""</span>
 <span class="sd">Main accompaniment generation module.</span>
 
 <span class="sd">Integrates all components (patterns, chord resolution, MIDI rendering,</span>
 <span class="sd">synthesis) to provide the main accompy API.</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 
@@ -134,19 +737,19 @@
 <span class="c1"># Default values — loaded lazily from ~/.config/accompy/defaults.json</span>
 <span class="c1"># (seeded from _seed_data/config/defaults.json on first access).</span>
 <span class="c1"># These module-level constants are the hardcoded fallbacks used when the</span>
-<span class="c1"># config file hasn&#39;t been accessed yet (e.g., function signatures).</span>
+<span class="c1"># config file hasn't been accessed yet (e.g., function signatures).</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_load_defaults</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Load user defaults from the config file.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Load user defaults from the config file."""</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">.data_access</span><span class="w"> </span><span class="kn">import</span> <span class="n">load_resource_json</span><span class="p">,</span> <span class="n">get_config</span>
     <span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
 
-    <span class="n">path</span> <span class="o">=</span> <span class="n">get_config</span><span class="p">(</span><span class="s2">&quot;defaults.json&quot;</span><span class="p">)</span>
+    <span class="n">path</span> <span class="o">=</span> <span class="n">get_config</span><span class="p">(</span><span class="s2">"defaults.json"</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">path</span><span class="o">.</span><span class="n">read_text</span><span class="p">())</span>
 
 
-<span class="n">DFLT_STYLE</span><span class="p">:</span> <span class="n">StyleName</span> <span class="o">=</span> <span class="s2">&quot;swing&quot;</span>
+<span class="n">DFLT_STYLE</span><span class="p">:</span> <span class="n">StyleName</span> <span class="o">=</span> <span class="s2">"swing"</span>
 <span class="n">DFLT_TEMPO</span> <span class="o">=</span> <span class="mi">120</span>
 <span class="n">DFLT_REPEATS</span> <span class="o">=</span> <span class="mi">1</span>
 <span class="n">DFLT_USE_MMA</span> <span class="o">=</span> <span class="kc">True</span>
@@ -154,7 +757,7 @@
 
 
 <div class="viewcode-block" id="generate_accompaniment">
-<a class="viewcode-back" href="../../module_docs/accompy/main.html#accompy.generate_accompaniment">[docs]</a>
+<a class="viewcode-back" href="../../_autosummary/accompy.main.html#accompy.generate_accompaniment">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">generate_accompaniment</span><span class="p">(</span>
     <span class="n">chords</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
     <span class="o">*</span><span class="p">,</span>
@@ -162,13 +765,13 @@
     <span class="n">tempo</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">DFLT_TEMPO</span><span class="p">,</span>
     <span class="n">repeats</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">DFLT_REPEATS</span><span class="p">,</span>
     <span class="n">output_path</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Path</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="n">output_format</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;wav&quot;</span><span class="p">,</span> <span class="s2">&quot;mp3&quot;</span><span class="p">,</span> <span class="s2">&quot;flac&quot;</span><span class="p">,</span> <span class="s2">&quot;midi&quot;</span><span class="p">,</span> <span class="s2">&quot;mid&quot;</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">output_format</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Literal</span><span class="p">[</span><span class="s2">"wav"</span><span class="p">,</span> <span class="s2">"mp3"</span><span class="p">,</span> <span class="s2">"flac"</span><span class="p">,</span> <span class="s2">"midi"</span><span class="p">,</span> <span class="s2">"mid"</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">config</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">AccompanimentConfig</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">use_mma</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="n">DFLT_USE_MMA</span><span class="p">,</span>
     <span class="n">backend</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">BackendType</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">autoplay</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="n">DFLT_AUTOPLAY</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Path</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Generate an accompaniment audio file from a chord progression.</span>
 
 <span class="sd">    This is the main entry point for accompy. It generates backing tracks</span>
@@ -183,7 +786,7 @@
 <span class="sd">        output_format: Output format (wav, mp3, flac, midi)</span>
 <span class="sd">        config: Full configuration object (overrides other params if provided)</span>
 <span class="sd">        use_mma: If True and MMA available, use MMA backend</span>
-<span class="sd">        backend: Explicitly select backend (&#39;auto&#39;, &#39;mma&#39;, &#39;builtin&#39;)</span>
+<span class="sd">        backend: Explicitly select backend ('auto', 'mma', 'builtin')</span>
 <span class="sd">        autoplay: If True, automatically play the generated audio</span>
 
 <span class="sd">    Returns:</span>
@@ -191,13 +794,13 @@
 
 <span class="sd">    Example:</span>
 <span class="sd">        &gt;&gt;&gt; from accompy import generate_accompaniment</span>
-<span class="sd">        &gt;&gt;&gt; path = generate_accompaniment(&quot;| C | Am | F | G |&quot;, style=&quot;bossa&quot;, tempo=140)  # doctest: +SKIP</span>
-<span class="sd">        &gt;&gt;&gt; print(f&quot;Generated: {path}&quot;)  # doctest: +SKIP</span>
+<span class="sd">        &gt;&gt;&gt; path = generate_accompaniment("| C | Am | F | G |", style="bossa", tempo=140)  # doctest: +SKIP</span>
+<span class="sd">        &gt;&gt;&gt; print(f"Generated: {path}")  # doctest: +SKIP</span>
 
 <span class="sd">    Note:</span>
 <span class="sd">        Requires FluidSynth and a SoundFont for audio rendering.</span>
-<span class="sd">        For MIDI-only output, use output_format=&quot;midi&quot;.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">        For MIDI-only output, use output_format="midi".</span>
+<span class="sd">    """</span>
     <span class="c1"># Build config</span>
     <span class="k">if</span> <span class="n">config</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">config</span> <span class="o">=</span> <span class="n">AccompanimentConfig</span><span class="p">(</span><span class="n">style</span><span class="o">=</span><span class="n">style</span><span class="p">,</span> <span class="n">tempo</span><span class="o">=</span><span class="n">tempo</span><span class="p">,</span> <span class="n">repeats</span><span class="o">=</span><span class="n">repeats</span><span class="p">)</span>
@@ -213,16 +816,16 @@
     <span class="c1"># Determine output format from path or argument</span>
     <span class="k">if</span> <span class="n">output_path</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">out_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">output_path</span><span class="p">)</span>
-        <span class="n">suffix</span> <span class="o">=</span> <span class="n">out_path</span><span class="o">.</span><span class="n">suffix</span><span class="o">.</span><span class="n">lstrip</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+        <span class="n">suffix</span> <span class="o">=</span> <span class="n">out_path</span><span class="o">.</span><span class="n">suffix</span><span class="o">.</span><span class="n">lstrip</span><span class="p">(</span><span class="s2">"."</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
         <span class="k">if</span> <span class="n">output_format</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">suffix</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;wav&quot;</span><span class="p">,</span> <span class="s2">&quot;mp3&quot;</span><span class="p">,</span> <span class="s2">&quot;flac&quot;</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">suffix</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">"wav"</span><span class="p">,</span> <span class="s2">"mp3"</span><span class="p">,</span> <span class="s2">"flac"</span><span class="p">):</span>
                 <span class="n">output_format</span> <span class="o">=</span> <span class="n">suffix</span>  <span class="c1"># type: ignore[assignment]</span>
-            <span class="k">elif</span> <span class="n">suffix</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;mid&quot;</span><span class="p">,</span> <span class="s2">&quot;midi&quot;</span><span class="p">):</span>
-                <span class="n">output_format</span> <span class="o">=</span> <span class="s2">&quot;midi&quot;</span>
+            <span class="k">elif</span> <span class="n">suffix</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">"mid"</span><span class="p">,</span> <span class="s2">"midi"</span><span class="p">):</span>
+                <span class="n">output_format</span> <span class="o">=</span> <span class="s2">"midi"</span>
 
     <span class="k">if</span> <span class="n">output_format</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="k">if</span> <span class="n">output_format</span> <span class="o">==</span> <span class="s2">&quot;mid&quot;</span><span class="p">:</span>
-            <span class="n">output_format</span> <span class="o">=</span> <span class="s2">&quot;midi&quot;</span>
+        <span class="k">if</span> <span class="n">output_format</span> <span class="o">==</span> <span class="s2">"mid"</span><span class="p">:</span>
+            <span class="n">output_format</span> <span class="o">=</span> <span class="s2">"midi"</span>
         <span class="n">config</span><span class="o">.</span><span class="n">output_format</span> <span class="o">=</span> <span class="n">output_format</span>  <span class="c1"># type: ignore[assignment]</span>
 
     <span class="c1"># Ensure Score object</span>
@@ -231,7 +834,7 @@
     <span class="c1"># Determine output path</span>
     <span class="k">if</span> <span class="n">output_path</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">suffix</span> <span class="o">=</span> <span class="p">(</span>
-            <span class="s2">&quot;.mid&quot;</span> <span class="k">if</span> <span class="n">config</span><span class="o">.</span><span class="n">output_format</span> <span class="o">==</span> <span class="s2">&quot;midi&quot;</span> <span class="k">else</span> <span class="sa">f</span><span class="s2">&quot;.</span><span class="si">{</span><span class="n">config</span><span class="o">.</span><span class="n">output_format</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="s2">".mid"</span> <span class="k">if</span> <span class="n">config</span><span class="o">.</span><span class="n">output_format</span> <span class="o">==</span> <span class="s2">"midi"</span> <span class="k">else</span> <span class="sa">f</span><span class="s2">".</span><span class="si">{</span><span class="n">config</span><span class="o">.</span><span class="n">output_format</span><span class="si">}</span><span class="s2">"</span>
         <span class="p">)</span>
         <span class="n">fd</span><span class="p">,</span> <span class="n">tmp_path</span> <span class="o">=</span> <span class="n">tempfile</span><span class="o">.</span><span class="n">mkstemp</span><span class="p">(</span><span class="n">suffix</span><span class="o">=</span><span class="n">suffix</span><span class="p">)</span>
         <span class="n">os</span><span class="o">.</span><span class="n">close</span><span class="p">(</span><span class="n">fd</span><span class="p">)</span>
@@ -240,36 +843,36 @@
         <span class="n">output_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">output_path</span><span class="p">)</span>
 
     <span class="c1"># Normalize file extension</span>
-    <span class="n">known_suffixes</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;.wav&quot;</span><span class="p">,</span> <span class="s2">&quot;.mp3&quot;</span><span class="p">,</span> <span class="s2">&quot;.flac&quot;</span><span class="p">,</span> <span class="s2">&quot;.mid&quot;</span><span class="p">,</span> <span class="s2">&quot;.midi&quot;</span><span class="p">}</span>
+    <span class="n">known_suffixes</span> <span class="o">=</span> <span class="p">{</span><span class="s2">".wav"</span><span class="p">,</span> <span class="s2">".mp3"</span><span class="p">,</span> <span class="s2">".flac"</span><span class="p">,</span> <span class="s2">".mid"</span><span class="p">,</span> <span class="s2">".midi"</span><span class="p">}</span>
     <span class="k">if</span> <span class="n">output_path</span><span class="o">.</span><span class="n">suffix</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">known_suffixes</span><span class="p">:</span>
-        <span class="k">if</span> <span class="n">config</span><span class="o">.</span><span class="n">output_format</span> <span class="o">==</span> <span class="s2">&quot;midi&quot;</span><span class="p">:</span>
-            <span class="n">output_path</span> <span class="o">=</span> <span class="n">output_path</span><span class="o">.</span><span class="n">with_suffix</span><span class="p">(</span><span class="s2">&quot;.mid&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">config</span><span class="o">.</span><span class="n">output_format</span> <span class="o">==</span> <span class="s2">"midi"</span><span class="p">:</span>
+            <span class="n">output_path</span> <span class="o">=</span> <span class="n">output_path</span><span class="o">.</span><span class="n">with_suffix</span><span class="p">(</span><span class="s2">".mid"</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">output_path</span> <span class="o">=</span> <span class="n">output_path</span><span class="o">.</span><span class="n">with_suffix</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;.</span><span class="si">{</span><span class="n">config</span><span class="o">.</span><span class="n">output_format</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">output_path</span> <span class="o">=</span> <span class="n">output_path</span><span class="o">.</span><span class="n">with_suffix</span><span class="p">(</span><span class="sa">f</span><span class="s2">".</span><span class="si">{</span><span class="n">config</span><span class="o">.</span><span class="n">output_format</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 
     <span class="c1"># If MIDI requested, ensure MIDI extension</span>
-    <span class="k">if</span> <span class="n">config</span><span class="o">.</span><span class="n">output_format</span> <span class="o">==</span> <span class="s2">&quot;midi&quot;</span> <span class="ow">and</span> <span class="n">output_path</span><span class="o">.</span><span class="n">suffix</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span>
-        <span class="s2">&quot;.mid&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;.midi&quot;</span><span class="p">,</span>
+    <span class="k">if</span> <span class="n">config</span><span class="o">.</span><span class="n">output_format</span> <span class="o">==</span> <span class="s2">"midi"</span> <span class="ow">and</span> <span class="n">output_path</span><span class="o">.</span><span class="n">suffix</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span>
+        <span class="s2">".mid"</span><span class="p">,</span>
+        <span class="s2">".midi"</span><span class="p">,</span>
     <span class="p">):</span>
-        <span class="n">output_path</span> <span class="o">=</span> <span class="n">output_path</span><span class="o">.</span><span class="n">with_suffix</span><span class="p">(</span><span class="s2">&quot;.mid&quot;</span><span class="p">)</span>
+        <span class="n">output_path</span> <span class="o">=</span> <span class="n">output_path</span><span class="o">.</span><span class="n">with_suffix</span><span class="p">(</span><span class="s2">".mid"</span><span class="p">)</span>
 
     <span class="c1"># Select backend</span>
     <span class="n">selected_backend</span><span class="p">:</span> <span class="n">BackendType</span>
     <span class="k">if</span> <span class="n">backend</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">selected_backend</span> <span class="o">=</span> <span class="s2">&quot;mma&quot;</span> <span class="k">if</span> <span class="p">(</span><span class="n">use_mma</span> <span class="ow">and</span> <span class="n">_mma_available</span><span class="p">())</span> <span class="k">else</span> <span class="s2">&quot;builtin&quot;</span>
+        <span class="n">selected_backend</span> <span class="o">=</span> <span class="s2">"mma"</span> <span class="k">if</span> <span class="p">(</span><span class="n">use_mma</span> <span class="ow">and</span> <span class="n">_mma_available</span><span class="p">())</span> <span class="k">else</span> <span class="s2">"builtin"</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">selected_backend</span> <span class="o">=</span> <span class="n">backend</span>
-        <span class="k">if</span> <span class="n">selected_backend</span> <span class="o">==</span> <span class="s2">&quot;auto&quot;</span><span class="p">:</span>
-            <span class="n">selected_backend</span> <span class="o">=</span> <span class="s2">&quot;mma&quot;</span> <span class="k">if</span> <span class="n">_mma_available</span><span class="p">()</span> <span class="k">else</span> <span class="s2">&quot;builtin&quot;</span>
-        <span class="k">elif</span> <span class="n">selected_backend</span> <span class="o">==</span> <span class="s2">&quot;mma&quot;</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">_mma_available</span><span class="p">():</span>
+        <span class="k">if</span> <span class="n">selected_backend</span> <span class="o">==</span> <span class="s2">"auto"</span><span class="p">:</span>
+            <span class="n">selected_backend</span> <span class="o">=</span> <span class="s2">"mma"</span> <span class="k">if</span> <span class="n">_mma_available</span><span class="p">()</span> <span class="k">else</span> <span class="s2">"builtin"</span>
+        <span class="k">elif</span> <span class="n">selected_backend</span> <span class="o">==</span> <span class="s2">"mma"</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">_mma_available</span><span class="p">():</span>
             <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
-                <span class="s2">&quot;MMA backend requested but MMA is not available. &quot;</span>
-                <span class="s2">&quot;Install MMA (see https://www.mellowood.ca/mma/) or use backend=&#39;builtin&#39;.&quot;</span>
+                <span class="s2">"MMA backend requested but MMA is not available. "</span>
+                <span class="s2">"Install MMA (see https://www.mellowood.ca/mma/) or use backend='builtin'."</span>
             <span class="p">)</span>
 
     <span class="c1"># Generate MIDI</span>
-    <span class="k">if</span> <span class="n">selected_backend</span> <span class="o">==</span> <span class="s2">&quot;mma&quot;</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">selected_backend</span> <span class="o">==</span> <span class="s2">"mma"</span><span class="p">:</span>
         <span class="n">midi_path</span> <span class="o">=</span> <span class="n">_generate_via_mma</span><span class="p">(</span><span class="n">score</span><span class="p">,</span> <span class="n">config</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="c1"># Use new modular renderer</span>
@@ -284,7 +887,7 @@
         <span class="p">)</span>
 
     <span class="c1"># MIDI-only output</span>
-    <span class="k">if</span> <span class="n">config</span><span class="o">.</span><span class="n">output_format</span> <span class="o">==</span> <span class="s2">&quot;midi&quot;</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">config</span><span class="o">.</span><span class="n">output_format</span> <span class="o">==</span> <span class="s2">"midi"</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">midi_path</span> <span class="o">!=</span> <span class="n">output_path</span><span class="p">:</span>
             <span class="kn">import</span><span class="w"> </span><span class="nn">shutil</span>
 
@@ -292,7 +895,7 @@
 
         <span class="k">if</span> <span class="n">autoplay</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="s2">&quot;autoplay=True is only supported for audio outputs, not MIDI&quot;</span>
+                <span class="s2">"autoplay=True is only supported for audio outputs, not MIDI"</span>
             <span class="p">)</span>
         <span class="k">return</span> <span class="n">output_path</span>
 
@@ -313,10 +916,10 @@
 
 
 <div class="viewcode-block" id="play_audio">
-<a class="viewcode-back" href="../../module_docs/accompy/main.html#accompy.play_audio">[docs]</a>
+<a class="viewcode-back" href="../../_autosummary/accompy.main.html#accompy.play_audio">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">play_audio</span><span class="p">(</span><span class="n">audio_path</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Path</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Play an audio file using the system&#39;s default audio player.</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    Play an audio file using the system's default audio player.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        audio_path: Path to the audio file</span>
@@ -326,30 +929,30 @@
 
 <span class="sd">    Example:</span>
 <span class="sd">        &gt;&gt;&gt; from accompy import play_audio</span>
-<span class="sd">        &gt;&gt;&gt; play_audio(&quot;/path/to/audio.wav&quot;)  # doctest: +SKIP</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">        &gt;&gt;&gt; play_audio("/path/to/audio.wav")  # doctest: +SKIP</span>
+<span class="sd">    """</span>
     <span class="kn">import</span><span class="w"> </span><span class="nn">platform</span>
 
     <span class="n">audio_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">audio_path</span><span class="p">)</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">audio_path</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
         <span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
 
-        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Audio file not found: </span><span class="si">{</span><span class="n">audio_path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="ne">UserWarning</span><span class="p">)</span>
+        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Audio file not found: </span><span class="si">{</span><span class="n">audio_path</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span> <span class="ne">UserWarning</span><span class="p">)</span>
         <span class="k">return</span> <span class="kc">False</span>
 
     <span class="n">system</span> <span class="o">=</span> <span class="n">platform</span><span class="o">.</span><span class="n">system</span><span class="p">()</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
 
     <span class="k">try</span><span class="p">:</span>
-        <span class="k">if</span> <span class="n">system</span> <span class="o">==</span> <span class="s2">&quot;darwin&quot;</span><span class="p">:</span>  <span class="c1"># macOS</span>
+        <span class="k">if</span> <span class="n">system</span> <span class="o">==</span> <span class="s2">"darwin"</span><span class="p">:</span>  <span class="c1"># macOS</span>
             <span class="n">subprocess</span><span class="o">.</span><span class="n">Popen</span><span class="p">(</span>
-                <span class="p">[</span><span class="s2">&quot;afplay&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">audio_path</span><span class="p">)],</span>
+                <span class="p">[</span><span class="s2">"afplay"</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">audio_path</span><span class="p">)],</span>
                 <span class="n">stdout</span><span class="o">=</span><span class="n">subprocess</span><span class="o">.</span><span class="n">DEVNULL</span><span class="p">,</span>
                 <span class="n">stderr</span><span class="o">=</span><span class="n">subprocess</span><span class="o">.</span><span class="n">DEVNULL</span><span class="p">,</span>
             <span class="p">)</span>
             <span class="k">return</span> <span class="kc">True</span>
-        <span class="k">elif</span> <span class="n">system</span> <span class="o">==</span> <span class="s2">&quot;linux&quot;</span><span class="p">:</span>
+        <span class="k">elif</span> <span class="n">system</span> <span class="o">==</span> <span class="s2">"linux"</span><span class="p">:</span>
             <span class="c1"># Try common Linux audio players</span>
-            <span class="k">for</span> <span class="n">player</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;paplay&quot;</span><span class="p">,</span> <span class="s2">&quot;aplay&quot;</span><span class="p">,</span> <span class="s2">&quot;ffplay&quot;</span><span class="p">,</span> <span class="s2">&quot;mpg123&quot;</span><span class="p">,</span> <span class="s2">&quot;play&quot;</span><span class="p">]:</span>
+            <span class="k">for</span> <span class="n">player</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">"paplay"</span><span class="p">,</span> <span class="s2">"aplay"</span><span class="p">,</span> <span class="s2">"ffplay"</span><span class="p">,</span> <span class="s2">"mpg123"</span><span class="p">,</span> <span class="s2">"play"</span><span class="p">]:</span>
                 <span class="k">try</span><span class="p">:</span>
                     <span class="n">subprocess</span><span class="o">.</span><span class="n">Popen</span><span class="p">(</span>
                         <span class="p">[</span><span class="n">player</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">audio_path</span><span class="p">)],</span>
@@ -362,13 +965,13 @@
             <span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
 
             <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
-                <span class="s2">&quot;No audio player found. Install: paplay, aplay, ffplay, mpg123, or sox&quot;</span><span class="p">,</span>
+                <span class="s2">"No audio player found. Install: paplay, aplay, ffplay, mpg123, or sox"</span><span class="p">,</span>
                 <span class="ne">UserWarning</span><span class="p">,</span>
             <span class="p">)</span>
             <span class="k">return</span> <span class="kc">False</span>
-        <span class="k">elif</span> <span class="n">system</span> <span class="o">==</span> <span class="s2">&quot;windows&quot;</span><span class="p">:</span>
+        <span class="k">elif</span> <span class="n">system</span> <span class="o">==</span> <span class="s2">"windows"</span><span class="p">:</span>
             <span class="n">subprocess</span><span class="o">.</span><span class="n">Popen</span><span class="p">(</span>
-                <span class="p">[</span><span class="s2">&quot;start&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">audio_path</span><span class="p">)],</span>
+                <span class="p">[</span><span class="s2">"start"</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">audio_path</span><span class="p">)],</span>
                 <span class="n">shell</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
                 <span class="n">stdout</span><span class="o">=</span><span class="n">subprocess</span><span class="o">.</span><span class="n">DEVNULL</span><span class="p">,</span>
                 <span class="n">stderr</span><span class="o">=</span><span class="n">subprocess</span><span class="o">.</span><span class="n">DEVNULL</span><span class="p">,</span>
@@ -377,20 +980,20 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
 
-            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Auto-play not supported on </span><span class="si">{</span><span class="n">system</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="ne">UserWarning</span><span class="p">)</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Auto-play not supported on </span><span class="si">{</span><span class="n">system</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span> <span class="ne">UserWarning</span><span class="p">)</span>
             <span class="k">return</span> <span class="kc">False</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
         <span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
 
-        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Failed to play audio: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="ne">UserWarning</span><span class="p">)</span>
+        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Failed to play audio: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span> <span class="ne">UserWarning</span><span class="p">)</span>
         <span class="k">return</span> <span class="kc">False</span></div>
 
 
 
 <div class="viewcode-block" id="check_dependencies">
-<a class="viewcode-back" href="../../module_docs/accompy/main.html#accompy.check_dependencies">[docs]</a>
+<a class="viewcode-back" href="../../_autosummary/accompy.main.html#accompy.check_dependencies">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">check_dependencies</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">bool</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Check which dependencies are available.</span>
 
 <span class="sd">    Returns:</span>
@@ -398,60 +1001,60 @@
 
 <span class="sd">    Example:</span>
 <span class="sd">        &gt;&gt;&gt; deps = check_dependencies()</span>
-<span class="sd">        &gt;&gt;&gt; &#39;midiutil&#39; in deps</span>
+<span class="sd">        &gt;&gt;&gt; 'midiutil' in deps</span>
 <span class="sd">        True</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">.synthesis.fluidsynth</span><span class="w"> </span><span class="kn">import</span> <span class="n">FluidSynthBackend</span><span class="p">,</span> <span class="n">find_default_soundfont</span>
 
     <span class="k">return</span> <span class="p">{</span>
-        <span class="s2">&quot;mma&quot;</span><span class="p">:</span> <span class="n">_mma_available</span><span class="p">(),</span>
-        <span class="s2">&quot;fluidsynth&quot;</span><span class="p">:</span> <span class="n">FluidSynthBackend</span><span class="o">.</span><span class="n">is_available</span><span class="p">(),</span>
-        <span class="s2">&quot;soundfont&quot;</span><span class="p">:</span> <span class="n">find_default_soundfont</span><span class="p">()</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="s2">&quot;midiutil&quot;</span><span class="p">:</span> <span class="n">_check_import</span><span class="p">(</span><span class="s2">&quot;midiutil&quot;</span><span class="p">),</span>
-        <span class="s2">&quot;midi2audio&quot;</span><span class="p">:</span> <span class="n">_check_import</span><span class="p">(</span><span class="s2">&quot;midi2audio&quot;</span><span class="p">),</span>
+        <span class="s2">"mma"</span><span class="p">:</span> <span class="n">_mma_available</span><span class="p">(),</span>
+        <span class="s2">"fluidsynth"</span><span class="p">:</span> <span class="n">FluidSynthBackend</span><span class="o">.</span><span class="n">is_available</span><span class="p">(),</span>
+        <span class="s2">"soundfont"</span><span class="p">:</span> <span class="n">find_default_soundfont</span><span class="p">()</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="s2">"midiutil"</span><span class="p">:</span> <span class="n">_check_import</span><span class="p">(</span><span class="s2">"midiutil"</span><span class="p">),</span>
+        <span class="s2">"midi2audio"</span><span class="p">:</span> <span class="n">_check_import</span><span class="p">(</span><span class="s2">"midi2audio"</span><span class="p">),</span>
     <span class="p">}</span></div>
 
 
 
 <div class="viewcode-block" id="print_setup_instructions">
-<a class="viewcode-back" href="../../module_docs/accompy/main.html#accompy.print_setup_instructions">[docs]</a>
+<a class="viewcode-back" href="../../_autosummary/accompy.main.html#accompy.print_setup_instructions">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">print_setup_instructions</span><span class="p">():</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Print installation instructions for missing dependencies.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Print installation instructions for missing dependencies."""</span>
     <span class="n">deps</span> <span class="o">=</span> <span class="n">check_dependencies</span><span class="p">()</span>
 
     <span class="k">if</span> <span class="nb">all</span><span class="p">(</span><span class="n">deps</span><span class="o">.</span><span class="n">values</span><span class="p">()):</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;✓ All dependencies installed!&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"✓ All dependencies installed!"</span><span class="p">)</span>
         <span class="k">return</span>
 
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;=== Missing Dependencies ===</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"=== Missing Dependencies ===</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span>
 
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">deps</span><span class="p">[</span><span class="s2">&quot;fluidsynth&quot;</span><span class="p">]:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;FluidSynth (required for audio rendering):&quot;</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;  macOS:  brew install fluidsynth&quot;</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;  Ubuntu: sudo apt-get install fluidsynth&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">deps</span><span class="p">[</span><span class="s2">"fluidsynth"</span><span class="p">]:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"FluidSynth (required for audio rendering):"</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"  macOS:  brew install fluidsynth"</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"  Ubuntu: sudo apt-get install fluidsynth"</span><span class="p">)</span>
         <span class="nb">print</span><span class="p">(</span>
-            <span class="s2">&quot;  Windows: Download from https://github.com/FluidSynth/fluidsynth/releases</span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="s2">"  Windows: Download from https://github.com/FluidSynth/fluidsynth/releases</span><span class="se">\n</span><span class="s2">"</span>
         <span class="p">)</span>
 
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">deps</span><span class="p">[</span><span class="s2">&quot;soundfont&quot;</span><span class="p">]:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;SoundFont (required for instrument sounds):&quot;</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;  Download FluidR3_GM.sf2 from:&quot;</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;  https://member.keymusician.com/Member/FluidR3_GM/index.html&quot;</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;  Place in: ~/.fluidsynth/default_sound_font.sf2</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">deps</span><span class="p">[</span><span class="s2">"soundfont"</span><span class="p">]:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"SoundFont (required for instrument sounds):"</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"  Download FluidR3_GM.sf2 from:"</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"  https://member.keymusician.com/Member/FluidR3_GM/index.html"</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"  Place in: ~/.fluidsynth/default_sound_font.sf2</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span>
 
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">deps</span><span class="p">[</span><span class="s2">&quot;mma&quot;</span><span class="p">]:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;MMA - Musical MIDI Accompaniment (recommended for realistic tracks):&quot;</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;  pip install mma  # or&quot;</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;  git clone https://github.com/infojunkie/mma&quot;</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;  (See https://www.mellowood.ca/mma/ for details)</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">deps</span><span class="p">[</span><span class="s2">"mma"</span><span class="p">]:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"MMA - Musical MIDI Accompaniment (recommended for realistic tracks):"</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"  pip install mma  # or"</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"  git clone https://github.com/infojunkie/mma"</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"  (See https://www.mellowood.ca/mma/ for details)</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span>
 
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">deps</span><span class="p">[</span><span class="s2">&quot;midiutil&quot;</span><span class="p">]:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;midiutil (for MIDI generation):&quot;</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;  pip install midiutil</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">deps</span><span class="p">[</span><span class="s2">"midiutil"</span><span class="p">]:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"midiutil (for MIDI generation):"</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"  pip install midiutil</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span>
 
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">deps</span><span class="p">[</span><span class="s2">&quot;midi2audio&quot;</span><span class="p">]:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;midi2audio (optional Python wrapper for FluidSynth):&quot;</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;  pip install midi2audio</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span></div>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">deps</span><span class="p">[</span><span class="s2">"midi2audio"</span><span class="p">]:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"midi2audio (optional Python wrapper for FluidSynth):"</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"  pip install midi2audio</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span></div>
 
 
 
@@ -464,123 +1067,123 @@
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_ensure_mma_grooves</span><span class="p">():</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Initialize MMA groove database if not already done.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Initialize MMA groove database if not already done."""</span>
     <span class="k">global</span> <span class="n">_mma_grooves_initialized</span>
     <span class="k">if</span> <span class="n">_mma_grooves_initialized</span><span class="p">:</span>
         <span class="k">return</span>
     <span class="k">try</span><span class="p">:</span>
-        <span class="n">subprocess</span><span class="o">.</span><span class="n">run</span><span class="p">([</span><span class="n">_find_mma</span><span class="p">(),</span> <span class="s2">&quot;-g&quot;</span><span class="p">],</span> <span class="n">capture_output</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
+        <span class="n">subprocess</span><span class="o">.</span><span class="n">run</span><span class="p">([</span><span class="n">_find_mma</span><span class="p">(),</span> <span class="s2">"-g"</span><span class="p">],</span> <span class="n">capture_output</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
     <span class="k">except</span> <span class="p">(</span><span class="ne">FileNotFoundError</span><span class="p">,</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">TimeoutExpired</span><span class="p">):</span>
         <span class="k">pass</span>
     <span class="n">_mma_grooves_initialized</span> <span class="o">=</span> <span class="kc">True</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_generate_via_mma</span><span class="p">(</span><span class="n">score</span><span class="p">:</span> <span class="n">Score</span><span class="p">,</span> <span class="n">config</span><span class="p">:</span> <span class="n">AccompanimentConfig</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Path</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Generate MIDI using MMA (Musical MIDI Accompaniment).&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Generate MIDI using MMA (Musical MIDI Accompaniment)."""</span>
     <span class="n">_ensure_mma_grooves</span><span class="p">()</span>
 
     <span class="c1"># Create MMA file content</span>
     <span class="n">mma_content</span> <span class="o">=</span> <span class="n">_score_to_mma</span><span class="p">(</span><span class="n">score</span><span class="p">,</span> <span class="n">config</span><span class="p">)</span>
 
     <span class="c1"># Write to temp file</span>
-    <span class="n">mma_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">tempfile</span><span class="o">.</span><span class="n">mktemp</span><span class="p">(</span><span class="n">suffix</span><span class="o">=</span><span class="s2">&quot;.mma&quot;</span><span class="p">))</span>
-    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">mma_path</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">mma_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">tempfile</span><span class="o">.</span><span class="n">mktemp</span><span class="p">(</span><span class="n">suffix</span><span class="o">=</span><span class="s2">".mma"</span><span class="p">))</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">mma_path</span><span class="p">,</span> <span class="s2">"w"</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
         <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">mma_content</span><span class="p">)</span>
 
     <span class="c1"># Run MMA</span>
-    <span class="n">midi_path</span> <span class="o">=</span> <span class="n">mma_path</span><span class="o">.</span><span class="n">with_suffix</span><span class="p">(</span><span class="s2">&quot;.mid&quot;</span><span class="p">)</span>
+    <span class="n">midi_path</span> <span class="o">=</span> <span class="n">mma_path</span><span class="o">.</span><span class="n">with_suffix</span><span class="p">(</span><span class="s2">".mid"</span><span class="p">)</span>
 
     <span class="k">try</span><span class="p">:</span>
         <span class="n">result</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">run</span><span class="p">(</span>
-            <span class="p">[</span><span class="n">_find_mma</span><span class="p">(),</span> <span class="nb">str</span><span class="p">(</span><span class="n">mma_path</span><span class="p">),</span> <span class="s2">&quot;-f&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">midi_path</span><span class="p">)],</span>
+            <span class="p">[</span><span class="n">_find_mma</span><span class="p">(),</span> <span class="nb">str</span><span class="p">(</span><span class="n">mma_path</span><span class="p">),</span> <span class="s2">"-f"</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">midi_path</span><span class="p">)],</span>
             <span class="n">capture_output</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
             <span class="n">text</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
             <span class="n">check</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
         <span class="p">)</span>
     <span class="k">except</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">CalledProcessError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-        <span class="n">error_msg</span> <span class="o">=</span> <span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">stderr</span> <span class="ow">or</span> <span class="n">e</span><span class="o">.</span><span class="n">stdout</span> <span class="ow">or</span> <span class="s2">&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
-        <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;MMA failed: </span><span class="si">{</span><span class="n">error_msg</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">error_msg</span> <span class="o">=</span> <span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">stderr</span> <span class="ow">or</span> <span class="n">e</span><span class="o">.</span><span class="n">stdout</span> <span class="ow">or</span> <span class="s2">""</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+        <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"MMA failed: </span><span class="si">{</span><span class="n">error_msg</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
     <span class="k">except</span> <span class="ne">FileNotFoundError</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">&quot;MMA not found. Install from https://www.mellowood.ca/mma/&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">"MMA not found. Install from https://www.mellowood.ca/mma/"</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">midi_path</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_score_to_mma</span><span class="p">(</span><span class="n">score</span><span class="p">:</span> <span class="n">Score</span><span class="p">,</span> <span class="n">config</span><span class="p">:</span> <span class="n">AccompanimentConfig</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Convert Score to MMA format.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Convert Score to MMA format."""</span>
     <span class="n">lines</span> <span class="o">=</span> <span class="p">[</span>
-        <span class="sa">f</span><span class="s2">&quot;// Generated by accompy&quot;</span><span class="p">,</span>
-        <span class="sa">f</span><span class="s2">&quot;// </span><span class="si">{</span><span class="n">score</span><span class="o">.</span><span class="n">title</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;&quot;</span><span class="p">,</span>
-        <span class="sa">f</span><span class="s2">&quot;Tempo </span><span class="si">{</span><span class="n">config</span><span class="o">.</span><span class="n">tempo</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;&quot;</span><span class="p">,</span>
-        <span class="sa">f</span><span class="s2">&quot;Groove </span><span class="si">{</span><span class="n">_style_to_groove</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">style</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;&quot;</span><span class="p">,</span>
+        <span class="sa">f</span><span class="s2">"// Generated by accompy"</span><span class="p">,</span>
+        <span class="sa">f</span><span class="s2">"// </span><span class="si">{</span><span class="n">score</span><span class="o">.</span><span class="n">title</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
+        <span class="s2">""</span><span class="p">,</span>
+        <span class="sa">f</span><span class="s2">"Tempo </span><span class="si">{</span><span class="n">config</span><span class="o">.</span><span class="n">tempo</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
+        <span class="s2">""</span><span class="p">,</span>
+        <span class="sa">f</span><span class="s2">"Groove </span><span class="si">{</span><span class="n">_style_to_groove</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">style</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
+        <span class="s2">""</span><span class="p">,</span>
     <span class="p">]</span>
 
-    <span class="c1"># Volume adjustments — MMA syntax is &quot;TrackName Volume N&quot;</span>
+    <span class="c1"># Volume adjustments — MMA syntax is "TrackName Volume N"</span>
     <span class="n">_mma_track_names</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="s2">&quot;drums&quot;</span><span class="p">:</span> <span class="s2">&quot;Drum&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;bass&quot;</span><span class="p">:</span> <span class="s2">&quot;Bass&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;piano&quot;</span><span class="p">:</span> <span class="s2">&quot;Chord&quot;</span><span class="p">,</span>  <span class="c1"># MMA&#39;s chording track</span>
-        <span class="s2">&quot;guitar&quot;</span><span class="p">:</span> <span class="s2">&quot;Chord&quot;</span><span class="p">,</span>
+        <span class="s2">"drums"</span><span class="p">:</span> <span class="s2">"Drum"</span><span class="p">,</span>
+        <span class="s2">"bass"</span><span class="p">:</span> <span class="s2">"Bass"</span><span class="p">,</span>
+        <span class="s2">"piano"</span><span class="p">:</span> <span class="s2">"Chord"</span><span class="p">,</span>  <span class="c1"># MMA's chording track</span>
+        <span class="s2">"guitar"</span><span class="p">:</span> <span class="s2">"Chord"</span><span class="p">,</span>
     <span class="p">}</span>
     <span class="k">for</span> <span class="n">inst</span><span class="p">,</span> <span class="n">vol</span> <span class="ow">in</span> <span class="n">config</span><span class="o">.</span><span class="n">volumes</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
         <span class="k">if</span> <span class="n">config</span><span class="o">.</span><span class="n">instruments</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">inst</span><span class="p">,</span> <span class="kc">False</span><span class="p">):</span>
             <span class="n">track</span> <span class="o">=</span> <span class="n">_mma_track_names</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">inst</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">track</span><span class="p">:</span>
-                <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">track</span><span class="si">}</span><span class="s2"> Volume </span><span class="si">{</span><span class="nb">int</span><span class="p">(</span><span class="n">vol</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">100</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">track</span><span class="si">}</span><span class="s2"> Volume </span><span class="si">{</span><span class="nb">int</span><span class="p">(</span><span class="n">vol</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">100</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 
-    <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+    <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">""</span><span class="p">)</span>
 
     <span class="c1"># Add measures — convert iReal chord notation to MMA notation</span>
-    <span class="c1"># MMA&#39;s Repeat/RepeatEnd only doubles (no count argument),</span>
+    <span class="c1"># MMA's Repeat/RepeatEnd only doubles (no count argument),</span>
     <span class="c1"># so we explicitly write out all repetitions.</span>
     <span class="n">bar_num</span> <span class="o">=</span> <span class="mi">1</span>
     <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">config</span><span class="o">.</span><span class="n">repeats</span><span class="p">)):</span>
         <span class="k">for</span> <span class="n">measure</span> <span class="ow">in</span> <span class="n">score</span><span class="o">.</span><span class="n">measures</span><span class="p">:</span>
             <span class="n">chords</span> <span class="o">=</span> <span class="p">(</span>
-                <span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">_ireal_chord_to_mma</span><span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">measure</span><span class="p">)</span> <span class="k">if</span> <span class="n">measure</span> <span class="k">else</span> <span class="s2">&quot;z&quot;</span>
+                <span class="s2">" "</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">_ireal_chord_to_mma</span><span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">measure</span><span class="p">)</span> <span class="k">if</span> <span class="n">measure</span> <span class="k">else</span> <span class="s2">"z"</span>
             <span class="p">)</span>
-            <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">bar_num</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">chords</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">bar_num</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">chords</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
             <span class="n">bar_num</span> <span class="o">+=</span> <span class="mi">1</span>
 
-    <span class="k">return</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">lines</span><span class="p">)</span>
+    <span class="k">return</span> <span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">lines</span><span class="p">)</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_ireal_chord_to_mma</span><span class="p">(</span><span class="n">chord</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Convert iReal Pro chord notation to MMA chord notation.</span>
+<span class="w">    </span><span class="sd">"""Convert iReal Pro chord notation to MMA chord notation.</span>
 
 <span class="sd">    Examples: A- -&gt; Am, C^7 -&gt; Cmaj7, Dh7 -&gt; Dm7b5, Go -&gt; Gdim</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">chord</span> <span class="ow">or</span> <span class="n">chord</span> <span class="o">==</span> <span class="s2">&quot;z&quot;</span><span class="p">:</span>
+<span class="sd">    """</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">chord</span> <span class="ow">or</span> <span class="n">chord</span> <span class="o">==</span> <span class="s2">"z"</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">chord</span>
 
     <span class="c1"># Extract root (letter + optional sharp/flat)</span>
     <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span>
-    <span class="k">if</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">chord</span><span class="p">)</span> <span class="ow">and</span> <span class="n">chord</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="ow">in</span> <span class="s2">&quot;b#&quot;</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">chord</span><span class="p">)</span> <span class="ow">and</span> <span class="n">chord</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="ow">in</span> <span class="s2">"b#"</span><span class="p">:</span>
         <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
     <span class="n">root</span> <span class="o">=</span> <span class="n">chord</span><span class="p">[:</span><span class="n">i</span><span class="p">]</span>
     <span class="n">quality</span> <span class="o">=</span> <span class="n">chord</span><span class="p">[</span><span class="n">i</span><span class="p">:]</span>
 
     <span class="c1"># Map iReal quality suffixes to MMA equivalents</span>
     <span class="n">replacements</span> <span class="o">=</span> <span class="p">[</span>
-        <span class="p">(</span><span class="s2">&quot;^7&quot;</span><span class="p">,</span> <span class="s2">&quot;maj7&quot;</span><span class="p">),</span>
-        <span class="p">(</span><span class="s2">&quot;^&quot;</span><span class="p">,</span> <span class="s2">&quot;maj&quot;</span><span class="p">),</span>
-        <span class="p">(</span><span class="s2">&quot;-7b5&quot;</span><span class="p">,</span> <span class="s2">&quot;m7b5&quot;</span><span class="p">),</span>
-        <span class="p">(</span><span class="s2">&quot;-7&quot;</span><span class="p">,</span> <span class="s2">&quot;m7&quot;</span><span class="p">),</span>
-        <span class="p">(</span><span class="s2">&quot;-9&quot;</span><span class="p">,</span> <span class="s2">&quot;m9&quot;</span><span class="p">),</span>
-        <span class="p">(</span><span class="s2">&quot;-&quot;</span><span class="p">,</span> <span class="s2">&quot;m&quot;</span><span class="p">),</span>
-        <span class="p">(</span><span class="s2">&quot;h7&quot;</span><span class="p">,</span> <span class="s2">&quot;m7b5&quot;</span><span class="p">),</span>
-        <span class="p">(</span><span class="s2">&quot;h&quot;</span><span class="p">,</span> <span class="s2">&quot;m7b5&quot;</span><span class="p">),</span>
-        <span class="p">(</span><span class="s2">&quot;o7&quot;</span><span class="p">,</span> <span class="s2">&quot;dim7&quot;</span><span class="p">),</span>
-        <span class="p">(</span><span class="s2">&quot;o&quot;</span><span class="p">,</span> <span class="s2">&quot;dim&quot;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">"^7"</span><span class="p">,</span> <span class="s2">"maj7"</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">"^"</span><span class="p">,</span> <span class="s2">"maj"</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">"-7b5"</span><span class="p">,</span> <span class="s2">"m7b5"</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">"-7"</span><span class="p">,</span> <span class="s2">"m7"</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">"-9"</span><span class="p">,</span> <span class="s2">"m9"</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">"-"</span><span class="p">,</span> <span class="s2">"m"</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">"h7"</span><span class="p">,</span> <span class="s2">"m7b5"</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">"h"</span><span class="p">,</span> <span class="s2">"m7b5"</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">"o7"</span><span class="p">,</span> <span class="s2">"dim7"</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">"o"</span><span class="p">,</span> <span class="s2">"dim"</span><span class="p">),</span>
     <span class="p">]</span>
 
     <span class="k">for</span> <span class="n">ireal_suffix</span><span class="p">,</span> <span class="n">mma_suffix</span> <span class="ow">in</span> <span class="n">replacements</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">quality</span> <span class="o">==</span> <span class="n">ireal_suffix</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">root</span> <span class="o">+</span> <span class="n">mma_suffix</span>
-        <span class="c1"># Handle cases like &quot;-7b5&quot; where suffix is a prefix of quality</span>
+        <span class="c1"># Handle cases like "-7b5" where suffix is a prefix of quality</span>
         <span class="k">if</span> <span class="n">quality</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">ireal_suffix</span><span class="p">)</span> <span class="ow">and</span> <span class="n">ireal_suffix</span> <span class="o">!=</span> <span class="n">quality</span><span class="p">:</span>
             <span class="n">remaining</span> <span class="o">=</span> <span class="n">quality</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">ireal_suffix</span><span class="p">)</span> <span class="p">:]</span>
             <span class="k">return</span> <span class="n">root</span> <span class="o">+</span> <span class="n">mma_suffix</span> <span class="o">+</span> <span class="n">remaining</span>
@@ -589,15 +1192,15 @@
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_style_to_groove</span><span class="p">(</span><span class="n">style</span><span class="p">:</span> <span class="n">StyleName</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Map style name to MMA groove name.&quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">_get_groove_map</span><span class="p">()</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">style</span><span class="p">,</span> <span class="s2">&quot;Swing&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="sd">"""Map style name to MMA groove name."""</span>
+    <span class="k">return</span> <span class="n">_get_groove_map</span><span class="p">()</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">style</span><span class="p">,</span> <span class="s2">"Swing"</span><span class="p">)</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_get_groove_map</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Load the style-to-MMA-groove mapping from user resources.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Load the style-to-MMA-groove mapping from user resources."""</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">.data_access</span><span class="w"> </span><span class="kn">import</span> <span class="n">load_resource_json</span>
 
-    <span class="k">return</span> <span class="n">load_resource_json</span><span class="p">(</span><span class="s2">&quot;groove_map.json&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">load_resource_json</span><span class="p">(</span><span class="s2">"groove_map.json"</span><span class="p">)</span>
 
 
 <span class="c1"># =============================================================================</span>
@@ -606,31 +1209,31 @@
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_find_mma</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Find the MMA executable, checking the current Python env&#39;s bin dir first.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Find the MMA executable, checking the current Python env's bin dir first."""</span>
     <span class="kn">import</span><span class="w"> </span><span class="nn">shutil</span>
 
     <span class="c1"># Check if mma is on PATH</span>
-    <span class="n">mma_path</span> <span class="o">=</span> <span class="n">shutil</span><span class="o">.</span><span class="n">which</span><span class="p">(</span><span class="s2">&quot;mma&quot;</span><span class="p">)</span>
+    <span class="n">mma_path</span> <span class="o">=</span> <span class="n">shutil</span><span class="o">.</span><span class="n">which</span><span class="p">(</span><span class="s2">"mma"</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">mma_path</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">mma_path</span>
     <span class="c1"># Check in the same bin directory as the current Python interpreter</span>
-    <span class="n">env_bin</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">executable</span><span class="p">)</span><span class="o">.</span><span class="n">parent</span> <span class="o">/</span> <span class="s2">&quot;mma&quot;</span>
+    <span class="n">env_bin</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">executable</span><span class="p">)</span><span class="o">.</span><span class="n">parent</span> <span class="o">/</span> <span class="s2">"mma"</span>
     <span class="k">if</span> <span class="n">env_bin</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
         <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">env_bin</span><span class="p">)</span>
-    <span class="k">return</span> <span class="s2">&quot;mma&quot;</span>  <span class="c1"># fallback to bare command</span>
+    <span class="k">return</span> <span class="s2">"mma"</span>  <span class="c1"># fallback to bare command</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_mma_available</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Check if MMA is available.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Check if MMA is available."""</span>
     <span class="k">try</span><span class="p">:</span>
-        <span class="n">result</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">run</span><span class="p">([</span><span class="n">_find_mma</span><span class="p">(),</span> <span class="s2">&quot;-v&quot;</span><span class="p">],</span> <span class="n">capture_output</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">run</span><span class="p">([</span><span class="n">_find_mma</span><span class="p">(),</span> <span class="s2">"-v"</span><span class="p">],</span> <span class="n">capture_output</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">result</span><span class="o">.</span><span class="n">returncode</span> <span class="o">==</span> <span class="mi">0</span>
     <span class="k">except</span> <span class="p">(</span><span class="ne">FileNotFoundError</span><span class="p">,</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">TimeoutExpired</span><span class="p">):</span>
         <span class="k">return</span> <span class="kc">False</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_check_import</span><span class="p">(</span><span class="n">module_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Check if a Python module can be imported.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Check if a Python module can be imported."""</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="nb">__import__</span><span class="p">(</span><span class="n">module_name</span><span class="p">)</span>
         <span class="k">return</span> <span class="kc">True</span>
@@ -638,31 +1241,53 @@
         <span class="k">return</span> <span class="kc">False</span>
 </pre></div>
 
-           </div>
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
           </div>
-          <footer>
-
-  <hr/>
-
-  <div role="contentinfo">
-    <p></p>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
   </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../_static/scripts/bootstrap.js?digest=cb8930eaaf36d9849b67"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=cb8930eaaf36d9849b67"></script>
 
-  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
-    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
-    provided by <a href="https://readthedocs.org">Read the Docs</a>.
-   
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.21.0.
+</p></div>
+      
+    </div>
+  
+</div>
 
-</footer>
-        </div>
-      </div>
-    </section>
-  </div>
-  <script>
-      jQuery(function () {
-          SphinxRtdTheme.Navigation.enable(true);
-      });
-  </script> 
-
-</body>
+  </footer>
+  </body>
 </html>

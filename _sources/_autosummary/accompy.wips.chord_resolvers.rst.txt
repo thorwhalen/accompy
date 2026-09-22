@@ -1,0 +1,6 @@
+accompy.wips.chord\_resolvers
+=============================
+
+.. automodule:: accompy.wips.chord_resolvers
+
+   

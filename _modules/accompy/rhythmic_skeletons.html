@@ -1,114 +1,717 @@
 
-
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" data-content_root="../../">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>accompy.rhythmic_skeletons &mdash; accompy 0.3.10 documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
-      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
-      <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
-      <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="alternate" type="text/markdown" href="rhythmic_skeletons.html.md">
+<link rel="describedby" href="../../llms.txt" type="text/markdown">
+    <title>accompy.rhythmic_skeletons &#8212; accompy</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=cb8930eaaf36d9849b67" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=cb8930eaaf36d9849b67" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=d75fae25" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/epythet.css?v=fbe2051b" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../../_static/scripts/fontawesome.js?digest=cb8930eaaf36d9849b67"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=cb8930eaaf36d9849b67" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=cb8930eaaf36d9849b67" />
+
+    <script src="../../_static/documentation_options.js?v=0cf6a877"></script>
+    <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=fd10adb8"></script>
+    <script type="module">import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.12.1/dist/mermaid.esm.min.mjs";
+
+
+
+
+
+const initStyles = () => {
+    const defaultStyle = document.createElement('style');
+    defaultStyle.textContent = "pre.mermaid {\n    /* Same as .mermaid-container > pre */\n    display: block;\n    width: 100%;\n}\n\npre.mermaid > svg {\n    /* Same as .mermaid-container > pre > svg */\n    height: 500px;\n    width: 100%;\n    max-width: 100% !important;\n}";
+    document.head.appendChild(defaultStyle);
+
+    const fullscreenStyle = document.createElement('style');
+    fullscreenStyle.textContent = ".mermaid-container {\n    position: relative;\n    display: flex;\n    flex-direction: row;\n    width: 100%;\n}\n\n.mermaid-container > pre {\n    display: block;\n    width: 100%;\n}\n\n.mermaid-container > pre > svg {\n    height: 500px;\n    width: 100%;\n    max-width: 100% !important;\n}\n\n.mermaid-fullscreen-btn {\n    position: absolute;\n    width: 28px;\n    height: 28px;\n    background: rgba(255, 255, 255, 0.95);\n    border: 1px solid rgba(0, 0, 0, 0.3);\n    border-radius: 4px;\n    cursor: pointer;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n    transition: all 0.2s;\n    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);\n    font-size: 14px;\n    line-height: 1;\n    padding: 0;\n    color: #333;\n}\n\n.mermaid-fullscreen-btn:hover {\n    opacity: 100% !important;\n    background: rgba(255, 255, 255, 1);\n    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);\n    transform: scale(1.1);\n}\n\n.mermaid-fullscreen-btn.dark-theme {\n    background: rgba(50, 50, 50, 0.95);\n    border: 1px solid rgba(255, 255, 255, 0.3);\n    color: #e0e0e0;\n}\n\n.mermaid-fullscreen-btn.dark-theme:hover {\n    background: rgba(60, 60, 60, 1);\n    box-shadow: 0 3px 10px rgba(255, 255, 255, 0.2);\n}\n\n.mermaid-fullscreen-modal {\n    display: none;\n    position: fixed !important;\n    top: 0 !important;\n    left: 0 !important;\n    width: 95vw;\n    height: 100vh;\n    background: rgba(255, 255, 255, 0.98);\n    z-index: 9999;\n    padding: 20px;\n    overflow: auto;\n}\n\n.mermaid-fullscreen-modal.dark-theme {\n    background: rgba(0, 0, 0, 0.98);\n}\n\n.mermaid-fullscreen-modal.active {\n    display: flex;\n    align-items: center;\n    justify-content: center;\n}\n\n.mermaid-container-fullscreen {\n    position: relative;\n    width: 95vw;\n    height: 90vh;\n    max-width: 95vw;\n    max-height: 90vh;\n    background: white;\n    border-radius: 8px;\n    padding: 20px;\n    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);\n    overflow: auto;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n}\n\n.mermaid-container-fullscreen.dark-theme {\n    background: #1a1a1a;\n    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8);\n}\n\n.mermaid-container-fullscreen pre.mermaid {\n    width: 100%;\n    height: 100%;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n}\n\n.mermaid-container-fullscreen .mermaid svg {\n    height: 100% !important;\n    width: 100% !important;\n    cursor: grab;\n}\n\n.mermaid-fullscreen-close {\n    position: fixed !important;\n    top: 20px !important;\n    right: 20px !important;\n    width: 40px;\n    height: 40px;\n    background: rgba(255, 255, 255, 0.95);\n    border: 1px solid rgba(0, 0, 0, 0.2);\n    border-radius: 50%;\n    cursor: pointer;\n    z-index: 10000;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);\n    transition: all 0.2s;\n    font-size: 24px;\n    line-height: 1;\n    color: #333;\n}\n\n.mermaid-fullscreen-close:hover {\n    background: white;\n    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);\n    transform: scale(1.1);\n}\n\n.mermaid-fullscreen-close.dark-theme {\n    background: rgba(50, 50, 50, 0.95);\n    border: 1px solid rgba(255, 255, 255, 0.2);\n    color: #e0e0e0;\n}\n\n.mermaid-fullscreen-close.dark-theme:hover {\n    background: rgba(60, 60, 60, 1);\n    box-shadow: 0 6px 16px rgba(255, 255, 255, 0.2);\n}\n\n.mermaid-fullscreen-modal .mermaid-fullscreen-btn {\n    display: none !important;\n}";
+    document.head.appendChild(fullscreenStyle);
+}
+
+// Detect if page has dark background
+const isDarkTheme = () => {
+    // We use a set of heuristics:
+    // 1. Check for common dark mode classes or attributes
+    // 2. Check computed background color brightness
+    if (document.documentElement.classList.contains('dark') ||
+        document.documentElement.getAttribute('data-theme') === 'dark' ||
+        document.body.classList.contains('dark') ||
+        document.body.getAttribute('data-theme') === 'dark') {
+        // console.log("Dark theme detected via class/attribute");
+        return true;
+    }
+    if (document.documentElement.classList.contains('light') ||
+        document.documentElement.getAttribute('data-theme') === 'light' ||
+        document.body.classList.contains('light') ||
+        document.body.getAttribute('data-theme') === 'light') {
+        // console.log("Light theme detected via class/attribute");
+        return false;
+    }
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        // console.log("Dark theme detected via prefers-color-scheme");
+        return true;
+    }
+    const bgColor = window.getComputedStyle(document.body).backgroundColor;
+    const match = bgColor.match(/rgb\((\d+),\s*(\d+),\s*(\d+)/);
+    if (match) {
+        const r = parseInt(match[1]);
+        const g = parseInt(match[2]);
+        const b = parseInt(match[3]);
+        const brightness = (r * 299 + g * 587 + b * 114) / 1000;
+        // console.log("Background color brightness:", brightness);
+        return brightness < 128;
+    }
+    // console.log("No dark or light theme detected, defaulting to light theme");
+    return false;
+};
+
+let darkTheme = isDarkTheme();
+let modal = null;
+let modalContent = null;
+let previousScrollOffset = [window.scrollX, window.scrollY];
+let _lazyObserver = null;
+let _renderQueue = Promise.resolve();
+let closeModal = () => {};
+
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && modal?.classList.contains('active')) {
+        closeModal();
+    }
+});
+
+// Apply d3 zoom to each SVG. Idempotent: an SVG already wrapped is skipped,
+// so this is safe to call both for the initial batch and for diagrams that
+// render lazily once they become visible.
+const addZoomToSvgs = (svgs) => {
+    svgs.each(function() {
+        if (this.getAttribute('data-zoom-applied') === 'true') return;
+        var svg = d3.select(this);
+        svg.html("<g class='wrapper'>" + svg.html() + "</g>");
+        var inner = svg.select("g");
+        var zoom = d3.zoom().on("zoom", function(event) {
+            inner.attr("transform", event.transform);
+        });
+        svg.call(zoom);
+        this.setAttribute('data-zoom-applied', 'true');
+    });
+};
+
+const runMermaid = async (rerun) => {
+    console.log("Running mermaid diagrams, rerun =", rerun);
+    // clear all existing mermaid charts
+    let all_mermaids = document.querySelectorAll(".mermaid");
+
+    if (rerun) {
+        // Disconnect any previous lazy rendering observer
+        if (_lazyObserver) {
+            _lazyObserver.disconnect();
+            _lazyObserver = null;
+        }
+
+        all_mermaids.forEach((el) => {
+            el.removeAttribute('data-mermaid-deferred');
+            el.removeAttribute('data-mermaid-render-failed');
+            if(!el.hasAttribute("data-original-code")) {
+                // store original code
+                // console.log(`Storing original code for first run: `, el.innerHTML);
+                el.setAttribute('data-original-code', el.innerHTML);
+            }
+            if(el.getAttribute("data-processed") === "true") {
+                // remove and restore original
+                el.removeAttribute("data-processed");
+                // console.log(`Restoring original code for re-run: `, el.getAttribute('data-original-code'));
+                el.innerHTML = el.getAttribute('data-original-code');
+            } else {
+                // store original code
+                // console.log(`Storing original code for re-run: `, el.innerHTML);
+                el.setAttribute('data-original-code', el.innerHTML);
+            }
+        });
+
+        // Separate visible and hidden elements. Mermaid's layout engine measures
+        // text dimensions via the DOM, which fails for elements hidden by a parent
+        // (e.g., Reveal.js non-active slides, sphinx-design unopened tabs),
+        // producing broken SVGs. Render visible elements now, defer hidden ones.
+        const visible = [];
+        const hidden = [];
+        all_mermaids.forEach((el) => {
+            // offsetParent is null for display:none ancestors.
+            // getClientRects().length > 0 catches position:fixed elements
+            // (which also have null offsetParent but are still visible).
+            if (el.offsetParent !== null || el.getClientRects().length > 0) {
+                visible.push(el);
+            } else {
+                hidden.push(el);
+                el.setAttribute('data-mermaid-deferred', 'true');
+            }
+        });
+
+        if (visible.length > 0) {
+            try {
+                await mermaid.run({ nodes: visible });
+            } catch (e) {
+                console.error("Mermaid rendering failed:", e);
+            }
+        }
+
+        // Lazily render hidden elements when they become visible.
+        // Uses a promise chain (_renderQueue) to serialize rendering,
+        // since IntersectionObserver may report multiple entries at once
+        // and mermaid.run() is not safe to call concurrently.
+        if (hidden.length > 0) {
+            if (typeof IntersectionObserver === 'undefined') {
+                console.warn("IntersectionObserver not available; hidden mermaid diagrams will not render.");
+            } else {
+                _renderQueue = Promise.resolve();
+                _lazyObserver = new IntersectionObserver((entries) => {
+                    for (const entry of entries) {
+                        if (entry.isIntersecting && entry.target.getAttribute("data-processed") !== "true") {
+                            _lazyObserver.unobserve(entry.target);
+                            const el = entry.target;
+                            _renderQueue = _renderQueue.then(async () => {
+                                try {
+                                    await mermaid.run({ nodes: [el] });
+                                    el.removeAttribute('data-mermaid-deferred');
+                                    // Apply zoom to the now-rendered diagram, matching
+                                    // the decoration visible diagrams receive.
+                                    if (false) {
+                                        addZoomToSvgs(d3.selectAll("").select(function() {
+                                            return this.querySelector("svg");
+                                        }));
+                                    }
+                                } catch (e) {
+                                    console.error("Mermaid deferred rendering failed:", e);
+                                    el.removeAttribute('data-mermaid-deferred');
+                                    el.setAttribute('data-mermaid-render-failed', 'true');
+                                }
+                            });
+                        }
+                    }
+                });
+                hidden.forEach((el) => _lazyObserver.observe(el));
+            }
+        }
+    }
+
+    all_mermaids = document.querySelectorAll(".mermaid");
+    // Exclude deferred (hidden) and render-failed elements from completion checks
+    const mermaids_active = document.querySelectorAll(".mermaid:not([data-mermaid-deferred]):not([data-mermaid-render-failed])");
+    const mermaids_processed = document.querySelectorAll(".mermaid:not([data-mermaid-deferred]):not([data-mermaid-render-failed])[data-processed='true']");
+
+    if (false) {
+        const mermaids_to_add_zoom = 0 === -1 ? mermaids_active.length : 0;
+        if(mermaids_to_add_zoom > 0) {
+            var svgs = d3.selectAll("").select(function() {
+                return this.querySelector("svg");
+            });
+            // Wait until every active (visible) diagram has rendered. Deferred
+            // diagrams are excluded, so a fixed d3_node_count that counts a
+            // hidden diagram no longer loops forever waiting for its SVG.
+            if(mermaids_active.length !== mermaids_processed.length) {
+                setTimeout(() => runMermaid(false), 200);
+                return;
+            }
+            addZoomToSvgs(svgs);
+        }
+    } else if(mermaids_active.length !== mermaids_processed.length) {
+        // Wait for mermaid to process all diagrams
+        setTimeout(() => runMermaid(false), 200);
+        return;
+    }
+
+    // Stop here if not adding fullscreen capability
+    if (!true) return;
+
+    if (modal !== null ) {
+        // Destroy existing modal
+        modal.remove();
+        modal = null;
+        modalContent = null;
+    }
+
+    modal = document.createElement('div');
+    modal.className = 'mermaid-fullscreen-modal' + (darkTheme ? ' dark-theme' : '');
+    modal.setAttribute('role', 'dialog');
+    modal.setAttribute('aria-modal', 'true');
+    modal.setAttribute('aria-label', 'Fullscreen diagram viewer');
+    modal.innerHTML = `
+        <button class="mermaid-fullscreen-close${darkTheme ? ' dark-theme' : ''}" aria-label="Close fullscreen">✕</button>
+        <div class="mermaid-container-fullscreen${darkTheme ? ' dark-theme' : ''}"></div>
+    `;
+    document.body.appendChild(modal);
+
+    modalContent = modal.querySelector('.mermaid-container-fullscreen');
+    const closeBtn = modal.querySelector('.mermaid-fullscreen-close');
+
+    closeModal = () => {
+        modal.classList.remove('active');
+        modalContent.innerHTML = '';
+        document.body.style.overflow = ''
+        window.scrollTo({left: previousScrollOffset[0], top: previousScrollOffset[1], behavior: 'instant'});
+    };
+
+    closeBtn.addEventListener('click', closeModal);
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) closeModal();
+    });
+    document.querySelectorAll('.mermaid').forEach((mermaidDiv) => {
+        if (mermaidDiv.parentNode.classList.contains('mermaid-container') ||
+            mermaidDiv.closest('.mermaid-fullscreen-modal')) {
+            // Already processed, adjust button class if needed
+            const existingBtn = mermaidDiv.parentNode.querySelector('.mermaid-fullscreen-btn');
+            if (existingBtn) {
+                existingBtn.className = 'mermaid-fullscreen-btn' + (darkTheme ? ' dark-theme' : '');
+            }
+            return;
+        }
+
+        const container = document.createElement('div');
+        container.className = 'mermaid-container';
+        mermaidDiv.parentNode.insertBefore(container, mermaidDiv);
+        container.appendChild(mermaidDiv);
+
+        const fullscreenBtn = document.createElement('button');
+        fullscreenBtn.className = 'mermaid-fullscreen-btn' + (darkTheme ? ' dark-theme' : '');
+        fullscreenBtn.setAttribute('aria-label', 'View diagram in fullscreen');
+        fullscreenBtn.textContent = "\u26f6";
+        fullscreenBtn.style.opacity = "50%";
+
+        // Calculate dynamic position based on diagram's margin and padding
+        const diagramStyle = window.getComputedStyle(mermaidDiv);
+        const marginTop = parseFloat(diagramStyle.marginTop) || 0;
+        const marginRight = parseFloat(diagramStyle.marginRight) || 0;
+        const paddingTop = parseFloat(diagramStyle.paddingTop) || 0;
+        const paddingRight = parseFloat(diagramStyle.paddingRight) || 0;
+        fullscreenBtn.style.top = `${marginTop + paddingTop + 4}px`;
+        fullscreenBtn.style.right = `${marginRight + paddingRight + 4}px`;
+
+        fullscreenBtn.addEventListener('click', () => {
+            previousScrollOffset = [window.scrollX, window.scrollY];
+            const clone = mermaidDiv.cloneNode(true);
+            modalContent.innerHTML = '';
+            modalContent.appendChild(clone);
+
+            const svg = clone.querySelector('svg');
+            if (svg) {
+                svg.removeAttribute('width');
+                svg.removeAttribute('height');
+                svg.style.width = '100%';
+                svg.style.height = 'auto';
+                svg.style.maxWidth = '100%';
+                svg.style.display = 'block';
+
+                if (false) {
+                    setTimeout(() => {
+                        const g = svg.querySelector('g');
+                        if (g) {
+                            var svgD3 = d3.select(svg);
+                            svgD3.html("<g class='wrapper'>" + svgD3.html() + "</g>");
+                            var inner = svgD3.select("g");
+                            var zoom = d3.zoom().on("zoom", function(event) {
+                                inner.attr("transform", event.transform);
+                            });
+                            svgD3.call(zoom);
+                        }
+                    }, 100);
+                }
+            }
+
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        });
+        container.appendChild(fullscreenBtn);
+    });
+};
+
+
+
+const load = async () => {
+    initStyles();
+
+
+    await runMermaid(true);
+
+    const reRunIfThemeChanges = async () => {
+        const newDarkTheme = isDarkTheme();
+        if (newDarkTheme !== darkTheme) {
+            darkTheme = newDarkTheme;
+            console.log("Theme change detected, re-running mermaid with", darkTheme ? "dark" : "default", "theme");
+            await mermaid.initialize(
+                {...{"startOnLoad": false},
+                ...{ darkMode: darkTheme, theme: darkTheme ? "dark" : "default" },
+                }
+            );
+            await runMermaid(true);
+        }
+    };
+
+    // Update theme classes when theme changes
+    const themeObserver = new MutationObserver(reRunIfThemeChanges);
+    themeObserver.observe(document.documentElement, {
+        attributes: true,
+        attributeFilter: ['class', 'style', 'data-theme']
+    });
+    themeObserver.observe(document.body, {
+        attributes: true,
+        attributeFilter: ['class', 'style', 'data-theme']
+    });
+};
+
+
+
+
+
+console.log("Initializing mermaid with", darkTheme ? "dark" : "default", "theme");
+mermaid.initialize(
+    {...{"startOnLoad": false},
+    ...{ darkMode: darkTheme, theme: darkTheme ? "dark" : "default" },
+    }
+);
+
+window.addEventListener("load", load);
+window.runMermaid = runMermaid;</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/accompy/rhythmic_skeletons';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="0.3.12" />
+  
+    
+    <script src="../../_static/searchtools.js"></script>
+    <script src="../../_static/language_data.js"></script>
+    <script src="../../searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
 
   
-      <script src="../../_static/jquery.js?v=5d32c60e"></script>
-      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../_static/documentation_options.js?v=9f76a604"></script>
-      <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
-      <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
-      <script src="../../_static/toggleprompt.js?v=d7ede5d2"></script>
-      <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
-      <script src="../../_static/copybutton.js?v=f281be69"></script>
-    <script src="../../_static/js/theme.js"></script>
-    <link rel="index" title="Index" href="../../genindex.html" />
-    <link rel="search" title="Search" href="../../search.html" /> 
-</head>
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
 
-<body class="wy-body-for-nav"> 
-  <div class="wy-grid-for-nav">
-    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
-      <div class="wy-side-scroll">
-        <div class="wy-side-nav-search" >
-
-          
-          
-          <a href="../../index.html" class="icon icon-home">
-            accompy
-          </a>
-<div role="search">
-  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
-    <input type="hidden" name="check_keywords" value="yes" />
-    <input type="hidden" name="area" value="default" />
-  </form>
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
 </div>
-        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy.html">accompy</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/_seed_data.html">accompy._seed_data</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/_seed_data/config.html">accompy._seed_data.config</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/_seed_data/resources.html">accompy._seed_data.resources</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/audio_renderers.html">accompy.audio_renderers</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/base.html">accompy.base</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/chord_parsers.html">accompy.chord_parsers</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/chord_resolution.html">accompy.chord_resolution</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/chord_resolvers.html">accompy.chord_resolvers</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/converters.html">accompy.converters</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/data_access.html">accompy.data_access</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/main.html">accompy.main</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/midi_generators.html">accompy.midi_generators</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/patterns.html">accompy.patterns</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/patterns/builtin.html">accompy.patterns.builtin</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/patterns/dataclasses.html">accompy.patterns.dataclasses</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/pipeline.html">accompy.pipeline</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/protocols.html">accompy.protocols</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/realtime.html">accompy.realtime</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/renderers.html">accompy.renderers</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/renderers/midi.html">accompy.renderers.midi</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/rendering.html">accompy.rendering</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/rhythmic_skeletons.html">accompy.rhythmic_skeletons</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/setup_utils.html">accompy.setup_utils</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/synthesis.html">accompy.synthesis</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/synthesis/fluidsynth.html">accompy.synthesis.fluidsynth</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/tools.html">accompy.tools</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/util.html">accompy.util</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/wips.html">accompy.wips</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/wips/audio_renderers.html">accompy.wips.audio_renderers</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/wips/chord_parsers.html">accompy.wips.chord_parsers</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/wips/chord_resolvers.html">accompy.wips.chord_resolvers</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/wips/midi_generators.html">accompy.wips.midi_generators</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/wips/pipeline.html">accompy.wips.pipeline</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/accompy/wips/types.html">accompy.wips.types</a></li>
-</ul>
 
-        </div>
-      </div>
-    </nav>
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
-          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="../../index.html">accompy</a>
-      </nav>
+  
+    
+  
 
-      <div class="wy-nav-content">
-        <div class="rst-content">
-          <div role="navigation" aria-label="Page navigation">
-  <ul class="wy-breadcrumbs">
-      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
-          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
-      <li class="breadcrumb-item active">accompy.rhythmic_skeletons</li>
-      <li class="wy-breadcrumbs-aside">
-      </li>
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">accompy</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../api.html">
+    API reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../ai-agents.html">
+    For AI agents
+  </a>
+</li>
+
   </ul>
-  <hr/>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+  </ul>
+</div></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/thorwhalen/accompy" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i><span class="visually-hidden">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
 </div>
-          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
-           <div itemprop="articleBody">
-             
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar hide-on-wide">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../api.html">
+    API reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../ai-agents.html">
+    For AI agents
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+  </ul>
+</div></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/thorwhalen/accompy" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i><span class="visually-hidden">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../index.html" class="nav-link">Module code</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">accompy.rhythmic_skeletons</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
   <h1>Source code for accompy.rhythmic_skeletons</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span></span><span class="sd">"""</span>
 <span class="sd">Rhythmic skeletons — duration-only measure patterns for simple accompaniment.</span>
 
 <span class="sd">A rhythmic skeleton is a tuple of durations (in beats) that sum to the time</span>
@@ -117,7 +720,7 @@
 <span class="sd">velocities, no instrument assignments.</span>
 
 <span class="sd">The purpose of separating this layer out is to provide a gravitational center</span>
-<span class="sd">for more sophisticated generation. A human accompanist doesn&#39;t mechanically</span>
+<span class="sd">for more sophisticated generation. A human accompanist doesn't mechanically</span>
 <span class="sd">repeat a fixed pattern — they vary, anticipate, syncopate, and breathe around</span>
 <span class="sd">a characteristic rhythmic feel. By defining that feel as a minimal skeleton, we</span>
 <span class="sd">give downstream processes a clear, lightweight seed to elaborate from.</span>
@@ -125,17 +728,17 @@
 <span class="sd">Example::</span>
 
 <span class="sd">    &gt;&gt;&gt; from accompy.rhythmic_skeletons import resolve_skeleton, apply_skeleton</span>
-<span class="sd">    &gt;&gt;&gt; resolve_skeleton(&quot;tresillo&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; resolve_skeleton("tresillo")</span>
 <span class="sd">    (1.5, 1.5, 1)</span>
 <span class="sd">    &gt;&gt;&gt; resolve_skeleton((2, 2))</span>
 <span class="sd">    (2, 2)</span>
 
 <span class="sd">    &gt;&gt;&gt; from accompy.converters import ChordSequence</span>
-<span class="sd">    &gt;&gt;&gt; cs = ChordSequence([(&quot;Dm7&quot;, 4.0), (&quot;G7&quot;, 4.0)])</span>
-<span class="sd">    &gt;&gt;&gt; expanded = apply_skeleton(cs, &quot;tresillo&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; cs = ChordSequence([("Dm7", 4.0), ("G7", 4.0)])</span>
+<span class="sd">    &gt;&gt;&gt; expanded = apply_skeleton(cs, "tresillo")</span>
 <span class="sd">    &gt;&gt;&gt; [(sym, dur) for sym, dur in expanded]</span>
-<span class="sd">    [(&#39;Dm7&#39;, 1.5), (&#39;Dm7&#39;, 1.5), (&#39;Dm7&#39;, 1.0), (&#39;G7&#39;, 1.5), (&#39;G7&#39;, 1.5), (&#39;G7&#39;, 1.0)]</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    [('Dm7', 1.5), ('Dm7', 1.5), ('Dm7', 1.0), ('G7', 1.5), ('G7', 1.5), ('G7', 1.0)]</span>
+<span class="sd">"""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 
@@ -147,226 +750,226 @@
 
 <span class="n">RHYTHMIC_SKELETONS</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">dict</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
     <span class="c1"># === 4/4 patterns ===</span>
-    <span class="s2">&quot;whole_note&quot;</span><span class="p">:</span> <span class="p">{</span>
-        <span class="s2">&quot;pattern&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">4</span><span class="p">,),</span>
-        <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Whole note&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;beats_per_measure&quot;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
-        <span class="s2">&quot;styles&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;ballad&quot;</span><span class="p">,</span> <span class="s2">&quot;pad&quot;</span><span class="p">,</span> <span class="s2">&quot;ambient&quot;</span><span class="p">,</span> <span class="s2">&quot;slow_swing&quot;</span><span class="p">,</span> <span class="s2">&quot;worship&quot;</span><span class="p">,</span> <span class="s2">&quot;drone&quot;</span><span class="p">],</span>
+    <span class="s2">"whole_note"</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">"pattern"</span><span class="p">:</span> <span class="p">(</span><span class="mi">4</span><span class="p">,),</span>
+        <span class="s2">"name"</span><span class="p">:</span> <span class="s2">"Whole note"</span><span class="p">,</span>
+        <span class="s2">"beats_per_measure"</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
+        <span class="s2">"styles"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"ballad"</span><span class="p">,</span> <span class="s2">"pad"</span><span class="p">,</span> <span class="s2">"ambient"</span><span class="p">,</span> <span class="s2">"slow_swing"</span><span class="p">,</span> <span class="s2">"worship"</span><span class="p">,</span> <span class="s2">"drone"</span><span class="p">],</span>
     <span class="p">},</span>
-    <span class="s2">&quot;half_notes&quot;</span><span class="p">:</span> <span class="p">{</span>
-        <span class="s2">&quot;pattern&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span>
-        <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Half notes&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;beats_per_measure&quot;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
-        <span class="s2">&quot;styles&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;ballad&quot;</span><span class="p">,</span> <span class="s2">&quot;hymn&quot;</span><span class="p">,</span> <span class="s2">&quot;slow_rock&quot;</span><span class="p">,</span> <span class="s2">&quot;ambient&quot;</span><span class="p">,</span> <span class="s2">&quot;choral&quot;</span><span class="p">,</span> <span class="s2">&quot;new_age&quot;</span><span class="p">],</span>
+    <span class="s2">"half_notes"</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">"pattern"</span><span class="p">:</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span>
+        <span class="s2">"name"</span><span class="p">:</span> <span class="s2">"Half notes"</span><span class="p">,</span>
+        <span class="s2">"beats_per_measure"</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
+        <span class="s2">"styles"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"ballad"</span><span class="p">,</span> <span class="s2">"hymn"</span><span class="p">,</span> <span class="s2">"slow_rock"</span><span class="p">,</span> <span class="s2">"ambient"</span><span class="p">,</span> <span class="s2">"choral"</span><span class="p">,</span> <span class="s2">"new_age"</span><span class="p">],</span>
     <span class="p">},</span>
-    <span class="s2">&quot;quarter_notes&quot;</span><span class="p">:</span> <span class="p">{</span>
-        <span class="s2">&quot;pattern&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
-        <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Quarter notes&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;beats_per_measure&quot;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
-        <span class="s2">&quot;styles&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;rock&quot;</span><span class="p">,</span> <span class="s2">&quot;pop&quot;</span><span class="p">,</span> <span class="s2">&quot;march&quot;</span><span class="p">,</span> <span class="s2">&quot;country&quot;</span><span class="p">,</span> <span class="s2">&quot;motown&quot;</span><span class="p">],</span>
+    <span class="s2">"quarter_notes"</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">"pattern"</span><span class="p">:</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+        <span class="s2">"name"</span><span class="p">:</span> <span class="s2">"Quarter notes"</span><span class="p">,</span>
+        <span class="s2">"beats_per_measure"</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
+        <span class="s2">"styles"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"rock"</span><span class="p">,</span> <span class="s2">"pop"</span><span class="p">,</span> <span class="s2">"march"</span><span class="p">,</span> <span class="s2">"country"</span><span class="p">,</span> <span class="s2">"motown"</span><span class="p">],</span>
     <span class="p">},</span>
-    <span class="s2">&quot;four_on_the_floor&quot;</span><span class="p">:</span> <span class="p">{</span>
-        <span class="s2">&quot;pattern&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
-        <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Four-on-the-floor&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;beats_per_measure&quot;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
-        <span class="s2">&quot;styles&quot;</span><span class="p">:</span> <span class="p">[</span>
-            <span class="s2">&quot;swing&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;disco&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;edm&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;house&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;country&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;march&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;polka&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;techno&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;pop&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;motown&quot;</span><span class="p">,</span>
+    <span class="s2">"four_on_the_floor"</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">"pattern"</span><span class="p">:</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+        <span class="s2">"name"</span><span class="p">:</span> <span class="s2">"Four-on-the-floor"</span><span class="p">,</span>
+        <span class="s2">"beats_per_measure"</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
+        <span class="s2">"styles"</span><span class="p">:</span> <span class="p">[</span>
+            <span class="s2">"swing"</span><span class="p">,</span>
+            <span class="s2">"disco"</span><span class="p">,</span>
+            <span class="s2">"edm"</span><span class="p">,</span>
+            <span class="s2">"house"</span><span class="p">,</span>
+            <span class="s2">"country"</span><span class="p">,</span>
+            <span class="s2">"march"</span><span class="p">,</span>
+            <span class="s2">"polka"</span><span class="p">,</span>
+            <span class="s2">"techno"</span><span class="p">,</span>
+            <span class="s2">"pop"</span><span class="p">,</span>
+            <span class="s2">"motown"</span><span class="p">,</span>
         <span class="p">],</span>
     <span class="p">},</span>
-    <span class="s2">&quot;long_short_short&quot;</span><span class="p">:</span> <span class="p">{</span>
-        <span class="s2">&quot;pattern&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
-        <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Long-short-short&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;beats_per_measure&quot;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
-        <span class="s2">&quot;styles&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;march&quot;</span><span class="p">,</span> <span class="s2">&quot;polka&quot;</span><span class="p">,</span> <span class="s2">&quot;country_rock&quot;</span><span class="p">,</span> <span class="s2">&quot;folk&quot;</span><span class="p">,</span> <span class="s2">&quot;bluegrass&quot;</span><span class="p">,</span> <span class="s2">&quot;oom_pah&quot;</span><span class="p">],</span>
+    <span class="s2">"long_short_short"</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">"pattern"</span><span class="p">:</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+        <span class="s2">"name"</span><span class="p">:</span> <span class="s2">"Long-short-short"</span><span class="p">,</span>
+        <span class="s2">"beats_per_measure"</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
+        <span class="s2">"styles"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"march"</span><span class="p">,</span> <span class="s2">"polka"</span><span class="p">,</span> <span class="s2">"country_rock"</span><span class="p">,</span> <span class="s2">"folk"</span><span class="p">,</span> <span class="s2">"bluegrass"</span><span class="p">,</span> <span class="s2">"oom_pah"</span><span class="p">],</span>
     <span class="p">},</span>
-    <span class="s2">&quot;short_short_long&quot;</span><span class="p">:</span> <span class="p">{</span>
-        <span class="s2">&quot;pattern&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span>
-        <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Short-short-long&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;beats_per_measure&quot;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
-        <span class="s2">&quot;styles&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;folk&quot;</span><span class="p">,</span> <span class="s2">&quot;power_ballad&quot;</span><span class="p">,</span> <span class="s2">&quot;pop_rock&quot;</span><span class="p">,</span> <span class="s2">&quot;singer_songwriter&quot;</span><span class="p">,</span> <span class="s2">&quot;anthem&quot;</span><span class="p">],</span>
+    <span class="s2">"short_short_long"</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">"pattern"</span><span class="p">:</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span>
+        <span class="s2">"name"</span><span class="p">:</span> <span class="s2">"Short-short-long"</span><span class="p">,</span>
+        <span class="s2">"beats_per_measure"</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
+        <span class="s2">"styles"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"folk"</span><span class="p">,</span> <span class="s2">"power_ballad"</span><span class="p">,</span> <span class="s2">"pop_rock"</span><span class="p">,</span> <span class="s2">"singer_songwriter"</span><span class="p">,</span> <span class="s2">"anthem"</span><span class="p">],</span>
     <span class="p">},</span>
-    <span class="s2">&quot;short_long_short&quot;</span><span class="p">:</span> <span class="p">{</span>
-        <span class="s2">&quot;pattern&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
-        <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Short-long-short&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;beats_per_measure&quot;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
-        <span class="s2">&quot;styles&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;pop&quot;</span><span class="p">,</span> <span class="s2">&quot;soft_rock&quot;</span><span class="p">,</span> <span class="s2">&quot;r_and_b&quot;</span><span class="p">,</span> <span class="s2">&quot;soul&quot;</span><span class="p">,</span> <span class="s2">&quot;gospel&quot;</span><span class="p">],</span>
+    <span class="s2">"short_long_short"</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">"pattern"</span><span class="p">:</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+        <span class="s2">"name"</span><span class="p">:</span> <span class="s2">"Short-long-short"</span><span class="p">,</span>
+        <span class="s2">"beats_per_measure"</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
+        <span class="s2">"styles"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"pop"</span><span class="p">,</span> <span class="s2">"soft_rock"</span><span class="p">,</span> <span class="s2">"r_and_b"</span><span class="p">,</span> <span class="s2">"soul"</span><span class="p">,</span> <span class="s2">"gospel"</span><span class="p">],</span>
     <span class="p">},</span>
-    <span class="s2">&quot;dotted_half_quarter&quot;</span><span class="p">:</span> <span class="p">{</span>
-        <span class="s2">&quot;pattern&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
-        <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Dotted half + quarter&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;beats_per_measure&quot;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
-        <span class="s2">&quot;styles&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;ballad&quot;</span><span class="p">,</span> <span class="s2">&quot;hymn&quot;</span><span class="p">,</span> <span class="s2">&quot;slow_swing&quot;</span><span class="p">,</span> <span class="s2">&quot;waltz_feel&quot;</span><span class="p">,</span> <span class="s2">&quot;classical&quot;</span><span class="p">],</span>
+    <span class="s2">"dotted_half_quarter"</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">"pattern"</span><span class="p">:</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+        <span class="s2">"name"</span><span class="p">:</span> <span class="s2">"Dotted half + quarter"</span><span class="p">,</span>
+        <span class="s2">"beats_per_measure"</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
+        <span class="s2">"styles"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"ballad"</span><span class="p">,</span> <span class="s2">"hymn"</span><span class="p">,</span> <span class="s2">"slow_swing"</span><span class="p">,</span> <span class="s2">"waltz_feel"</span><span class="p">,</span> <span class="s2">"classical"</span><span class="p">],</span>
     <span class="p">},</span>
-    <span class="s2">&quot;quarter_dotted_half&quot;</span><span class="p">:</span> <span class="p">{</span>
-        <span class="s2">&quot;pattern&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span>
-        <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Quarter + dotted half&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;beats_per_measure&quot;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
-        <span class="s2">&quot;styles&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;ska&quot;</span><span class="p">,</span> <span class="s2">&quot;reggae&quot;</span><span class="p">,</span> <span class="s2">&quot;anticipation&quot;</span><span class="p">,</span> <span class="s2">&quot;new_wave&quot;</span><span class="p">],</span>
+    <span class="s2">"quarter_dotted_half"</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">"pattern"</span><span class="p">:</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span>
+        <span class="s2">"name"</span><span class="p">:</span> <span class="s2">"Quarter + dotted half"</span><span class="p">,</span>
+        <span class="s2">"beats_per_measure"</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
+        <span class="s2">"styles"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"ska"</span><span class="p">,</span> <span class="s2">"reggae"</span><span class="p">,</span> <span class="s2">"anticipation"</span><span class="p">,</span> <span class="s2">"new_wave"</span><span class="p">],</span>
     <span class="p">},</span>
-    <span class="s2">&quot;charleston&quot;</span><span class="p">:</span> <span class="p">{</span>
-        <span class="s2">&quot;pattern&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mf">1.5</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
-        <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Charleston&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;beats_per_measure&quot;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
-        <span class="s2">&quot;styles&quot;</span><span class="p">:</span> <span class="p">[</span>
-            <span class="s2">&quot;swing&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;jazz&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;funk&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;bebop&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;big_band&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;jump_blues&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;dixieland&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;jive&quot;</span><span class="p">,</span>
+    <span class="s2">"charleston"</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">"pattern"</span><span class="p">:</span> <span class="p">(</span><span class="mf">1.5</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+        <span class="s2">"name"</span><span class="p">:</span> <span class="s2">"Charleston"</span><span class="p">,</span>
+        <span class="s2">"beats_per_measure"</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
+        <span class="s2">"styles"</span><span class="p">:</span> <span class="p">[</span>
+            <span class="s2">"swing"</span><span class="p">,</span>
+            <span class="s2">"jazz"</span><span class="p">,</span>
+            <span class="s2">"funk"</span><span class="p">,</span>
+            <span class="s2">"bebop"</span><span class="p">,</span>
+            <span class="s2">"big_band"</span><span class="p">,</span>
+            <span class="s2">"jump_blues"</span><span class="p">,</span>
+            <span class="s2">"dixieland"</span><span class="p">,</span>
+            <span class="s2">"jive"</span><span class="p">,</span>
         <span class="p">],</span>
     <span class="p">},</span>
-    <span class="s2">&quot;reverse_charleston&quot;</span><span class="p">:</span> <span class="p">{</span>
-        <span class="s2">&quot;pattern&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">),</span>
-        <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Reverse Charleston&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;beats_per_measure&quot;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
-        <span class="s2">&quot;styles&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;bebop&quot;</span><span class="p">,</span> <span class="s2">&quot;modern_jazz&quot;</span><span class="p">,</span> <span class="s2">&quot;hard_bop&quot;</span><span class="p">,</span> <span class="s2">&quot;post_bop&quot;</span><span class="p">,</span> <span class="s2">&quot;cool_jazz&quot;</span><span class="p">],</span>
+    <span class="s2">"reverse_charleston"</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">"pattern"</span><span class="p">:</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">),</span>
+        <span class="s2">"name"</span><span class="p">:</span> <span class="s2">"Reverse Charleston"</span><span class="p">,</span>
+        <span class="s2">"beats_per_measure"</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
+        <span class="s2">"styles"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"bebop"</span><span class="p">,</span> <span class="s2">"modern_jazz"</span><span class="p">,</span> <span class="s2">"hard_bop"</span><span class="p">,</span> <span class="s2">"post_bop"</span><span class="p">,</span> <span class="s2">"cool_jazz"</span><span class="p">],</span>
     <span class="p">},</span>
-    <span class="s2">&quot;displaced_charleston&quot;</span><span class="p">:</span> <span class="p">{</span>
-        <span class="s2">&quot;pattern&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mf">1.5</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">),</span>
-        <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Displaced Charleston&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;beats_per_measure&quot;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
-        <span class="s2">&quot;styles&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;latin_jazz&quot;</span><span class="p">,</span> <span class="s2">&quot;afro_cuban&quot;</span><span class="p">,</span> <span class="s2">&quot;fusion&quot;</span><span class="p">,</span> <span class="s2">&quot;samba_jazz&quot;</span><span class="p">],</span>
+    <span class="s2">"displaced_charleston"</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">"pattern"</span><span class="p">:</span> <span class="p">(</span><span class="mf">1.5</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">),</span>
+        <span class="s2">"name"</span><span class="p">:</span> <span class="s2">"Displaced Charleston"</span><span class="p">,</span>
+        <span class="s2">"beats_per_measure"</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
+        <span class="s2">"styles"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"latin_jazz"</span><span class="p">,</span> <span class="s2">"afro_cuban"</span><span class="p">,</span> <span class="s2">"fusion"</span><span class="p">,</span> <span class="s2">"samba_jazz"</span><span class="p">],</span>
     <span class="p">},</span>
-    <span class="s2">&quot;straight_eighths&quot;</span><span class="p">:</span> <span class="p">{</span>
-        <span class="s2">&quot;pattern&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">),</span>
-        <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Straight eighths&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;beats_per_measure&quot;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
-        <span class="s2">&quot;styles&quot;</span><span class="p">:</span> <span class="p">[</span>
-            <span class="s2">&quot;rock&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;pop&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;bossa_nova&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;punk&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;new_wave&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;indie&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;surf&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;rockabilly&quot;</span><span class="p">,</span>
+    <span class="s2">"straight_eighths"</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">"pattern"</span><span class="p">:</span> <span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">),</span>
+        <span class="s2">"name"</span><span class="p">:</span> <span class="s2">"Straight eighths"</span><span class="p">,</span>
+        <span class="s2">"beats_per_measure"</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
+        <span class="s2">"styles"</span><span class="p">:</span> <span class="p">[</span>
+            <span class="s2">"rock"</span><span class="p">,</span>
+            <span class="s2">"pop"</span><span class="p">,</span>
+            <span class="s2">"bossa_nova"</span><span class="p">,</span>
+            <span class="s2">"punk"</span><span class="p">,</span>
+            <span class="s2">"new_wave"</span><span class="p">,</span>
+            <span class="s2">"indie"</span><span class="p">,</span>
+            <span class="s2">"surf"</span><span class="p">,</span>
+            <span class="s2">"rockabilly"</span><span class="p">,</span>
         <span class="p">],</span>
     <span class="p">},</span>
-    <span class="s2">&quot;long_and_push&quot;</span><span class="p">:</span> <span class="p">{</span>
-        <span class="s2">&quot;pattern&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">),</span>
-        <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Long + push&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;beats_per_measure&quot;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
-        <span class="s2">&quot;styles&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;funk&quot;</span><span class="p">,</span> <span class="s2">&quot;r_and_b&quot;</span><span class="p">,</span> <span class="s2">&quot;neo_soul&quot;</span><span class="p">,</span> <span class="s2">&quot;gospel&quot;</span><span class="p">,</span> <span class="s2">&quot;hip_hop&quot;</span><span class="p">],</span>
+    <span class="s2">"long_and_push"</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">"pattern"</span><span class="p">:</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">),</span>
+        <span class="s2">"name"</span><span class="p">:</span> <span class="s2">"Long + push"</span><span class="p">,</span>
+        <span class="s2">"beats_per_measure"</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
+        <span class="s2">"styles"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"funk"</span><span class="p">,</span> <span class="s2">"r_and_b"</span><span class="p">,</span> <span class="s2">"neo_soul"</span><span class="p">,</span> <span class="s2">"gospel"</span><span class="p">,</span> <span class="s2">"hip_hop"</span><span class="p">],</span>
     <span class="p">},</span>
-    <span class="s2">&quot;backbeat_pickup&quot;</span><span class="p">:</span> <span class="p">{</span>
-        <span class="s2">&quot;pattern&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
-        <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Backbeat with pickup&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;beats_per_measure&quot;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
-        <span class="s2">&quot;styles&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;funk&quot;</span><span class="p">,</span> <span class="s2">&quot;gospel&quot;</span><span class="p">,</span> <span class="s2">&quot;soul&quot;</span><span class="p">,</span> <span class="s2">&quot;motown&quot;</span><span class="p">,</span> <span class="s2">&quot;blues_rock&quot;</span><span class="p">],</span>
+    <span class="s2">"backbeat_pickup"</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">"pattern"</span><span class="p">:</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+        <span class="s2">"name"</span><span class="p">:</span> <span class="s2">"Backbeat with pickup"</span><span class="p">,</span>
+        <span class="s2">"beats_per_measure"</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
+        <span class="s2">"styles"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"funk"</span><span class="p">,</span> <span class="s2">"gospel"</span><span class="p">,</span> <span class="s2">"soul"</span><span class="p">,</span> <span class="s2">"motown"</span><span class="p">,</span> <span class="s2">"blues_rock"</span><span class="p">],</span>
     <span class="p">},</span>
-    <span class="s2">&quot;offbeat_skank&quot;</span><span class="p">:</span> <span class="p">{</span>
-        <span class="s2">&quot;pattern&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">),</span>
-        <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Off-beat skank&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;beats_per_measure&quot;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
-        <span class="s2">&quot;styles&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;reggae&quot;</span><span class="p">,</span> <span class="s2">&quot;ska&quot;</span><span class="p">,</span> <span class="s2">&quot;dub&quot;</span><span class="p">,</span> <span class="s2">&quot;dancehall&quot;</span><span class="p">,</span> <span class="s2">&quot;rocksteady&quot;</span><span class="p">,</span> <span class="s2">&quot;two_tone&quot;</span><span class="p">],</span>
+    <span class="s2">"offbeat_skank"</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">"pattern"</span><span class="p">:</span> <span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">),</span>
+        <span class="s2">"name"</span><span class="p">:</span> <span class="s2">"Off-beat skank"</span><span class="p">,</span>
+        <span class="s2">"beats_per_measure"</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
+        <span class="s2">"styles"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"reggae"</span><span class="p">,</span> <span class="s2">"ska"</span><span class="p">,</span> <span class="s2">"dub"</span><span class="p">,</span> <span class="s2">"dancehall"</span><span class="p">,</span> <span class="s2">"rocksteady"</span><span class="p">,</span> <span class="s2">"two_tone"</span><span class="p">],</span>
     <span class="p">},</span>
-    <span class="s2">&quot;anticipated_two&quot;</span><span class="p">:</span> <span class="p">{</span>
-        <span class="s2">&quot;pattern&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
-        <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Anticipated 2&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;beats_per_measure&quot;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
-        <span class="s2">&quot;styles&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;latin&quot;</span><span class="p">,</span> <span class="s2">&quot;bossa_nova&quot;</span><span class="p">,</span> <span class="s2">&quot;samba&quot;</span><span class="p">,</span> <span class="s2">&quot;afro_cuban&quot;</span><span class="p">,</span> <span class="s2">&quot;salsa&quot;</span><span class="p">],</span>
+    <span class="s2">"anticipated_two"</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">"pattern"</span><span class="p">:</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+        <span class="s2">"name"</span><span class="p">:</span> <span class="s2">"Anticipated 2"</span><span class="p">,</span>
+        <span class="s2">"beats_per_measure"</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
+        <span class="s2">"styles"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"latin"</span><span class="p">,</span> <span class="s2">"bossa_nova"</span><span class="p">,</span> <span class="s2">"samba"</span><span class="p">,</span> <span class="s2">"afro_cuban"</span><span class="p">,</span> <span class="s2">"salsa"</span><span class="p">],</span>
     <span class="p">},</span>
-    <span class="s2">&quot;push_four&quot;</span><span class="p">:</span> <span class="p">{</span>
-        <span class="s2">&quot;pattern&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">),</span>
-        <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Push on 4&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;beats_per_measure&quot;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
-        <span class="s2">&quot;styles&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;jazz&quot;</span><span class="p">,</span> <span class="s2">&quot;swing&quot;</span><span class="p">,</span> <span class="s2">&quot;blues&quot;</span><span class="p">,</span> <span class="s2">&quot;jump_blues&quot;</span><span class="p">,</span> <span class="s2">&quot;soul_jazz&quot;</span><span class="p">],</span>
+    <span class="s2">"push_four"</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">"pattern"</span><span class="p">:</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">),</span>
+        <span class="s2">"name"</span><span class="p">:</span> <span class="s2">"Push on 4"</span><span class="p">,</span>
+        <span class="s2">"beats_per_measure"</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
+        <span class="s2">"styles"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"jazz"</span><span class="p">,</span> <span class="s2">"swing"</span><span class="p">,</span> <span class="s2">"blues"</span><span class="p">,</span> <span class="s2">"jump_blues"</span><span class="p">,</span> <span class="s2">"soul_jazz"</span><span class="p">],</span>
     <span class="p">},</span>
-    <span class="s2">&quot;dotted_quarter_eighths&quot;</span><span class="p">:</span> <span class="p">{</span>
-        <span class="s2">&quot;pattern&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mf">1.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">),</span>
-        <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Dotted quarter + eighth&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;beats_per_measure&quot;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
-        <span class="s2">&quot;styles&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;pop&quot;</span><span class="p">,</span> <span class="s2">&quot;synth_pop&quot;</span><span class="p">,</span> <span class="s2">&quot;disco&quot;</span><span class="p">,</span> <span class="s2">&quot;euro_dance&quot;</span><span class="p">,</span> <span class="s2">&quot;tropical&quot;</span><span class="p">],</span>
+    <span class="s2">"dotted_quarter_eighths"</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">"pattern"</span><span class="p">:</span> <span class="p">(</span><span class="mf">1.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">),</span>
+        <span class="s2">"name"</span><span class="p">:</span> <span class="s2">"Dotted quarter + eighth"</span><span class="p">,</span>
+        <span class="s2">"beats_per_measure"</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
+        <span class="s2">"styles"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"pop"</span><span class="p">,</span> <span class="s2">"synth_pop"</span><span class="p">,</span> <span class="s2">"disco"</span><span class="p">,</span> <span class="s2">"euro_dance"</span><span class="p">,</span> <span class="s2">"tropical"</span><span class="p">],</span>
     <span class="p">},</span>
-    <span class="s2">&quot;tresillo&quot;</span><span class="p">:</span> <span class="p">{</span>
-        <span class="s2">&quot;pattern&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mf">1.5</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
-        <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Tresillo&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;beats_per_measure&quot;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
-        <span class="s2">&quot;styles&quot;</span><span class="p">:</span> <span class="p">[</span>
-            <span class="s2">&quot;afro_cuban&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;reggaeton&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;new_orleans&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;hip_hop&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;dancehall&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;samba&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;rumba&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;trap&quot;</span><span class="p">,</span>
+    <span class="s2">"tresillo"</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">"pattern"</span><span class="p">:</span> <span class="p">(</span><span class="mf">1.5</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+        <span class="s2">"name"</span><span class="p">:</span> <span class="s2">"Tresillo"</span><span class="p">,</span>
+        <span class="s2">"beats_per_measure"</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
+        <span class="s2">"styles"</span><span class="p">:</span> <span class="p">[</span>
+            <span class="s2">"afro_cuban"</span><span class="p">,</span>
+            <span class="s2">"reggaeton"</span><span class="p">,</span>
+            <span class="s2">"new_orleans"</span><span class="p">,</span>
+            <span class="s2">"hip_hop"</span><span class="p">,</span>
+            <span class="s2">"dancehall"</span><span class="p">,</span>
+            <span class="s2">"samba"</span><span class="p">,</span>
+            <span class="s2">"rumba"</span><span class="p">,</span>
+            <span class="s2">"trap"</span><span class="p">,</span>
         <span class="p">],</span>
     <span class="p">},</span>
-    <span class="s2">&quot;habanera&quot;</span><span class="p">:</span> <span class="p">{</span>
-        <span class="s2">&quot;pattern&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mf">1.5</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">),</span>
-        <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Habanera&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;beats_per_measure&quot;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
-        <span class="s2">&quot;styles&quot;</span><span class="p">:</span> <span class="p">[</span>
-            <span class="s2">&quot;habanera&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;tango&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;afro_cuban&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;latin_pop&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;reggaeton&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;beguine&quot;</span><span class="p">,</span>
+    <span class="s2">"habanera"</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">"pattern"</span><span class="p">:</span> <span class="p">(</span><span class="mf">1.5</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">),</span>
+        <span class="s2">"name"</span><span class="p">:</span> <span class="s2">"Habanera"</span><span class="p">,</span>
+        <span class="s2">"beats_per_measure"</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
+        <span class="s2">"styles"</span><span class="p">:</span> <span class="p">[</span>
+            <span class="s2">"habanera"</span><span class="p">,</span>
+            <span class="s2">"tango"</span><span class="p">,</span>
+            <span class="s2">"afro_cuban"</span><span class="p">,</span>
+            <span class="s2">"latin_pop"</span><span class="p">,</span>
+            <span class="s2">"reggaeton"</span><span class="p">,</span>
+            <span class="s2">"beguine"</span><span class="p">,</span>
         <span class="p">],</span>
     <span class="p">},</span>
     <span class="c1"># === 3/4 patterns ===</span>
-    <span class="s2">&quot;waltz_whole&quot;</span><span class="p">:</span> <span class="p">{</span>
-        <span class="s2">&quot;pattern&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">3</span><span class="p">,),</span>
-        <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Dotted half&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;beats_per_measure&quot;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
-        <span class="s2">&quot;styles&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;slow_waltz&quot;</span><span class="p">,</span> <span class="s2">&quot;ballad&quot;</span><span class="p">,</span> <span class="s2">&quot;ambient&quot;</span><span class="p">,</span> <span class="s2">&quot;chorale&quot;</span><span class="p">],</span>
+    <span class="s2">"waltz_whole"</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">"pattern"</span><span class="p">:</span> <span class="p">(</span><span class="mi">3</span><span class="p">,),</span>
+        <span class="s2">"name"</span><span class="p">:</span> <span class="s2">"Dotted half"</span><span class="p">,</span>
+        <span class="s2">"beats_per_measure"</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
+        <span class="s2">"styles"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"slow_waltz"</span><span class="p">,</span> <span class="s2">"ballad"</span><span class="p">,</span> <span class="s2">"ambient"</span><span class="p">,</span> <span class="s2">"chorale"</span><span class="p">],</span>
     <span class="p">},</span>
-    <span class="s2">&quot;waltz_quarters&quot;</span><span class="p">:</span> <span class="p">{</span>
-        <span class="s2">&quot;pattern&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
-        <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Waltz quarters&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;beats_per_measure&quot;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
-        <span class="s2">&quot;styles&quot;</span><span class="p">:</span> <span class="p">[</span>
-            <span class="s2">&quot;waltz&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;oom_pah&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;viennese_waltz&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;country_waltz&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;mazurka&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;landler&quot;</span><span class="p">,</span>
+    <span class="s2">"waltz_quarters"</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">"pattern"</span><span class="p">:</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+        <span class="s2">"name"</span><span class="p">:</span> <span class="s2">"Waltz quarters"</span><span class="p">,</span>
+        <span class="s2">"beats_per_measure"</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
+        <span class="s2">"styles"</span><span class="p">:</span> <span class="p">[</span>
+            <span class="s2">"waltz"</span><span class="p">,</span>
+            <span class="s2">"oom_pah"</span><span class="p">,</span>
+            <span class="s2">"viennese_waltz"</span><span class="p">,</span>
+            <span class="s2">"country_waltz"</span><span class="p">,</span>
+            <span class="s2">"mazurka"</span><span class="p">,</span>
+            <span class="s2">"landler"</span><span class="p">,</span>
         <span class="p">],</span>
     <span class="p">},</span>
-    <span class="s2">&quot;waltz_half_quarter&quot;</span><span class="p">:</span> <span class="p">{</span>
-        <span class="s2">&quot;pattern&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
-        <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Half + quarter&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;beats_per_measure&quot;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
-        <span class="s2">&quot;styles&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;waltz&quot;</span><span class="p">,</span> <span class="s2">&quot;minuet&quot;</span><span class="p">,</span> <span class="s2">&quot;folk_waltz&quot;</span><span class="p">,</span> <span class="s2">&quot;country_waltz&quot;</span><span class="p">],</span>
+    <span class="s2">"waltz_half_quarter"</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">"pattern"</span><span class="p">:</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+        <span class="s2">"name"</span><span class="p">:</span> <span class="s2">"Half + quarter"</span><span class="p">,</span>
+        <span class="s2">"beats_per_measure"</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
+        <span class="s2">"styles"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"waltz"</span><span class="p">,</span> <span class="s2">"minuet"</span><span class="p">,</span> <span class="s2">"folk_waltz"</span><span class="p">,</span> <span class="s2">"country_waltz"</span><span class="p">],</span>
     <span class="p">},</span>
-    <span class="s2">&quot;waltz_quarter_half&quot;</span><span class="p">:</span> <span class="p">{</span>
-        <span class="s2">&quot;pattern&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span>
-        <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Quarter + half&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;beats_per_measure&quot;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
-        <span class="s2">&quot;styles&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;sarabande&quot;</span><span class="p">,</span> <span class="s2">&quot;minuet&quot;</span><span class="p">,</span> <span class="s2">&quot;slow_waltz&quot;</span><span class="p">,</span> <span class="s2">&quot;classical&quot;</span><span class="p">],</span>
+    <span class="s2">"waltz_quarter_half"</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">"pattern"</span><span class="p">:</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span>
+        <span class="s2">"name"</span><span class="p">:</span> <span class="s2">"Quarter + half"</span><span class="p">,</span>
+        <span class="s2">"beats_per_measure"</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
+        <span class="s2">"styles"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"sarabande"</span><span class="p">,</span> <span class="s2">"minuet"</span><span class="p">,</span> <span class="s2">"slow_waltz"</span><span class="p">,</span> <span class="s2">"classical"</span><span class="p">],</span>
     <span class="p">},</span>
-    <span class="s2">&quot;waltz_dotted_quarters&quot;</span><span class="p">:</span> <span class="p">{</span>
-        <span class="s2">&quot;pattern&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mf">1.5</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">),</span>
-        <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Dotted quarters (6/8 feel)&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;beats_per_measure&quot;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
-        <span class="s2">&quot;styles&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;jig&quot;</span><span class="p">,</span> <span class="s2">&quot;tarantella&quot;</span><span class="p">,</span> <span class="s2">&quot;irish&quot;</span><span class="p">,</span> <span class="s2">&quot;6_8_rock&quot;</span><span class="p">,</span> <span class="s2">&quot;blues_shuffle&quot;</span><span class="p">],</span>
+    <span class="s2">"waltz_dotted_quarters"</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">"pattern"</span><span class="p">:</span> <span class="p">(</span><span class="mf">1.5</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">),</span>
+        <span class="s2">"name"</span><span class="p">:</span> <span class="s2">"Dotted quarters (6/8 feel)"</span><span class="p">,</span>
+        <span class="s2">"beats_per_measure"</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
+        <span class="s2">"styles"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"jig"</span><span class="p">,</span> <span class="s2">"tarantella"</span><span class="p">,</span> <span class="s2">"irish"</span><span class="p">,</span> <span class="s2">"6_8_rock"</span><span class="p">,</span> <span class="s2">"blues_shuffle"</span><span class="p">],</span>
     <span class="p">},</span>
-    <span class="s2">&quot;waltz_with_pickup&quot;</span><span class="p">:</span> <span class="p">{</span>
-        <span class="s2">&quot;pattern&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
-        <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Waltz with pickup&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;beats_per_measure&quot;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
-        <span class="s2">&quot;styles&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;viennese_waltz&quot;</span><span class="p">,</span> <span class="s2">&quot;jazz_waltz&quot;</span><span class="p">,</span> <span class="s2">&quot;show_tune&quot;</span><span class="p">],</span>
+    <span class="s2">"waltz_with_pickup"</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">"pattern"</span><span class="p">:</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+        <span class="s2">"name"</span><span class="p">:</span> <span class="s2">"Waltz with pickup"</span><span class="p">,</span>
+        <span class="s2">"beats_per_measure"</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
+        <span class="s2">"styles"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"viennese_waltz"</span><span class="p">,</span> <span class="s2">"jazz_waltz"</span><span class="p">,</span> <span class="s2">"show_tune"</span><span class="p">],</span>
     <span class="p">},</span>
-    <span class="s2">&quot;waltz_eighth_lead&quot;</span><span class="p">:</span> <span class="p">{</span>
-        <span class="s2">&quot;pattern&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
-        <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Eighth-note lead-in&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;beats_per_measure&quot;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
-        <span class="s2">&quot;styles&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;folk_waltz&quot;</span><span class="p">,</span> <span class="s2">&quot;jazz_waltz&quot;</span><span class="p">,</span> <span class="s2">&quot;musette&quot;</span><span class="p">],</span>
+    <span class="s2">"waltz_eighth_lead"</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">"pattern"</span><span class="p">:</span> <span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+        <span class="s2">"name"</span><span class="p">:</span> <span class="s2">"Eighth-note lead-in"</span><span class="p">,</span>
+        <span class="s2">"beats_per_measure"</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
+        <span class="s2">"styles"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"folk_waltz"</span><span class="p">,</span> <span class="s2">"jazz_waltz"</span><span class="p">,</span> <span class="s2">"musette"</span><span class="p">],</span>
     <span class="p">},</span>
 <span class="p">}</span>
 
@@ -380,15 +983,15 @@
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_rebuild_indices</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Rebuild the name and style lookup indices from RHYTHMIC_SKELETONS.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Rebuild the name and style lookup indices from RHYTHMIC_SKELETONS."""</span>
     <span class="n">_BY_NAME</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
     <span class="n">_BY_STYLE</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
     <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">entry</span> <span class="ow">in</span> <span class="n">RHYTHMIC_SKELETONS</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-        <span class="n">name_lower</span> <span class="o">=</span> <span class="n">entry</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+        <span class="n">name_lower</span> <span class="o">=</span> <span class="n">entry</span><span class="p">[</span><span class="s2">"name"</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
         <span class="c1"># First key wins for a given name (avoids overwrite by aliases)</span>
         <span class="k">if</span> <span class="n">name_lower</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">_BY_NAME</span><span class="p">:</span>
             <span class="n">_BY_NAME</span><span class="p">[</span><span class="n">name_lower</span><span class="p">]</span> <span class="o">=</span> <span class="n">key</span>
-        <span class="k">for</span> <span class="n">style</span> <span class="ow">in</span> <span class="n">entry</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;styles&quot;</span><span class="p">,</span> <span class="p">[]):</span>
+        <span class="k">for</span> <span class="n">style</span> <span class="ow">in</span> <span class="n">entry</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"styles"</span><span class="p">,</span> <span class="p">[]):</span>
             <span class="n">_BY_STYLE</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="n">style</span><span class="p">,</span> <span class="p">[])</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
 
 
@@ -401,17 +1004,17 @@
 
 
 <div class="viewcode-block" id="resolve_skeleton">
-<a class="viewcode-back" href="../../module_docs/accompy/rhythmic_skeletons.html#accompy.resolve_skeleton">[docs]</a>
+<a class="viewcode-back" href="../../_autosummary/accompy.rhythmic_skeletons.html#accompy.resolve_skeleton">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">resolve_skeleton</span><span class="p">(</span>
     <span class="n">skeleton</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">],</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Resolve a skeleton specification to a tuple of durations.</span>
+<span class="w">    </span><span class="sd">"""Resolve a skeleton specification to a tuple of durations.</span>
 
 <span class="sd">    Accepts:</span>
 <span class="sd">        - A tuple or list of numbers (pass-through)</span>
-<span class="sd">        - A skeleton key (e.g., ``&quot;tresillo&quot;``, ``&quot;whole_note&quot;``)</span>
-<span class="sd">        - A skeleton name, case-insensitive (e.g., ``&quot;Tresillo&quot;``)</span>
-<span class="sd">        - A style string (e.g., ``&quot;reggae&quot;``) — returns the first match</span>
+<span class="sd">        - A skeleton key (e.g., ``"tresillo"``, ``"whole_note"``)</span>
+<span class="sd">        - A skeleton name, case-insensitive (e.g., ``"Tresillo"``)</span>
+<span class="sd">        - A style string (e.g., ``"reggae"``) — returns the first match</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        Tuple of beat durations summing to the measure length.</span>
@@ -420,56 +1023,56 @@
 <span class="sd">        KeyError: If the skeleton cannot be resolved.</span>
 
 <span class="sd">    Examples:</span>
-<span class="sd">        &gt;&gt;&gt; resolve_skeleton(&quot;whole_note&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; resolve_skeleton("whole_note")</span>
 <span class="sd">        (4,)</span>
-<span class="sd">        &gt;&gt;&gt; resolve_skeleton(&quot;tresillo&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; resolve_skeleton("tresillo")</span>
 <span class="sd">        (1.5, 1.5, 1)</span>
 <span class="sd">        &gt;&gt;&gt; resolve_skeleton((2, 2))</span>
 <span class="sd">        (2, 2)</span>
-<span class="sd">        &gt;&gt;&gt; resolve_skeleton(&quot;Dotted half + quarter&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; resolve_skeleton("Dotted half + quarter")</span>
 <span class="sd">        (3, 1)</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="c1"># Tuple / list pass-through</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">skeleton</span><span class="p">,</span> <span class="p">(</span><span class="nb">tuple</span><span class="p">,</span> <span class="nb">list</span><span class="p">)):</span>
         <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">skeleton</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">skeleton</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
         <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;skeleton must be a str, tuple, or list, got </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">skeleton</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="sa">f</span><span class="s2">"skeleton must be a str, tuple, or list, got </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">skeleton</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">"</span>
         <span class="p">)</span>
 
     <span class="c1"># 1. Exact key lookup</span>
     <span class="k">if</span> <span class="n">skeleton</span> <span class="ow">in</span> <span class="n">RHYTHMIC_SKELETONS</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">RHYTHMIC_SKELETONS</span><span class="p">[</span><span class="n">skeleton</span><span class="p">][</span><span class="s2">&quot;pattern&quot;</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">RHYTHMIC_SKELETONS</span><span class="p">[</span><span class="n">skeleton</span><span class="p">][</span><span class="s2">"pattern"</span><span class="p">]</span>
 
     <span class="c1"># 2. Name lookup (case-insensitive)</span>
     <span class="n">name_lower</span> <span class="o">=</span> <span class="n">skeleton</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
     <span class="k">if</span> <span class="n">name_lower</span> <span class="ow">in</span> <span class="n">_BY_NAME</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">RHYTHMIC_SKELETONS</span><span class="p">[</span><span class="n">_BY_NAME</span><span class="p">[</span><span class="n">name_lower</span><span class="p">]][</span><span class="s2">&quot;pattern&quot;</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">RHYTHMIC_SKELETONS</span><span class="p">[</span><span class="n">_BY_NAME</span><span class="p">[</span><span class="n">name_lower</span><span class="p">]][</span><span class="s2">"pattern"</span><span class="p">]</span>
 
     <span class="c1"># 3. Style lookup</span>
     <span class="k">if</span> <span class="n">name_lower</span> <span class="ow">in</span> <span class="n">_BY_STYLE</span><span class="p">:</span>
         <span class="n">first_key</span> <span class="o">=</span> <span class="n">_BY_STYLE</span><span class="p">[</span><span class="n">name_lower</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
-        <span class="k">return</span> <span class="n">RHYTHMIC_SKELETONS</span><span class="p">[</span><span class="n">first_key</span><span class="p">][</span><span class="s2">&quot;pattern&quot;</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">RHYTHMIC_SKELETONS</span><span class="p">[</span><span class="n">first_key</span><span class="p">][</span><span class="s2">"pattern"</span><span class="p">]</span>
 
     <span class="c1"># Not found — helpful error</span>
     <span class="n">available_keys</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">RHYTHMIC_SKELETONS</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
     <span class="n">available_styles</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">_BY_STYLE</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
     <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span>
-        <span class="sa">f</span><span class="s2">&quot;Unknown skeleton: </span><span class="si">{</span><span class="n">skeleton</span><span class="si">!r}</span><span class="s2">. &quot;</span>
-        <span class="sa">f</span><span class="s2">&quot;Available keys: </span><span class="si">{</span><span class="n">available_keys</span><span class="p">[:</span><span class="mi">10</span><span class="p">]</span><span class="si">}</span><span class="s2">... &quot;</span>
-        <span class="sa">f</span><span class="s2">&quot;Available styles: </span><span class="si">{</span><span class="n">available_styles</span><span class="p">[:</span><span class="mi">10</span><span class="p">]</span><span class="si">}</span><span class="s2">...&quot;</span>
+        <span class="sa">f</span><span class="s2">"Unknown skeleton: </span><span class="si">{</span><span class="n">skeleton</span><span class="si">!r}</span><span class="s2">. "</span>
+        <span class="sa">f</span><span class="s2">"Available keys: </span><span class="si">{</span><span class="n">available_keys</span><span class="p">[:</span><span class="mi">10</span><span class="p">]</span><span class="si">}</span><span class="s2">... "</span>
+        <span class="sa">f</span><span class="s2">"Available styles: </span><span class="si">{</span><span class="n">available_styles</span><span class="p">[:</span><span class="mi">10</span><span class="p">]</span><span class="si">}</span><span class="s2">..."</span>
     <span class="p">)</span></div>
 
 
 
 <div class="viewcode-block" id="apply_skeleton">
-<a class="viewcode-back" href="../../module_docs/accompy/rhythmic_skeletons.html#accompy.apply_skeleton">[docs]</a>
+<a class="viewcode-back" href="../../_autosummary/accompy.rhythmic_skeletons.html#accompy.apply_skeleton">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">apply_skeleton</span><span class="p">(</span>
     <span class="n">cs</span><span class="p">,</span>  <span class="c1"># ChordSequence — import deferred to avoid circular deps</span>
     <span class="n">skeleton</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">],</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;ChordSequence&quot;</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Apply a rhythmic skeleton to a chord sequence.</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"ChordSequence"</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Apply a rhythmic skeleton to a chord sequence.</span>
 
 <span class="sd">    The skeleton defines strike positions within each *measure*. Each strike</span>
 <span class="sd">    plays whatever chord is active at that beat position. If a strike spans a</span>
@@ -485,11 +1088,11 @@
 
 <span class="sd">    Example:</span>
 <span class="sd">        &gt;&gt;&gt; from accompy.converters import ChordSequence</span>
-<span class="sd">        &gt;&gt;&gt; cs = ChordSequence([(&quot;Dm7&quot;, 2.0), (&quot;G7&quot;, 2.0)])</span>
-<span class="sd">        &gt;&gt;&gt; result = apply_skeleton(cs, &quot;tresillo&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; cs = ChordSequence([("Dm7", 2.0), ("G7", 2.0)])</span>
+<span class="sd">        &gt;&gt;&gt; result = apply_skeleton(cs, "tresillo")</span>
 <span class="sd">        &gt;&gt;&gt; [(s, d) for s, d in result]</span>
-<span class="sd">        [(&#39;Dm7&#39;, 1.5), (&#39;Dm7&#39;, 0.5), (&#39;G7&#39;, 1.0), (&#39;G7&#39;, 1.0)]</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">        [('Dm7', 1.5), ('Dm7', 0.5), ('G7', 1.0), ('G7', 1.0)]</span>
+<span class="sd">    """</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">.converters</span><span class="w"> </span><span class="kn">import</span> <span class="n">ChordSequence</span>
 
     <span class="n">pattern</span> <span class="o">=</span> <span class="n">resolve_skeleton</span><span class="p">(</span><span class="n">skeleton</span><span class="p">)</span>
@@ -524,16 +1127,16 @@
 
 
 <div class="viewcode-block" id="register_skeleton">
-<a class="viewcode-back" href="../../module_docs/accompy/rhythmic_skeletons.html#accompy.register_skeleton">[docs]</a>
+<a class="viewcode-back" href="../../_autosummary/accompy.rhythmic_skeletons.html#accompy.register_skeleton">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">register_skeleton</span><span class="p">(</span>
     <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
     <span class="n">pattern</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">,</span>
     <span class="o">*</span><span class="p">,</span>
-    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">""</span><span class="p">,</span>
     <span class="n">beats_per_measure</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">styles</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Register a custom rhythmic skeleton.</span>
+<span class="w">    </span><span class="sd">"""Register a custom rhythmic skeleton.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        key: Unique string key for the skeleton.</span>
@@ -543,30 +1146,30 @@
 <span class="sd">        styles: List of associated style strings.</span>
 
 <span class="sd">    Example:</span>
-<span class="sd">        &gt;&gt;&gt; register_skeleton(&quot;my_groove&quot;, (1, 0.5, 0.5, 2), name=&quot;My Groove&quot;)</span>
-<span class="sd">        &gt;&gt;&gt; resolve_skeleton(&quot;my_groove&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; register_skeleton("my_groove", (1, 0.5, 0.5, 2), name="My Groove")</span>
+<span class="sd">        &gt;&gt;&gt; resolve_skeleton("my_groove")</span>
 <span class="sd">        (1, 0.5, 0.5, 2)</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">if</span> <span class="n">beats_per_measure</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">beats_per_measure</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">pattern</span><span class="p">)</span>
     <span class="n">RHYTHMIC_SKELETONS</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="s2">&quot;pattern&quot;</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">pattern</span><span class="p">),</span>
-        <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="n">name</span> <span class="ow">or</span> <span class="n">key</span><span class="p">,</span>
-        <span class="s2">&quot;beats_per_measure&quot;</span><span class="p">:</span> <span class="n">beats_per_measure</span><span class="p">,</span>
-        <span class="s2">&quot;styles&quot;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">styles</span><span class="p">)</span> <span class="k">if</span> <span class="n">styles</span> <span class="k">else</span> <span class="p">[],</span>
+        <span class="s2">"pattern"</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">pattern</span><span class="p">),</span>
+        <span class="s2">"name"</span><span class="p">:</span> <span class="n">name</span> <span class="ow">or</span> <span class="n">key</span><span class="p">,</span>
+        <span class="s2">"beats_per_measure"</span><span class="p">:</span> <span class="n">beats_per_measure</span><span class="p">,</span>
+        <span class="s2">"styles"</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">styles</span><span class="p">)</span> <span class="k">if</span> <span class="n">styles</span> <span class="k">else</span> <span class="p">[],</span>
     <span class="p">}</span>
     <span class="n">_rebuild_indices</span><span class="p">()</span></div>
 
 
 
 <div class="viewcode-block" id="list_skeletons">
-<a class="viewcode-back" href="../../module_docs/accompy/rhythmic_skeletons.html#accompy.list_skeletons">[docs]</a>
+<a class="viewcode-back" href="../../_autosummary/accompy.rhythmic_skeletons.html#accompy.list_skeletons">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">list_skeletons</span><span class="p">(</span>
     <span class="o">*</span><span class="p">,</span>
     <span class="n">beats_per_measure</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">style</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;List available skeleton keys, optionally filtered.</span>
+<span class="w">    </span><span class="sd">"""List available skeleton keys, optionally filtered.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        beats_per_measure: Filter to skeletons matching this measure length.</span>
@@ -576,18 +1179,18 @@
 <span class="sd">        List of skeleton key strings.</span>
 
 <span class="sd">    Examples:</span>
-<span class="sd">        &gt;&gt;&gt; &quot;tresillo&quot; in list_skeletons()</span>
+<span class="sd">        &gt;&gt;&gt; "tresillo" in list_skeletons()</span>
 <span class="sd">        True</span>
-<span class="sd">        &gt;&gt;&gt; all(RHYTHMIC_SKELETONS[k][&quot;beats_per_measure&quot;] == 3</span>
+<span class="sd">        &gt;&gt;&gt; all(RHYTHMIC_SKELETONS[k]["beats_per_measure"] == 3</span>
 <span class="sd">        ...     for k in list_skeletons(beats_per_measure=3))</span>
 <span class="sd">        True</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">keys</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">RHYTHMIC_SKELETONS</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
     <span class="k">if</span> <span class="n">beats_per_measure</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">keys</span> <span class="o">=</span> <span class="p">[</span>
             <span class="n">k</span>
             <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">keys</span>
-            <span class="k">if</span> <span class="n">RHYTHMIC_SKELETONS</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="s2">&quot;beats_per_measure&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">beats_per_measure</span>
+            <span class="k">if</span> <span class="n">RHYTHMIC_SKELETONS</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="s2">"beats_per_measure"</span><span class="p">]</span> <span class="o">==</span> <span class="n">beats_per_measure</span>
         <span class="p">]</span>
     <span class="k">if</span> <span class="n">style</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">style_keys</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">_BY_STYLE</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">style</span><span class="p">,</span> <span class="p">[]))</span>
@@ -606,10 +1209,10 @@
 <span class="k">def</span><span class="w"> </span><span class="nf">_group_into_measures</span><span class="p">(</span>
     <span class="n">chords</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]],</span> <span class="n">beats_per_measure</span><span class="p">:</span> <span class="nb">float</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Group chord events into measures of ``beats_per_measure`` beats.</span>
+<span class="w">    </span><span class="sd">"""Group chord events into measures of ``beats_per_measure`` beats.</span>
 
 <span class="sd">    If a chord spans a measure boundary, it is split across measures.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">measures</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]]</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="n">current_measure</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="n">remaining_in_measure</span> <span class="o">=</span> <span class="n">beats_per_measure</span>
@@ -640,11 +1243,11 @@
     <span class="n">strike_durations</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">,</span>
     <span class="n">beats_per_measure</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Expand a single measure&#39;s chords according to skeleton strikes.</span>
+<span class="w">    </span><span class="sd">"""Expand a single measure's chords according to skeleton strikes.</span>
 
 <span class="sd">    Each skeleton strike plays whatever chord is active at that beat position.</span>
 <span class="sd">    If a strike spans a chord boundary, it is split.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="c1"># Build chord map: list of (symbol, start, end) within the measure</span>
     <span class="n">chord_map</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="n">pos</span> <span class="o">=</span> <span class="mf">0.0</span>
@@ -674,31 +1277,53 @@
     <span class="k">return</span> <span class="n">result</span>
 </pre></div>
 
-           </div>
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
           </div>
-          <footer>
-
-  <hr/>
-
-  <div role="contentinfo">
-    <p></p>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
   </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../_static/scripts/bootstrap.js?digest=cb8930eaaf36d9849b67"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=cb8930eaaf36d9849b67"></script>
 
-  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
-    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
-    provided by <a href="https://readthedocs.org">Read the Docs</a>.
-   
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.21.0.
+</p></div>
+      
+    </div>
+  
+</div>
 
-</footer>
-        </div>
-      </div>
-    </section>
-  </div>
-  <script>
-      jQuery(function () {
-          SphinxRtdTheme.Navigation.enable(true);
-      });
-  </script> 
-
-</body>
+  </footer>
+  </body>
 </html>
