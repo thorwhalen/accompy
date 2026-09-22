@@ -87,6 +87,6 @@ Tests mock audio rendering (no FluidSynth needed). Test files:
 1. **Run tests after changes**: `python -m pytest tests/ -v` — all tests must pass
 2. **Maintain backward compatibility** during v0.x while architecture stabilizes
 3. **Follow existing patterns**: protocols for extensibility, registry for patterns, event iterators for MIDI
-4. **Check `dev_plan_2026_01_05.md`** before major refactoring — it has detailed phase-by-phase instructions
+4. **Check `misc/docs/dev_plan_2026_01_05.md`** before major refactoring — it has detailed phase-by-phase instructions
 5. **Two backends**: "builtin" (pure Python patterns) and "mma" (MMA external tool). Both must work.
 6. **Chord input flexibility**: any change must preserve support for strings, Score, tuples, and iReal URLs
