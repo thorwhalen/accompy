@@ -23,6 +23,21 @@ from accompy.data_access import (
 )
 
 
+def _env(root) -> dict:
+    """Point the user data and config folders at ``root`` on every platform.
+
+    config2py honours the XDG variables on POSIX and APPDATA / LOCALAPPDATA on
+    Windows; setting all of them keeps the tests off the real user folders (a test
+    that edits a seeded resource would otherwise leak into later tests on Windows).
+    """
+    return {
+        "XDG_DATA_HOME": str(root),
+        "XDG_CONFIG_HOME": str(root),
+        "APPDATA": str(root),
+        "LOCALAPPDATA": str(root),
+    }
+
+
 # =============================================================================
 # Bundled seed data integrity
 # =============================================================================
@@ -89,13 +104,13 @@ class TestGetAppFolder:
     """Test app folder creation."""
 
     def test_creates_directory(self, tmp_path):
-        with patch.dict(os.environ, {"XDG_DATA_HOME": str(tmp_path)}):
+        with patch.dict(os.environ, _env(tmp_path)):
             folder = get_app_folder(folder_kind="data")
             assert folder.is_dir()
             assert folder.name == "accompy"
 
     def test_config_folder(self, tmp_path):
-        with patch.dict(os.environ, {"XDG_CONFIG_HOME": str(tmp_path)}):
+        with patch.dict(os.environ, _env(tmp_path)):
             folder = get_app_folder(folder_kind="config")
             assert folder.is_dir()
             assert folder == tmp_path / "accompy"
@@ -111,7 +126,7 @@ class TestSeedOnMissing:
 
     def test_get_resource_seeds_when_missing(self, tmp_path):
         """First access copies the seed file into the user data dir."""
-        with patch.dict(os.environ, {"XDG_DATA_HOME": str(tmp_path)}):
+        with patch.dict(os.environ, _env(tmp_path)):
             path = get_resource("short_styles.txt")
             assert path.exists()
             assert path.parent.name == "resources"
@@ -120,7 +135,7 @@ class TestSeedOnMissing:
 
     def test_get_resource_preserves_user_edits(self, tmp_path):
         """If the file already exists, it is NOT overwritten."""
-        with patch.dict(os.environ, {"XDG_DATA_HOME": str(tmp_path)}):
+        with patch.dict(os.environ, _env(tmp_path)):
             # First call: seeds the file
             path = get_resource("short_styles.txt")
 
@@ -133,14 +148,14 @@ class TestSeedOnMissing:
             assert path2.read_text() == "my custom style\n"
 
     def test_get_config_seeds_when_missing(self, tmp_path):
-        with patch.dict(os.environ, {"XDG_CONFIG_HOME": str(tmp_path)}):
+        with patch.dict(os.environ, _env(tmp_path)):
             path = get_config("defaults.json")
             assert path.exists()
             data = json.loads(path.read_text())
             assert data["tempo"] == 120
 
     def test_get_config_preserves_user_edits(self, tmp_path):
-        with patch.dict(os.environ, {"XDG_CONFIG_HOME": str(tmp_path)}):
+        with patch.dict(os.environ, _env(tmp_path)):
             path = get_config("defaults.json")
             # User changes tempo
             data = json.loads(path.read_text())
@@ -159,13 +174,13 @@ class TestSeedOnMissing:
 class TestArtifactDirs:
 
     def test_creates_artifact_subdir(self, tmp_path):
-        with patch.dict(os.environ, {"XDG_DATA_HOME": str(tmp_path)}):
+        with patch.dict(os.environ, _env(tmp_path)):
             midi_dir = get_artifact_dir("midi")
             assert midi_dir.is_dir()
             assert midi_dir == tmp_path / "accompy" / "artifacts" / "midi"
 
     def test_multiple_kinds(self, tmp_path):
-        with patch.dict(os.environ, {"XDG_DATA_HOME": str(tmp_path)}):
+        with patch.dict(os.environ, _env(tmp_path)):
             for kind in ("midi", "audio", "midi_audio", "chord_patterns"):
                 d = get_artifact_dir(kind)
                 assert d.is_dir()
@@ -180,13 +195,13 @@ class TestArtifactDirs:
 class TestLoaders:
 
     def test_load_resource_text(self, tmp_path):
-        with patch.dict(os.environ, {"XDG_DATA_HOME": str(tmp_path)}):
+        with patch.dict(os.environ, _env(tmp_path)):
             text = load_resource_text("short_styles.txt")
             assert isinstance(text, str)
             assert "jazz club late night" in text
 
     def test_load_resource_lines_strips_and_filters(self, tmp_path):
-        with patch.dict(os.environ, {"XDG_DATA_HOME": str(tmp_path)}):
+        with patch.dict(os.environ, _env(tmp_path)):
             lines = load_resource_lines("short_styles.txt")
             assert isinstance(lines, list)
             assert all(isinstance(l, str) for l in lines)
@@ -197,7 +212,7 @@ class TestLoaders:
             assert len(lines) == 64
 
     def test_load_resource_json(self, tmp_path):
-        with patch.dict(os.environ, {"XDG_DATA_HOME": str(tmp_path)}):
+        with patch.dict(os.environ, _env(tmp_path)):
             data = load_resource_json("groove_map.json")
             assert isinstance(data, dict)
             assert data["rock"] == "Rock"
@@ -214,7 +229,7 @@ class TestMainIntegration:
     def test_style_to_groove_uses_resource(self, tmp_path):
         from accompy.main import _style_to_groove
 
-        with patch.dict(os.environ, {"XDG_DATA_HOME": str(tmp_path)}):
+        with patch.dict(os.environ, _env(tmp_path)):
             assert _style_to_groove("swing") == "Swing"
             assert _style_to_groove("bossa") == "BossaNova"
             assert _style_to_groove("unknown") == "Swing"  # fallback
@@ -223,7 +238,7 @@ class TestMainIntegration:
         """If the user edits groove_map.json, _style_to_groove picks it up."""
         from accompy.main import _style_to_groove
 
-        with patch.dict(os.environ, {"XDG_DATA_HOME": str(tmp_path)}):
+        with patch.dict(os.environ, _env(tmp_path)):
             # Seed the file first
             path = get_resource("groove_map.json")
             # Add a custom mapping
