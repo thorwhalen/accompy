@@ -1,0 +1,59 @@
+{
+  "collection_duration_seconds": 11.963170051574707,
+  "commit_message": "Song -> ChordSequence converter (songleaf-shaped) and ChordPro section structure (#7)\n\nCo-Authored-By: Claude Sonnet 5.5 <noreply@anthropic.com>",
+  "commit_sha": "0d39eff74c9cc95d7d89281e93d0fa308cffe7a6",
+  "metrics": {
+    "coverage": {
+      "branch_coverage": 0.0,
+      "error": "No coverage file found",
+      "line_coverage": 0.0,
+      "statements_covered": 0,
+      "statements_total": 0
+    },
+    "umpyre_stats": {
+      "comment_lines": 70210,
+      "comment_lines_ratio": 0.06084957129695995,
+      "docs_lines": 247216,
+      "empty_lines": 166050,
+      "empty_lines_ratio": 0.14391213949380713,
+      "errors": [
+        "_dtype_like.py: invalid syntax (_dtype_like.py, line 21)",
+        "_char_codes.py: invalid syntax (_char_codes.py, line 3)",
+        "_shape.py: invalid syntax (_shape.py, line 4)",
+        "_array_like.py: invalid syntax (_array_like.py, line 15)",
+        "_scalars.py: invalid syntax (_scalars.py, line 7)",
+        "_nbit.py: invalid syntax (_nbit.py, line 6)",
+        "mypy_plugin.py: invalid syntax (mypy_plugin.py, line 118)",
+        "test_func_inspect_special_encoding.py: 'utf-8' codec can't decode byte 0xa4 in position 64: invalid start byte",
+        "testFiles.py: invalid non-printable character U+FEFF (testFiles.py, line 1)"
+      ],
+      "files_analyzed": 2045,
+      "function_lines": 747418,
+      "function_lines_ratio": 0.6477718968755336,
+      "mean_lines_per_function": 20.69721976074435,
+      "num_classes": 5941,
+      "num_functions": 36112,
+      "pypi_version": "0.3.12",
+      "total_errors": 9,
+      "total_lines": 1153829
+    },
+    "wily": {
+      "cyclomatic_avg": 0.0,
+      "error": "wily build failed: \u001b[31mFailed to setup archiver: 'Dirty repository, make sure you commit/stash files first'\u001b[0m\n",
+      "files_analyzed": 0,
+      "maintainability_index": 0.0,
+      "total_loc": 0
+    },
+    "workflow_status": {
+      "last_run_status": "success",
+      "last_success_timestamp": "2026-09-22T13:33:22Z",
+      "recent_failure_count": 0,
+      "run_url": "https://github.com/thorwhalen/accompy/actions/runs/35734133088",
+      "total_runs_analyzed": 10
+    }
+  },
+  "python_version": "3.10",
+  "schema_version": "1.0",
+  "timestamp": "2026-10-20T12:41:39.337060Z",
+  "workflow_status": {}
+}

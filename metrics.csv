@@ -1,8 +1,10 @@
 metric,value
 schema_version,1.0
-timestamp,2026-10-20T12:41:28.833943Z
-commit_sha,7dc9e368bfa18f43f60db713ae6c0a44cf92decc
-commit_message,Merge 0d39eff74c9cc95d7d89281e93d0fa308cffe7a6 into 8a9f1d6da0c963a8e0ac1ebb4dd7848e67dc7d60
+timestamp,2026-10-20T12:41:39.337060Z
+commit_sha,0d39eff74c9cc95d7d89281e93d0fa308cffe7a6
+commit_message,"Song -> ChordSequence converter (songleaf-shaped) and ChordPro section structure (#7)
+
+Co-Authored-By: Claude Sonnet 5.5 <noreply@anthropic.com>"
 python_version,3.10
 metrics.umpyre_stats.num_functions,36112
 metrics.umpyre_stats.num_classes,5941
@@ -17,7 +19,7 @@ metrics.umpyre_stats.function_lines_ratio,0.6477718968755336
 metrics.umpyre_stats.mean_lines_per_function,20.69721976074435
 metrics.umpyre_stats.files_analyzed,2045
 metrics.umpyre_stats.pypi_version,0.3.12
-metrics.umpyre_stats.errors,"['testFiles.py: invalid non-printable character U+FEFF (testFiles.py, line 1)', 'mypy_plugin.py: invalid syntax (mypy_plugin.py, line 118)', '_scalars.py: invalid syntax (_scalars.py, line 7)', '_char_codes.py: invalid syntax (_char_codes.py, line 3)', '_dtype_like.py: invalid syntax (_dtype_like.py, line 21)', '_nbit.py: invalid syntax (_nbit.py, line 6)', '_shape.py: invalid syntax (_shape.py, line 4)', '_array_like.py: invalid syntax (_array_like.py, line 15)', ""test_func_inspect_special_encoding.py: 'utf-8' codec can't decode byte 0xa4 in position 64: invalid start byte""]"
+metrics.umpyre_stats.errors,"['_dtype_like.py: invalid syntax (_dtype_like.py, line 21)', '_char_codes.py: invalid syntax (_char_codes.py, line 3)', '_shape.py: invalid syntax (_shape.py, line 4)', '_array_like.py: invalid syntax (_array_like.py, line 15)', '_scalars.py: invalid syntax (_scalars.py, line 7)', '_nbit.py: invalid syntax (_nbit.py, line 6)', 'mypy_plugin.py: invalid syntax (mypy_plugin.py, line 118)', ""test_func_inspect_special_encoding.py: 'utf-8' codec can't decode byte 0xa4 in position 64: invalid start byte"", 'testFiles.py: invalid non-printable character U+FEFF (testFiles.py, line 1)']"
 metrics.umpyre_stats.total_errors,9
 metrics.workflow_status.last_run_status,success
 metrics.workflow_status.last_success_timestamp,2026-09-22T13:33:22Z
@@ -35,4 +37,4 @@ metrics.coverage.branch_coverage,0.0
 metrics.coverage.statements_covered,0
 metrics.coverage.statements_total,0
 metrics.coverage.error,No coverage file found
-collection_duration_seconds,7.67353630065918
+collection_duration_seconds,11.963170051574707
