@@ -190,26 +190,85 @@ def _parse_ireal_url_fallback(url: str, *, beats_per_bar: int = 4) -> ChordSeque
 # ---------------------------------------------------------------------------
 
 
+#: ChordPro directive shorthands that open a section, and the label each implies.
+_SECTION_STARTS = {
+    "start_of_verse": "Verse", "sov": "Verse",
+    "start_of_chorus": "Chorus", "soc": "Chorus",
+    "start_of_bridge": "Bridge", "sob": "Bridge",
+    "start_of_tab": "Tab", "sot": "Tab",
+}
+_SECTION_ENDS = {"end_of_verse", "eov", "end_of_chorus", "eoc", "end_of_bridge", "eob",
+                 "end_of_tab", "eot"}
+#: A bare ``[Chorus]`` line is a section marker, not a chord.
+_BARE_SECTION = re.compile(
+    r"^\s*\[\s*((?:pre[- ]?)?(?:verse|chorus|bridge|intro|outro|refrain|solo|"
+    r"interlude|instrumental|tag|coda|hook|break)\b[^\]]*)\]\s*$",
+    re.IGNORECASE,
+)
+_DIRECTIVE = re.compile(r"^\s*\{\s*([a-z_]+)\s*(?::\s*(.*?))?\s*\}\s*$", re.IGNORECASE)
+_CHORD_IN_BRACKETS = re.compile(r"\[([A-G][^\]]*)\]")
+
+
+def _chordpro_sections(sheet: str) -> list[tuple[str, list[str]]]:
+    """``[(label, chord symbols)]`` in order; chords before any section are labelled ``""``."""
+    sections: list[tuple[str, list[str]]] = [("", [])]
+    in_block = False
+
+    def open_section(label: str) -> None:
+        if sections[-1][0] == "" and not sections[-1][1]:
+            sections.pop()  # an empty unlabelled lead-in is not a section
+        sections.append((label, []))
+
+    for line in sheet.splitlines():
+        directive = _DIRECTIVE.match(line)
+        if directive:
+            name, arg = directive.group(1).lower(), (directive.group(2) or "").strip()
+            if name in _SECTION_STARTS:
+                open_section(arg or _SECTION_STARTS[name])
+                in_block = True
+            elif name in _SECTION_ENDS:
+                in_block = False
+            elif name in ("comment", "c", "comment_italic", "ci") and arg and not in_block:
+                if re.match(r"(?:pre[- ]?)?(verse|chorus|bridge|intro|outro|refrain|solo|"
+                            r"interlude|instrumental|tag|coda|hook|break)\b", arg, re.I):
+                    open_section(arg)
+            continue
+        bare = _BARE_SECTION.match(line)
+        if bare:
+            open_section(bare.group(1).strip())
+            continue
+        sections[-1][1].extend(
+            sym for sym in _CHORD_IN_BRACKETS.findall(line) if sym.strip()
+        )
+    return [(label, chords) for label, chords in sections if chords or label]
+
+
 def parse_chordpro(
     sheet: str | ChordSheet,
     *,
     beats_per_bar: int = 4,
     tempo: int = 120,
 ) -> ChordSequence:
-    """Parse ChordPro format into a ChordSequence.
+    """Parse ChordPro format into a ChordSequence, keeping the section structure.
 
     ChordPro embeds chords in brackets within lyrics:
     "[Am]Hello [G]world [C]"
 
-    Extracts just the chord symbols, one per bar by default.
+    Extracts the chord symbols, one per bar by default. Sections come from the
+    ``{start_of_verse}`` / ``{soc}`` / ``{start_of_bridge: label}`` directives
+    (and ``{comment: Chorus}``) or a bare ``[Chorus]`` line; they land in
+    ``ChordSequence.sections`` as ``(label, start, stop)`` ranges over the chords.
 
     >>> cs = parse_chordpro("[Am]Hello [G]world [C]")
     >>> cs.symbols
     ['Am', 'G', 'C']
+    >>> cs = parse_chordpro("{sov}\\n[Am]la [G]la\\n{eov}\\n[Chorus]\\n[C]sing [F]out")
+    >>> cs.sections
+    [('Verse', 0, 2), ('Chorus', 2, 4)]
     """
     sheet = str(sheet)
-    # Extract chord symbols from [brackets]
-    symbols = re.findall(r"\[([A-G][^\]]*)\]", sheet)
+    sections = _chordpro_sections(sheet)
+    symbols = [sym for _, chords in sections for sym in chords]
 
     # Extract metadata directives
     title = ""
@@ -224,12 +283,18 @@ def parse_chordpro(
     if tempo_match:
         tempo = int(tempo_match.group(1))
 
-    chords = [(sym, float(beats_per_bar)) for sym in symbols if sym.strip()]
+    ranges, start = [], 0
+    for label, chords in sections:
+        if label:
+            ranges.append((label, start, start + len(chords)))
+        start += len(chords)
+    chords = [(sym, float(beats_per_bar)) for sym in symbols]
     return ChordSequence(
         chords=chords,
         title=title,
         key=key,
         tempo=tempo,
+        sections=ranges,
     )
 
 

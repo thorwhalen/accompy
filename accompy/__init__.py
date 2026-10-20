@@ -139,6 +139,7 @@ from .rhythmic_skeletons import (
 
 # Import converter registration modules so converters are registered on import
 import accompy.chord_parsers as _chord_parsers  # noqa: F401
+from .songs import song_to_chord_sequence
 import accompy.chord_resolvers as _chord_resolvers  # noqa: F401
 import accompy.midi_generators as _midi_generators  # noqa: F401
 import accompy.audio_renderers as _audio_renderers  # noqa: F401
@@ -193,6 +194,7 @@ __all__ = [
     "MidiData",
     "AudioData",
     "ChordSheet",
+    "song_to_chord_sequence",
     # Converter registry
     "ConverterRegistry",
     "converter",

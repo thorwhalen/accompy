@@ -65,9 +65,24 @@ class ChordSequence:
     key: str = "C"
     tempo: int = 120
     time_signature: tuple[int, int] = (4, 4)
+    #: Song structure, when the source has it: ``(label, start, stop)`` where
+    #: ``chords[start:stop]`` are the section's chords (see :meth:`section_chords`).
+    sections: list[tuple[str, int, int]] = field(default_factory=list)
 
     def __len__(self) -> int:
         return len(self.chords)
+
+    def section_chords(self, label: str) -> list[ChordEvent]:
+        """The chords of the first section called ``label`` (case-insensitive), or ``[]``.
+
+        >>> cs = ChordSequence([("C", 4.0), ("G", 4.0)], sections=[("Verse", 0, 1), ("Chorus", 1, 2)])
+        >>> cs.section_chords("chorus")
+        [('G', 4.0)]
+        """
+        for name, start, stop in self.sections:
+            if name.casefold() == label.casefold():
+                return self.chords[start:stop]
+        return []
 
     def __getitem__(self, idx):
         return self.chords[idx]
