@@ -77,7 +77,10 @@ def song_to_chord_sequence(
     """
     if bars_per_line is not None and beats_per_chord is not None:
         raise ValueError("give bars_per_line or beats_per_chord, not both")
-    for name, value in (("bars_per_line", bars_per_line), ("beats_per_chord", beats_per_chord)):
+    for name, value in (
+        ("bars_per_line", bars_per_line),
+        ("beats_per_chord", beats_per_chord),
+    ):
         if value is not None and value <= 0:
             raise ValueError(f"{name} must be positive, got {value!r}")
 
@@ -88,7 +91,8 @@ def song_to_chord_sequence(
         offset += len(line) + 1
 
     chord_notes = [
-        a for a in song.annotations
+        a
+        for a in song.annotations
         if a.kind == "chord" and str(a.body.get("symbol", "")).strip()
     ]
     by_line: dict[int, list[Any]] = {}
@@ -112,7 +116,11 @@ def song_to_chord_sequence(
     sections = []
     for sec in (a for a in song.annotations if a.kind == "section"):
         # A bare label marker (start == end) holds no chords of its own.
-        inside = [i for i, pos in enumerate(positions) if sec.start <= pos < max(sec.end, sec.start + 1)]
+        inside = [
+            i
+            for i, pos in enumerate(positions)
+            if sec.start <= pos < max(sec.end, sec.start + 1)
+        ]
         if inside:
             sections.append((str(sec.body.get("label", "")), inside[0], inside[-1] + 1))
 

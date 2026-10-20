@@ -192,13 +192,25 @@ def _parse_ireal_url_fallback(url: str, *, beats_per_bar: int = 4) -> ChordSeque
 
 #: ChordPro directive shorthands that open a section, and the label each implies.
 _SECTION_STARTS = {
-    "start_of_verse": "Verse", "sov": "Verse",
-    "start_of_chorus": "Chorus", "soc": "Chorus",
-    "start_of_bridge": "Bridge", "sob": "Bridge",
-    "start_of_tab": "Tab", "sot": "Tab",
+    "start_of_verse": "Verse",
+    "sov": "Verse",
+    "start_of_chorus": "Chorus",
+    "soc": "Chorus",
+    "start_of_bridge": "Bridge",
+    "sob": "Bridge",
+    "start_of_tab": "Tab",
+    "sot": "Tab",
 }
-_SECTION_ENDS = {"end_of_verse", "eov", "end_of_chorus", "eoc", "end_of_bridge", "eob",
-                 "end_of_tab", "eot"}
+_SECTION_ENDS = {
+    "end_of_verse",
+    "eov",
+    "end_of_chorus",
+    "eoc",
+    "end_of_bridge",
+    "eob",
+    "end_of_tab",
+    "eot",
+}
 #: A bare ``[Chorus]`` line is a section marker, not a chord.
 _BARE_SECTION = re.compile(
     r"^\s*\[\s*((?:pre[- ]?)?(?:verse|chorus|bridge|intro|outro|refrain|solo|"
@@ -228,9 +240,17 @@ def _chordpro_sections(sheet: str) -> list[tuple[str, list[str]]]:
                 in_block = True
             elif name in _SECTION_ENDS:
                 in_block = False
-            elif name in ("comment", "c", "comment_italic", "ci") and arg and not in_block:
-                if re.match(r"(?:pre[- ]?)?(verse|chorus|bridge|intro|outro|refrain|solo|"
-                            r"interlude|instrumental|tag|coda|hook|break)\b", arg, re.I):
+            elif (
+                name in ("comment", "c", "comment_italic", "ci")
+                and arg
+                and not in_block
+            ):
+                if re.match(
+                    r"(?:pre[- ]?)?(verse|chorus|bridge|intro|outro|refrain|solo|"
+                    r"interlude|instrumental|tag|coda|hook|break)\b",
+                    arg,
+                    re.I,
+                ):
                     open_section(arg)
             continue
         bare = _BARE_SECTION.match(line)
