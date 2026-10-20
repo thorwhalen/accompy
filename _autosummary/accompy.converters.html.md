@@ -64,7 +64,7 @@ Write audio to a WAV file. Returns the path.
 * **Return type:**
   [`str`](https://docs.python.org/3/builtins/stdtypes.html#str)
 
-### *class* accompy.converters.ChordSequence(chords, title='', key='C', tempo=120, time_signature=(4, 4))
+### *class* accompy.converters.ChordSequence(chords, title='', key='C', tempo=120, time_signature=(4, 4), sections=list())
 
 Bases: [`object`](https://docs.python.org/3/builtins/functions.html#object)
 
@@ -85,6 +85,27 @@ This is the canonical internal representation of a chord progression.
 #### *property* durations *: [list](https://docs.python.org/3/builtins/stdtypes.html#list)[[float](https://docs.python.org/3/builtins/functions.html#float)]*
 
 Just the durations, without symbols.
+
+#### section_chords(label)
+
+The chords of the first section called `label` (case-insensitive), or `[]`.
+
+```pycon
+>>> cs = ChordSequence([("C", 4.0), ("G", 4.0)], sections=[("Verse", 0, 1), ("Chorus", 1, 2)])
+>>> cs.section_chords("chorus")
+[('G', 4.0)]
+```
+
+* **Return type:**
+  [`list`](https://docs.python.org/3/builtins/stdtypes.html#list)[[`tuple`](https://docs.python.org/3/builtins/stdtypes.html#tuple)[[`str`](https://docs.python.org/3/builtins/stdtypes.html#str), [`float`](https://docs.python.org/3/builtins/functions.html#float)]]
+
+#### sections *: [list](https://docs.python.org/3/builtins/stdtypes.html#list)[[tuple](https://docs.python.org/3/builtins/stdtypes.html#tuple)[[str](https://docs.python.org/3/builtins/stdtypes.html#str), [int](https://docs.python.org/3/builtins/functions.html#int), [int](https://docs.python.org/3/builtins/functions.html#int)]]*
+
+`(label, start, stop)` where
+`chords[start:stop]` are the section’s chords (see [`section_chords()`](#accompy.converters.ChordSequence.section_chords)).
+
+* **Type:**
+  Song structure, when the source has it
 
 #### *property* symbols *: [list](https://docs.python.org/3/builtins/stdtypes.html#list)[[str](https://docs.python.org/3/builtins/stdtypes.html#str)]*
 

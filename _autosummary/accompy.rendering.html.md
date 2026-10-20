@@ -58,7 +58,7 @@ Render chords to a high-quality audio file, optionally AI-enhanced.
   * **max_seconds** ([`float`](https://docs.python.org/3/builtins/functions.html#float) | [`None`](https://docs.python.org/3/builtins/constants.html#None)) – Target maximum duration; computes loop count automatically.
     Defaults to 210 (3.5 min) when neither *n_loops* nor *max_seconds*
     is given.
-  * **ai_enhance** (`Union`[[`bool`](https://docs.python.org/3/builtins/functions.html#bool), [`Callable`](https://docs.python.org/3/library/typing.html#typing.Callable), [`None`](https://docs.python.org/3/builtins/constants.html#None)]) – `True` for default Suno enhancement, `False`/`None`
+  * **ai_enhance** ([`Union`](https://docs.python.org/3/library/typing.html#typing.Union)[[`bool`](https://docs.python.org/3/builtins/functions.html#bool), [`Callable`](https://docs.python.org/3/library/typing.html#typing.Callable), [`None`](https://docs.python.org/3/builtins/constants.html#None)]) – `True` for default Suno enhancement, `False`/`None`
     to skip, or a callable `(audio_path, prompt, **kw) → bytes`.
   * **suno_mode** ([`str`](https://docs.python.org/3/builtins/stdtypes.html#str)) – `"cover"` (default, re-generates in style) or `"extend"`.
   * **prompt_template** ([`str`](https://docs.python.org/3/builtins/stdtypes.html#str)) – Template with `{genre}` and `{instruments}` placeholders.

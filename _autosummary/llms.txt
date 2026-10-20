@@ -26,6 +26,7 @@
 - [accompy.rendering](accompy.rendering.html.md): High-quality chord rendering pipeline — from chord charts to AI-enhanced audio.
 - [accompy.rhythmic_skeletons](accompy.rhythmic_skeletons.html.md): Rhythmic skeletons — duration-only measure patterns for simple accompaniment.
 - [accompy.setup_utils](accompy.setup_utils.html.md): Setup and configuration utilities for accompy.
+- [accompy.songs](accompy.songs.html.md): Songs as backing-track input: a &#96;songleaf&#96; Song becomes a ChordSequence.
 - [accompy.synthesis](accompy.synthesis.html.md): Audio synthesis backends for accompy.
 - [accompy.synthesis.fluidsynth](accompy.synthesis.fluidsynth.html.md): FluidSynth synthesis backend.
 - [accompy.tools](accompy.tools.html.md): Tools for generating accompaniment audio from Score objects.

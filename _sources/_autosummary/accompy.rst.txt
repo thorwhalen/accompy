@@ -13,6 +13,7 @@
       play_audio
       check_dependencies
       print_setup_instructions
+      song_to_chord_sequence
       convert
       chords_to_sequence
       chords_to_notes
@@ -106,6 +107,7 @@
    rendering
    rhythmic_skeletons
    setup_utils
+   songs
    synthesis
    tools
    util

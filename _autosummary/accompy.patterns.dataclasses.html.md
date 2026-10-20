@@ -33,9 +33,15 @@ A piano/guitar comping (accompaniment) pattern.
 
 Pattern identifier
 
+* **Type:**
+  [`str`](https://docs.python.org/3/builtins/stdtypes.html#str)
+
 #### hits
 
 Sequence of (beat, duration, velocity) tuples
+
+* **Type:**
+  [`Sequence`](https://docs.python.org/3/library/typing.html#typing.Sequence)[[`tuple`](https://docs.python.org/3/builtins/stdtypes.html#tuple)[[`float`](https://docs.python.org/3/builtins/functions.html#float), [`float`](https://docs.python.org/3/builtins/functions.html#float), [`int`](https://docs.python.org/3/builtins/functions.html#int)]]
 
 ### *class* accompy.patterns.dataclasses.DrumHit(beat, drum, velocity)
 
@@ -47,13 +53,22 @@ A single drum hit in a pattern.
 
 Beat position (0-based within measure)
 
+* **Type:**
+  [`float`](https://docs.python.org/3/builtins/functions.html#float)
+
 #### drum
 
 MIDI note number for the drum sound
 
+* **Type:**
+  [`int`](https://docs.python.org/3/builtins/functions.html#int)
+
 #### velocity
 
 Hit velocity (0-127)
+
+* **Type:**
+  [`int`](https://docs.python.org/3/builtins/functions.html#int)
 
 ### *class* accompy.patterns.dataclasses.DrumPattern(name, beats_per_bar, hits)
 
@@ -86,14 +101,26 @@ A melodic note event for bass or other instruments.
 
 Beat position within measure
 
+* **Type:**
+  [`float`](https://docs.python.org/3/builtins/functions.html#float)
+
 #### pitch_offset
 
 Offset from chord root in semitones (0=root, 7=5th, etc.)
+
+* **Type:**
+  [`int`](https://docs.python.org/3/builtins/functions.html#int)
 
 #### duration
 
 Note duration in beats
 
+* **Type:**
+  [`float`](https://docs.python.org/3/builtins/functions.html#float)
+
 #### velocity
 
 Note velocity (0-127)
+
+* **Type:**
+  [`int`](https://docs.python.org/3/builtins/functions.html#int)

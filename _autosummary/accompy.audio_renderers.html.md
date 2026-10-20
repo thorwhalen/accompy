@@ -94,13 +94,13 @@ Render MIDI to audio using pretty_midi’s built-in FluidSynth binding.
 This calls pretty_midi’s .fluidsynth() method which uses pyfluidsynth.
 Simpler setup than midi2audio but requires the FluidSynth C library.
 
-* **Return type:**
-  [`AudioData`](accompy.converters.html.md#accompy.converters.AudioData)
-
 ```pycon
 >>> # md = MidiData(pretty_midi_obj=pm)
 >>> # audio = midi_to_audio_pretty_midi(md)
 ```
+
+* **Return type:**
+  [`AudioData`](accompy.converters.html.md#accompy.converters.AudioData)
 
 ### accompy.audio_renderers.midi_to_audio_tonal(md, , soundfont=None, sr=44100)
 
@@ -108,10 +108,10 @@ Render MIDI to audio using tonal.converters.midi_to_wav.
 
 Uses the tonal package’s existing converter which wraps FluidSynth.
 
-* **Return type:**
-  [`AudioData`](accompy.converters.html.md#accompy.converters.AudioData)
-
 ```pycon
 >>> # md = MidiData(bytes_=some_midi_bytes)
 >>> # audio = midi_to_audio_tonal(md)
 ```
+
+* **Return type:**
+  [`AudioData`](accompy.converters.html.md#accompy.converters.AudioData)

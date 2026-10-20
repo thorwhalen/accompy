@@ -93,9 +93,9 @@ Generate MIDI events from a score.
   * **chord_resolver** ([`ChordResolver`](#accompy.protocols.ChordResolver)) – Function to resolve chords to notes
   * **pattern_source** ([`PatternSource`](#accompy.protocols.PatternSource)) – Source of musical patterns
 * **Yields:**
-  MidiEvent objects in time order
+  [`MidiEvent`](accompy.base.html.md#accompy.base.MidiEvent) – MidiEvent objects in time order
 * **Return type:**
-  [*Iterator*](https://docs.python.org/3/library/typing.html#typing.Iterator)[[*MidiEvent*](accompy.base.html.md#accompy.base.MidiEvent)]
+  *Iterator*[[*MidiEvent*](accompy.html.md#accompy.MidiEvent)]
 
 ### *class* accompy.protocols.PatternSource(\*args, \*\*kwargs)
 

@@ -46,9 +46,6 @@ Handles conversions like:
 
 Parse a chord string into measures, each containing chord symbols.
 
-* **Return type:**
-  [`list`](https://docs.python.org/3/builtins/stdtypes.html#list)[[`list`](https://docs.python.org/3/builtins/stdtypes.html#list)[[`str`](https://docs.python.org/3/builtins/stdtypes.html#str)]]
-
 ### Example
 
 ```pycon
@@ -57,6 +54,9 @@ Parse a chord string into measures, each containing chord symbols.
 >>> parse_chord_string("| C Am | F G |")
 [['C', 'A-'], ['F', 'G']]
 ```
+
+* **Return type:**
+  [`list`](https://docs.python.org/3/builtins/stdtypes.html#list)[[`list`](https://docs.python.org/3/builtins/stdtypes.html#list)[[`str`](https://docs.python.org/3/builtins/stdtypes.html#str)]]
 
 ### accompy.util.parse_ireal_html(html_path)
 
@@ -67,7 +67,7 @@ This function reads the file, extracts that link, and parses it into a
 `Score`.
 
 * **Parameters:**
-  **html_path** (str) – Path to the HTML file exported from iReal Pro.
+  **html_path** ([`str`](https://docs.python.org/3/builtins/stdtypes.html#str)) – Path to the HTML file exported from iReal Pro.
 * **Return type:**
   Score
 * **Returns:**
@@ -103,9 +103,6 @@ does not attempt to perfectly replicate iReal Pro’s full encoding.
 
 Parse time signature string like ‘4/4’ into tuple.
 
-* **Return type:**
-  [`tuple`](https://docs.python.org/3/builtins/stdtypes.html#tuple)[[`int`](https://docs.python.org/3/builtins/functions.html#int), [`int`](https://docs.python.org/3/builtins/functions.html#int)]
-
 ### Example
 
 ```pycon
@@ -116,6 +113,9 @@ Parse time signature string like ‘4/4’ into tuple.
 >>> parse_time_sig(None)
 (4, 4)
 ```
+
+* **Return type:**
+  [`tuple`](https://docs.python.org/3/builtins/stdtypes.html#tuple)[[`int`](https://docs.python.org/3/builtins/functions.html#int), [`int`](https://docs.python.org/3/builtins/functions.html#int)]
 
 ### accompy.util.score_from_chord_specs(chords, , title='Untitled', key='C', time_signature=(4, 4))
 
@@ -180,7 +180,7 @@ The spelling (sharp vs flat) is chosen automatically based on the
 
 * **Parameters:**
   * **score** – A `Score` instance.
-  * **target_key** (str) – Target key, e.g. `"Eb"`, `"G"`, `"F#"`.
+  * **target_key** ([`str`](https://docs.python.org/3/builtins/stdtypes.html#str)) – Target key, e.g. `"Eb"`, `"G"`, `"F#"`.
 * **Return type:**
   Score
 * **Returns:**

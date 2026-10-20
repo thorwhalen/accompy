@@ -1,0 +1,12 @@
+accompy.songs
+=============
+
+.. automodule:: accompy.songs
+
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+   
+      song_to_chord_sequence
+   

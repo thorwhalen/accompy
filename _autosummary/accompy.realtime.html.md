@@ -53,7 +53,7 @@ Future usage (with hum integration):
 Generate events for current chord progression.
 
 * **Yields:**
-  MidiEvent objects in chronological order
+  [`MidiEvent`](accompy.base.html.md#accompy.base.MidiEvent) – MidiEvent objects in chronological order
 * **Return type:**
   [*Iterator*](https://docs.python.org/3/library/typing.html#typing.Iterator)[[*MidiEvent*](accompy.base.html.md#accompy.base.MidiEvent)]
 

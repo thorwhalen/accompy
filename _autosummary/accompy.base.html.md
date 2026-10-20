@@ -30,54 +30,84 @@ including dependency injection hooks for extensibility.
 
 Musical style (swing, bossa, rock, etc.)
 
+* **Type:**
+  [`Literal`](https://docs.python.org/3/library/typing.html#typing.Literal)[`'swing'`, `'bossa'`, `'rock'`, `'ballad'`, `'funk'`, `'latin'`, `'waltz'`, `'blues'`]
+
 #### tempo
 
 Beats per minute
+
+* **Type:**
+  [`int`](https://docs.python.org/3/builtins/functions.html#int)
 
 #### repeats
 
 Number of times to play through the form
 
+* **Type:**
+  [`int`](https://docs.python.org/3/builtins/functions.html#int)
+
 #### instruments
 
 Which instruments to include
+
+* **Type:**
+  [`dict`](https://docs.python.org/3/builtins/stdtypes.html#dict)[[`str`](https://docs.python.org/3/builtins/stdtypes.html#str), [`bool`](https://docs.python.org/3/builtins/functions.html#bool)]
 
 #### volumes
 
 Relative volume for each instrument (0.0-1.0)
 
+* **Type:**
+  [`dict`](https://docs.python.org/3/builtins/stdtypes.html#dict)[[`str`](https://docs.python.org/3/builtins/stdtypes.html#str), [`float`](https://docs.python.org/3/builtins/functions.html#float)]
+
 #### soundfont
 
 Path to SoundFont file for synthesis
+
+* **Type:**
+  [`Optional`](https://docs.python.org/3/library/typing.html#typing.Optional)[[`Path`](https://docs.python.org/3/library/pathlib.html#pathlib.Path)]
 
 #### sample_rate
 
 Audio sample rate
 
+* **Type:**
+  [`int`](https://docs.python.org/3/builtins/functions.html#int)
+
 #### output_format
 
 Output file format
+
+* **Type:**
+  [`Literal`](https://docs.python.org/3/library/typing.html#typing.Literal)[`'wav'`, `'mp3'`, `'flac'`, `'midi'`]
 
 #### chord_resolver
 
 Optional custom chord resolution function
 
+* **Type:**
+  [`Optional`](https://docs.python.org/3/library/typing.html#typing.Optional)[[`Any`](https://docs.python.org/3/library/typing.html#typing.Any)]
+
 #### pattern_source
 
 Optional custom pattern provider
 
+* **Type:**
+  [`Optional`](https://docs.python.org/3/library/typing.html#typing.Optional)[[`Any`](https://docs.python.org/3/library/typing.html#typing.Any)]
+
 #### synthesis_backend
 
 Optional custom synthesis backend
+
+* **Type:**
+  [`Optional`](https://docs.python.org/3/library/typing.html#typing.Optional)[[`Any`](https://docs.python.org/3/library/typing.html#typing.Any)]
 
 #### with_overrides(\*\*kwargs)
 
 Create a new config with specified overrides.
 
 This enables immutable updates to configuration.
-
-* **Return type:**
-  [`AccompanimentConfig`](#accompy.base.AccompanimentConfig)
 
 ### Example
 
@@ -87,6 +117,9 @@ This enables immutable updates to configuration.
 >>> config.tempo, fast_config.tempo
 (120, 180)
 ```
+
+* **Return type:**
+  [`AccompanimentConfig`](#accompy.base.AccompanimentConfig)
 
 ### *class* accompy.base.ChordEvent(symbol, beats=4)
 
@@ -115,21 +148,36 @@ and future real-time streaming.
 
 Event time in beats
 
+* **Type:**
+  [`float`](https://docs.python.org/3/builtins/functions.html#float)
+
 #### channel
 
 MIDI channel (0-15)
+
+* **Type:**
+  [`int`](https://docs.python.org/3/builtins/functions.html#int)
 
 #### note
 
 MIDI note number (0-127)
 
+* **Type:**
+  [`int`](https://docs.python.org/3/builtins/functions.html#int)
+
 #### velocity
 
 Note velocity (0-127)
 
+* **Type:**
+  [`int`](https://docs.python.org/3/builtins/functions.html#int)
+
 #### duration
 
 Note duration in beats
+
+* **Type:**
+  [`float`](https://docs.python.org/3/builtins/functions.html#float)
 
 ### *class* accompy.base.Score(measures, title='Untitled', composer='', key='C', time_signature=(4, 4))
 
@@ -152,12 +200,12 @@ representation regardless of input format (string, iReal URL, tuples, etc.).
 
 Parse an iReal Pro URL into a Score.
 
-* **Return type:**
-  [`Score`](#accompy.base.Score)
-
 Example::
 : url = “irealb://Autumn%20Leaves=…”
   score = Score.from_ireal_url(url)
+
+* **Return type:**
+  [`Score`](#accompy.base.Score)
 
 #### *classmethod* from_string(chord_string, , title='Untitled', key='C', time_signature=(4, 4))
 

@@ -58,13 +58,13 @@ Convert ChordSequence to NoteSequence using tonal.
 
 Resolve a chord symbol to MIDI notes using mingus.
 
-* **Return type:**
-  [`list`](https://docs.python.org/3/builtins/stdtypes.html#list)[[`int`](https://docs.python.org/3/builtins/functions.html#int)]
-
 ```pycon
 >>> resolve_with_mingus("Cmaj7")
 [36, 40, 43, 47]
 ```
+
+* **Return type:**
+  [`list`](https://docs.python.org/3/builtins/stdtypes.html#list)[[`int`](https://docs.python.org/3/builtins/functions.html#int)]
 
 ### accompy.chord_resolvers.resolve_with_music21(symbol, , root_octave=3)
 
@@ -72,20 +72,17 @@ Resolve a chord symbol to MIDI notes using music21.
 
 Handles the widest range of chord types including altered chords.
 
-* **Return type:**
-  [`list`](https://docs.python.org/3/builtins/stdtypes.html#list)[[`int`](https://docs.python.org/3/builtins/functions.html#int)]
-
 ```pycon
 >>> resolve_with_music21("Cmaj7")
 [48, 52, 55, 59]
 ```
 
+* **Return type:**
+  [`list`](https://docs.python.org/3/builtins/stdtypes.html#list)[[`int`](https://docs.python.org/3/builtins/functions.html#int)]
+
 ### accompy.chord_resolvers.resolve_with_pychord(symbol, , root_octave=3)
 
 Resolve a chord symbol to MIDI notes using pychord.
-
-* **Return type:**
-  [`list`](https://docs.python.org/3/builtins/stdtypes.html#list)[[`int`](https://docs.python.org/3/builtins/functions.html#int)]
 
 ```pycon
 >>> resolve_with_pychord("Cmaj7")
@@ -94,16 +91,19 @@ Resolve a chord symbol to MIDI notes using pychord.
 [57, 60, 64]
 ```
 
+* **Return type:**
+  [`list`](https://docs.python.org/3/builtins/stdtypes.html#list)[[`int`](https://docs.python.org/3/builtins/functions.html#int)]
+
 ### accompy.chord_resolvers.resolve_with_tonal(symbol, , transpose=-12)
 
 Resolve a chord symbol to MIDI notes using the tonal package.
 
 This is accompy’s existing default resolver.
 
-* **Return type:**
-  [`list`](https://docs.python.org/3/builtins/stdtypes.html#list)[[`int`](https://docs.python.org/3/builtins/functions.html#int)]
-
 ```pycon
 >>> resolve_with_tonal("Cmaj7")
 [48, 52, 55, 59]
 ```
+
+* **Return type:**
+  [`list`](https://docs.python.org/3/builtins/stdtypes.html#list)[[`int`](https://docs.python.org/3/builtins/functions.html#int)]

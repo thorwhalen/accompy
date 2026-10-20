@@ -28,6 +28,7 @@
 - [accompy.rendering](_autosummary/accompy.rendering.html.md): High-quality chord rendering pipeline — from chord charts to AI-enhanced audio.
 - [accompy.rhythmic_skeletons](_autosummary/accompy.rhythmic_skeletons.html.md): Rhythmic skeletons — duration-only measure patterns for simple accompaniment.
 - [accompy.setup_utils](_autosummary/accompy.setup_utils.html.md): Setup and configuration utilities for accompy.
+- [accompy.songs](_autosummary/accompy.songs.html.md): Songs as backing-track input: a &#96;songleaf&#96; Song becomes a ChordSequence.
 - [accompy.synthesis](_autosummary/accompy.synthesis.html.md): Audio synthesis backends for accompy.
 - [accompy.synthesis.fluidsynth](_autosummary/accompy.synthesis.fluidsynth.html.md): FluidSynth synthesis backend.
 - [accompy.tools](_autosummary/accompy.tools.html.md): Tools for generating accompaniment audio from Score objects.
@@ -40,7 +41,7 @@
 - [accompy.wips.pipeline](_autosummary/accompy.wips.pipeline.html.md): Backward-compat shim. Use &#96;accompy.pipeline&#96; instead.
 - [accompy.wips.types](_autosummary/accompy.wips.types.html.md): Backward-compat shim. Use &#96;accompy.converters&#96; instead.
 - [For AI agents](ai-agents.html.md): &#96;accompy&#96; ships artifacts for coding agents alongside its code. This page lists
-- [About this build](about-this-build.html.md): This documentation was built on &#42;&#42;2026-09-22 13:32 UTC&#42;&#42; from commit &lt;a href="https://github.com/tho...
+- [About this build](about-this-build.html.md): This documentation was built on &#42;&#42;2026-10-20 12:46 UTC&#42;&#42; from commit &lt;a href="https://github.com/tho...
 
 ## Optional
 

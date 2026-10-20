@@ -69,7 +69,7 @@ collections.
 
 * **Parameters:**
   * **score** ([`Score`](accompy.base.html.md#accompy.base.Score)) – Base `Score` (will be transposed per key).
-  * **output_dir** (`Union`[[`str`](https://docs.python.org/3/builtins/stdtypes.html#str), [`Path`](https://docs.python.org/3/library/pathlib.html#pathlib.Path)]) – Directory for output files.
+  * **output_dir** ([`Union`](https://docs.python.org/3/library/typing.html#typing.Union)[[`str`](https://docs.python.org/3/builtins/stdtypes.html#str), [`Path`](https://docs.python.org/3/library/pathlib.html#pathlib.Path)]) – Directory for output files.
   * **keys** ([`Sequence`](https://docs.python.org/3/library/typing.html#typing.Sequence)[[`str`](https://docs.python.org/3/builtins/stdtypes.html#str)]) – Keys to transpose to.
   * **tempos** ([`Sequence`](https://docs.python.org/3/library/typing.html#typing.Sequence)[[`int`](https://docs.python.org/3/builtins/functions.html#int)]) – Tempos in BPM to cycle through.
   * **grooves** ([`Sequence`](https://docs.python.org/3/library/typing.html#typing.Sequence)[[`str`](https://docs.python.org/3/builtins/stdtypes.html#str)]) – Groove / style names to cycle through.
@@ -116,7 +116,7 @@ built with [`make_converter_engine()`](#accompy.tools.make_converter_engine).
 
 * **Parameters:**
   * **score** ([`Score`](accompy.base.html.md#accompy.base.Score)) – A `Score` with chord measures.
-  * **output_path** (`Union`[[`str`](https://docs.python.org/3/builtins/stdtypes.html#str), [`Path`](https://docs.python.org/3/library/pathlib.html#pathlib.Path)]) – Destination WAV file path.
+  * **output_path** ([`Union`](https://docs.python.org/3/library/typing.html#typing.Union)[[`str`](https://docs.python.org/3/builtins/stdtypes.html#str), [`Path`](https://docs.python.org/3/library/pathlib.html#pathlib.Path)]) – Destination WAV file path.
   * **groove** ([`str`](https://docs.python.org/3/builtins/stdtypes.html#str)) – Groove / style name (interpretation depends on the engine).
   * **tempo** ([`int`](https://docs.python.org/3/builtins/functions.html#int)) – Tempo in BPM.
   * **repeats** ([`int`](https://docs.python.org/3/builtins/functions.html#int)) – Number of times to repeat the progression.
@@ -175,7 +175,7 @@ Run `mma -Dg` to list available grooves.
 
 * **Parameters:**
   * **score** ([`Score`](accompy.base.html.md#accompy.base.Score)) – A `Score` with chord measures.
-  * **output_path** (`Union`[[`str`](https://docs.python.org/3/builtins/stdtypes.html#str), [`Path`](https://docs.python.org/3/library/pathlib.html#pathlib.Path)]) – Destination WAV file path.
+  * **output_path** ([`Union`](https://docs.python.org/3/library/typing.html#typing.Union)[[`str`](https://docs.python.org/3/builtins/stdtypes.html#str), [`Path`](https://docs.python.org/3/library/pathlib.html#pathlib.Path)]) – Destination WAV file path.
   * **groove** ([`str`](https://docs.python.org/3/builtins/stdtypes.html#str)) – MMA groove name (case-sensitive).
   * **tempo** ([`int`](https://docs.python.org/3/builtins/functions.html#int)) – Tempo in BPM.
   * **repeats** ([`int`](https://docs.python.org/3/builtins/functions.html#int)) – Number of times to repeat the progression.

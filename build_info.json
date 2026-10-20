@@ -1,41 +1,41 @@
 {
   "schema_version": 1,
-  "built_at": "2026-09-22T13:32:06Z",
+  "built_at": "2026-10-20T12:46:33Z",
   "package": {
     "name": "accompy",
-    "version": "0.3.12",
+    "version": "0.3.13",
     "display_name": "accompy",
     "source": "pyproject.toml"
   },
   "git": {
     "available": true,
-    "commit": "8a9f1d6da0c963a8e0ac1ebb4dd7848e67dc7d60",
-    "short_commit": "8a9f1d6",
+    "commit": "a10fcaa153379727fe45c52e5bd25daa51987966",
+    "short_commit": "a10fcaa",
     "branch": "main",
     "tags": [
-      "0.3.12"
+      "0.3.13"
     ],
     "dirty": false,
     "remote_url": "https://github.com/thorwhalen/accompy",
-    "commit_url": "https://github.com/thorwhalen/accompy/commit/8a9f1d6da0c963a8e0ac1ebb4dd7848e67dc7d60",
+    "commit_url": "https://github.com/thorwhalen/accompy/commit/a10fcaa153379727fe45c52e5bd25daa51987966",
     "error": null
   },
   "ci": {
     "provider": "github",
     "repository": "thorwhalen/accompy",
-    "sha": "2e9ae52529424c188b4b58c3d9b2e477a2c940b2",
+    "sha": "56e37e0800fec550d3953b602d892805c71c868f",
     "sha_in_history": true,
     "ref": "refs/heads/main",
     "ref_name": "main",
-    "run_id": "35733792428",
-    "run_url": "https://github.com/thorwhalen/accompy/actions/runs/35733792428",
+    "run_id": "39424584127",
+    "run_url": "https://github.com/thorwhalen/accompy/actions/runs/39424584127",
     "server_url": "https://github.com"
   },
   "tools": {
-    "epythet": "0.2.12",
-    "sphinx": "9.1.0",
+    "epythet": "0.2.20",
+    "sphinx": "9.1.1",
     "docutils": "0.22.4",
-    "python": "3.12.14"
+    "python": "3.12.15"
   },
   "config": {
     "theme": "auto",
@@ -57,16 +57,16 @@
     "docs_dir": "docsrc"
   },
   "site": {
-    "modules_documented": 32,
-    "objects_documented": 308
+    "modules_documented": 33,
+    "objects_documented": 314
   },
   "pypi": {
     "checked": true,
-    "latest": "0.3.12",
+    "latest": "0.3.13",
     "relation": "same",
     "error": null
   },
-  "reproduce": "git clone https://github.com/thorwhalen/accompy && cd accompy\ngit checkout 8a9f1d6da0c963a8e0ac1ebb4dd7848e67dc7d60\npip install \"epythet==0.2.12\"\nepythet quickstart . --ignore tests/ scrap/ examples/",
+  "reproduce": "git clone https://github.com/thorwhalen/accompy && cd accompy\ngit checkout a10fcaa153379727fe45c52e5bd25daa51987966\npip install \"epythet==0.2.20\"\nepythet quickstart . --ignore tests/ scrap/ examples/",
   "warnings": [],
   "alignment": {
     "aligned": true,

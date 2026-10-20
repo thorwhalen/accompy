@@ -63,7 +63,7 @@ This enables real-time streaming or batch file creation.
   * **pattern_source** – Source providing patterns (must have get_patterns method)
   * **chord_resolver** – Function to convert chord symbols to MIDI notes
 * **Yields:**
-  MidiEvent objects in chronological order
+  [`MidiEvent`](accompy.base.html.md#accompy.base.MidiEvent) – MidiEvent objects in chronological order
 * **Return type:**
   [*Iterator*](https://docs.python.org/3/library/typing.html#typing.Iterator)[[*MidiEvent*](accompy.base.html.md#accompy.base.MidiEvent)]
 

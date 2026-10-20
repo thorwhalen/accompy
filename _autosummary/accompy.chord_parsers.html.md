@@ -26,14 +26,14 @@ cs = convert(ChordSheet("| Dm7 | G7 | Cmaj7 |"), ChordSequence)
 
 ### Functions
 
-| [`parse_chord_sheet`](#accompy.chord_parsers.parse_chord_sheet)(sheet, \*[, beats_per_bar, ...])   | Auto-detect format and parse a chord sheet into ChordSequence.   |
-|-------------------------------------------------------------------------------------------------------|------------------------------------------------------------------|
-| [`parse_chordpro`](#accompy.chord_parsers.parse_chordpro)(sheet, \*[, beats_per_bar, tempo])    | Parse ChordPro format into a ChordSequence.                      |
-| [`parse_ireal_url`](#accompy.chord_parsers.parse_ireal_url)(url, \*[, beats_per_bar])            | Parse an iReal Pro URL into a ChordSequence.                     |
-| [`parse_musicgen_chord_format`](#accompy.chord_parsers.parse_musicgen_chord_format)(sheet, \*[, ...])        | Parse MusicGen-Chord text format into ChordSequence.             |
-| [`parse_nashville`](#accompy.chord_parsers.parse_nashville)(sheet, \*[, key, ...])               | Parse Nashville number system notation into a ChordSequence.     |
-| [`parse_plain_text`](#accompy.chord_parsers.parse_plain_text)(sheet, \*[, beats_per_bar, ...])    | Parse a plain-text chord sheet into a ChordSequence.             |
-| [`parse_roman_numeral`](#accompy.chord_parsers.parse_roman_numeral)(sheet, \*[, key, ...])           | Parse Roman numeral notation into a ChordSequence.               |
+| [`parse_chord_sheet`](#accompy.chord_parsers.parse_chord_sheet)(sheet, \*[, beats_per_bar, ...])   | Auto-detect format and parse a chord sheet into ChordSequence.             |
+|-------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------|
+| [`parse_chordpro`](#accompy.chord_parsers.parse_chordpro)(sheet, \*[, beats_per_bar, tempo])    | Parse ChordPro format into a ChordSequence, keeping the section structure. |
+| [`parse_ireal_url`](#accompy.chord_parsers.parse_ireal_url)(url, \*[, beats_per_bar])            | Parse an iReal Pro URL into a ChordSequence.                               |
+| [`parse_musicgen_chord_format`](#accompy.chord_parsers.parse_musicgen_chord_format)(sheet, \*[, ...])        | Parse MusicGen-Chord text format into ChordSequence.                       |
+| [`parse_nashville`](#accompy.chord_parsers.parse_nashville)(sheet, \*[, key, ...])               | Parse Nashville number system notation into a ChordSequence.               |
+| [`parse_plain_text`](#accompy.chord_parsers.parse_plain_text)(sheet, \*[, beats_per_bar, ...])    | Parse a plain-text chord sheet into a ChordSequence.                       |
+| [`parse_roman_numeral`](#accompy.chord_parsers.parse_roman_numeral)(sheet, \*[, key, ...])           | Parse Roman numeral notation into a ChordSequence.                         |
 
 ### accompy.chord_parsers.parse_chord_sheet(sheet, , beats_per_bar=4, tempo=120, title='', key='C', time_signature=(4, 4))
 
@@ -65,21 +65,27 @@ Detects:
 
 ### accompy.chord_parsers.parse_chordpro(sheet, , beats_per_bar=4, tempo=120)
 
-Parse ChordPro format into a ChordSequence.
+Parse ChordPro format into a ChordSequence, keeping the section structure.
 
 ChordPro embeds chords in brackets within lyrics:
 “[Am]Hello [G]world [C]”
 
-Extracts just the chord symbols, one per bar by default.
-
-* **Return type:**
-  [`ChordSequence`](accompy.converters.html.md#accompy.converters.ChordSequence)
+Extracts the chord symbols, one per bar by default. Sections come from the
+`{start_of_verse}` / `{soc}` / `{start_of_bridge: label}` directives
+(and `{comment: Chorus}`) or a bare `[Chorus]` line; they land in
+`ChordSequence.sections` as `(label, start, stop)` ranges over the chords.
 
 ```pycon
 >>> cs = parse_chordpro("[Am]Hello [G]world [C]")
 >>> cs.symbols
 ['Am', 'G', 'C']
+>>> cs = parse_chordpro("{sov}\n[Am]la [G]la\n{eov}\n[Chorus]\n[C]sing [F]out")
+>>> cs.sections
+[('Verse', 0, 2), ('Chorus', 2, 4)]
 ```
+
+* **Return type:**
+  [`ChordSequence`](accompy.converters.html.md#accompy.converters.ChordSequence)
 
 ### accompy.chord_parsers.parse_ireal_url(url, , beats_per_bar=4)
 
@@ -87,12 +93,12 @@ Parse an iReal Pro URL into a ChordSequence.
 
 Uses pyRealParser if available, falls back to basic extraction.
 
-* **Return type:**
-  [`ChordSequence`](accompy.converters.html.md#accompy.converters.ChordSequence)
-
 ```pycon
 >>> # Can't test without real URL, but structure is tested
 ```
+
+* **Return type:**
+  [`ChordSequence`](accompy.converters.html.md#accompy.converters.ChordSequence)
 
 ### accompy.chord_parsers.parse_musicgen_chord_format(sheet, , beats_per_bar=4, tempo=120)
 
@@ -103,9 +109,6 @@ MusicGen-Chord uses space-separated bars with colon for quality:
 
 Within a bar, comma separates chords:
 “C:maj,G:maj E:min,A:min” means C G | Em Am
-
-* **Return type:**
-  [`ChordSequence`](accompy.converters.html.md#accompy.converters.ChordSequence)
 
 ```pycon
 >>> cs = parse_musicgen_chord_format("C D:min G:7 C")
@@ -120,6 +123,9 @@ Within a bar, comma separates chords:
 >>> len(cs)
 3
 ```
+
+* **Return type:**
+  [`ChordSequence`](accompy.converters.html.md#accompy.converters.ChordSequence)
 
 ### accompy.chord_parsers.parse_nashville(sheet, , key='C', beats_per_bar=4, tempo=120, title='', time_signature=(4, 4))
 

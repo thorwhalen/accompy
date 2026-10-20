@@ -49,57 +49,58 @@ Advanced Usage (Extensibility):
 
 ### Functions
 
-| [`generate_accompaniment`](#accompy.generate_accompaniment)(chords, \*[, style, ...])   | Generate an accompaniment audio file from a chord progression.                                                 |
-|-----------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------|
-| [`ensure_score`](#accompy.ensure_score)(chords, \*[, title, key, ...])        | Coerce common chord-progression formats into a `Score`.                                                        |
-| [`play_audio`](#accompy.play_audio)(audio_path)                             | Play an audio file using the system's default audio player.                                                    |
-| [`check_dependencies`](#accompy.check_dependencies)()                               | Check which dependencies are available.                                                                        |
-| [`print_setup_instructions`](#accompy.print_setup_instructions)()                         | Print installation instructions for missing dependencies.                                                      |
-| [`convert`](#accompy.convert)(source, target_type, \*[, via])            | Convert source to target_type using the registered converter.                                                  |
-| [`chords_to_sequence`](#accompy.chords_to_sequence)(chords, \*[, parser, ...])      | Parse a chord string into a ChordSequence.                                                                     |
-| [`chords_to_notes`](#accompy.chords_to_notes)(chords, \*[, resolver, tempo])     | Convert chord string or ChordSequence to resolved MIDI notes.                                                  |
-| [`chords_to_midi`](#accompy.chords_to_midi)(chords, \*[, resolver, ...])        | Convert chord string to MIDI data.                                                                             |
-| [`chords_to_audio`](#accompy.chords_to_audio)(chords, \*[, resolver, ...])       | Convert chord string to audio.                                                                                 |
-| [`midi_to_audio`](#accompy.midi_to_audio)(midi_data, \*[, ...])                | Convert MidiData to audio.                                                                                     |
-| [`file_to_audio`](#accompy.file_to_audio)(filepath, \*[, output_path, ...])    | Convert an iReal Pro HTML/URL file to audio.                                                                   |
-| [`file_to_midi`](#accompy.file_to_midi)(filepath, \*[, output_path, ...])     | Convert an iReal Pro HTML/URL file to MIDI.                                                                    |
-| [`list_available_converters`](#accompy.list_available_converters)()                        | List all available converters organized by pipeline stage.                                                     |
-| [`rhythm_to_midi`](#accompy.rhythm_to_midi)(chords, \*[, skeleton, ...])        | Convert chords to MIDI using a rhythmic skeleton for restrike timing.                                          |
-| [`rhythm_to_audio`](#accompy.rhythm_to_audio)(chords, \*[, skeleton, ...])       | Convert chords to audio using a rhythmic skeleton for restrike timing.                                         |
-| [`resolve_skeleton`](#accompy.resolve_skeleton)(skeleton)                         | Resolve a skeleton specification to a tuple of durations.                                                      |
-| [`apply_skeleton`](#accompy.apply_skeleton)(cs, skeleton)                       | Apply a rhythmic skeleton to a chord sequence.                                                                 |
-| [`register_skeleton`](#accompy.register_skeleton)(key, pattern, \*[, name, ...])   | Register a custom rhythmic skeleton.                                                                           |
-| [`list_skeletons`](#accompy.list_skeletons)(\*[, beats_per_measure, style])     | List available skeleton keys, optionally filtered.                                                             |
-| [`parse_ireal_html`](#accompy.parse_ireal_html)(html_path)                        | Extract a Score from an iReal Pro HTML export file.                                                            |
-| [`parse_ireal_url`](#accompy.parse_ireal_url)(url)                               | Parse an iReal Pro URL into a Score object.                                                                    |
-| [`transpose_score`](#accompy.transpose_score)(score, target_key)                 | Transpose a [`Score`](#accompy.Score) to a new key.                               |
-| [`transpose_chord`](#accompy.transpose_chord)(chord, semitones, \*[, use_flat])  | Transpose a chord symbol by *semitones*.                                                                       |
-| [`transpose_note`](#accompy.transpose_note)(name, semitones, \*[, use_flat])    | Transpose a single note name by *semitones*.                                                                   |
-| [`generate_wav`](#accompy.generate_wav)(score, output_path, \*[, ...])        | Generate a WAV file from a Score using a pluggable engine.                                                     |
-| [`generate_mma_wav`](#accompy.generate_mma_wav)(score, output_path, \*[, ...])    | Alias for [`mma_score_to_wav()`](#accompy.mma_score_to_wav).                                 |
-| [`mma_score_to_wav`](#accompy.mma_score_to_wav)(score, output_path, \*[, ...])    | Render a Score to WAV using MMA (Musical MIDI Accompaniment).                                                  |
-| [`make_converter_engine`](#accompy.make_converter_engine)(\*[, resolver, ...])         | Create a [`ScoreToWav`](#accompy.ScoreToWav) engine from accompy's converter pipeline. |
-| [`generate_variations`](#accompy.generate_variations)(score, output_dir, \*[, ...])  | Batch-generate WAV files for many key / tempo / groove combinations.                                           |
-| [`render_chords`](#accompy.render_chords)(chords, \*[, ...])                   | Render chords to a high-quality audio file, optionally AI-enhanced.                                            |
-| [`render_chords_batch`](#accompy.render_chords_batch)(configs, \*\*shared_kwargs)    | Run [`render_chords()`](#accompy.render_chords) for each config dict.                     |
-| [`get_patterns`](#accompy.get_patterns)(style)                                | Get all patterns for a given style.                                                                            |
-| [`get_pattern_registry`](#accompy.get_pattern_registry)()                             | Get the global pattern registry, initializing if needed.                                                       |
-| [`register_style`](#accompy.register_style)(style, drums, bass, comp)           | Register a custom style with the global registry.                                                              |
-| [`verify_and_setup`](#accompy.verify_and_setup)([interactive, auto_fix])          | Verify all dependencies and optionally auto-configure.                                                         |
-| [`setup_soundfont`](#accompy.setup_soundfont)([force])                           | Download and configure a SoundFont file.                                                                       |
-| [`diagnose_issues`](#accompy.diagnose_issues)()                                  | Diagnose common setup issues and provide solutions.                                                            |
-| [`print_diagnostic_report`](#accompy.print_diagnostic_report)()                          | Print a comprehensive diagnostic report.                                                                       |
-| [`chord_to_notes`](#accompy.chord_to_notes)(symbol)                             | Convert chord symbol to MIDI notes using the current default resolver.                                         |
-| [`get_chord_resolver`](#accompy.get_chord_resolver)()                               | Get the current default chord resolver.                                                                        |
-| [`set_chord_resolver`](#accompy.set_chord_resolver)(resolver)                       | Set the default chord resolver.                                                                                |
-| [`tonal_resolver`](#accompy.tonal_resolver)(symbol, \*[, transpose])            | Resolve chord symbol to MIDI notes using the tonal package (default).                                          |
-| [`get_app_folder`](#accompy.get_app_folder)(\*[, folder_kind])                  | Return the app directory for *folder_kind*, creating it if needed.                                             |
-| [`get_resource`](#accompy.get_resource)(name)                                 | Return a user resource path, seeding from package data if missing.                                             |
-| [`get_config`](#accompy.get_config)(name)                                   | Return a config file path, seeding from package data if missing.                                               |
-| [`get_artifact_dir`](#accompy.get_artifact_dir)(kind)                             | Return (and create) an artifact sub-directory for *kind*.                                                      |
-| [`load_resource_text`](#accompy.load_resource_text)(name)                           | Read a resource file as text.                                                                                  |
-| [`load_resource_lines`](#accompy.load_resource_lines)(name)                          | Read a resource file as a list of non-empty stripped lines.                                                    |
-| [`load_resource_json`](#accompy.load_resource_json)(name)                           | Read a resource file as JSON.                                                                                  |
+| [`generate_accompaniment`](#accompy.generate_accompaniment)(chords, \*[, style, ...])   | Generate an accompaniment audio file from a chord progression.                                                                         |
+|-----------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------|
+| [`ensure_score`](#accompy.ensure_score)(chords, \*[, title, key, ...])        | Coerce common chord-progression formats into a `Score`.                                                                                |
+| [`play_audio`](#accompy.play_audio)(audio_path)                             | Play an audio file using the system's default audio player.                                                                            |
+| [`check_dependencies`](#accompy.check_dependencies)()                               | Check which dependencies are available.                                                                                                |
+| [`print_setup_instructions`](#accompy.print_setup_instructions)()                         | Print installation instructions for missing dependencies.                                                                              |
+| [`song_to_chord_sequence`](#accompy.song_to_chord_sequence)(song, \*[, ...])            | Convert a songleaf-shaped `song` to a [`ChordSequence`](accompy.converters.html.md#accompy.converters.ChordSequence). |
+| [`convert`](#accompy.convert)(source, target_type, \*[, via])            | Convert source to target_type using the registered converter.                                                                          |
+| [`chords_to_sequence`](#accompy.chords_to_sequence)(chords, \*[, parser, ...])      | Parse a chord string into a ChordSequence.                                                                                             |
+| [`chords_to_notes`](#accompy.chords_to_notes)(chords, \*[, resolver, tempo])     | Convert chord string or ChordSequence to resolved MIDI notes.                                                                          |
+| [`chords_to_midi`](#accompy.chords_to_midi)(chords, \*[, resolver, ...])        | Convert chord string to MIDI data.                                                                                                     |
+| [`chords_to_audio`](#accompy.chords_to_audio)(chords, \*[, resolver, ...])       | Convert chord string to audio.                                                                                                         |
+| [`midi_to_audio`](#accompy.midi_to_audio)(midi_data, \*[, ...])                | Convert MidiData to audio.                                                                                                             |
+| [`file_to_audio`](#accompy.file_to_audio)(filepath, \*[, output_path, ...])    | Convert an iReal Pro HTML/URL file to audio.                                                                                           |
+| [`file_to_midi`](#accompy.file_to_midi)(filepath, \*[, output_path, ...])     | Convert an iReal Pro HTML/URL file to MIDI.                                                                                            |
+| [`list_available_converters`](#accompy.list_available_converters)()                        | List all available converters organized by pipeline stage.                                                                             |
+| [`rhythm_to_midi`](#accompy.rhythm_to_midi)(chords, \*[, skeleton, ...])        | Convert chords to MIDI using a rhythmic skeleton for restrike timing.                                                                  |
+| [`rhythm_to_audio`](#accompy.rhythm_to_audio)(chords, \*[, skeleton, ...])       | Convert chords to audio using a rhythmic skeleton for restrike timing.                                                                 |
+| [`resolve_skeleton`](#accompy.resolve_skeleton)(skeleton)                         | Resolve a skeleton specification to a tuple of durations.                                                                              |
+| [`apply_skeleton`](#accompy.apply_skeleton)(cs, skeleton)                       | Apply a rhythmic skeleton to a chord sequence.                                                                                         |
+| [`register_skeleton`](#accompy.register_skeleton)(key, pattern, \*[, name, ...])   | Register a custom rhythmic skeleton.                                                                                                   |
+| [`list_skeletons`](#accompy.list_skeletons)(\*[, beats_per_measure, style])     | List available skeleton keys, optionally filtered.                                                                                     |
+| [`parse_ireal_html`](#accompy.parse_ireal_html)(html_path)                        | Extract a Score from an iReal Pro HTML export file.                                                                                    |
+| [`parse_ireal_url`](#accompy.parse_ireal_url)(url)                               | Parse an iReal Pro URL into a Score object.                                                                                            |
+| [`transpose_score`](#accompy.transpose_score)(score, target_key)                 | Transpose a [`Score`](#accompy.Score) to a new key.                                                       |
+| [`transpose_chord`](#accompy.transpose_chord)(chord, semitones, \*[, use_flat])  | Transpose a chord symbol by *semitones*.                                                                                               |
+| [`transpose_note`](#accompy.transpose_note)(name, semitones, \*[, use_flat])    | Transpose a single note name by *semitones*.                                                                                           |
+| [`generate_wav`](#accompy.generate_wav)(score, output_path, \*[, ...])        | Generate a WAV file from a Score using a pluggable engine.                                                                             |
+| [`generate_mma_wav`](#accompy.generate_mma_wav)(score, output_path, \*[, ...])    | Alias for [`mma_score_to_wav()`](#accompy.mma_score_to_wav).                                                         |
+| [`mma_score_to_wav`](#accompy.mma_score_to_wav)(score, output_path, \*[, ...])    | Render a Score to WAV using MMA (Musical MIDI Accompaniment).                                                                          |
+| [`make_converter_engine`](#accompy.make_converter_engine)(\*[, resolver, ...])         | Create a [`ScoreToWav`](#accompy.ScoreToWav) engine from accompy's converter pipeline.                         |
+| [`generate_variations`](#accompy.generate_variations)(score, output_dir, \*[, ...])  | Batch-generate WAV files for many key / tempo / groove combinations.                                                                   |
+| [`render_chords`](#accompy.render_chords)(chords, \*[, ...])                   | Render chords to a high-quality audio file, optionally AI-enhanced.                                                                    |
+| [`render_chords_batch`](#accompy.render_chords_batch)(configs, \*\*shared_kwargs)    | Run [`render_chords()`](#accompy.render_chords) for each config dict.                                             |
+| [`get_patterns`](#accompy.get_patterns)(style)                                | Get all patterns for a given style.                                                                                                    |
+| [`get_pattern_registry`](#accompy.get_pattern_registry)()                             | Get the global pattern registry, initializing if needed.                                                                               |
+| [`register_style`](#accompy.register_style)(style, drums, bass, comp)           | Register a custom style with the global registry.                                                                                      |
+| [`verify_and_setup`](#accompy.verify_and_setup)([interactive, auto_fix])          | Verify all dependencies and optionally auto-configure.                                                                                 |
+| [`setup_soundfont`](#accompy.setup_soundfont)([force])                           | Download and configure a SoundFont file.                                                                                               |
+| [`diagnose_issues`](#accompy.diagnose_issues)()                                  | Diagnose common setup issues and provide solutions.                                                                                    |
+| [`print_diagnostic_report`](#accompy.print_diagnostic_report)()                          | Print a comprehensive diagnostic report.                                                                                               |
+| [`chord_to_notes`](#accompy.chord_to_notes)(symbol)                             | Convert chord symbol to MIDI notes using the current default resolver.                                                                 |
+| [`get_chord_resolver`](#accompy.get_chord_resolver)()                               | Get the current default chord resolver.                                                                                                |
+| [`set_chord_resolver`](#accompy.set_chord_resolver)(resolver)                       | Set the default chord resolver.                                                                                                        |
+| [`tonal_resolver`](#accompy.tonal_resolver)(symbol, \*[, transpose])            | Resolve chord symbol to MIDI notes using the tonal package (default).                                                                  |
+| [`get_app_folder`](#accompy.get_app_folder)(\*[, folder_kind])                  | Return the app directory for *folder_kind*, creating it if needed.                                                                     |
+| [`get_resource`](#accompy.get_resource)(name)                                 | Return a user resource path, seeding from package data if missing.                                                                     |
+| [`get_config`](#accompy.get_config)(name)                                   | Return a config file path, seeding from package data if missing.                                                                       |
+| [`get_artifact_dir`](#accompy.get_artifact_dir)(kind)                             | Return (and create) an artifact sub-directory for *kind*.                                                                              |
+| [`load_resource_text`](#accompy.load_resource_text)(name)                           | Read a resource file as text.                                                                                                          |
+| [`load_resource_lines`](#accompy.load_resource_lines)(name)                          | Read a resource file as a list of non-empty stripped lines.                                                                            |
+| [`load_resource_json`](#accompy.load_resource_json)(name)                           | Read a resource file as JSON.                                                                                                          |
 
 ### Classes
 
@@ -137,54 +138,84 @@ including dependency injection hooks for extensibility.
 
 Musical style (swing, bossa, rock, etc.)
 
+* **Type:**
+  [`Literal`](https://docs.python.org/3/library/typing.html#typing.Literal)[`'swing'`, `'bossa'`, `'rock'`, `'ballad'`, `'funk'`, `'latin'`, `'waltz'`, `'blues'`]
+
 #### tempo
 
 Beats per minute
+
+* **Type:**
+  [`int`](https://docs.python.org/3/builtins/functions.html#int)
 
 #### repeats
 
 Number of times to play through the form
 
+* **Type:**
+  [`int`](https://docs.python.org/3/builtins/functions.html#int)
+
 #### instruments
 
 Which instruments to include
+
+* **Type:**
+  [`dict`](https://docs.python.org/3/builtins/stdtypes.html#dict)[[`str`](https://docs.python.org/3/builtins/stdtypes.html#str), [`bool`](https://docs.python.org/3/builtins/functions.html#bool)]
 
 #### volumes
 
 Relative volume for each instrument (0.0-1.0)
 
+* **Type:**
+  [`dict`](https://docs.python.org/3/builtins/stdtypes.html#dict)[[`str`](https://docs.python.org/3/builtins/stdtypes.html#str), [`float`](https://docs.python.org/3/builtins/functions.html#float)]
+
 #### soundfont
 
 Path to SoundFont file for synthesis
+
+* **Type:**
+  [`Optional`](https://docs.python.org/3/library/typing.html#typing.Optional)[[`Path`](https://docs.python.org/3/library/pathlib.html#pathlib.Path)]
 
 #### sample_rate
 
 Audio sample rate
 
+* **Type:**
+  [`int`](https://docs.python.org/3/builtins/functions.html#int)
+
 #### output_format
 
 Output file format
+
+* **Type:**
+  [`Literal`](https://docs.python.org/3/library/typing.html#typing.Literal)[`'wav'`, `'mp3'`, `'flac'`, `'midi'`]
 
 #### chord_resolver
 
 Optional custom chord resolution function
 
+* **Type:**
+  [`Optional`](https://docs.python.org/3/library/typing.html#typing.Optional)[[`Any`](https://docs.python.org/3/library/typing.html#typing.Any)]
+
 #### pattern_source
 
 Optional custom pattern provider
 
+* **Type:**
+  [`Optional`](https://docs.python.org/3/library/typing.html#typing.Optional)[[`Any`](https://docs.python.org/3/library/typing.html#typing.Any)]
+
 #### synthesis_backend
 
 Optional custom synthesis backend
+
+* **Type:**
+  [`Optional`](https://docs.python.org/3/library/typing.html#typing.Optional)[[`Any`](https://docs.python.org/3/library/typing.html#typing.Any)]
 
 #### with_overrides(\*\*kwargs)
 
 Create a new config with specified overrides.
 
 This enables immutable updates to configuration.
-
-* **Return type:**
-  [`AccompanimentConfig`](accompy.base.html.md#accompy.base.AccompanimentConfig)
 
 ### Example
 
@@ -194,6 +225,9 @@ This enables immutable updates to configuration.
 >>> config.tempo, fast_config.tempo
 (120, 180)
 ```
+
+* **Return type:**
+  [`AccompanimentConfig`](accompy.base.html.md#accompy.base.AccompanimentConfig)
 
 ### *class* accompy.AudioData(waveform, sr=44100)
 
@@ -259,7 +293,7 @@ Example implementation:
 ...     return [60, 64, 67]  # C major
 ```
 
-### *class* accompy.ChordSequence(chords, title='', key='C', tempo=120, time_signature=(4, 4))
+### *class* accompy.ChordSequence(chords, title='', key='C', tempo=120, time_signature=(4, 4), sections=list())
 
 Bases: [`object`](https://docs.python.org/3/builtins/functions.html#object)
 
@@ -280,6 +314,27 @@ This is the canonical internal representation of a chord progression.
 #### *property* durations *: [list](https://docs.python.org/3/builtins/stdtypes.html#list)[[float](https://docs.python.org/3/builtins/functions.html#float)]*
 
 Just the durations, without symbols.
+
+#### section_chords(label)
+
+The chords of the first section called `label` (case-insensitive), or `[]`.
+
+```pycon
+>>> cs = ChordSequence([("C", 4.0), ("G", 4.0)], sections=[("Verse", 0, 1), ("Chorus", 1, 2)])
+>>> cs.section_chords("chorus")
+[('G', 4.0)]
+```
+
+* **Return type:**
+  [`list`](https://docs.python.org/3/builtins/stdtypes.html#list)[[`tuple`](https://docs.python.org/3/builtins/stdtypes.html#tuple)[[`str`](https://docs.python.org/3/builtins/stdtypes.html#str), [`float`](https://docs.python.org/3/builtins/functions.html#float)]]
+
+#### sections *: [list](https://docs.python.org/3/builtins/stdtypes.html#list)[[tuple](https://docs.python.org/3/builtins/stdtypes.html#tuple)[[str](https://docs.python.org/3/builtins/stdtypes.html#str), [int](https://docs.python.org/3/builtins/functions.html#int), [int](https://docs.python.org/3/builtins/functions.html#int)]]*
+
+`(label, start, stop)` where
+`chords[start:stop]` are the section’s chords (see [`section_chords()`](#accompy.ChordSequence.section_chords)).
+
+* **Type:**
+  Song structure, when the source has it
 
 #### *property* symbols *: [list](https://docs.python.org/3/builtins/stdtypes.html#list)[[str](https://docs.python.org/3/builtins/stdtypes.html#str)]*
 
@@ -308,9 +363,15 @@ A piano/guitar comping (accompaniment) pattern.
 
 Pattern identifier
 
+* **Type:**
+  [`str`](https://docs.python.org/3/builtins/stdtypes.html#str)
+
 #### hits
 
 Sequence of (beat, duration, velocity) tuples
+
+* **Type:**
+  [`Sequence`](https://docs.python.org/3/library/typing.html#typing.Sequence)[[`tuple`](https://docs.python.org/3/builtins/stdtypes.html#tuple)[[`float`](https://docs.python.org/3/builtins/functions.html#float), [`float`](https://docs.python.org/3/builtins/functions.html#float), [`int`](https://docs.python.org/3/builtins/functions.html#int)]]
 
 ### *class* accompy.ConverterRegistry
 
@@ -381,13 +442,22 @@ A single drum hit in a pattern.
 
 Beat position (0-based within measure)
 
+* **Type:**
+  [`float`](https://docs.python.org/3/builtins/functions.html#float)
+
 #### drum
 
 MIDI note number for the drum sound
 
+* **Type:**
+  [`int`](https://docs.python.org/3/builtins/functions.html#int)
+
 #### velocity
 
 Hit velocity (0-127)
+
+* **Type:**
+  [`int`](https://docs.python.org/3/builtins/functions.html#int)
 
 ### *class* accompy.DrumPattern(name, beats_per_bar, hits)
 
@@ -457,21 +527,36 @@ and future real-time streaming.
 
 Event time in beats
 
+* **Type:**
+  [`float`](https://docs.python.org/3/builtins/functions.html#float)
+
 #### channel
 
 MIDI channel (0-15)
+
+* **Type:**
+  [`int`](https://docs.python.org/3/builtins/functions.html#int)
 
 #### note
 
 MIDI note number (0-127)
 
+* **Type:**
+  [`int`](https://docs.python.org/3/builtins/functions.html#int)
+
 #### velocity
 
 Note velocity (0-127)
 
+* **Type:**
+  [`int`](https://docs.python.org/3/builtins/functions.html#int)
+
 #### duration
 
 Note duration in beats
+
+* **Type:**
+  [`float`](https://docs.python.org/3/builtins/functions.html#float)
 
 ### *class* accompy.NoteEvent(beat, pitch_offset, duration, velocity)
 
@@ -483,17 +568,29 @@ A melodic note event for bass or other instruments.
 
 Beat position within measure
 
+* **Type:**
+  [`float`](https://docs.python.org/3/builtins/functions.html#float)
+
 #### pitch_offset
 
 Offset from chord root in semitones (0=root, 7=5th, etc.)
+
+* **Type:**
+  [`int`](https://docs.python.org/3/builtins/functions.html#int)
 
 #### duration
 
 Note duration in beats
 
+* **Type:**
+  [`float`](https://docs.python.org/3/builtins/functions.html#float)
+
 #### velocity
 
 Note velocity (0-127)
+
+* **Type:**
+  [`int`](https://docs.python.org/3/builtins/functions.html#int)
 
 ### *class* accompy.NoteSequence(notes, tempo=120, time_signature=(4, 4))
 
@@ -583,7 +680,7 @@ Future usage (with hum integration):
 Generate events for current chord progression.
 
 * **Yields:**
-  MidiEvent objects in chronological order
+  [`MidiEvent`](accompy.base.html.md#accompy.base.MidiEvent) – MidiEvent objects in chronological order
 * **Return type:**
   [*Iterator*](https://docs.python.org/3/library/typing.html#typing.Iterator)[[*MidiEvent*](accompy.base.html.md#accompy.base.MidiEvent)]
 
@@ -658,12 +755,12 @@ representation regardless of input format (string, iReal URL, tuples, etc.).
 
 Parse an iReal Pro URL into a Score.
 
-* **Return type:**
-  [`Score`](accompy.base.html.md#accompy.base.Score)
-
 Example::
 : url = “irealb://Autumn%20Leaves=…”
   score = Score.from_ireal_url(url)
+
+* **Return type:**
+  [`Score`](accompy.base.html.md#accompy.base.Score)
 
 #### *classmethod* from_string(chord_string, , title='Untitled', key='C', time_signature=(4, 4))
 
@@ -782,7 +879,7 @@ respected.
 
 * **Parameters:**
   * **cs** – A ChordSequence (from `accompy.converters`).
-  * **skeleton** (Union[str, tuple, Sequence]) – Skeleton key, name, style, or duration tuple.
+  * **skeleton** ([`Union`](https://docs.python.org/3/library/typing.html#typing.Union)[[`str`](https://docs.python.org/3/builtins/stdtypes.html#str), [`tuple`](https://docs.python.org/3/builtins/stdtypes.html#tuple), [`Sequence`](https://docs.python.org/3/library/typing.html#typing.Sequence)]) – Skeleton key, name, style, or duration tuple.
 * **Return type:**
   ChordSequence
 * **Returns:**
@@ -1062,7 +1159,7 @@ with bass, drums, and piano from chord progressions.
   * **style** ([`Literal`](https://docs.python.org/3/library/typing.html#typing.Literal)[`'swing'`, `'bossa'`, `'rock'`, `'ballad'`, `'funk'`, `'latin'`, `'waltz'`, `'blues'`]) – Musical style (swing, bossa, rock, ballad, funk, latin, waltz, blues)
   * **tempo** ([`int`](https://docs.python.org/3/builtins/functions.html#int)) – Tempo in BPM
   * **repeats** ([`int`](https://docs.python.org/3/builtins/functions.html#int)) – Number of times to repeat the progression
-  * **output_path** (`Union`[[`str`](https://docs.python.org/3/builtins/stdtypes.html#str), [`Path`](https://docs.python.org/3/library/pathlib.html#pathlib.Path), [`None`](https://docs.python.org/3/builtins/constants.html#None)]) – Where to save the file (None = temp file)
+  * **output_path** ([`Union`](https://docs.python.org/3/library/typing.html#typing.Union)[[`str`](https://docs.python.org/3/builtins/stdtypes.html#str), [`Path`](https://docs.python.org/3/library/pathlib.html#pathlib.Path), [`None`](https://docs.python.org/3/builtins/constants.html#None)]) – Where to save the file (None = temp file)
   * **output_format** ([`Optional`](https://docs.python.org/3/library/typing.html#typing.Optional)[[`Literal`](https://docs.python.org/3/library/typing.html#typing.Literal)[`'wav'`, `'mp3'`, `'flac'`, `'midi'`, `'mid'`]]) – Output format (wav, mp3, flac, midi)
   * **config** ([`Optional`](https://docs.python.org/3/library/typing.html#typing.Optional)[[`AccompanimentConfig`](accompy.base.html.md#accompy.base.AccompanimentConfig)]) – Full configuration object (overrides other params if provided)
   * **use_mma** ([`bool`](https://docs.python.org/3/builtins/functions.html#bool)) – If True and MMA available, use MMA backend
@@ -1094,7 +1191,7 @@ Run `mma -Dg` to list available grooves.
 
 * **Parameters:**
   * **score** ([`Score`](accompy.base.html.md#accompy.base.Score)) – A [`Score`](#accompy.Score) with chord measures.
-  * **output_path** (`Union`[[`str`](https://docs.python.org/3/builtins/stdtypes.html#str), [`Path`](https://docs.python.org/3/library/pathlib.html#pathlib.Path)]) – Destination WAV file path.
+  * **output_path** ([`Union`](https://docs.python.org/3/library/typing.html#typing.Union)[[`str`](https://docs.python.org/3/builtins/stdtypes.html#str), [`Path`](https://docs.python.org/3/library/pathlib.html#pathlib.Path)]) – Destination WAV file path.
   * **groove** ([`str`](https://docs.python.org/3/builtins/stdtypes.html#str)) – MMA groove name (case-sensitive).
   * **tempo** ([`int`](https://docs.python.org/3/builtins/functions.html#int)) – Tempo in BPM.
   * **repeats** ([`int`](https://docs.python.org/3/builtins/functions.html#int)) – Number of times to repeat the progression.
@@ -1115,7 +1212,7 @@ collections.
 
 * **Parameters:**
   * **score** ([`Score`](accompy.base.html.md#accompy.base.Score)) – Base [`Score`](#accompy.Score) (will be transposed per key).
-  * **output_dir** (`Union`[[`str`](https://docs.python.org/3/builtins/stdtypes.html#str), [`Path`](https://docs.python.org/3/library/pathlib.html#pathlib.Path)]) – Directory for output files.
+  * **output_dir** ([`Union`](https://docs.python.org/3/library/typing.html#typing.Union)[[`str`](https://docs.python.org/3/builtins/stdtypes.html#str), [`Path`](https://docs.python.org/3/library/pathlib.html#pathlib.Path)]) – Directory for output files.
   * **keys** ([`Sequence`](https://docs.python.org/3/library/typing.html#typing.Sequence)[[`str`](https://docs.python.org/3/builtins/stdtypes.html#str)]) – Keys to transpose to.
   * **tempos** ([`Sequence`](https://docs.python.org/3/library/typing.html#typing.Sequence)[[`int`](https://docs.python.org/3/builtins/functions.html#int)]) – Tempos in BPM to cycle through.
   * **grooves** ([`Sequence`](https://docs.python.org/3/library/typing.html#typing.Sequence)[[`str`](https://docs.python.org/3/builtins/stdtypes.html#str)]) – Groove / style names to cycle through.
@@ -1162,7 +1259,7 @@ built with [`make_converter_engine()`](#accompy.make_converter_engine).
 
 * **Parameters:**
   * **score** ([`Score`](accompy.base.html.md#accompy.base.Score)) – A [`Score`](#accompy.Score) with chord measures.
-  * **output_path** (`Union`[[`str`](https://docs.python.org/3/builtins/stdtypes.html#str), [`Path`](https://docs.python.org/3/library/pathlib.html#pathlib.Path)]) – Destination WAV file path.
+  * **output_path** ([`Union`](https://docs.python.org/3/library/typing.html#typing.Union)[[`str`](https://docs.python.org/3/builtins/stdtypes.html#str), [`Path`](https://docs.python.org/3/library/pathlib.html#pathlib.Path)]) – Destination WAV file path.
   * **groove** ([`str`](https://docs.python.org/3/builtins/stdtypes.html#str)) – Groove / style name (interpretation depends on the engine).
   * **tempo** ([`int`](https://docs.python.org/3/builtins/functions.html#int)) – Tempo in BPM.
   * **repeats** ([`int`](https://docs.python.org/3/builtins/functions.html#int)) – Number of times to repeat the progression.
@@ -1378,7 +1475,7 @@ Run `mma -Dg` to list available grooves.
 
 * **Parameters:**
   * **score** ([`Score`](accompy.base.html.md#accompy.base.Score)) – A [`Score`](#accompy.Score) with chord measures.
-  * **output_path** (`Union`[[`str`](https://docs.python.org/3/builtins/stdtypes.html#str), [`Path`](https://docs.python.org/3/library/pathlib.html#pathlib.Path)]) – Destination WAV file path.
+  * **output_path** ([`Union`](https://docs.python.org/3/library/typing.html#typing.Union)[[`str`](https://docs.python.org/3/builtins/stdtypes.html#str), [`Path`](https://docs.python.org/3/library/pathlib.html#pathlib.Path)]) – Destination WAV file path.
   * **groove** ([`str`](https://docs.python.org/3/builtins/stdtypes.html#str)) – MMA groove name (case-sensitive).
   * **tempo** ([`int`](https://docs.python.org/3/builtins/functions.html#int)) – Tempo in BPM.
   * **repeats** ([`int`](https://docs.python.org/3/builtins/functions.html#int)) – Number of times to repeat the progression.
@@ -1398,7 +1495,7 @@ This function reads the file, extracts that link, and parses it into a
 [`Score`](#accompy.Score).
 
 * **Parameters:**
-  **html_path** (str) – Path to the HTML file exported from iReal Pro.
+  **html_path** ([`str`](https://docs.python.org/3/builtins/stdtypes.html#str)) – Path to the HTML file exported from iReal Pro.
 * **Return type:**
   Score
 * **Returns:**
@@ -1428,7 +1525,7 @@ and finally to a no-dependency best-effort parser.
 Play an audio file using the system’s default audio player.
 
 * **Parameters:**
-  **audio_path** (`Union`[[`str`](https://docs.python.org/3/builtins/stdtypes.html#str), [`Path`](https://docs.python.org/3/library/pathlib.html#pathlib.Path)]) – Path to the audio file
+  **audio_path** ([`Union`](https://docs.python.org/3/library/typing.html#typing.Union)[[`str`](https://docs.python.org/3/builtins/stdtypes.html#str), [`Path`](https://docs.python.org/3/library/pathlib.html#pathlib.Path)]) – Path to the audio file
 * **Return type:**
   [`bool`](https://docs.python.org/3/builtins/functions.html#bool)
 * **Returns:**
@@ -1504,7 +1601,7 @@ Render chords to a high-quality audio file, optionally AI-enhanced.
   * **max_seconds** ([`float`](https://docs.python.org/3/builtins/functions.html#float) | [`None`](https://docs.python.org/3/builtins/constants.html#None)) – Target maximum duration; computes loop count automatically.
     Defaults to 210 (3.5 min) when neither *n_loops* nor *max_seconds*
     is given.
-  * **ai_enhance** (`Union`[[`bool`](https://docs.python.org/3/builtins/functions.html#bool), [`Callable`](https://docs.python.org/3/library/typing.html#typing.Callable), [`None`](https://docs.python.org/3/builtins/constants.html#None)]) – `True` for default Suno enhancement, `False`/`None`
+  * **ai_enhance** ([`Union`](https://docs.python.org/3/library/typing.html#typing.Union)[[`bool`](https://docs.python.org/3/builtins/functions.html#bool), [`Callable`](https://docs.python.org/3/library/typing.html#typing.Callable), [`None`](https://docs.python.org/3/builtins/constants.html#None)]) – `True` for default Suno enhancement, `False`/`None`
     to skip, or a callable `(audio_path, prompt, **kw) → bytes`.
   * **suno_mode** ([`str`](https://docs.python.org/3/builtins/stdtypes.html#str)) – `"cover"` (default, re-generates in style) or `"extend"`.
   * **prompt_template** ([`str`](https://docs.python.org/3/builtins/stdtypes.html#str)) – Template with `{genre}` and `{instruments}` placeholders.
@@ -1689,6 +1786,25 @@ if setup_soundfont():
     print("SoundFont configured successfully!")
 ```
 
+### accompy.song_to_chord_sequence(song, , bars_per_line=None, beats_per_chord=None, beats_per_bar=4, tempo=120)
+
+Convert a songleaf-shaped `song` to a [`ChordSequence`](accompy.converters.html.md#accompy.converters.ChordSequence).
+
+* **Parameters:**
+  * **song** ([`Any`](https://docs.python.org/3/library/typing.html#typing.Any)) – Anything with `text`, `annotations` and `meta` as songleaf’s `Song`.
+  * **bars_per_line** ([`Optional`](https://docs.python.org/3/library/typing.html#typing.Optional)[[`float`](https://docs.python.org/3/builtins/functions.html#float)]) – Bars each chord-carrying line lasts, shared by its chords.
+  * **beats_per_chord** ([`Optional`](https://docs.python.org/3/library/typing.html#typing.Optional)[[`float`](https://docs.python.org/3/builtins/functions.html#float)]) – Beats every chord lasts. Exclusive with `bars_per_line`.
+  * **beats_per_bar** ([`int`](https://docs.python.org/3/builtins/functions.html#int)) – Beats in a bar (the time signature’s numerator).
+  * **tempo** ([`int`](https://docs.python.org/3/builtins/functions.html#int)) – Tempo in BPM (the song’s `meta["tempo"]` wins when it is a number).
+* **Return type:**
+  [`ChordSequence`](accompy.converters.html.md#accompy.converters.ChordSequence)
+* **Returns:**
+  A ChordSequence whose `sections` follow the song’s `section` annotations
+  (ranges over the chords), with the song’s title and key.
+* **Raises:**
+  [**ValueError**](https://docs.python.org/3/builtins/exceptions.html#ValueError) – if both `bars_per_line` and `beats_per_chord` are given, or
+      either is not positive.
+
 ### accompy.tonal_resolver(symbol, , transpose=-12)
 
 Resolve chord symbol to MIDI notes using the tonal package (default).
@@ -1773,7 +1889,7 @@ The spelling (sharp vs flat) is chosen automatically based on the
 
 * **Parameters:**
   * **score** – A [`Score`](#accompy.Score) instance.
-  * **target_key** (str) – Target key, e.g. `"Eb"`, `"G"`, `"F#"`.
+  * **target_key** ([`str`](https://docs.python.org/3/builtins/stdtypes.html#str)) – Target key, e.g. `"Eb"`, `"G"`, `"F#"`.
 * **Return type:**
   Score
 * **Returns:**
@@ -1830,6 +1946,7 @@ Verify all dependencies and optionally auto-configure.
 | [`rendering`](accompy.rendering.html.md#module-accompy.rendering)                   | High-quality chord rendering pipeline — from chord charts to AI-enhanced audio. |
 | [`rhythmic_skeletons`](accompy.rhythmic_skeletons.html.md#module-accompy.rhythmic_skeletons) | Rhythmic skeletons — duration-only measure patterns for simple accompaniment.   |
 | [`setup_utils`](accompy.setup_utils.html.md#module-accompy.setup_utils)               | Setup and configuration utilities for accompy.                                  |
+| [`songs`](accompy.songs.html.md#module-accompy.songs)                           | Songs as backing-track input: a `songleaf` Song becomes a ChordSequence.        |
 | [`synthesis`](accompy.synthesis.html.md#module-accompy.synthesis)                   | Audio synthesis backends for accompy.                                           |
 | [`tools`](accompy.tools.html.md#module-accompy.tools)                           | Tools for generating accompaniment audio from Score objects.                    |
 | [`util`](accompy.util.html.md#module-accompy.util)                             | Utility functions for chord parsing and normalization.                          |

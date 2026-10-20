@@ -42,7 +42,7 @@ with bass, drums, and piano from chord progressions.
   * **style** ([`Literal`](https://docs.python.org/3/library/typing.html#typing.Literal)[`'swing'`, `'bossa'`, `'rock'`, `'ballad'`, `'funk'`, `'latin'`, `'waltz'`, `'blues'`]) – Musical style (swing, bossa, rock, ballad, funk, latin, waltz, blues)
   * **tempo** ([`int`](https://docs.python.org/3/builtins/functions.html#int)) – Tempo in BPM
   * **repeats** ([`int`](https://docs.python.org/3/builtins/functions.html#int)) – Number of times to repeat the progression
-  * **output_path** (`Union`[[`str`](https://docs.python.org/3/builtins/stdtypes.html#str), [`Path`](https://docs.python.org/3/library/pathlib.html#pathlib.Path), [`None`](https://docs.python.org/3/builtins/constants.html#None)]) – Where to save the file (None = temp file)
+  * **output_path** ([`Union`](https://docs.python.org/3/library/typing.html#typing.Union)[[`str`](https://docs.python.org/3/builtins/stdtypes.html#str), [`Path`](https://docs.python.org/3/library/pathlib.html#pathlib.Path), [`None`](https://docs.python.org/3/builtins/constants.html#None)]) – Where to save the file (None = temp file)
   * **output_format** ([`Optional`](https://docs.python.org/3/library/typing.html#typing.Optional)[[`Literal`](https://docs.python.org/3/library/typing.html#typing.Literal)[`'wav'`, `'mp3'`, `'flac'`, `'midi'`, `'mid'`]]) – Output format (wav, mp3, flac, midi)
   * **config** ([`Optional`](https://docs.python.org/3/library/typing.html#typing.Optional)[[`AccompanimentConfig`](accompy.base.html.md#accompy.base.AccompanimentConfig)]) – Full configuration object (overrides other params if provided)
   * **use_mma** ([`bool`](https://docs.python.org/3/builtins/functions.html#bool)) – If True and MMA available, use MMA backend
@@ -70,7 +70,7 @@ For MIDI-only output, use output_format=”midi”.
 Play an audio file using the system’s default audio player.
 
 * **Parameters:**
-  **audio_path** (`Union`[[`str`](https://docs.python.org/3/builtins/stdtypes.html#str), [`Path`](https://docs.python.org/3/library/pathlib.html#pathlib.Path)]) – Path to the audio file
+  **audio_path** ([`Union`](https://docs.python.org/3/library/typing.html#typing.Union)[[`str`](https://docs.python.org/3/builtins/stdtypes.html#str), [`Path`](https://docs.python.org/3/library/pathlib.html#pathlib.Path)]) – Path to the audio file
 * **Return type:**
   [`bool`](https://docs.python.org/3/builtins/functions.html#bool)
 * **Returns:**

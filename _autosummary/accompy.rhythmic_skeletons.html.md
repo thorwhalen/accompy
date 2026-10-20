@@ -48,7 +48,7 @@ respected.
 
 * **Parameters:**
   * **cs** – A ChordSequence (from `accompy.converters`).
-  * **skeleton** (Union[str, tuple, Sequence]) – Skeleton key, name, style, or duration tuple.
+  * **skeleton** ([`Union`](https://docs.python.org/3/library/typing.html#typing.Union)[[`str`](https://docs.python.org/3/builtins/stdtypes.html#str), [`tuple`](https://docs.python.org/3/builtins/stdtypes.html#tuple), [`Sequence`](https://docs.python.org/3/library/typing.html#typing.Sequence)]) – Skeleton key, name, style, or duration tuple.
 * **Return type:**
   ChordSequence
 * **Returns:**
