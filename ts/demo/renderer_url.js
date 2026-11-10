@@ -1,5 +1,6 @@
-// Which renderer module the demo may import from ?renderer=: same origin as the page, or none.
-// A link that named another origin would run that origin's code in the page, so it is refused.
+// Which renderer module the demo may import from ?renderer=: an http(s) URL on the page's own
+// origin, or none. A link that named another origin (or a data:/javascript:/file: URL, or any URL
+// on a page whose origin is opaque) would run code the page did not choose, so it is refused.
 
 /**
  * @param {string} search the page's query string
@@ -9,7 +10,10 @@
 export function injectedRendererUrl(search = location.search, base = location.href) {
   const value = new URLSearchParams(search).get("renderer");
   if (!value) return null;
+  const page = new URL(base);
   const url = new URL(value, base);
-  if (url.origin !== new URL(base).origin) throw new Error(`refusing a renderer module from another origin (${url.origin})`);
+  const web = (u) => u.protocol === "http:" || u.protocol === "https:";
+  if (!web(page) || page.origin === "null") throw new Error("refusing a renderer module on a page without a web origin");
+  if (!web(url) || url.origin !== page.origin) throw new Error(`refusing a renderer module from another origin (${url.origin})`);
   return url.href;
 }

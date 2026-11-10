@@ -4,6 +4,7 @@
 // contract documented in ./oscillator.js. The package itself produces events and leaves sound to the host.
 import { beatsToSeconds, CHANNELS, generateEvents, STYLES } from "../dist/index.js";
 import * as oscillator from "./oscillator.js";
+import { prepareRenderer } from "./renderer_choice.js";
 import { injectedRendererUrl } from "./renderer_url.js";
 
 const $ = (id) => document.getElementById(id);
@@ -27,27 +28,30 @@ let notice = "";
 try {
   const url = injectedRendererUrl();
   if (url) {
-    rendererModule = import(url).catch((error) => {
-      notice = ` (renderer module did not load: ${error.message ?? error}; oscillator synth)`;
-      return oscillator;
-    });
+    rendererModule = import(url);
+    rendererModule.catch(() => {}); // reported by prepareRenderer, which falls back
   }
 } catch (error) {
   notice = ` (${error.message ?? error}; oscillator synth)`;
   status.textContent = notice.trim();
 }
-/** @type {Promise<{ play: Function, allOff: Function, load?: Function }> | null} */
-let renderer = null;
+/** @type {Promise<{ renderer: { play: Function, allOff: Function }, notice: string }> | null} */
+let prepared = null;
 let endTimer = 0;
+/** Bumped by every start and stop: a start that finds it changed after a wait was superseded. */
+let runId = 0;
 
 function stop() {
-  void renderer?.then((r) => r.allOff());
+  runId++;
+  void prepared?.then(({ renderer }) => renderer.allOff());
   clearTimeout(endTimer);
+  if (status.textContent === "Loading sounds...") status.textContent = "";
   play.dataset.playing = "false";
   play.textContent = "Play";
 }
 
 async function start() {
+  const run = ++runId;
   // Acknowledge the press at once, before any work.
   play.dataset.playing = "true";
   play.textContent = "Stop";
@@ -63,13 +67,13 @@ async function start() {
   }
   ctx ??= new AudioContext();
   void ctx.resume();
-  renderer ??= rendererModule.then((module) => module.createRenderer({ context: ctx }));
-  const r = await renderer;
-  if (r.load) {
+  if (!prepared) {
     status.textContent = "Loading sounds...";
-    await r.load();
+    prepared = prepareRenderer(rendererModule, oscillator, ctx);
   }
-  if (play.dataset.playing !== "true") return; // stopped while loading
+  const { renderer: r, notice: why } = await prepared;
+  if (run !== runId) return; // stopped (or restarted) while loading
+  notice ||= why;
   const bpm = Math.min(300, Math.max(40, Number(tempo.value) || 120));
   const t0 = ctx.currentTime + 0.1;
   let end = 0;
@@ -83,4 +87,11 @@ async function start() {
   endTimer = setTimeout(stop, (end - ctx.currentTime + 0.2) * 1000);
 }
 
-play.addEventListener("click", () => (play.dataset.playing === "true" ? stop() : void start()));
+play.addEventListener("click", () => {
+  if (play.dataset.playing === "true") return stop();
+  start().catch((error) => {
+    stop();
+    status.className = "error";
+    status.textContent = String(error?.message ?? error);
+  });
+});

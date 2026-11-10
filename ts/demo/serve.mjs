@@ -4,7 +4,7 @@
 // module and its files: http://localhost:5174/demo/?renderer=/mount/<module>.js).
 import { createReadStream, statSync } from "node:fs";
 import { createServer } from "node:http";
-import { extname, join, normalize, resolve } from "node:path";
+import { extname, join, normalize, resolve, sep } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const ROOT = resolve(fileURLToPath(new URL("..", import.meta.url)));
@@ -19,7 +19,7 @@ createServer((req, res) => {
   const path = normalize(join(root, mounted ? pathname.slice("/mount".length) : pathname));
   let file = path.endsWith("/") ? join(path, "index.html") : path;
   try {
-    if (!file.startsWith(root)) throw new Error("outside root");
+    if (file !== root && !file.startsWith(root + sep)) throw new Error("outside root");
     if (statSync(file).isDirectory()) file = join(file, "index.html");
     statSync(file);
   } catch {
