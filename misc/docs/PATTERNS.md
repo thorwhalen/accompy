@@ -122,3 +122,7 @@ midi = rhythm_to_midi("| Dm7 | G7 | Cmaj7 |", skeleton="tresillo", tempo=120)
 | Rendering | Via existing `chords_to_midi` pipeline | Via `renderers/midi.py` event generator |
 | Complexity | Minimal seed | Full arrangement |
 | Module | `rhythmic_skeletons.py` | `patterns/` subpackage |
+
+## Provenance of the builtin tables
+
+The builtin drum, bass and comping tables in `accompy/patterns/builtin.py` are written directly in accompy's own dataclass form. They have been in the repository since its first commit, with no record of a source, and they encode generic textbook figures (ride on the quarters, hi-hat on 2 and 4, a root-fifth bossa bass). The repository holds no MMA groove files and no Yamaha or Roland style-file data: `_seed_data/resources/groove_map.json` only maps style names to the names of MMA grooves, which the optional MMA backend loads from a local MMA installation at run time. A comparison with MMA's groove library was not made. The TypeScript twin's `ts/src/data.generated.ts` is generated from these same Python tables.

@@ -1,7 +1,7 @@
 {
   "name": "accompy",
-  "version": "0.0.1",
-  "description": "There is a bit of an air of mystery around this project...",
+  "version": "0.3.13",
+  "description": "Chord charts to accompaniment note events (drums, bass, piano) in the browser: TypeScript twin of the Python package accompy",
   "type": "module",
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",

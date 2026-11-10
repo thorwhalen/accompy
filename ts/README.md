@@ -28,7 +28,7 @@ This is Python's `accompy.MidiEvent`, field for field.
 
 **Guarantees.** Events are a function of the chart, style, repeats, instruments and volumes only:
 
-- **Tempo-free**: nothing in generation reads a tempo; convert beats to seconds at play time (`beatsToSeconds`), so the tempo can change live.
+- **Tempo-free**: nothing in generation reads a tempo; convert beats to seconds at play time (`beatsToSeconds`), so one set of events plays at any tempo.
 - **Stateless across chords**: each chord's events depend only on that chord's notes, start and length (no walking-line continuity, voice leading or fills), so rendering a chart a bar at a time with `chordEvents` gives exactly the events of the whole chart.
 - **Deterministic**: no randomness.
 
