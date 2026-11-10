@@ -1,0 +1,43 @@
+# wads NPM CI — calls the reusable workflow hosted in i2mint/wads.
+#
+# All configuration lives in ts/package.json under the "wads"
+# key (wads.ci.*). This workflow runs when the JS subdirectory changes, or an
+# input it shares with the Python side (golden fixtures, a Rust core) does;
+# the Python ci.yml ignores the JS subdirectory, so a JS-only change never cuts
+# a PyPI release.
+#
+# Publishing to npm is OPT-IN: set wads.ci.publish.enabled=true in package.json
+# and include the marker (default "[publish-npm]") in your commit message.
+# Publishing uses npm trusted publishing (OIDC); there is no NPM_TOKEN secret.
+# On npmjs.com: package -> Settings -> Trusted Publisher -> GitHub Actions, with
+# this repo and THIS file's name (npm-ci-ts.yml), or run
+#   npm trust github <pkg> --file npm-ci-ts.yml --repo <owner>/<repo> --allow-publish -y
+# The package must exist on npm first: publish the very first version locally.
+#
+# On-demand CI (opt-in, mirrors [tool.wads.ci.trigger] on the Python side):
+# set wads.ci.trigger.mode="on-demand" in package.json and the reusable
+# workflow's validate/publish jobs run only when the commit SUBJECT contains
+# wads.ci.trigger.runCiMarker (default "[run ci]"), or the run is a manual
+# `gh workflow run npm-ci-ts.yml --ref <branch>` (always allowed).
+# To do locally what CI would have done: `npm run ci-local` (lint, test,
+# build — add that script to package.json if it isn't there already).
+name: NPM CI (ts)
+on:
+  push:
+    paths:
+      - "ts/**"
+      - "fixtures/**"
+      - ".github/workflows/npm-ci-ts.yml"
+  pull_request:
+    paths:
+      - "ts/**"
+      - "fixtures/**"
+      - ".github/workflows/npm-ci-ts.yml"
+jobs:
+  npm-ci:
+    uses: i2mint/wads/.github/workflows/npm-ci.yml@master
+    permissions:
+      contents: read
+      id-token: write # npm provenance / OIDC trusted publishing
+    with:
+      package-dir: ts

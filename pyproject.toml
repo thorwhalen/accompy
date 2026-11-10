@@ -141,3 +141,9 @@ enabled = true
 enabled = true
 builder = "epythet"
 ignore_paths = ["tests/", "scrap/", "examples/"]
+
+[tool.wads.ci.version]
+sync = ["ts/package.json"]
+
+[tool.wads.ci.trigger]
+include_paths = ["ts/src/data.generated.ts"]

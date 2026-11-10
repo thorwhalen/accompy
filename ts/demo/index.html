@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>accompy demo</title>
+    <style>
+      :root {
+        --bg: #fbfaf7;
+        --fg: #1d1d1f;
+        --muted: #6b6b70;
+        --accent: #2f6fdb;
+        --line: #d9d7d0;
+      }
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --bg: #17181a;
+          --fg: #ececec;
+          --muted: #9a9aa2;
+          --accent: #7aa7ff;
+          --line: #34363a;
+        }
+      }
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--fg);
+        font: 16px/1.5 system-ui, sans-serif;
+      }
+      main {
+        max-width: 40rem;
+        margin: 0 auto;
+        padding: 1.5rem 1rem 3rem;
+      }
+      h1 {
+        font-size: 1.4rem;
+        margin: 0 0 0.25rem;
+      }
+      p.lead {
+        color: var(--muted);
+        margin: 0 0 1.25rem;
+      }
+      label {
+        display: block;
+        font-weight: 600;
+        margin: 1rem 0 0.35rem;
+      }
+      textarea,
+      select,
+      input {
+        width: 100%;
+        box-sizing: border-box;
+        font: inherit;
+        color: inherit;
+        background: transparent;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        padding: 0.5rem 0.6rem;
+      }
+      textarea {
+        font-family: ui-monospace, monospace;
+        min-height: 5.5rem;
+      }
+      .row {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 0.75rem;
+      }
+      button {
+        margin-top: 1.25rem;
+        width: 100%;
+        min-height: 3rem;
+        font: inherit;
+        font-weight: 600;
+        border: 0;
+        border-radius: 10px;
+        background: var(--accent);
+        color: #fff;
+        cursor: pointer;
+        transition: transform 60ms, opacity 60ms;
+      }
+      button:active {
+        transform: scale(0.98);
+      }
+      button[data-playing="true"] {
+        background: var(--fg);
+        color: var(--bg);
+      }
+      #status {
+        color: var(--muted);
+        min-height: 1.5rem;
+        margin-top: 0.75rem;
+      }
+      #status.error {
+        color: #d23c3c;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>accompy in the browser</h1>
+      <p class="lead">Chord chart in, drums, bass and piano out: note events from the TypeScript twin, played by a tiny Web Audio synth.</p>
+
+      <label for="chart">Chord chart</label>
+      <textarea id="chart" spellcheck="false">| Dm7 | G7 | Cmaj7 | A7b9 |</textarea>
+
+      <div class="row">
+        <div>
+          <label for="style">Style</label>
+          <select id="style"></select>
+        </div>
+        <div>
+          <label for="tempo">Tempo</label>
+          <input id="tempo" type="number" min="40" max="300" value="120" inputmode="numeric" />
+        </div>
+        <div>
+          <label for="repeats">Repeats</label>
+          <input id="repeats" type="number" min="1" max="16" value="2" inputmode="numeric" />
+        </div>
+      </div>
+
+      <button id="play" type="button" data-playing="false">Play</button>
+      <div id="status" role="status" aria-live="polite"></div>
+    </main>
+    <script type="module" src="./demo.js"></script>
+  </body>
+</html>

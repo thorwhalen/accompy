@@ -22,6 +22,17 @@ print(f"Generated: {audio}")  # -> /tmp/xxx.wav
 - **MIDI output**: Save `.mid` directly (skip audio rendering)
 - **Extensible**: Add custom patterns and styles
 
+## In the browser (TypeScript twin)
+
+`ts/` holds `accompy` for JavaScript/TypeScript: the same chart parsing, chord resolution, styles and rhythmic skeletons, producing note events (no audio; the browser renders them). Both twins run the same golden cases. See [ts/README.md](ts/README.md).
+
+```ts
+import { generateEvents } from "accompy";
+const events = generateEvents("| Dm7 | G7 | C^7 |", { style: "bossa" }); // [{ time, channel, note, velocity, duration }, ...]
+```
+
+The Python side of that surface is `accompy.generate_events` (events without writing a file) and `accompy.chord_events` (one chord).
+
 ## Quick Start
 
 ### Installation
