@@ -4,6 +4,13 @@ accompy.util
 .. automodule:: accompy.util
 
    
+   .. rubric:: Module Attributes
+
+   .. autosummary::
+   
+      CHORD_SYMBOL_REPLACEMENTS
+      UNNORMALIZED_SYMBOLS
+   
    .. rubric:: Functions
 
    .. autosummary::

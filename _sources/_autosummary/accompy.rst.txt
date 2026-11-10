@@ -9,6 +9,9 @@
    .. autosummary::
    
       generate_accompaniment
+      generate_events
+      chord_events
+      select_patterns
       ensure_score
       play_audio
       check_dependencies

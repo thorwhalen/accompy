@@ -1,4 +1,4 @@
-> built 2026-10-20 12:46 UTC from a10fcaa (main) · accompy 0.3.13. Details: build_info.json
+> built 2026-11-10 17:31 UTC from 3b6554c (main) · accompy 0.3.13. Details: build_info.json
 
 # index.html.md
 
@@ -27,6 +27,17 @@ print(f"Generated: {audio}")  # -> /tmp/xxx.wav
 - **Audio output**: WAV, MP3, FLAC via FluidSynth
 - **MIDI output**: Save `.mid` directly (skip audio rendering)
 - **Extensible**: Add custom patterns and styles
+
+## In the browser (TypeScript twin)
+
+`ts/` holds `accompy` for JavaScript/TypeScript: the same chart parsing, chord resolution, styles and rhythmic skeletons, producing note events (no audio; the browser renders them). Both twins run the same golden cases. See [ts/README.md]().
+
+```ts
+import { generateEvents } from "accompy";
+const events = generateEvents("| Dm7 | G7 | C^7 |", { style: "bossa" }); // [{ time, channel, note, velocity, duration }, ...]
+```
+
+The Python side of that surface is `accompy.generate_events` (events without writing a file) and `accompy.chord_events` (one chord).
 
 ## Quick Start
 
@@ -2093,6 +2104,9 @@ Advanced Usage (Extensibility):
 
 | [`generate_accompaniment`](_autosummary/accompy.html.md#accompy.generate_accompaniment)(chords, \*[, style, ...])   | Generate an accompaniment audio file from a chord progression.                                                                         |
 |-----------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------|
+| [`generate_events`](_autosummary/accompy.html.md#accompy.generate_events)(chords, \*[, style, repeats, ...]) | The note events the builtin backend plays for `chords`, without writing a file.                                                        |
+| [`chord_events`](_autosummary/accompy.html.md#accompy.chord_events)(chord_notes, \*[, style, ...])        | The drum, bass and piano events `style` plays over one chord.                                                                          |
+| [`select_patterns`](_autosummary/accompy.html.md#accompy.select_patterns)(patterns, beats_per_bar)           | The `(drum, bass, comp)` patterns the renderer plays from a style's pattern lists.                                                     |
 | [`ensure_score`](_autosummary/accompy.html.md#accompy.ensure_score)(chords, \*[, title, key, ...])        | Coerce common chord-progression formats into a `Score`.                                                                                |
 | [`play_audio`](_autosummary/accompy.html.md#accompy.play_audio)(audio_path)                             | Play an audio file using the system's default audio player.                                                                            |
 | [`check_dependencies`](_autosummary/accompy.html.md#accompy.check_dependencies)()                               | Check which dependencies are available.                                                                                                |
@@ -2954,6 +2968,25 @@ Check which dependencies are available.
 True
 ```
 
+### accompy.chord_events(chord_notes, , style='swing', start_beat=0, duration=4, beats_per_bar=4, instruments=None, volumes=None, pattern_source=None)
+
+The drum, bass and piano events `style` plays over one chord.
+
+This is one step of `generate_midi_events()`, which calls it for every chord of
+a score: `chord_notes` are the chord’s MIDI notes, root first (what a chord
+resolver returns), `start_beat` where the chord starts and `duration` how many
+beats it lasts. It reads no tempo and keeps no state between chords.
+
+```pycon
+>>> [(e.time, e.channel, e.note) for e in chord_events([48, 52, 55], style="rock",
+...     duration=1)]
+[(0, 9, 36), (0, 9, 42), (0.5, 9, 42), (0, 0, 36), (0, 1, 60), (0, 1, 64),
+ (0, 1, 67)]
+```
+
+* **Return type:**
+  [`list`](https://docs.python.org/3/builtins/stdtypes.html#list)[[`MidiEvent`](_autosummary/accompy.base.html.md#accompy.base.MidiEvent)]
+
 ### accompy.chord_to_notes(symbol)
 
 Convert chord symbol to MIDI notes using the current default resolver.
@@ -3223,6 +3256,27 @@ with bass, drums, and piano from chord progressions.
 #### NOTE
 Requires FluidSynth and a SoundFont for audio rendering.
 For MIDI-only output, use output_format=”midi”.
+
+### accompy.generate_events(chords, , style='swing', repeats=1, time_signature=(4, 4), instruments=None, volumes=None, pattern_source=None, chord_resolver=None)
+
+The note events the builtin backend plays for `chords`, without writing a file.
+
+`chords` is anything [`accompy.ensure_score()`](_autosummary/accompy.html.md#accompy.ensure_score) accepts (a chord string, an iReal
+URL, measures, chord symbols, `(chord, beats)` pairs, a Score);
+`time_signature` applies to the forms that do not carry one. Times and durations
+are in beats: the events do not depend on tempo. `repeats` defaults to 1, as in
+[`accompy.generate_accompaniment()`](_autosummary/accompy.html.md#accompy.generate_accompaniment).
+
+```pycon
+>>> events = generate_events("| C | G |", style="bossa")
+>>> events[0]
+MidiEvent(time=0, channel=9, note=37, velocity=56, duration=0.25)
+>>> max(e.time for e in events) < 8
+True
+```
+
+* **Return type:**
+  [`list`](https://docs.python.org/3/builtins/stdtypes.html#list)[[`MidiEvent`](_autosummary/accompy.base.html.md#accompy.base.MidiEvent)]
 
 ### accompy.generate_mma_wav(score, output_path, , groove='Swing', tempo=120, repeats=1)
 
@@ -3788,6 +3842,22 @@ chord is sustained for the skeleton’s duration at that beat position.
 >>> md.to_bytes()[:4]
 b'MThd'
 ```
+
+### accompy.select_patterns(patterns, beats_per_bar)
+
+The `(drum, bass, comp)` patterns the renderer plays from a style’s pattern lists.
+
+The drum pattern is the first one whose `beats_per_bar` matches (else the first);
+bass and comping take the first of their list. A missing one is `None`.
+
+```pycon
+>>> from accompy.patterns import get_patterns
+>>> [p.name for p in select_patterns(get_patterns("swing"), 4)]
+['swing_basic', 'walking', 'swing_comp']
+```
+
+* **Return type:**
+  [`tuple`](https://docs.python.org/3/builtins/stdtypes.html#tuple)
 
 ### accompy.set_chord_resolver(resolver)
 
@@ -5162,9 +5232,31 @@ This module provides different backends for generating MIDI from scores:
 
 ### Functions
 
-| [`generate_midi_events`](_autosummary/accompy.renderers.html.md#accompy.renderers.generate_midi_events)(score, config, \*, ...)    | Generate MIDI events from score.   |
-|--------------------------------------------------------------------------------------------------|------------------------------------|
-| [`events_to_midi_file`](_autosummary/accompy.renderers.html.md#accompy.renderers.events_to_midi_file)(events, path, tempo[, ...]) | Write MIDI events to a MIDI file.  |
+| [`chord_events`](_autosummary/accompy.renderers.html.md#accompy.renderers.chord_events)(chord_notes, \*[, style, ...])        | The drum, bass and piano events `style` plays over one chord.                      |
+|-----------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------|
+| [`generate_events`](_autosummary/accompy.renderers.html.md#accompy.renderers.generate_events)(chords, \*[, style, repeats, ...]) | The note events the builtin backend plays for `chords`, without writing a file.    |
+| [`select_patterns`](_autosummary/accompy.renderers.html.md#accompy.renderers.select_patterns)(patterns, beats_per_bar)           | The `(drum, bass, comp)` patterns the renderer plays from a style's pattern lists. |
+| [`generate_midi_events`](_autosummary/accompy.renderers.html.md#accompy.renderers.generate_midi_events)(score, config, \*, ...)       | Generate MIDI events from score.                                                   |
+| [`events_to_midi_file`](_autosummary/accompy.renderers.html.md#accompy.renderers.events_to_midi_file)(events, path, tempo[, ...])    | Write MIDI events to a MIDI file.                                                  |
+
+### accompy.renderers.chord_events(chord_notes, , style='swing', start_beat=0, duration=4, beats_per_bar=4, instruments=None, volumes=None, pattern_source=None)
+
+The drum, bass and piano events `style` plays over one chord.
+
+This is one step of [`generate_midi_events()`](_autosummary/accompy.renderers.html.md#accompy.renderers.generate_midi_events), which calls it for every chord of
+a score: `chord_notes` are the chord’s MIDI notes, root first (what a chord
+resolver returns), `start_beat` where the chord starts and `duration` how many
+beats it lasts. It reads no tempo and keeps no state between chords.
+
+```pycon
+>>> [(e.time, e.channel, e.note) for e in chord_events([48, 52, 55], style="rock",
+...     duration=1)]
+[(0, 9, 36), (0, 9, 42), (0.5, 9, 42), (0, 0, 36), (0, 1, 60), (0, 1, 64),
+ (0, 1, 67)]
+```
+
+* **Return type:**
+  [`list`](https://docs.python.org/3/builtins/stdtypes.html#list)[[`MidiEvent`](_autosummary/accompy.base.html.md#accompy.base.MidiEvent)]
 
 ### accompy.renderers.events_to_midi_file(events, path, tempo, time_signature=(4, 4))
 
@@ -5182,6 +5274,27 @@ Write MIDI events to a MIDI file.
 
 #### NOTE
 Requires midiutil: pip install midiutil
+
+### accompy.renderers.generate_events(chords, , style='swing', repeats=1, time_signature=(4, 4), instruments=None, volumes=None, pattern_source=None, chord_resolver=None)
+
+The note events the builtin backend plays for `chords`, without writing a file.
+
+`chords` is anything [`accompy.ensure_score()`](_autosummary/accompy.html.md#accompy.ensure_score) accepts (a chord string, an iReal
+URL, measures, chord symbols, `(chord, beats)` pairs, a Score);
+`time_signature` applies to the forms that do not carry one. Times and durations
+are in beats: the events do not depend on tempo. `repeats` defaults to 1, as in
+[`accompy.generate_accompaniment()`](_autosummary/accompy.html.md#accompy.generate_accompaniment).
+
+```pycon
+>>> events = generate_events("| C | G |", style="bossa")
+>>> events[0]
+MidiEvent(time=0, channel=9, note=37, velocity=56, duration=0.25)
+>>> max(e.time for e in events) < 8
+True
+```
+
+* **Return type:**
+  [`list`](https://docs.python.org/3/builtins/stdtypes.html#list)[[`MidiEvent`](_autosummary/accompy.base.html.md#accompy.base.MidiEvent)]
 
 ### accompy.renderers.generate_midi_events(score, config, , pattern_source, chord_resolver)
 
@@ -5214,6 +5327,22 @@ This enables real-time streaming or batch file creation.
 >>> first_event = next(events)
 ```
 
+### accompy.renderers.select_patterns(patterns, beats_per_bar)
+
+The `(drum, bass, comp)` patterns the renderer plays from a style’s pattern lists.
+
+The drum pattern is the first one whose `beats_per_bar` matches (else the first);
+bass and comping take the first of their list. A missing one is `None`.
+
+```pycon
+>>> from accompy.patterns import get_patterns
+>>> [p.name for p in select_patterns(get_patterns("swing"), 4)]
+['swing_basic', 'walking', 'swing_comp']
+```
+
+* **Return type:**
+  [`tuple`](https://docs.python.org/3/builtins/stdtypes.html#tuple)
+
 ### Modules
 
 | [`midi`](_autosummary/accompy.renderers.midi.html.md#module-accompy.renderers.midi)   | MIDI event generation (stateless, iterator-based).   |
@@ -5234,12 +5363,51 @@ Key functions:
 - generate_midi_events: Pure function that yields MIDI events
 - events_to_midi_file: Side-effect function that writes events to a file
 
+### Module Attributes
+
+| [`NO_CHORD_SYMBOLS`](_autosummary/accompy.renderers.midi.html.md#accompy.renderers.midi.NO_CHORD_SYMBOLS)     | the renderer leaves their beats silent.                                        |
+|-----------------------------------------------------------------------|--------------------------------------------------------------------------------|
+| [`FALLBACK_CHORD_NOTES`](_autosummary/accompy.renderers.midi.html.md#accompy.renderers.midi.FALLBACK_CHORD_NOTES) | The notes used when the chord resolver cannot read a symbol (a C major triad). |
+
 ### Functions
 
-| [`events_to_midi_file`](_autosummary/accompy.renderers.midi.html.md#accompy.renderers.midi.events_to_midi_file)(events, path, tempo[, ...])   | Write MIDI events to a MIDI file.                 |
-|----------------------------------------------------------------------------------------------------|---------------------------------------------------|
-| [`generate_builtin_midi`](_autosummary/accompy.renderers.midi.html.md#accompy.renderers.midi.generate_builtin_midi)(score, config, \*, ...)     | Generate a MIDI file using the built-in renderer. |
-| [`generate_midi_events`](_autosummary/accompy.renderers.midi.html.md#accompy.renderers.midi.generate_midi_events)(score, config, \*, ...)      | Generate MIDI events from score.                  |
+| [`chord_events`](_autosummary/accompy.renderers.midi.html.md#accompy.renderers.midi.chord_events)(chord_notes, \*[, style, ...])        | The drum, bass and piano events `style` plays over one chord.                      |
+|-----------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------|
+| [`events_to_midi_file`](_autosummary/accompy.renderers.midi.html.md#accompy.renderers.midi.events_to_midi_file)(events, path, tempo[, ...])    | Write MIDI events to a MIDI file.                                                  |
+| [`generate_builtin_midi`](_autosummary/accompy.renderers.midi.html.md#accompy.renderers.midi.generate_builtin_midi)(score, config, \*, ...)      | Generate a MIDI file using the built-in renderer.                                  |
+| [`generate_events`](_autosummary/accompy.renderers.midi.html.md#accompy.renderers.midi.generate_events)(chords, \*[, style, repeats, ...]) | The note events the builtin backend plays for `chords`, without writing a file.    |
+| [`generate_midi_events`](_autosummary/accompy.renderers.midi.html.md#accompy.renderers.midi.generate_midi_events)(score, config, \*, ...)       | Generate MIDI events from score.                                                   |
+| [`select_patterns`](_autosummary/accompy.renderers.midi.html.md#accompy.renderers.midi.select_patterns)(patterns, beats_per_bar)           | The `(drum, bass, comp)` patterns the renderer plays from a style's pattern lists. |
+
+### accompy.renderers.midi.FALLBACK_CHORD_NOTES *= (48, 52, 55)*
+
+The notes used when the chord resolver cannot read a symbol (a C major triad).
+
+### accompy.renderers.midi.NO_CHORD_SYMBOLS *= ('', 'n', 'N.C.', 'NC')*
+
+the renderer leaves their beats silent.
+
+* **Type:**
+  Chord symbols that mean “no chord here”
+
+### accompy.renderers.midi.chord_events(chord_notes, , style='swing', start_beat=0, duration=4, beats_per_bar=4, instruments=None, volumes=None, pattern_source=None)
+
+The drum, bass and piano events `style` plays over one chord.
+
+This is one step of [`generate_midi_events()`](_autosummary/accompy.renderers.midi.html.md#accompy.renderers.midi.generate_midi_events), which calls it for every chord of
+a score: `chord_notes` are the chord’s MIDI notes, root first (what a chord
+resolver returns), `start_beat` where the chord starts and `duration` how many
+beats it lasts. It reads no tempo and keeps no state between chords.
+
+```pycon
+>>> [(e.time, e.channel, e.note) for e in chord_events([48, 52, 55], style="rock",
+...     duration=1)]
+[(0, 9, 36), (0, 9, 42), (0.5, 9, 42), (0, 0, 36), (0, 1, 60), (0, 1, 64),
+ (0, 1, 67)]
+```
+
+* **Return type:**
+  [`list`](https://docs.python.org/3/builtins/stdtypes.html#list)[[`MidiEvent`](_autosummary/accompy.base.html.md#accompy.base.MidiEvent)]
 
 ### accompy.renderers.midi.events_to_midi_file(events, path, tempo, time_signature=(4, 4))
 
@@ -5274,6 +5442,27 @@ This is a convenience function that combines event generation and file writing.
 * **Returns:**
   Path to the generated MIDI file
 
+### accompy.renderers.midi.generate_events(chords, , style='swing', repeats=1, time_signature=(4, 4), instruments=None, volumes=None, pattern_source=None, chord_resolver=None)
+
+The note events the builtin backend plays for `chords`, without writing a file.
+
+`chords` is anything [`accompy.ensure_score()`](_autosummary/accompy.html.md#accompy.ensure_score) accepts (a chord string, an iReal
+URL, measures, chord symbols, `(chord, beats)` pairs, a Score);
+`time_signature` applies to the forms that do not carry one. Times and durations
+are in beats: the events do not depend on tempo. `repeats` defaults to 1, as in
+[`accompy.generate_accompaniment()`](_autosummary/accompy.html.md#accompy.generate_accompaniment).
+
+```pycon
+>>> events = generate_events("| C | G |", style="bossa")
+>>> events[0]
+MidiEvent(time=0, channel=9, note=37, velocity=56, duration=0.25)
+>>> max(e.time for e in events) < 8
+True
+```
+
+* **Return type:**
+  [`list`](https://docs.python.org/3/builtins/stdtypes.html#list)[[`MidiEvent`](_autosummary/accompy.base.html.md#accompy.base.MidiEvent)]
+
 ### accompy.renderers.midi.generate_midi_events(score, config, , pattern_source, chord_resolver)
 
 Generate MIDI events from score.
@@ -5304,6 +5493,22 @@ This enables real-time streaming or batch file creation.
 ...     chord_resolver=chord_to_notes)
 >>> first_event = next(events)
 ```
+
+### accompy.renderers.midi.select_patterns(patterns, beats_per_bar)
+
+The `(drum, bass, comp)` patterns the renderer plays from a style’s pattern lists.
+
+The drum pattern is the first one whose `beats_per_bar` matches (else the first);
+bass and comping take the first of their list. A missing one is `None`.
+
+```pycon
+>>> from accompy.patterns import get_patterns
+>>> [p.name for p in select_patterns(get_patterns("swing"), 4)]
+['swing_basic', 'walking', 'swing_comp']
+```
+
+* **Return type:**
+  [`tuple`](https://docs.python.org/3/builtins/stdtypes.html#tuple)
 
 
 # _autosummary/accompy.rendering.html.md
@@ -6081,6 +6286,12 @@ Utility functions for chord parsing and normalization.
 Contains helpers for chord symbol normalization, chord string parsing,
 and iReal URL parsing.
 
+### Module Attributes
+
+| [`CHORD_SYMBOL_REPLACEMENTS`](_autosummary/accompy.util.html.md#accompy.util.CHORD_SYMBOL_REPLACEMENTS)   | each `old` becomes `new` at the end of the symbol or before a slash.                                                              |
+|------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------|
+| [`UNNORMALIZED_SYMBOLS`](_autosummary/accompy.util.html.md#accompy.util.UNNORMALIZED_SYMBOLS)        | Symbols [`normalize_chord_symbol()`](_autosummary/accompy.util.html.md#accompy.util.normalize_chord_symbol) returns unchanged (no chord, or a repeat sign). |
+
 ### Functions
 
 | [`normalize_chord_symbol`](_autosummary/accompy.util.html.md#accompy.util.normalize_chord_symbol)(symbol)                    | Normalize chord symbols to a standard format.                      |
@@ -6094,6 +6305,18 @@ and iReal URL parsing.
 | [`transpose_chord`](_autosummary/accompy.util.html.md#accompy.util.transpose_chord)(chord, semitones, \*[, use_flat]) | Transpose a chord symbol by *semitones*.                           |
 | [`transpose_note`](_autosummary/accompy.util.html.md#accompy.util.transpose_note)(name, semitones, \*[, use_flat])   | Transpose a single note name by *semitones*.                       |
 | [`transpose_score`](_autosummary/accompy.util.html.md#accompy.util.transpose_score)(score, target_key)                | Transpose a `Score` to a new key.                                  |
+
+### accompy.util.CHORD_SYMBOL_REPLACEMENTS *= (('maj7', '^7'), ('maj9', '^9'), ('maj', '^'), ('min7', '-7'), ('min', '-'), ('m7', '-7'), ('m9', '-9'), ('m', '-'), ('dim7', 'o7'), ('dim', 'o'), ('m7b5', 'h7'), ('ø7', 'h7'), ('ø', 'h'), ('sus4', 'sus'), ('sus2', 'sus2'), ('add9', 'add9'), ('add2', 'add2'))*
+
+each `old`
+becomes `new` at the end of the symbol or before a slash.
+
+* **Type:**
+  The suffix rewrites [`normalize_chord_symbol()`](_autosummary/accompy.util.html.md#accompy.util.normalize_chord_symbol) applies, in order
+
+### accompy.util.UNNORMALIZED_SYMBOLS *= ('', 'n', 'N.C.', 'NC', '%', 'x')*
+
+Symbols [`normalize_chord_symbol()`](_autosummary/accompy.util.html.md#accompy.util.normalize_chord_symbol) returns unchanged (no chord, or a repeat sign).
 
 ### accompy.util.normalize_chord_symbol(symbol)
 
@@ -6340,18 +6563,20 @@ Backward-compat shim. Use `accompy.converters` instead.
 
 # About this build
 
-This documentation was built on **2026-10-20 12:46 UTC** from commit <a href="https://github.com/thorwhalen/accompy/commit/a10fcaa153379727fe45c52e5bd25daa51987966"><code>a10fcaa</code></a> on branch <code>main</code>, for **accompy 0.3.13** (from <code>pyproject.toml</code>).
+This documentation was built on **2026-11-10 17:31 UTC** from commit <a href="https://github.com/thorwhalen/accompy/commit/3b6554cb6d91ca9897be6e9642f1db04ec0068f2"><code>3b6554c</code></a> on branch <code>main</code>, for **accompy 0.3.13** (from <code>pyproject.toml</code>).
 
-#### NOTE
-Nothing suggests a mismatch: the tree was clean at the commit above, and the documented version is the one on PyPI.
+#### WARNING
+The documentation and the package may be misaligned:
+
+- The documented version (0.3.13) is behind the latest release on PyPI (0.3.14): `pip install accompy` gives newer code than these docs describe.
 
 ## Source
 
 |                     |                                                                                                                                                           |
 |---------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Commit              | <a href="https://github.com/thorwhalen/accompy/commit/a10fcaa153379727fe45c52e5bd25daa51987966"><code>a10fcaa153379727fe45c52e5bd25daa51987966</code></a> |
+| Commit              | <a href="https://github.com/thorwhalen/accompy/commit/3b6554cb6d91ca9897be6e9642f1db04ec0068f2"><code>3b6554cb6d91ca9897be6e9642f1db04ec0068f2</code></a> |
 | Branch              | <code>main</code>                                                                                                                                         |
-| Tags at this commit | <code>0.3.13</code>                                                                                                                                       |
+| Tags at this commit | none                                                                                                                                                      |
 | Working tree        | clean                                                                                                                                                     |
 | Remote              | <code>https://github.com/thorwhalen/accompy</code>                                                                                                        |
 
@@ -6360,18 +6585,18 @@ Nothing suggests a mismatch: the tree was clean at the commit above, and the doc
 |              |                                                                                            |
 |--------------|--------------------------------------------------------------------------------------------|
 | Repository   | <code>thorwhalen/accompy</code>                                                            |
-| Run          | <a href="https://github.com/thorwhalen/accompy/actions/runs/39424584127">39424584127</a>   |
+| Run          | <a href="https://github.com/thorwhalen/accompy/actions/runs/42865509664">42865509664</a>   |
 | Ref          | <code>refs/heads/main</code>                                                               |
-| Event commit | <code>56e37e0800fec550d3953b602d892805c71c868f</code> (in the history of the built commit) |
+| Event commit | <code>3b6554cb6d91ca9897be6e9642f1db04ec0068f2</code> (in the history of the built commit) |
 
 ## Tools
 
 |          |         |
 |----------|---------|
-| epythet  | 0.2.20  |
+| epythet  | 0.2.22  |
 | Sphinx   | 9.1.1   |
 | docutils | 0.22.4  |
-| Python   | 3.12.15 |
+| Python   | 3.12.16 |
 
 ## Configuration as resolved
 
@@ -6387,14 +6612,14 @@ Nothing suggests a mismatch: the tree was clean at the commit above, and the doc
 
 ## Package on PyPI
 
-Latest release: <a href="https://pypi.org/project/accompy/0.3.13/">0.3.13</a>, the same as the documented version.
+Latest release: <a href="https://pypi.org/project/accompy/0.3.14/">0.3.14</a>, newer than the documented version (0.3.13).
 
 ## Reproduce
 
 ```bash
 git clone https://github.com/thorwhalen/accompy && cd accompy
-git checkout a10fcaa153379727fe45c52e5bd25daa51987966
-pip install "epythet==0.2.20"
+git checkout 3b6554cb6d91ca9897be6e9642f1db04ec0068f2
+pip install "epythet==0.2.22"
 epythet quickstart . --ignore tests/ scrap/ examples/
 ```
 

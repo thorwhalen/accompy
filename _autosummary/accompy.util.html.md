@@ -5,6 +5,12 @@ Utility functions for chord parsing and normalization.
 Contains helpers for chord symbol normalization, chord string parsing,
 and iReal URL parsing.
 
+### Module Attributes
+
+| [`CHORD_SYMBOL_REPLACEMENTS`](#accompy.util.CHORD_SYMBOL_REPLACEMENTS)   | each `old` becomes `new` at the end of the symbol or before a slash.                                                              |
+|------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------|
+| [`UNNORMALIZED_SYMBOLS`](#accompy.util.UNNORMALIZED_SYMBOLS)        | Symbols [`normalize_chord_symbol()`](#accompy.util.normalize_chord_symbol) returns unchanged (no chord, or a repeat sign). |
+
 ### Functions
 
 | [`normalize_chord_symbol`](#accompy.util.normalize_chord_symbol)(symbol)                    | Normalize chord symbols to a standard format.                      |
@@ -18,6 +24,18 @@ and iReal URL parsing.
 | [`transpose_chord`](#accompy.util.transpose_chord)(chord, semitones, \*[, use_flat]) | Transpose a chord symbol by *semitones*.                           |
 | [`transpose_note`](#accompy.util.transpose_note)(name, semitones, \*[, use_flat])   | Transpose a single note name by *semitones*.                       |
 | [`transpose_score`](#accompy.util.transpose_score)(score, target_key)                | Transpose a `Score` to a new key.                                  |
+
+### accompy.util.CHORD_SYMBOL_REPLACEMENTS *= (('maj7', '^7'), ('maj9', '^9'), ('maj', '^'), ('min7', '-7'), ('min', '-'), ('m7', '-7'), ('m9', '-9'), ('m', '-'), ('dim7', 'o7'), ('dim', 'o'), ('m7b5', 'h7'), ('ø7', 'h7'), ('ø', 'h'), ('sus4', 'sus'), ('sus2', 'sus2'), ('add9', 'add9'), ('add2', 'add2'))*
+
+each `old`
+becomes `new` at the end of the symbol or before a slash.
+
+* **Type:**
+  The suffix rewrites [`normalize_chord_symbol()`](#accompy.util.normalize_chord_symbol) applies, in order
+
+### accompy.util.UNNORMALIZED_SYMBOLS *= ('', 'n', 'N.C.', 'NC', '%', 'x')*
+
+Symbols [`normalize_chord_symbol()`](#accompy.util.normalize_chord_symbol) returns unchanged (no chord, or a repeat sign).
 
 ### accompy.util.normalize_chord_symbol(symbol)
 

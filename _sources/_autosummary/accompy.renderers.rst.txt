@@ -8,6 +8,9 @@ accompy.renderers
 
    .. autosummary::
    
+      chord_events
+      generate_events
+      select_patterns
       generate_midi_events
       events_to_midi_file
    

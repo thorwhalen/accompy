@@ -9,9 +9,31 @@ This module provides different backends for generating MIDI from scores:
 
 ### Functions
 
-| [`generate_midi_events`](#accompy.renderers.generate_midi_events)(score, config, \*, ...)    | Generate MIDI events from score.   |
-|--------------------------------------------------------------------------------------------------|------------------------------------|
-| [`events_to_midi_file`](#accompy.renderers.events_to_midi_file)(events, path, tempo[, ...]) | Write MIDI events to a MIDI file.  |
+| [`chord_events`](#accompy.renderers.chord_events)(chord_notes, \*[, style, ...])        | The drum, bass and piano events `style` plays over one chord.                      |
+|-----------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------|
+| [`generate_events`](#accompy.renderers.generate_events)(chords, \*[, style, repeats, ...]) | The note events the builtin backend plays for `chords`, without writing a file.    |
+| [`select_patterns`](#accompy.renderers.select_patterns)(patterns, beats_per_bar)           | The `(drum, bass, comp)` patterns the renderer plays from a style's pattern lists. |
+| [`generate_midi_events`](#accompy.renderers.generate_midi_events)(score, config, \*, ...)       | Generate MIDI events from score.                                                   |
+| [`events_to_midi_file`](#accompy.renderers.events_to_midi_file)(events, path, tempo[, ...])    | Write MIDI events to a MIDI file.                                                  |
+
+### accompy.renderers.chord_events(chord_notes, , style='swing', start_beat=0, duration=4, beats_per_bar=4, instruments=None, volumes=None, pattern_source=None)
+
+The drum, bass and piano events `style` plays over one chord.
+
+This is one step of [`generate_midi_events()`](#accompy.renderers.generate_midi_events), which calls it for every chord of
+a score: `chord_notes` are the chord’s MIDI notes, root first (what a chord
+resolver returns), `start_beat` where the chord starts and `duration` how many
+beats it lasts. It reads no tempo and keeps no state between chords.
+
+```pycon
+>>> [(e.time, e.channel, e.note) for e in chord_events([48, 52, 55], style="rock",
+...     duration=1)]
+[(0, 9, 36), (0, 9, 42), (0.5, 9, 42), (0, 0, 36), (0, 1, 60), (0, 1, 64),
+ (0, 1, 67)]
+```
+
+* **Return type:**
+  [`list`](https://docs.python.org/3/builtins/stdtypes.html#list)[[`MidiEvent`](accompy.base.html.md#accompy.base.MidiEvent)]
 
 ### accompy.renderers.events_to_midi_file(events, path, tempo, time_signature=(4, 4))
 
@@ -29,6 +51,27 @@ Write MIDI events to a MIDI file.
 
 #### NOTE
 Requires midiutil: pip install midiutil
+
+### accompy.renderers.generate_events(chords, , style='swing', repeats=1, time_signature=(4, 4), instruments=None, volumes=None, pattern_source=None, chord_resolver=None)
+
+The note events the builtin backend plays for `chords`, without writing a file.
+
+`chords` is anything [`accompy.ensure_score()`](accompy.html.md#accompy.ensure_score) accepts (a chord string, an iReal
+URL, measures, chord symbols, `(chord, beats)` pairs, a Score);
+`time_signature` applies to the forms that do not carry one. Times and durations
+are in beats: the events do not depend on tempo. `repeats` defaults to 1, as in
+[`accompy.generate_accompaniment()`](accompy.html.md#accompy.generate_accompaniment).
+
+```pycon
+>>> events = generate_events("| C | G |", style="bossa")
+>>> events[0]
+MidiEvent(time=0, channel=9, note=37, velocity=56, duration=0.25)
+>>> max(e.time for e in events) < 8
+True
+```
+
+* **Return type:**
+  [`list`](https://docs.python.org/3/builtins/stdtypes.html#list)[[`MidiEvent`](accompy.base.html.md#accompy.base.MidiEvent)]
 
 ### accompy.renderers.generate_midi_events(score, config, , pattern_source, chord_resolver)
 
@@ -60,6 +103,22 @@ This enables real-time streaming or batch file creation.
 ...     chord_resolver=chord_to_notes)
 >>> first_event = next(events)
 ```
+
+### accompy.renderers.select_patterns(patterns, beats_per_bar)
+
+The `(drum, bass, comp)` patterns the renderer plays from a style’s pattern lists.
+
+The drum pattern is the first one whose `beats_per_bar` matches (else the first);
+bass and comping take the first of their list. A missing one is `None`.
+
+```pycon
+>>> from accompy.patterns import get_patterns
+>>> [p.name for p in select_patterns(get_patterns("swing"), 4)]
+['swing_basic', 'walking', 'swing_comp']
+```
+
+* **Return type:**
+  [`tuple`](https://docs.python.org/3/builtins/stdtypes.html#tuple)
 
 ### Modules
 

@@ -4,11 +4,21 @@ accompy.renderers.midi
 .. automodule:: accompy.renderers.midi
 
    
+   .. rubric:: Module Attributes
+
+   .. autosummary::
+   
+      NO_CHORD_SYMBOLS
+      FALLBACK_CHORD_NOTES
+   
    .. rubric:: Functions
 
    .. autosummary::
    
+      chord_events
       events_to_midi_file
       generate_builtin_midi
+      generate_events
       generate_midi_events
+      select_patterns
    

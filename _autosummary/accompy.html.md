@@ -51,6 +51,9 @@ Advanced Usage (Extensibility):
 
 | [`generate_accompaniment`](#accompy.generate_accompaniment)(chords, \*[, style, ...])   | Generate an accompaniment audio file from a chord progression.                                                                         |
 |-----------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------|
+| [`generate_events`](#accompy.generate_events)(chords, \*[, style, repeats, ...]) | The note events the builtin backend plays for `chords`, without writing a file.                                                        |
+| [`chord_events`](#accompy.chord_events)(chord_notes, \*[, style, ...])        | The drum, bass and piano events `style` plays over one chord.                                                                          |
+| [`select_patterns`](#accompy.select_patterns)(patterns, beats_per_bar)           | The `(drum, bass, comp)` patterns the renderer plays from a style's pattern lists.                                                     |
 | [`ensure_score`](#accompy.ensure_score)(chords, \*[, title, key, ...])        | Coerce common chord-progression formats into a `Score`.                                                                                |
 | [`play_audio`](#accompy.play_audio)(audio_path)                             | Play an audio file using the system's default audio player.                                                                            |
 | [`check_dependencies`](#accompy.check_dependencies)()                               | Check which dependencies are available.                                                                                                |
@@ -912,6 +915,25 @@ Check which dependencies are available.
 True
 ```
 
+### accompy.chord_events(chord_notes, , style='swing', start_beat=0, duration=4, beats_per_bar=4, instruments=None, volumes=None, pattern_source=None)
+
+The drum, bass and piano events `style` plays over one chord.
+
+This is one step of `generate_midi_events()`, which calls it for every chord of
+a score: `chord_notes` are the chord’s MIDI notes, root first (what a chord
+resolver returns), `start_beat` where the chord starts and `duration` how many
+beats it lasts. It reads no tempo and keeps no state between chords.
+
+```pycon
+>>> [(e.time, e.channel, e.note) for e in chord_events([48, 52, 55], style="rock",
+...     duration=1)]
+[(0, 9, 36), (0, 9, 42), (0.5, 9, 42), (0, 0, 36), (0, 1, 60), (0, 1, 64),
+ (0, 1, 67)]
+```
+
+* **Return type:**
+  [`list`](https://docs.python.org/3/builtins/stdtypes.html#list)[[`MidiEvent`](accompy.base.html.md#accompy.base.MidiEvent)]
+
 ### accompy.chord_to_notes(symbol)
 
 Convert chord symbol to MIDI notes using the current default resolver.
@@ -1181,6 +1203,27 @@ with bass, drums, and piano from chord progressions.
 #### NOTE
 Requires FluidSynth and a SoundFont for audio rendering.
 For MIDI-only output, use output_format=”midi”.
+
+### accompy.generate_events(chords, , style='swing', repeats=1, time_signature=(4, 4), instruments=None, volumes=None, pattern_source=None, chord_resolver=None)
+
+The note events the builtin backend plays for `chords`, without writing a file.
+
+`chords` is anything [`accompy.ensure_score()`](#accompy.ensure_score) accepts (a chord string, an iReal
+URL, measures, chord symbols, `(chord, beats)` pairs, a Score);
+`time_signature` applies to the forms that do not carry one. Times and durations
+are in beats: the events do not depend on tempo. `repeats` defaults to 1, as in
+[`accompy.generate_accompaniment()`](#accompy.generate_accompaniment).
+
+```pycon
+>>> events = generate_events("| C | G |", style="bossa")
+>>> events[0]
+MidiEvent(time=0, channel=9, note=37, velocity=56, duration=0.25)
+>>> max(e.time for e in events) < 8
+True
+```
+
+* **Return type:**
+  [`list`](https://docs.python.org/3/builtins/stdtypes.html#list)[[`MidiEvent`](accompy.base.html.md#accompy.base.MidiEvent)]
 
 ### accompy.generate_mma_wav(score, output_path, , groove='Swing', tempo=120, repeats=1)
 
@@ -1746,6 +1789,22 @@ chord is sustained for the skeleton’s duration at that beat position.
 >>> md.to_bytes()[:4]
 b'MThd'
 ```
+
+### accompy.select_patterns(patterns, beats_per_bar)
+
+The `(drum, bass, comp)` patterns the renderer plays from a style’s pattern lists.
+
+The drum pattern is the first one whose `beats_per_bar` matches (else the first);
+bass and comping take the first of their list. A missing one is `None`.
+
+```pycon
+>>> from accompy.patterns import get_patterns
+>>> [p.name for p in select_patterns(get_patterns("swing"), 4)]
+['swing_basic', 'walking', 'swing_comp']
+```
+
+* **Return type:**
+  [`tuple`](https://docs.python.org/3/builtins/stdtypes.html#tuple)
 
 ### accompy.set_chord_resolver(resolver)
 
