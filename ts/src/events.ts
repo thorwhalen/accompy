@@ -79,8 +79,25 @@ function drumEvents(pattern: DrumPattern, start: number, duration: number, volum
     }));
 }
 
-/** The semitone offset a pattern asks for, moved to the chord's own 3rd when it has one. */
-function resolveOffset(rootPc: number, chordPcs: number[], target: number): number {
+/** The distinct pitch classes (0-11) of MIDI notes, ascending. */
+export function pitchClasses(notes: Iterable<number>): number[] {
+  return [...new Set([...notes].map((n) => ((n % 12) + 12) % 12))].sort((a, b) => a - b);
+}
+
+/**
+ * The semitone offset a pattern asks for, resolved against a chord: kept when the chord
+ * has it, else a requested 3rd (3 or 4) becomes the chord's own 3rd when it has one.
+ */
+export function resolvePitchOffset({
+  rootPc,
+  chordPcs,
+  targetOffset,
+}: {
+  rootPc: number;
+  chordPcs: readonly number[];
+  targetOffset: number;
+}): number {
+  const target = targetOffset;
   if (!chordPcs.length) return target;
   const intervals = chordPcs.map((pc) => (((pc - rootPc) % 12) + 12) % 12);
   if (intervals.includes(target)) return target;
@@ -91,6 +108,17 @@ function resolveOffset(rootPc: number, chordPcs: number[], target: number): numb
   return target;
 }
 
+/** The bass note a pattern's `pitchOffset` plays: the chord root moved to C2-B2, plus the resolved offset. */
+export function bassPitch(root: number, chordNotes: readonly number[], pitchOffset: number): number {
+  const bassRoot = (((root % 12) + 12) % 12) + 36;
+  return bassRoot + resolvePitchOffset({ rootPc: bassRoot % 12, chordPcs: pitchClasses(chordNotes), targetOffset: pitchOffset });
+}
+
+/** The notes the piano plays for a chord: its first four notes moved into C4-B4 (none: a C major triad). */
+export function compVoicing(chordNotes: readonly number[]): number[] {
+  return chordNotes.length ? chordNotes.slice(0, 4).map((n) => (((n % 12) + 12) % 12) + 60) : [60, 64, 67];
+}
+
 function bassEvents(
   pattern: BassPattern,
   start: number,
@@ -99,9 +127,6 @@ function bassEvents(
   notes: readonly number[],
   volume: number,
 ): NoteEvent[] {
-  const bassRoot = (((root % 12) + 12) % 12) + 36;
-  const rootPc = bassRoot % 12;
-  const chordPcs = [...new Set(notes.map((n) => ((n % 12) + 12) % 12))].sort((a, b) => a - b);
   const out: NoteEvent[] = [];
   for (const note of pattern.notes) {
     if (note.beat >= duration) continue;
@@ -110,7 +135,7 @@ function bassEvents(
     out.push({
       time: start + note.beat,
       channel: CHANNELS.bass,
-      note: bassRoot + resolveOffset(rootPc, chordPcs, note.pitchOffset),
+      note: bassPitch(root, notes, note.pitchOffset),
       velocity: pyTrunc(note.velocity * volume),
       duration: dur,
     });
@@ -125,7 +150,7 @@ function compEvents(
   chordNotes: readonly number[],
   volume: number,
 ): NoteEvent[] {
-  const notes = chordNotes.length ? chordNotes.slice(0, 4).map((n) => (((n % 12) + 12) % 12) + 60) : [60, 64, 67];
+  const notes = compVoicing(chordNotes);
   const out: NoteEvent[] = [];
   if (pattern === null || !pattern.hits.length) {
     // No comping pattern: a block chord on each beat.

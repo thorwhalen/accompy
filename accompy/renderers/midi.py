@@ -263,19 +263,11 @@ def _bass_events(
     """Generate bass MIDI events."""
     channel = 0  # Bass channel
 
-    # Adjust to bass range (octave 2-3)
-    bass_root = (root % 12) + 36
-    root_pc = bass_root % 12
-    chord_pcs = _pitch_classes(chord_notes)
-
     for note in pattern.notes:
         if note.beat >= duration:
             continue
 
-        resolved = _resolve_pitch_offset(
-            root_pc=root_pc, chord_pcs=chord_pcs, target_offset=note.pitch_offset
-        )
-        pitch = bass_root + resolved
+        pitch = bass_pitch(root, chord_notes, note.pitch_offset)
         vel = int(note.velocity * volume)
         dur = min(note.duration, max(0.0, duration - note.beat))
         if dur <= 0:
@@ -300,8 +292,7 @@ def _comp_events(
     """Generate piano/comping MIDI events."""
     channel = 1  # Piano channel
 
-    # Move to mid-range
-    notes = [(n % 12) + 60 for n in chord_notes[:4]] if chord_notes else [60, 64, 67]
+    notes = comp_voicing(chord_notes)
 
     if pattern is None or not pattern.hits:
         # Default: block chords on each beat
@@ -336,12 +327,40 @@ def _comp_events(
             )
 
 
-def _pitch_classes(notes: Iterable[int]) -> tuple[int, ...]:
+def comp_voicing(chord_notes: Sequence[int]) -> list[int]:
+    """The notes the piano plays for a chord: its first four notes moved into C4-B4.
+
+    A chord with no notes is voiced as a C major triad.
+
+    >>> comp_voicing([50, 53, 57, 60, 64]), comp_voicing([])
+    ([62, 65, 69, 60], [60, 64, 67])
+    """
+    return [(n % 12) + 60 for n in chord_notes[:4]] if chord_notes else [60, 64, 67]
+
+
+def bass_pitch(root: int, chord_notes: Sequence[int], pitch_offset: int) -> int:
+    """The bass note a pattern's ``pitch_offset`` plays over a chord.
+
+    The chord's root is moved to C2-B2, then the offset is resolved against the chord
+    (:func:`resolve_pitch_offset`), so a pattern's "3rd" follows the chord's quality.
+
+    >>> bass_pitch(57, [57, 60, 64], 4), bass_pitch(48, [48, 52, 55], 4)
+    (48, 40)
+    """
+    bass_root = (root % 12) + 36
+    return bass_root + resolve_pitch_offset(
+        root_pc=bass_root % 12,
+        chord_pcs=pitch_classes(chord_notes),
+        target_offset=pitch_offset,
+    )
+
+
+def pitch_classes(notes: Iterable[int]) -> tuple[int, ...]:
     """Return unique pitch classes (0-11) as a tuple."""
     return tuple(sorted({n % 12 for n in notes}))
 
 
-def _resolve_pitch_offset(
+def resolve_pitch_offset(
     *, root_pc: int, chord_pcs: tuple[int, ...], target_offset: int
 ) -> int:
     """

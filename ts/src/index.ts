@@ -45,8 +45,12 @@ export {
   type StylePatterns,
 } from "./patterns.js";
 export {
+  bassPitch,
   beatsToSeconds,
   CHANNELS,
+  compVoicing,
+  pitchClasses,
+  resolvePitchOffset,
   chordEvents,
   fallbackChordNotes,
   generateEvents,
