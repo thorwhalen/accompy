@@ -63,8 +63,12 @@ from .base import (
 
 # Note events without audio: what the TypeScript twin (ts/) mirrors
 from .renderers.midi import (
+    bass_pitch,
     chord_events,
+    comp_voicing,
     generate_events,
+    pitch_classes,
+    resolve_pitch_offset,
     select_patterns,
 )
 
@@ -187,6 +191,10 @@ __all__ = [
     "generate_events",
     "chord_events",
     "select_patterns",
+    "pitch_classes",
+    "resolve_pitch_offset",
+    "bass_pitch",
+    "comp_voicing",
     "ensure_score",
     "play_audio",
     "check_dependencies",

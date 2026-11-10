@@ -14,7 +14,7 @@ from __future__ import annotations
 import re
 import tempfile
 from pathlib import Path
-from typing import Iterator, Sequence, Optional, Iterable, Mapping
+from typing import Collection, Iterator, Sequence, Optional, Iterable, Mapping
 
 from ..base import Score, AccompanimentConfig, MidiEvent
 from ..patterns.dataclasses import DrumPattern, BassPattern, CompingPattern
@@ -361,7 +361,7 @@ def pitch_classes(notes: Iterable[int]) -> tuple[int, ...]:
 
 
 def resolve_pitch_offset(
-    *, root_pc: int, chord_pcs: tuple[int, ...], target_offset: int
+    *, root_pc: int, chord_pcs: Collection[int], target_offset: int
 ) -> int:
     """
     Resolve a pitch offset against a chord.
@@ -387,11 +387,6 @@ def resolve_pitch_offset(
             return 3
         if 4 in chord_intervals:
             return 4
-
-    # Special case: perfect 5th
-    if target_offset == 7 and chord_intervals:
-        if 7 in chord_intervals:
-            return 7
 
     return target_offset
 

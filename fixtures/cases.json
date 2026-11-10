@@ -980,6 +980,15 @@
   {"fn": "resolve_pitch_offset", "args": [], "kwargs": {"root_pc": 11, "chord_pcs": [5], "target_offset": 3}, "expected": 3},
   {"fn": "resolve_pitch_offset", "args": [], "kwargs": {"root_pc": 11, "chord_pcs": [5], "target_offset": 4}, "expected": 4},
   {"fn": "resolve_pitch_offset", "args": [], "kwargs": {"root_pc": 11, "chord_pcs": [5], "target_offset": 7}, "expected": 7},
-  {"fn": "resolve_pitch_offset", "args": [], "kwargs": {"root_pc": 11, "chord_pcs": [5], "target_offset": 11}, "expected": 11}
+  {"fn": "resolve_pitch_offset", "args": [], "kwargs": {"root_pc": 11, "chord_pcs": [5], "target_offset": 11}, "expected": 11},
+  {"fn": "pitch_classes", "args": [[48, 60, 64, 52, 76]], "expected": [0, 4]},
+  {"fn": "pitch_classes", "args": [[67, 55, 43, 64, 52]], "expected": [4, 7]},
+  {"fn": "resolve_pitch_offset", "args": [], "kwargs": {"root_pc": 0, "chord_pcs": [4, 0, 4, 7, 7, 0], "target_offset": 3}, "expected": 4},
+  {"fn": "bass_pitch", "args": [52, [48, 52, 55], 4], "expected": 43},
+  {"fn": "bass_pitch", "args": [55, [48, 52, 55], 7], "expected": 50},
+  {"fn": "bass_pitch", "args": [40, [48, 52, 55], 0], "expected": 40},
+  {"fn": "bass_pitch", "args": [43, [48, 52, 55], 4], "expected": 47},
+  {"fn": "bass_pitch", "args": [50, [57, 60, 64], 4], "expected": 42},
+  {"fn": "bass_pitch", "args": [46, [48, 51, 55], 3], "expected": 49}
  ]
 }
