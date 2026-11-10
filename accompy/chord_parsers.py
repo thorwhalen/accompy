@@ -105,19 +105,21 @@ def parse_ireal_url(
     *,
     beats_per_bar: int = 4,
 ) -> ChordSequence:
-    """Parse an iReal Pro URL into a ChordSequence, one bar per chord entry.
+    """Parse an iReal Pro URL into a ChordSequence; a bar's chords share it evenly.
 
     Decoding is :func:`accompy.ireal.decode_ireal_url`; the first tune with chords is
     used. Raises ``ValueError`` when no tune has chords.
 
-    >>> cs = parse_ireal_url("irealbook://Blues=Me=Swing=F=n=[T34F7 |Bb7 Z")
+    >>> cs = parse_ireal_url("irealbook://Blues=Me=Swing=F=n=[T34F7 |Bb7 Bo7 Z")
     >>> cs.chords, cs.time_signature
-    ([('F7', 4.0), ('Bb7', 4.0)], (3, 4))
+    ([('F7', 4.0), ('Bb7', 2.0), ('Bo7', 2.0)], (3, 4))
     """
     from .ireal import decode_ireal_url
 
     for tune in decode_ireal_url(str(url)):
-        chords = [(m, float(beats_per_bar)) for m in tune.measures if m and m.strip()]
+        chords = [
+            (chord, beats_per_bar / len(bar)) for bar in tune.measures for chord in bar
+        ]
         if chords:
             return ChordSequence(
                 chords=chords,

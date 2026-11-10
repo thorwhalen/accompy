@@ -21,13 +21,13 @@ describe("parseIrealUrl", () => {
     const url = "irealb://Broken=Song===Second=C%20D==Bossa=G==" + PREFIX + "[C^7 A-7|D-7 G7 Z===My%20Playlist";
     const score = parseIrealUrl(url);
     expect(score.title).toBe("Second");
-    expect(score.measures).toEqual([["C^7A-7"], ["D-7G7"]]);
+    expect(score.measures).toEqual([["C^7", "A-7"], ["D-7", "G7"]]);
   });
 
   test("endings and an empty title", () => {
     const score = parseIrealUrl(song("{C^7XyQ|N1D-7 G7}XyQ|N2E-7 A7 Z", ""));
     expect(score.title).toBe("Untitled");
-    expect(score.measures).toEqual([["C^7"], ["D-7G7"], ["C^7"], ["E-7A7"]]);
+    expect(score.measures).toEqual([["C^7"], ["D-7", "G7"], ["C^7"], ["E-7", "A7"]]);
   });
 
   test("T12 is 12/8", () => {
@@ -39,8 +39,15 @@ describe("parseIrealUrl", () => {
   });
 
   test("p with no chord before it is dropped; backslashes are literal", () => {
-    expect(parseIrealUrl(song("[p C7|F7 p Z")).measures).toEqual([["C7"], ["F7F7"]]);
-    expect(parseIrealUrl(song("{C7\\1D7 N1E7 }|N2F7 Z")).measures).toEqual([["C7\\1D7E7"], ["C7\\1D7F7"]]);
+    expect(parseIrealUrl(song("[p C7|F7 p Z")).measures).toEqual([["C7"], ["F7", "F7"]]);
+    expect(parseIrealUrl(song("{C7\\1D7 N1E7 }|N2F7 Z")).measures).toEqual([["C7\\1", "D7", "E7"], ["C7\\1", "D7", "F7"]]);
+  });
+
+  test("each bar is the list of its chords: spaces, commas, glued roots, p and W", () => {
+    expect(parseIrealUrl(song("[C^7,A-7 D-7/FG7|p Bb7alt W/Ab Z")).measures).toEqual([
+      ["C^7", "A-7", "D-7/F", "G7"],
+      ["G7", "Bb7alt", "Bb7alt/Ab"],
+    ]);
   });
 
   test("an empty composer shifts no field", () => {
@@ -51,7 +58,7 @@ describe("parseIrealUrl", () => {
   test("irealbook (plain) URL: bars as written, no normalization", () => {
     const url = "irealbook://Old=Comp=Swing=G-=n=[T44C-7 F7 |*AC^7 |Ah7 |Fo7 Z";
     expect(parseIrealUrl(url)).toEqual({
-      measures: [["C-7F7"], ["C^7"], ["Ah7"], ["Fo7"]],
+      measures: [["C-7", "F7"], ["C^7"], ["Ah7"], ["Fo7"]],
       title: "Old",
       composer: "Comp",
       key: "G-",

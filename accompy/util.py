@@ -149,18 +149,18 @@ def parse_ireal_url(url: str):
     Parse an iReal Pro URL (``irealb://`` or ``irealbook://``) into a Score.
 
     Decoding is :func:`accompy.ireal.decode_ireal_url`; the Score is the first tune of
-    the URL that has chords, its bars kept as written (iReal chord notation, e.g.
-    ``'D-7G7'`` for a bar of two chords). Raises ``ValueError`` when no tune has chords.
+    the URL that has chords, each bar the list of its chords as written (iReal chord
+    notation). Raises ``ValueError`` when no tune has chords.
 
-    >>> score = parse_ireal_url("irealbook://Blues=Me=Swing=F=n=[T34F7 |Bb7 |C7 Z")
+    >>> score = parse_ireal_url("irealbook://Blues=Me=Swing=F=n=[T34F7 |Bb7 Bo7 |C7 Z")
     >>> score.measures, score.time_signature
-    ([['F7'], ['Bb7'], ['C7']], (3, 4))
+    ([['F7'], ['Bb7', 'Bo7'], ['C7']], (3, 4))
     """
     from .base import Score
     from .ireal import decode_ireal_url
 
     for tune in decode_ireal_url(url):
-        measures = [[chord] for chord in tune.measures if chord]
+        measures = [bar for bar in tune.measures if bar]
         if measures:
             return Score(
                 measures=measures,

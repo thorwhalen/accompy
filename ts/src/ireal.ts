@@ -9,7 +9,7 @@
  */
 import type { Score } from "./chart.js";
 import { PY_WHITESPACE } from "./data.generated.js";
-import { digitValue, isPySpace, pyStrip, ValueError } from "./py.js";
+import { digitValue, isPySpace, pySplit, ValueError } from "./py.js";
 
 /** The start of a scrambled (`irealb://`) music field. */
 const SCRAMBLE_PREFIX = "1r34LbKcu7";
@@ -30,7 +30,8 @@ const py = (src: string, flags = ""): RegExp =>
     "u" + flags,
   );
 const sub = (s: string, src: string, rep: string): string => s.replace(py(src, "g"), () => rep);
-const CHORD = /(?<!\/)([A-Gn][^A-G/]*(?:\/[A-G][#b]?)?)/gu;
+/** First characters of a chord (`n` is no chord, N.C.), which a `p` or `W` can repeat. */
+const ROOTS = "ABCDEFGn";
 // --------------------------------------------------------------------------------------
 // urllib.parse.unquote (UTF-8, errors="replace")
 
@@ -94,7 +95,7 @@ interface IrealTune {
   composer: string;
   key: string;
   timeSignature: [number, number];
-  measures: string[];
+  measures: string[][];
 }
 
 function unscramble(scrambled: string): string {
@@ -126,7 +127,7 @@ function cleanupChordString(s: string): string {
 function removeAnnotations(s: string): string {
   const steps: Array<[string, string]> = [
     ["[\\[\\]]", "|"], ["\\|\\s*\\|", "|"], ["<[^\\n]*?>", ""], ["\\([^)]*\\)", ""],
-    ["[lf]", ""], ["(?<!su)s(?!us)", ""], ["\\*\\w", ""], ["T\\d+", ""],
+    ["(?<!a)l(?!t)|f", ""], ["(?<!su)s(?!us)", ""], ["\\*\\w", ""], ["T\\d+", ""],
   ];
   for (const [src, rep] of steps) s = sub(s, src, rep);
   return s;
@@ -165,36 +166,40 @@ function fillCodas(s: string): string {
   return s;
 }
 
-function fillRepeatSigns(measures: string[]): string[] {
-  const out: string[] = [];
-  for (const m of measures) {
-    if (m === "x") out.push(...out.slice(-1).map(removeMarkers));
-    else if (m === "r") out.push(...(out.length >= 2 ? out.slice(-2).map(removeMarkers) : []));
-    else out.push(m);
+function fillRepeatSigns(bars: string[][]): string[][] {
+  const out: string[][] = [];
+  for (const bar of bars) {
+    const sign = bar.length === 1 ? bar[0] : undefined;
+    if (sign === "x") out.push(...out.slice(-1));
+    else if (sign === "r") out.push(...(out.length >= 2 ? out.slice(-2) : []));
+    else out.push(bar);
   }
   return out;
 }
 
-const lastChord = (s: string, fallback: string): string =>
-  [...s.matchAll(CHORD)].map((m) => m[1]!).pop() ?? fallback;
+/** A bar's chords and signs: split at the source's separators, then before each root (`A`-`G`, or `W`, not after a `/`) and around each `p`. */
+const barTokens = (bar: string): string[] =>
+  pySplit(bar).flatMap((token) => token.split(/(?<!\/)(?=[A-GW])|(?=p)|(?<=p)/u).filter((piece) => piece));
 
-function fillSlashes(measures: string[]): string[] {
+/** Write out `p` (the previous chord again) and `W` (an invisible root); drop them with no previous chord. */
+function fillSlashes(bars: string[][]): string[][] {
   let last = "";
-  return measures.map((measure) => {
-    let done = "";
-    measure.split("p").forEach((part, i) => {
-      if (i) done += lastChord(done, last);
-      done += part;
-    });
-    last = lastChord(done, last);
-    return done;
+  return bars.map((bar) => {
+    const chords: string[] = [];
+    for (let token of bar) {
+      if (token === "p") token = last;
+      else if (token.startsWith("W")) token = last ? (token.length > 1 ? last.split("/")[0]! + token.slice(1) : last) : "";
+      if (token && ROOTS.includes(token[0]!)) last = token;
+      if (token) chords.push(token);
+    }
+    return chords;
   });
 }
 
-function flattenMeasures(chordString: string): string[] {
-  const s = fillCodas(fillLongRepeats(removeAnnotations(cleanupChordString(chordString))));
-  const bars = s.split(/\||LZ|K|Z|\{|\}|\[|\]/u).filter((b) => pyStrip(b) !== "");
-  return fillSlashes(fillRepeatSigns(bars.map((b) => b.replaceAll(" ", ""))));
+function flattenMeasures(chordString: string): string[][] {
+  const s = removeMarkers(fillCodas(fillLongRepeats(removeAnnotations(cleanupChordString(chordString)))));
+  const bars = s.split(/\||LZ|K|Z|\{|\}|\[|\]/u).map(barTokens);
+  return fillSlashes(fillRepeatSigns(bars.filter((bar) => bar.length)));
 }
 
 function timeSignature(chordString: string): [number, number] {
@@ -259,12 +264,13 @@ function decodeIrealUrl(url: string): IrealTune[] {
 
 /**
  * Parse an iReal Pro URL (`irealb://` or `irealbook://`) into a Score, as
- * `accompy.util.parse_ireal_url` does: the first tune with chords, bars as written.
+ * `accompy.util.parse_ireal_url` does: the first tune with chords, each bar the list of
+ * its chords as written.
  * Throws `ValueError` when no tune has chords.
  */
 export function parseIrealUrl(url: string): Score {
   for (const tune of decodeIrealUrl(url)) {
-    const measures = tune.measures.filter((c) => c).map((c) => [c]);
+    const measures = tune.measures.filter((bar) => bar.length);
     if (measures.length)
       return {
         measures,

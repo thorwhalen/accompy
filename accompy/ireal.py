@@ -11,7 +11,11 @@ accompy used, with these changes:
 - ``x`` or ``r`` with nothing to repeat is dropped;
 - backslashes in chord text are literal text;
 - long runs of ``{...}`` repeats are expanded in a loop (no recursion limit);
-- song fields are read by position, so an empty field (an empty composer) shifts nothing.
+- song fields are read by position, so an empty field (an empty composer) shifts nothing;
+- each bar is a list of its chords (pyRealParser glued them into one string per bar), a
+  ``p`` within a bar is the previous chord again, ``W`` an invisible root, and end, segno
+  and coda marks are left out of the chords;
+- the ``l`` (large print) mark is removed without eating the ``l`` of ``alt``.
 
 The URL layout. ``irealb://`` holds songs joined by ``===``, then an optional playlist
 name; a song is ten ``=``-separated fields, ``title=composer=(unused)=style=key=transpose=
@@ -21,7 +25,7 @@ field, not by splitting on ``===``. ``irealbook://`` (the older format) holds si
 songs, ``title=composer=style=key=n=music``, with the music in plain text.
 
 >>> [t.measures for t in decode_ireal_url("irealbook://Blues=Me=Swing=F=n=[T34F7 |Bb7 p|r| |C7 Z")]
-[['F7', 'Bb7Bb7', 'F7', 'Bb7Bb7', 'C7']]
+[[['F7'], ['Bb7', 'Bb7'], ['F7'], ['Bb7', 'Bb7'], ['C7']]]
 """
 
 from __future__ import annotations
@@ -44,15 +48,16 @@ _STYLE, _KEY = -3, -2
 #: The fields in a standard ``irealb://`` song before its music field.
 _FIELDS_BEFORE_MUSIC = 6
 
-_CHORD = re.compile(r"(?<!/)([A-Gn][^A-G/]*(?:/[A-G][#b]?)?)")
+#: First characters of a chord (``n`` is no chord, N.C.), which a ``p`` or ``W`` can repeat.
+_ROOTS = "ABCDEFGn"
 
 
 @dataclass
 class IrealTune:
     """One song of an iReal URL: its metadata, cleaned chord string and flattened bars.
 
-    ``measures`` holds one string per bar (the bar's chords run together, e.g.
-    ``'D-7G7'``), with repeats, endings, codas and repeat signs written out.
+    ``measures`` holds one list of chords per bar (e.g. ``['D-7', 'G7']``), with
+    repeats, endings, codas and repeat signs written out.
     """
 
     title: str = ""
@@ -65,7 +70,7 @@ class IrealTune:
     repeats: str = ""
     chord_string: str = ""
     time_signature: tuple[int, int] = (4, 4)
-    measures: list[str] = field(default_factory=list)
+    measures: list[list[str]] = field(default_factory=list)
 
 
 def unscramble(scrambled: str) -> str:
@@ -110,7 +115,7 @@ def _remove_annotations(chord_string: str) -> str:
         (r"\|\s*\|", "|"),
         (r"<.*?>", ""),  # comments
         (r"\([^)]*\)", ""),  # alternate chords
-        (r"[lf]", ""),  # large print, fermata
+        (r"(?<!a)l(?!t)|f", ""),  # large print (not the l of alt), fermata
         (r"(?<!su)s(?!us)", ""),  # small print (not the s of sus)
         (r"\*\w", ""),  # section marks
         (r"T\d+", ""),  # time signatures
@@ -168,46 +173,61 @@ def _fill_codas(chord_string: str) -> str:
     return chord_string
 
 
-def _fill_repeat_signs(measures: list[str]) -> list[str]:
+def _fill_repeat_signs(bars: list[list[str]]) -> list[list[str]]:
     """Replace ``x`` (previous bar) and ``r`` (previous two bars); drop them with nothing to repeat."""
-    out: list[str] = []
-    for measure in measures:
-        if measure == "x":
-            out += [_remove_markers(out[-1])] if out else []
-        elif measure == "r":
-            out += [_remove_markers(m) for m in out[-2:]] if len(out) >= 2 else []
+    out: list[list[str]] = []
+    for bar in bars:
+        if bar == ["x"]:
+            out += out[-1:]
+        elif bar == ["r"]:
+            out += out[-2:] if len(out) >= 2 else []
         else:
-            out.append(measure)
+            out.append(bar)
     return out
 
 
-def _fill_slashes(measures: list[str]) -> list[str]:
-    """Replace each ``p`` (repeat the previous chord) by that chord; drop it if there is none."""
-    out: list[str] = []
-    last = ""  # the last chord of the bars already filled
-    for measure in measures:
-        done = ""  # the part of this bar already filled
-        for i, part in enumerate(measure.split("p")):
-            if i:
-                done += (_CHORD.findall(done) or [last])[-1]
-            done += part
-        last = (_CHORD.findall(done) or [last])[-1]
-        out.append(done)
+def _bar_tokens(bar: str) -> list[str]:
+    """A bar's chords and signs: split at the source's separators, then before each root
+    (``A``-``G``, or ``W``, not after a ``/``) and around each ``p``."""
+    return [
+        piece
+        for token in bar.split()
+        for piece in re.split(r"(?<!/)(?=[A-GW])|(?=p)|(?<=p)", token)
+        if piece
+    ]
+
+
+def _fill_slashes(bars: list[list[str]]) -> list[list[str]]:
+    """Write out ``p`` (the previous chord again) and ``W`` (an invisible root: the previous
+    chord, with the bass that follows the ``W``); drop them when there is no previous chord."""
+    out: list[list[str]] = []
+    last = ""  # the last chord so far
+    for bar in bars:
+        chords: list[str] = []
+        for token in bar:
+            if token == "p":
+                token = last
+            elif token.startswith("W"):
+                token = (last.split("/")[0] + token[1:] if token[1:] else last) if last else ""
+            if token[:1] in _ROOTS:
+                last = token
+            chords += [token] if token else []
+        out.append(chords)
     return out
 
 
-def flatten_measures(chord_string: str) -> list[str]:
-    """The bars of an (unscrambled) chord string, with repeats, codas and signs written out.
+def flatten_measures(chord_string: str) -> list[list[str]]:
+    """The bars of an (unscrambled) chord string, each a list of its chords, with repeats,
+    codas and signs written out (a ``p`` repeats the previous chord on its beat).
 
-    >>> flatten_measures("{C^7 |A-7 |N1D-7 G7 }|N2G-7 C7 |F^7 Z")
-    ['C^7', 'A-7', 'D-7G7', 'C^7', 'A-7', 'G-7C7', 'F^7']
+    >>> flatten_measures("{C^7 p|A-7 D7 |N1D-7,G7 }|N2G-7 C7 F7 |F^7 Z")
+    [['C^7', 'C^7'], ['A-7', 'D7'], ['D-7', 'G7'], ['C^7', 'C^7'], ['A-7', 'D7'], ['G-7', 'C7', 'F7'], ['F^7']]
     """
     chord_string = cleanup_chord_string(chord_string)
     chord_string = _remove_annotations(chord_string)
-    chord_string = _fill_codas(_fill_long_repeats(chord_string))
-    bars = re.split(r"\||LZ|K|Z|{|}|\[|\]", chord_string)
-    measures = [bar.replace(" ", "") for bar in bars if bar.strip() != ""]
-    return _fill_slashes(_fill_repeat_signs(measures))
+    chord_string = _remove_markers(_fill_codas(_fill_long_repeats(chord_string)))
+    bars = [_bar_tokens(bar) for bar in re.split(r"\||LZ|K|Z|{|}|\[|\]", chord_string)]
+    return _fill_slashes(_fill_repeat_signs([bar for bar in bars if bar]))
 
 
 def time_signature(chord_string: str) -> tuple[int, int]:
