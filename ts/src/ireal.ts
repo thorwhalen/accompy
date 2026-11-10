@@ -56,8 +56,7 @@ const py = (src: string, flags = ""): RegExp =>
 const sub = (s: string, src: string, rep: string): string => s.replace(py(src, "g"), () => rep);
 /** First characters of a chord (`n` is no chord, N.C.), which a `p` or `W` can repeat. */
 const ROOTS = "ABCDEFGn";
-/** The most endings (`N1` ... `N9`) a repeat can have. */
-const MAX_ENDINGS = 9;
+
 // --------------------------------------------------------------------------------------
 // urllib.parse.unquote (UTF-8, errors="replace")
 
@@ -126,17 +125,18 @@ interface IrealTune {
 
 function unscramble(scrambled: string): string {
   const swaps = [0, 1, 2, 3, 4, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23];
-  let rest = Array.from(scrambled), out = "";
-  while (rest.length > 50) {
-    const block = rest.slice(0, 50);
-    rest = rest.slice(50);
-    if (rest.length >= 2) {
+  const chars = Array.from(scrambled), n = chars.length;
+  let out = "", i = 0;
+  while (n - i > 50) {
+    const block = chars.slice(i, i + 50);
+    i += 50;
+    if (n - i >= 2) {
       const r = [...block];
-      for (const i of swaps) [r[i], r[49 - i]] = [block[49 - i]!, block[i]!];
+      for (const k of swaps) [r[k], r[49 - k]] = [block[49 - k]!, block[k]!];
       out += r.join("");
     } else out += block.join("");
   }
-  return out + rest.join("");
+  return out + chars.slice(i).join("");
 }
 
 function cleanupChordString(s: string): string {
@@ -168,7 +168,7 @@ function dropSpans(text: string, start: string, end: string, stop = ""): string 
 }
 
 function removeAnnotations(s: string): string {
-  s = dropSpans(dropSpans(s, "<", ">", "\n"), "(", ")");
+  s = dropSpans(dropSpans(s, "<", ">", "\n"), "(", ")").replaceAll('"', ""); // a stray quote (HTML) is not music
   const steps: Array<[string, string]> = [
     ["(?<!a)l(?!t)|f", ""], ["(?<!su)s(?!us)", ""], ["\\*\\w", ""], ["T\\d+", ""],
   ];
@@ -202,43 +202,69 @@ function splitBars(s: string): Bar[] {
 }
 
 /** The order bars are played in (Python `_expand_repeats`: indices, or the text of a part-bar before a mid-bar ending), one linear pass. */
-function expandRepeats(bars: Bar[]): Array<number | string> {
-  const order: Array<number | string> = [];
-  let region = 0, opened: number | null = null, body: Array<number | string> = [], lastClose = -1;
-  let replays = 0;
+/** The start of a bar whose ending is written mid-bar (Python `_Head`): played with the next bar. */
+interface Head {
+  head: string;
+}
+type Played = number | string | Head;
+
+function expandRepeats(bars: Bar[]): Played[] {
+  const n = bars.length;
+  const following = new Array<number>(n + 1).fill(n); // the next bar at or after i with chords or an ending
+  for (let i = n - 1; i >= 0; i--) {
+    const filled = bars[i]!.ending !== null || pyStrip(removeMarkers(bars[i]!.text)) !== "";
+    following[i] = filled ? i : following[i + 1]!;
+  }
+  const order: Played[] = [];
+  const play = (items: Played[]) => {
+    for (const item of items) order.push(item); // no spread: it overflows the stack on long charts
+  };
+  let region = 0, opened: number | null = null, body: Played[] = [], ending = 0;
   bars.forEach((bar, i) => {
-    if (bar.opener) {
-      [region, body] = [i, []];
-      if (bar.opener === "{") opened = i;
-    }
+    if (bar.opener === "{") [region, opened, ending] = [i, i, 0];
+    else if (bar.opener === "[") region = i;
     order.push(i);
     if (!bar.closes) return;
-    let laterEnding = opened === null && body.length > 0;
-    if (laterEnding) laterEnding = bars.slice(lastClose + 1, i + 1).some((b) => b.ending !== null);
-    if (laterEnding && replays < MAX_ENDINGS) {
-      order.push(...body);
-      replays++;
-    } else if (!laterEnding) {
+    const j = following[i + 1]!;
+    const nextEnding = j < n ? bars[j]!.ending : null;
+    if (ending && opened === null) {
+      // The "}" closing ending number `ending`: replay only before a further ending.
+      if (nextEnding === ending + 1) {
+        play(body);
+        ending = nextEnding;
+      } else ending = 0;
+    } else {
       const start = opened ?? region;
-      let first: number | null = null;
-      for (let j = start; j <= i && first === null; j++) if (bars[j]!.ending !== null) first = j;
-      const replay: Array<number | string> = [];
-      for (let j = start; j < (first ?? i + 1); j++) replay.push(j);
-      if (first !== null) {
-        // An ending written mid-bar: replay the bar's start too.
-        const text = bars[first]!.text, head = text.slice(0, py("N\\d").exec(text)!.index);
-        if (pyStrip(removeMarkers(head))) replay.push(head);
+      const endings: number[] = [];
+      for (let k = start; k <= i; k++) if (bars[k]!.ending !== null) endings.push(k);
+      body = [];
+      for (let k = start; k < (endings[0] ?? i + 1); k++) body.push(k);
+      if (endings.length) {
+        // An ending written mid-bar: its bar's start is played each time.
+        const text = bars[endings[0]!]!.text, head = text.slice(0, py("N\\d").exec(text)!.index);
+        if (pyStrip(removeMarkers(head))) body.push({ head });
       }
-      order.push(...replay);
-      [body, replays] = first !== null ? [replay, 1] : [[], 0];
+      if (endings.length > 1) {
+        // Several endings inside the braces: one pass each (the first pass stops at N2).
+        order.length -= i + 1 - endings[1]!;
+        endings.slice(1).forEach((a, e) => {
+          play(body);
+          for (let k = a; k < (endings[e + 2] ?? i + 1); k++) order.push(k);
+        });
+      } else play(body);
+      const last = endings.length ? bars[endings[endings.length - 1]!]!.ending : null;
+      if (last !== null && nextEnding === last + 1) {
+        if (endings.length > 1) play(body);
+        ending = nextEnding;
+      } else ending = 0;
     }
-    [region, opened, lastClose] = [i + 1, null, i];
+    [region, opened] = [i + 1, null];
   });
   return order;
 }
 
 /** The played bars' texts, with a D.C./D.S. al Coda (two `Q`s) written out (Python `_fill_codas`). */
-function fillCodas(bars: Bar[], order: Array<number | string>): string[] {
+function fillCodas(bars: Bar[], order: Played[]): Array<string | Head> {
   const texts = order.map((i) => (typeof i === "number" ? bars[i]!.text : i));
   const qs = bars.reduce((n, b) => n + [...b.text].filter((c) => c === "Q").length, 0);
   if (qs > 2) throw new ValueError(`Could not parse codas: expected 0, 1 or 2 Qs, not ${qs}`);
@@ -252,12 +278,12 @@ function fillCodas(bars: Bar[], order: Array<number | string>): string[] {
     const k = text.indexOf(mark);
     return k >= 0 ? [text.slice(0, k), text.slice(k + 1)] : [text, ""];
   };
-  const toCoda = cut(texts[p1]!, "Q")[0];
-  let replay: string[];
+  const toCoda = cut(texts[p1] as string, "Q")[0];
+  let replay: Array<string | Head>;
   if (segno === null || segno > p1) replay = [...texts.slice(0, p1), toCoda];
-  else if (segno < p1) replay = [cut(texts[segno]!, "S")[1], ...texts.slice(segno + 1, p1), toCoda];
-  else replay = [cut(cut(texts[p1]!, "S")[1], "Q")[0]];
-  const [before, coda] = cut(texts[p2]!, "Q");
+  else if (segno < p1) replay = [cut(texts[segno] as string, "S")[1], ...texts.slice(segno + 1, p1), toCoda];
+  else replay = [cut(cut(texts[p1] as string, "S")[1], "Q")[0]];
+  const [before, coda] = cut(texts[p2] as string, "Q");
   return [...texts.slice(0, p2), before, ...replay, coda, ...texts.slice(p2 + 1)];
 }
 
@@ -293,8 +319,18 @@ function fillSlashes(bars: string[][]): string[][] {
 
 function flattenMeasures(chordString: string): string[][] {
   const bars = splitBars(removeAnnotations(cleanupChordString(chordString)));
-  const tokens = fillCodas(bars, expandRepeats(bars)).map((text) => barTokens(removeMarkers(text)));
-  return fillSlashes(fillRepeatSigns(tokens.filter((bar) => bar.length)));
+  const played: string[][] = [];
+  let carried: string[] = []; // a Head's chords, waiting for the bar they share
+  for (const text of fillCodas(bars, expandRepeats(bars))) {
+    const tokens = barTokens(removeMarkers(typeof text === "string" ? text : text.head));
+    if (typeof text !== "string") carried = carried.concat(tokens);
+    else if (tokens.length) {
+      played.push(carried.concat(tokens));
+      carried = [];
+    }
+  }
+  if (carried.length) played.push(carried);
+  return fillSlashes(fillRepeatSigns(played));
 }
 
 function timeSignature(chordString: string): [number, number] {

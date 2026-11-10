@@ -40,7 +40,7 @@ describe("parseIrealUrl", () => {
 
   test("p with no chord before it is dropped; backslashes are literal", () => {
     expect(parseIrealUrl(song("[p C7|F7 p Z")).measures).toEqual([["C7"], ["F7", "F7"]]);
-    expect(parseIrealUrl(song("{C7\\1D7 N1E7 }|N2F7 Z")).measures).toEqual([["C7\\1", "D7", "E7"], ["C7\\1", "D7"], ["F7"]]);
+    expect(parseIrealUrl(song("{C7\\1D7 N1E7 }|N2F7 Z")).measures).toEqual([["C7\\1", "D7", "E7"], ["C7\\1", "D7", "F7"]]);
   });
 
   test("each bar is the list of its chords: spaces, commas, glued roots, p and W", () => {
@@ -88,12 +88,24 @@ describe("parseIrealUrl", () => {
       ["C }".repeat(N), 2 * N],
       ["{C |N1D }" + "|N2E".repeat(N), N + 3],
       ["C |r|".repeat(N), 3 * N - 2],
+      ["{C }".repeat(60_000), 120_000], // 120k bars out: no spread into push()
     ];
     for (const [chart, bars] of cases) {
       const start = performance.now();
       expect(parseIrealUrl(`irealbook://T=C=S=F=n=${chart}`).measures.length).toBe(bars);
       expect(performance.now() - start).toBeLessThan(5000);
     }
+  });
+
+  test("a long scrambled (irealb) URL decodes in linear time", () => {
+    const start = performance.now();
+    expect(parseIrealUrl(song("C^7 |".repeat(200_000))).measures.length).toBeGreaterThan(0);
+    expect(performance.now() - start).toBeLessThan(5000);
+  });
+
+  test("endings through [ sections; the last ending replays nothing", () => {
+    expect(parseIrealUrl(song("{A |N1B }[N2C }[N3D |E Z")).measures.flat()).toEqual("A B A C A D E".split(" "));
+    expect(parseIrealUrl(song("{A |N1B }N2C |D }E Z")).measures.flat()).toEqual("A B A C D E".split(" "));
   });
 
   test("repeats keep their closing barline; endings, codas and quotes", () => {

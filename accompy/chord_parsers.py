@@ -95,6 +95,10 @@ def parse_plain_text(
     )
 
 
+#: Beats per bar for chord sheets that do not say (an iReal URL carries its own meter).
+_DEFAULT_BEATS_PER_BAR = 4
+
+
 # ---------------------------------------------------------------------------
 # iReal Pro URL parser
 # ---------------------------------------------------------------------------
@@ -604,13 +608,16 @@ def parse_nashville(
 def parse_chord_sheet(
     sheet: str | ChordSheet,
     *,
-    beats_per_bar: int = 4,
+    beats_per_bar: int | None = None,
     tempo: int = 120,
     title: str = "",
     key: str = "C",
     time_signature: tuple[int, int] = (4, 4),
 ) -> ChordSequence:
     """Auto-detect format and parse a chord sheet into ChordSequence.
+
+    ``beats_per_bar`` defaults to the tune's time signature for an iReal URL, and to 4
+    for the other formats.
 
     Detects:
     - iReal Pro URLs (starts with 'irealb://' or 'irealbook://')
@@ -631,7 +638,8 @@ def parse_chord_sheet(
     sheet = str(sheet).strip()
 
     if sheet.startswith(("irealb://", "irealbook://")):
-        return parse_ireal_url(sheet, beats_per_bar=beats_per_bar)
+        return parse_ireal_url(sheet, beats_per_bar=beats_per_bar)  # None: the tune's meter
+    beats_per_bar = _DEFAULT_BEATS_PER_BAR if beats_per_bar is None else beats_per_bar
 
     if re.search(r"\[[A-G]", sheet) and re.search(r"\][^|[\]]+\[", sheet):
         return parse_chordpro(sheet, beats_per_bar=beats_per_bar, tempo=tempo)

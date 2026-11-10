@@ -7,9 +7,10 @@ accompy used. Changes from it:
 
 - ``T12`` is 12/8; every other time-signature code ``T<a><b>`` is a/b;
 - the chart is read bar by bar in one linear pass: every ``{...}`` repeat is written out
-  with its own endings (``}N2``, ``}`` then ``N2``, three endings), a ``}`` with no ``{``
-  repeats from the last ``[``, the previous ``}`` or the top, a ``{`` inside an open
-  repeat restarts it (iReal has no nesting), and the ``}`` stays a barline;
+  with its own endings (``}N2``, ``}`` then ``[N2``, three endings; a ``}`` closing the
+  last ending replays nothing), a ``}`` with no ``{`` repeats from the last ``[``, the
+  previous ``}`` or the top, a ``{`` inside an open repeat restarts it (iReal has no
+  nesting), and the ``}`` stays a barline;
 - a D.C./D.S. al Coda replays from the segno ``S`` (or the top) to the first ``Q``, as
   whole bars, then plays the coda;
 - ``r`` (repeat the previous two bars) makes two bars and keeps the bar after it;
@@ -72,9 +73,6 @@ SCRAMBLE_PREFIX = "1r34LbKcu7"
 #: Time-signature codes that are not ``T<numerator><denominator>``.
 TIME_SIGNATURE_EXCEPTIONS = {(1, 2): (12, 8)}
 
-#: The most endings (``N1`` ... ``N9``) a repeat can have.
-_MAX_ENDINGS = 9
-
 #: Number of fields in an ``irealbook://`` song, and the index of its music field.
 PLAIN_SONG_FIELDS, PLAIN_MUSIC_INDEX = 6, 5
 
@@ -131,16 +129,16 @@ def unscramble(scrambled: str) -> str:
     characters) has characters 0-4 and 10-23 swapped with their mirror (49 - i). The
     operation is its own inverse.
     """
-    out = []
-    while len(scrambled) > 50:
-        block, scrambled = scrambled[:50], scrambled[50:]
-        if len(scrambled) >= 2:
+    out, i, n = [], 0, len(scrambled)
+    while n - i > 50:
+        block, i = scrambled[i : i + 50], i + 50
+        if n - i >= 2:
             chars = list(block)
-            for i in (*range(5), *range(10, 24)):
-                chars[i], chars[49 - i] = block[49 - i], block[i]
+            for k in (*range(5), *range(10, 24)):
+                chars[k], chars[49 - k] = block[49 - k], block[k]
             block = "".join(chars)
         out.append(block)
-    return "".join(out) + scrambled
+    return "".join(out) + scrambled[i:]
 
 
 def cleanup_chord_string(chord_string: str) -> str:
@@ -181,6 +179,7 @@ def _drop_spans(text: str, start: str, end: str, *, stop: str = "") -> str:
 def _remove_annotations(chord_string: str) -> str:
     chord_string = _drop_spans(chord_string, "<", ">", stop="\n")  # comments
     chord_string = _drop_spans(chord_string, "(", ")")  # alternate chords
+    chord_string = chord_string.replace('"', "")  # a stray quote (HTML) is not music
     for pattern, repl in (
         (r"(?<!a)l(?!t)|f", ""),  # large print (not the l of alt), fermata
         (r"(?<!su)s(?!us)", ""),  # small print (not the s of sus)
@@ -194,6 +193,10 @@ def _remove_annotations(chord_string: str) -> str:
 def _remove_markers(chord_string: str) -> str:
     """Drop the end mark, segno, coda and ending numbers."""
     return re.sub(r"U|S|Q|N\d", "", chord_string)
+
+
+class _Head(str):
+    """The start of a bar whose ending is written mid-bar: played with the next bar."""
 
 
 @dataclass
@@ -221,43 +224,66 @@ def _split_bars(chord_string: str) -> list[_Bar]:
 
 
 def _expand_repeats(bars: list[_Bar]) -> list[int | str]:
-    """The order bars are played in (indices; the text of a part-bar before an ending
-    written mid-bar), with ``{...}`` repeats and endings written out.
+    """The order bars are played in (indices; a :class:`_Head` for the start of a bar
+    whose ending is written mid-bar), with ``{...}`` repeats and endings written out.
 
     One pass, left to right. A ``}`` repeats from its ``{`` or, with none, from the last
-    section start ``[``, the bar after the previous ``}``, or the top. With endings
-    (``N1``, ``N2``, ...), the replay is the part before the first ending, then play goes
-    on into the next ending; an ending that closes with ``}`` again is followed by one more
-    replay. iReal has no nested repeats: a ``{`` inside an open repeat restarts it. Every
-    bar is replayed at most once per ending, so the output stays linear in the input.
+    section start ``[``, the bar after the previous ``}``, or the top. With endings, the
+    replay is the part before the first ending; endings written inside the braces get one
+    pass each (``{A |N1B |N2C }`` is A B A C). After a ``}``, the next bar decides: when
+    it starts the next ending (``N<k+1>``), the replay comes first; a ``}`` that closes the
+    last ending replays nothing. Only a ``{`` ends a repeat's endings (an ending can run
+    through a ``[`` section). iReal has no nested repeats: a ``{`` inside an open repeat restarts
+    it. Every bar is replayed at most once per ending, so the output stays linear.
     """
+    n = len(bars)
+    # The next bar at or after i with chords or an ending (empty bars are skipped).
+    following = [n] * (n + 1)
+    for i in range(n - 1, -1, -1):
+        filled = bars[i].ending is not None or _remove_markers(bars[i].text).strip()
+        following[i] = i if filled else following[i + 1]
+
     order: list[int | str] = []
     region, opened = 0, None  # where a lone "}" repeats from; the open "{"
-    body: list[int | str] = []  # what a later ending's "}" replays
-    last_close, replays = -1, 0
+    body: list[int | str] = []  # what a "}" before a further ending replays
+    ending = 0  # the ending being played (0: none)
     for i, bar in enumerate(bars):
-        if bar.opener:
-            region, body = i, []
-            opened = i if bar.opener == "{" else opened
+        if bar.opener == "{":
+            region, opened, ending = i, i, 0
+        elif bar.opener == "[":
+            region = i
         order.append(i)
         if not bar.closes:
             continue
-        later_ending = opened is None and body and any(
-            bars[j].ending is not None for j in range(last_close + 1, i + 1)
-        )
-        if later_ending and replays < _MAX_ENDINGS:
-            order += body
-            replays += 1
-        elif not later_ending:
+        j = following[i + 1]
+        next_ending = bars[j].ending if j < n else None
+        if ending and opened is None:  # the "}" closing ending number `ending`
+            if next_ending == ending + 1:
+                order += body
+                ending = next_ending
+            else:
+                ending = 0  # the last ending: play goes on
+        else:
             start = opened if opened is not None else region
-            first = next((j for j in range(start, i + 1) if bars[j].ending is not None), None)
-            replay: list[int | str] = list(range(start, i + 1 if first is None else first))
-            if first is not None:  # an ending written mid-bar: replay the bar's start too
-                head = bars[first].text[: re.search(r"N\d", bars[first].text).start()]
-                replay += [head] if _remove_markers(head).strip() else []
-            order += replay
-            body, replays = (replay, 1) if first is not None else ([], 0)
-        region, opened, last_close = i + 1, None, i
+            endings = [k for k in range(start, i + 1) if bars[k].ending is not None]
+            body = list(range(start, endings[0] if endings else i + 1))
+            if endings:  # an ending written mid-bar: its bar's start is played each time
+                head = bars[endings[0]].text[: re.search(r"N\d", bars[endings[0]].text).start()]
+                body += [_Head(head)] if _remove_markers(head).strip() else []
+            if len(endings) > 1:  # several endings inside the braces: one pass each
+                del order[len(order) - (i + 1 - endings[1]) :]  # the first pass stops at N2
+                for a, b in zip(endings[1:], endings[2:] + [i + 1]):
+                    order += body + list(range(a, b))
+            else:
+                order += body
+            last = bars[endings[-1]].ending if endings else None
+            if last is not None and next_ending == last + 1:
+                if len(endings) > 1:
+                    order += body
+                ending = next_ending
+            else:
+                ending = 0
+        region, opened = i + 1, None
     return order
 
 
@@ -345,9 +371,17 @@ def flatten_measures(chord_string: str) -> list[list[str]]:
     [['C^7', 'C^7'], ['A-7', 'D7'], ['D-7', 'G7'], ['C^7', 'C^7'], ['A-7', 'D7'], ['G-7', 'C7', 'F7'], ['F^7']]
     """
     bars = _split_bars(_remove_annotations(cleanup_chord_string(chord_string)))
-    texts = _fill_codas(bars, _expand_repeats(bars))
-    tokens = [_bar_tokens(_remove_markers(text)) for text in texts]
-    return _fill_slashes(_fill_repeat_signs([bar for bar in tokens if bar]))
+    played: list[list[str]] = []
+    carried: list[str] = []  # a _Head's chords, waiting for the bar they share
+    for text in _fill_codas(bars, _expand_repeats(bars)):
+        tokens = _bar_tokens(_remove_markers(text))
+        if isinstance(text, _Head):
+            carried += tokens
+        elif tokens:
+            played.append(carried + tokens)
+            carried = []
+    played += [carried] if carried else []
+    return _fill_slashes(_fill_repeat_signs(played))
 
 
 def time_signature(chord_string: str) -> tuple[int, int]:
