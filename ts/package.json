@@ -1,0 +1,85 @@
+{
+  "name": "accompy",
+  "version": "0.3.13",
+  "description": "Chord charts to accompaniment note events (drums, bass, piano) in the browser: TypeScript twin of the Python package accompy",
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      },
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      }
+    }
+  },
+  "files": [
+    "dist",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsup src/index.ts --format esm,cjs --dts --clean",
+    "test": "vitest run",
+    "lint": "tsc --noEmit && tsc -p tsconfig.test.json",
+    "ci-local": "npm run lint && npm test && npm run build",
+    "demo": "npm run build && node demo/serve.mjs"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "tsup": "^8",
+    "typescript": "^5",
+    "vitest": "^2",
+    "@types/node": "^22"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "esbuild"
+    ]
+  },
+  "wads": {
+    "ci": {
+      "subdir": "ts",
+      "packageManager": "npm",
+      "nodeVersions": [
+        "20",
+        "22",
+        "24"
+      ],
+      "publishNode": "24",
+      "lintCommand": "npm run lint --if-present",
+      "testCommand": "npm test --if-present",
+      "buildCommand": "npm run build --if-present",
+      "publish": {
+        "enabled": false,
+        "marker": "[publish-npm]",
+        "registry": "https://registry.npmjs.org",
+        "provenance": true,
+        "trustedPublishing": true,
+        "access": "public"
+      }
+    }
+  },
+  "keywords": [
+    "music",
+    "accompaniment",
+    "backing-track",
+    "chords",
+    "midi",
+    "jazz",
+    "ireal",
+    "web-audio"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/thorwhalen/accompy.git",
+    "directory": "ts"
+  },
+  "homepage": "https://github.com/thorwhalen/accompy/tree/main/ts#readme",
+  "author": "Thor Whalen",
+  "sideEffects": false
+}

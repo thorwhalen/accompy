@@ -61,6 +61,13 @@ from .base import (
     StyleName,
 )
 
+# Note events without audio: what the TypeScript twin (ts/) mirrors
+from .renderers.midi import (
+    chord_events,
+    generate_events,
+    select_patterns,
+)
+
 from .patterns import (
     DrumPattern,
     BassPattern,
@@ -177,6 +184,9 @@ from .data_access import (
 __all__ = [
     # Main API
     "generate_accompaniment",
+    "generate_events",
+    "chord_events",
+    "select_patterns",
     "ensure_score",
     "play_audio",
     "check_dependencies",

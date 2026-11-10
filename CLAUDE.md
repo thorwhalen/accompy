@@ -17,6 +17,7 @@ pyproject.toml and bumps automatically on every merge, so it is not repeated her
 - `accompy.patterns` — PatternRegistry (MutableMapping) for drum/bass/comp patterns
 - `accompy.rhythmic_skeletons` — duration-only measure patterns (resolve, apply, register)
 - `accompy.pipeline.rhythm_to_midi()` / `rhythm_to_audio()` — skeleton-based chord rendering
+- `accompy.generate_events()` / `chord_events()` — note events without audio (the surface the TS twin in `ts/` mirrors)
 
 ## Architecture Overview
 
@@ -46,6 +47,9 @@ chord input → Score → pattern application → MIDI events → audio synthesi
 | `util.py` | Chord parsing, normalization, iReal URL parsing |
 | `setup_utils.py` | verify_and_setup(), diagnose_issues(), SoundFont management |
 | `tools.py` | MMA tools, variation generation |
+| `_fixtures.py` | Golden cases (`fixtures/cases.json`) shared with the TS twin: runner + recorder (`python -m accompy._fixtures`) |
+| `_codegen.py` | Writes Python tables to `ts/src/data.generated.ts` (`python -m accompy._codegen`) |
+| `ts/` | npm `accompy`: TypeScript twin of chart → note events (no audio); vitest runs the same golden cases |
 
 ## Documentation
 
@@ -77,6 +81,7 @@ Tests mock audio rendering (no FluidSynth needed). Test files:
 - `test_rhythmic_skeletons.py` — duration-only measure patterns
 - `test_roman_nashville.py` — roman-numeral / Nashville chord input
 - `test_data_access.py` — data access helpers
+- `test_twin.py` — golden cases shared with the TS twin, and the generated TS tables being current
 - `test_wips_converters.py`, `test_wips_pipeline.py`, `test_wips_types.py` —
   work-in-progress surfaces (kept green but the APIs they pin may still move)
 
@@ -89,4 +94,5 @@ Tests mock audio rendering (no FluidSynth needed). Test files:
 3. **Follow existing patterns**: protocols for extensibility, registry for patterns, event iterators for MIDI
 4. **Check `misc/docs/dev_plan_2026_01_05.md`** before major refactoring — it has detailed phase-by-phase instructions
 5. **Two backends**: "builtin" (pure Python patterns) and "mma" (MMA external tool). Both must work.
-6. **Chord input flexibility**: any change must preserve support for strings, Score, tuples, and iReal URLs
+6. **TypeScript twin**: a change to a twin function or table changes `ts/` too. Regenerate with `python -m accompy._codegen` and `python -m accompy._fixtures`, review the cases diff, then `cd ts && npm test`. Keep Python quirks in the twin; fix them in Python first.
+7. **Chord input flexibility**: any change must preserve support for strings, Score, tuples, and iReal URLs

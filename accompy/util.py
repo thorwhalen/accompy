@@ -13,6 +13,32 @@ from typing import Iterable, Optional
 from urllib.parse import unquote
 
 
+#: The suffix rewrites :func:`normalize_chord_symbol` applies, in order: each ``old``
+#: becomes ``new`` at the end of the symbol or before a slash.
+CHORD_SYMBOL_REPLACEMENTS = (
+    ("maj7", "^7"),
+    ("maj9", "^9"),
+    ("maj", "^"),
+    ("min7", "-7"),
+    ("min", "-"),
+    ("m7", "-7"),
+    ("m9", "-9"),
+    ("m", "-"),
+    ("dim7", "o7"),
+    ("dim", "o"),
+    ("m7b5", "h7"),
+    ("ø7", "h7"),
+    ("ø", "h"),
+    ("sus4", "sus"),
+    ("sus2", "sus2"),
+    ("add9", "add9"),
+    ("add2", "add2"),
+)
+
+#: Symbols :func:`normalize_chord_symbol` returns unchanged (no chord, or a repeat sign).
+UNNORMALIZED_SYMBOLS = ("", "n", "N.C.", "NC", "%", "x")
+
+
 def normalize_chord_symbol(symbol: str) -> str:
     """
     Normalize chord symbols to a standard format.
@@ -30,32 +56,11 @@ def normalize_chord_symbol(symbol: str) -> str:
         'Dh7'
     """
     symbol = symbol.strip()
-    if not symbol or symbol in ("", "n", "N.C.", "NC", "%", "x"):
+    if not symbol or symbol in UNNORMALIZED_SYMBOLS:
         return symbol
 
-    # Common normalizations
-    replacements = [
-        ("maj7", "^7"),
-        ("maj9", "^9"),
-        ("maj", "^"),
-        ("min7", "-7"),
-        ("min", "-"),
-        ("m7", "-7"),
-        ("m9", "-9"),
-        ("m", "-"),
-        ("dim7", "o7"),
-        ("dim", "o"),
-        ("m7b5", "h7"),
-        ("ø7", "h7"),
-        ("ø", "h"),
-        ("sus4", "sus"),
-        ("sus2", "sus2"),
-        ("add9", "add9"),
-        ("add2", "add2"),
-    ]
-
     result = symbol
-    for old, new in replacements:
+    for old, new in CHORD_SYMBOL_REPLACEMENTS:
         # Only replace if it's at the end or followed by a slash
         if result.endswith(old):
             result = result[: -len(old)] + new

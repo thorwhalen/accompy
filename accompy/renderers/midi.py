@@ -13,7 +13,7 @@ from __future__ import annotations
 
 import tempfile
 from pathlib import Path
-from typing import Iterator, Sequence, Optional, Iterable
+from typing import Iterator, Sequence, Optional, Iterable, Mapping
 
 from ..base import Score, AccompanimentConfig, MidiEvent
 from ..patterns.dataclasses import DrumPattern, BassPattern, CompingPattern
@@ -52,28 +52,10 @@ def generate_midi_events(
         ...     chord_resolver=chord_to_notes)
         >>> first_event = next(events)  # doctest: +SKIP
     """
-    # Get patterns for the style
-    try:
-        patterns_dict = pattern_source.get_patterns(config.style)
-    except AttributeError:
-        # Fallback for simple dict/function interface
-        patterns_dict = (
-            pattern_source(config.style)
-            if callable(pattern_source)
-            else pattern_source.get(config.style, {})
-        )
-
-    # Select specific patterns (first of each type)
-    drum_patterns: list = patterns_dict.get("drums", [])
-    bass_patterns: list = patterns_dict.get("bass", [])
-    comp_patterns: list = patterns_dict.get("comp", [])
-
+    drum_pattern, bass_pattern, comp_pattern = select_patterns(
+        _style_patterns(pattern_source, config.style), score.time_signature[0]
+    )
     beats_per_bar = score.time_signature[0]
-
-    # Select patterns based on time signature
-    drum_pattern = _select_pattern(drum_patterns, beats_per_bar)
-    bass_pattern = bass_patterns[0] if bass_patterns else None
-    comp_pattern = comp_patterns[0] if comp_patterns else None
 
     # Generate events for each repeat
     for repeat in range(config.repeats):
@@ -88,49 +70,135 @@ def generate_midi_events(
             for chord_idx, chord_symbol in enumerate(chords_in_bar):
                 chord_start = current_beat + (chord_idx * beats_per_chord)
 
-                if chord_symbol in ("", "n", "N.C.", "NC"):
+                if chord_symbol in NO_CHORD_SYMBOLS:
                     continue
 
                 # Get chord notes
                 try:
-                    notes = chord_resolver(chord_symbol)
+                    notes = list(chord_resolver(chord_symbol))
                 except Exception:
-                    # Fallback for simple chords
-                    notes = [48, 52, 55]  # C minor default
+                    notes = list(FALLBACK_CHORD_NOTES)
 
-                root = notes[0] if notes else 48
-
-                # Yield drum events
-                if config.instruments.get("drums", True) and drum_pattern:
-                    yield from _drum_events(
-                        drum_pattern,
-                        chord_start,
-                        beats_per_chord,
-                        config.volumes.get("drums", 0.8),
-                    )
-
-                # Yield bass events
-                if config.instruments.get("bass", True) and bass_pattern:
-                    yield from _bass_events(
-                        bass_pattern,
-                        chord_start,
-                        beats_per_chord,
-                        root,
-                        notes,
-                        config.volumes.get("bass", 0.9),
-                    )
-
-                # Yield comping events
-                if config.instruments.get("piano", True):
-                    yield from _comp_events(
-                        comp_pattern,
-                        chord_start,
-                        beats_per_chord,
-                        notes,
-                        config.volumes.get("piano", 0.7),
-                    )
+                yield from _chord_events(
+                    notes,
+                    drum_pattern,
+                    bass_pattern,
+                    comp_pattern,
+                    start_beat=chord_start,
+                    duration=beats_per_chord,
+                    instruments=config.instruments,
+                    volumes=config.volumes,
+                )
 
             current_beat += beats_per_bar
+
+
+#: Chord symbols that mean "no chord here": the renderer leaves their beats silent.
+NO_CHORD_SYMBOLS = ("", "n", "N.C.", "NC")
+
+#: The notes used when the chord resolver cannot read a symbol (a C major triad).
+FALLBACK_CHORD_NOTES = (48, 52, 55)
+
+
+def _style_patterns(pattern_source, style: str) -> dict:
+    """The ``{"drums", "bass", "comp"}`` pattern lists ``pattern_source`` has for ``style``."""
+    try:
+        return pattern_source.get_patterns(style)
+    except AttributeError:
+        # Fallback for simple dict/function interface
+        return (
+            pattern_source(style)
+            if callable(pattern_source)
+            else pattern_source.get(style, {})
+        )
+
+
+def select_patterns(patterns: Mapping, beats_per_bar: int) -> tuple:
+    """The ``(drum, bass, comp)`` patterns the renderer plays from a style's pattern lists.
+
+    The drum pattern is the first one whose ``beats_per_bar`` matches (else the first);
+    bass and comping take the first of their list. A missing one is ``None``.
+
+    >>> from accompy.patterns import get_patterns
+    >>> [p.name for p in select_patterns(get_patterns("swing"), 4)]
+    ['swing_basic', 'walking', 'swing_comp']
+    """
+    bass_patterns = patterns.get("bass", [])
+    comp_patterns = patterns.get("comp", [])
+    return (
+        _select_pattern(patterns.get("drums", []), beats_per_bar),
+        bass_patterns[0] if bass_patterns else None,
+        comp_patterns[0] if comp_patterns else None,
+    )
+
+
+def chord_events(
+    chord_notes: Sequence[int],
+    *,
+    style: str = "swing",
+    start_beat: float = 0,
+    duration: float = 4,
+    beats_per_bar: int = 4,
+    instruments: Optional[Mapping[str, bool]] = None,
+    volumes: Optional[Mapping[str, float]] = None,
+    pattern_source=None,
+) -> list[MidiEvent]:
+    """The drum, bass and piano events ``style`` plays over one chord.
+
+    This is one step of :func:`generate_midi_events`, which calls it for every chord of
+    a score: ``chord_notes`` are the chord's MIDI notes, root first (what a chord
+    resolver returns), ``start_beat`` where the chord starts and ``duration`` how many
+    beats it lasts. It reads no tempo and keeps no state between chords.
+
+    >>> [(e.time, e.channel, e.note) for e in chord_events([48, 52, 55], style="rock",
+    ...     duration=1)]  # doctest: +NORMALIZE_WHITESPACE
+    [(0, 9, 36), (0, 9, 42), (0.5, 9, 42), (0, 0, 36), (0, 1, 60), (0, 1, 64),
+     (0, 1, 67)]
+    """
+    if pattern_source is None:
+        from ..patterns import get_pattern_registry
+
+        pattern_source = get_pattern_registry()
+    defaults = AccompanimentConfig()
+    return list(
+        _chord_events(
+            list(chord_notes),
+            *select_patterns(_style_patterns(pattern_source, style), beats_per_bar),
+            start_beat=start_beat,
+            duration=duration,
+            instruments=defaults.instruments if instruments is None else instruments,
+            volumes=defaults.volumes if volumes is None else volumes,
+        )
+    )
+
+
+def _chord_events(
+    notes: Sequence[int],
+    drum_pattern,
+    bass_pattern,
+    comp_pattern,
+    *,
+    start_beat: float,
+    duration: float,
+    instruments: Mapping[str, bool],
+    volumes: Mapping[str, float],
+) -> Iterator[MidiEvent]:
+    root = notes[0] if notes else 48
+
+    if instruments.get("drums", True) and drum_pattern:
+        yield from _drum_events(
+            drum_pattern, start_beat, duration, volumes.get("drums", 0.8)
+        )
+
+    if instruments.get("bass", True) and bass_pattern:
+        yield from _bass_events(
+            bass_pattern, start_beat, duration, root, notes, volumes.get("bass", 0.9)
+        )
+
+    if instruments.get("piano", True):
+        yield from _comp_events(
+            comp_pattern, start_beat, duration, notes, volumes.get("piano", 0.7)
+        )
 
 
 def _select_pattern(patterns: list, beats_per_bar: int):
@@ -387,3 +455,53 @@ def generate_builtin_midi(
     events_to_midi_file(events, midi_path, config.tempo, score.time_signature)
 
     return midi_path
+
+
+def generate_events(
+    chords,
+    *,
+    style: str = "swing",
+    repeats: int = 1,
+    time_signature: tuple[int, int] = (4, 4),
+    instruments: Optional[Mapping[str, bool]] = None,
+    volumes: Optional[Mapping[str, float]] = None,
+    pattern_source=None,
+    chord_resolver=None,
+) -> list[MidiEvent]:
+    """The note events the builtin backend plays for ``chords``, without writing a file.
+
+    ``chords`` is anything :func:`accompy.ensure_score` accepts (a chord string, an iReal
+    URL, measures, chord symbols, ``(chord, beats)`` pairs, a Score);
+    ``time_signature`` applies to the forms that do not carry one. Times and durations
+    are in beats: the events do not depend on tempo. ``repeats`` defaults to 1, as in
+    :func:`accompy.generate_accompaniment`.
+
+    >>> events = generate_events("| C | G |", style="bossa")
+    >>> events[0]
+    MidiEvent(time=0, channel=9, note=37, velocity=56, duration=0.25)
+    >>> max(e.time for e in events) < 8
+    True
+    """
+    from ..base import ensure_score
+    from ..chord_resolution import get_chord_resolver
+    from ..patterns import get_pattern_registry
+
+    score = ensure_score(chords, time_signature=time_signature)
+    overrides = {
+        k: dict(v)
+        for k, v in (("instruments", instruments), ("volumes", volumes))
+        if v is not None
+    }
+    config = AccompanimentConfig(style=style, repeats=repeats, **overrides)
+    return list(
+        generate_midi_events(
+            score,
+            config,
+            pattern_source=(
+                get_pattern_registry() if pattern_source is None else pattern_source
+            ),
+            chord_resolver=(
+                get_chord_resolver() if chord_resolver is None else chord_resolver
+            ),
+        )
+    )
