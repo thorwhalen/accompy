@@ -105,16 +105,21 @@ FALLBACK_CHORD_NOTES = (48, 52, 55)
 def fallback_chord_notes(symbol: str) -> list[int]:
     """What the renderer plays for a symbol its resolver cannot read: a major triad on its root.
 
-    The root is the leading note name (``C``, ``F#``, ``Bb``); without one, the triad is
-    on C.
+    The root is the leading note name, in either case and with ``#``/``b`` or ``♯``/``♭``
+    (``C``, ``F#``, ``B♭``, ``eb``); without one, the triad is on C.
 
     >>> fallback_chord_notes("G#13(b9)"), fallback_chord_notes("?")
     ([56, 60, 63], [48, 52, 55])
     """
     from ..util import _NOTE_TO_SEMITONE
 
-    match = re.match(r"[A-G][#b]?", symbol)
-    shift = _NOTE_TO_SEMITONE.get(match.group(0), 0) if match else 0
+    match = re.match(r"([A-Ga-g])([#b\u266f\u266d]?)", symbol)
+    if not match:
+        return list(FALLBACK_CHORD_NOTES)
+    name = match.group(1).upper() + match.group(2).replace("\u266f", "#").replace(
+        "\u266d", "b"
+    )
+    shift = _NOTE_TO_SEMITONE.get(name, 0)
     return [n + shift for n in FALLBACK_CHORD_NOTES]
 
 

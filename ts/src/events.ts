@@ -56,12 +56,14 @@ const SEMITONES = new Map<string, number>(NOTE_TO_SEMITONE as readonly (readonly
 
 /**
  * What the renderer plays for a symbol its resolver cannot read: a major triad on the
- * symbol's leading note name (`G#13(b9)` -> G# major), or on C without one.
+ * symbol's leading note name, either case, `#`/`b` or `♯`/`♭` (`G#13(b9)` -> G# major),
+ * or on C without one.
  */
 export function fallbackChordNotes(symbol: string): number[] {
-  const root = /^[A-G][#b]?/.exec(symbol);
-  const shift = root ? (SEMITONES.get(root[0]) ?? 0) : 0;
-  return FALLBACK_CHORD_NOTES.map((n) => n + shift);
+  const root = /^([A-Ga-g])([#b\u266f\u266d]?)/.exec(symbol);
+  if (!root) return [...FALLBACK_CHORD_NOTES];
+  const name = root[1]!.toUpperCase() + root[2]!.replace("\u266f", "#").replace("\u266d", "b");
+  return FALLBACK_CHORD_NOTES.map((n) => n + (SEMITONES.get(name) ?? 0));
 }
 const DRUM_DURATION = 0.25;
 

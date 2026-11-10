@@ -46,13 +46,29 @@ function simplifyQuality(qualityExtension: string): string {
   return QUALITIES.has(qe2) ? qe2 : qe;
 }
 
+/**
+ * `symbol`'s notes read with a letter-name root (`D` + `o7`), or null. tonal tries its
+ * longest root name first, case-insensitively, so `Do7` (D diminished 7 in accompy's
+ * spelling) would read as solfege `do` (C) + `7`; a symbol starting with an upper-case
+ * letter name is read with that root whenever the rest is a known quality.
+ */
+function letterRootNotes(symbol: string): number[] | null {
+  const match = /^([A-G][#b]?)([\s\S]*)$/.exec(pyStrip(symbol));
+  if (!match || !ROOTS.has(match[1]!)) return null;
+  const intervals = QUALITIES.get(simplifyQuality(match[2]!));
+  return intervals === undefined ? null : intervals.map((i) => ROOTS.get(match[1]!)! + i);
+}
+
 /** The MIDI notes of `symbol`, root first; throws ValueError (a RangeError) for an unknown root or quality. */
 export function tonalResolver(symbol: string, opts: { transpose?: number } = {}): number[] {
   const transpose = opts.transpose ?? DEFAULT_TRANSPOSE;
-  const [root, rootLength] = parseRoot(symbol);
-  const quality = simplifyQuality(pyStrip(symbol).slice(rootLength));
-  const intervals = QUALITIES.get(quality);
-  if (intervals === undefined) throw new ValueError(`Unknown quality/extension: ${quality}`);
-  const rootMidi = ROOTS.get(root)!;
-  return intervals.map((i) => rootMidi + i + (transpose ? transpose : 0));
+  let notes = letterRootNotes(symbol);
+  if (notes === null) {
+    const [root, rootLength] = parseRoot(symbol);
+    const quality = simplifyQuality(pyStrip(symbol).slice(rootLength));
+    const intervals = QUALITIES.get(quality);
+    if (intervals === undefined) throw new ValueError(`Unknown quality/extension: ${quality}`);
+    notes = intervals.map((i) => ROOTS.get(root)! + i);
+  }
+  return transpose ? notes.map((n) => n + transpose) : notes;
 }
