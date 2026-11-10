@@ -1,4 +1,4 @@
-> built 2026-11-10 17:48 UTC from bc1e8b1 (main) · accompy 0.3.14. Details: build_info.json
+> built 2026-11-10 17:57 UTC from adc9bb9 (main) · accompy 0.3.15. Details: build_info.json
 
 # index.html.md
 
@@ -2107,6 +2107,10 @@ Advanced Usage (Extensibility):
 | [`generate_events`](_autosummary/accompy.html.md#accompy.generate_events)(chords, \*[, style, repeats, ...]) | The note events the builtin backend plays for `chords`, without writing a file.                                                        |
 | [`chord_events`](_autosummary/accompy.html.md#accompy.chord_events)(chord_notes, \*[, style, ...])        | The drum, bass and piano events `style` plays over one chord.                                                                          |
 | [`select_patterns`](_autosummary/accompy.html.md#accompy.select_patterns)(patterns, beats_per_bar)           | The `(drum, bass, comp)` patterns the renderer plays from a style's pattern lists.                                                     |
+| [`pitch_classes`](_autosummary/accompy.html.md#accompy.pitch_classes)(notes)                               | Return unique pitch classes (0-11) as a tuple.                                                                                         |
+| [`resolve_pitch_offset`](_autosummary/accompy.html.md#accompy.resolve_pitch_offset)(\*, root_pc, chord_pcs, ...)  | Resolve a pitch offset against a chord.                                                                                                |
+| [`bass_pitch`](_autosummary/accompy.html.md#accompy.bass_pitch)(root, chord_notes, pitch_offset)        | The bass note a pattern's `pitch_offset` plays over a chord.                                                                           |
+| [`comp_voicing`](_autosummary/accompy.html.md#accompy.comp_voicing)(chord_notes)                          | The notes the piano plays for a chord: its first four notes moved into C4-B4.                                                          |
 | [`ensure_score`](_autosummary/accompy.html.md#accompy.ensure_score)(chords, \*[, title, key, ...])        | Coerce common chord-progression formats into a `Score`.                                                                                |
 | [`play_audio`](_autosummary/accompy.html.md#accompy.play_audio)(audio_path)                             | Play an audio file using the system's default audio player.                                                                            |
 | [`check_dependencies`](_autosummary/accompy.html.md#accompy.check_dependencies)()                               | Check which dependencies are available.                                                                                                |
@@ -2951,6 +2955,21 @@ respected.
 [('Dm7', 1.5), ('Dm7', 0.5), ('G7', 1.0), ('G7', 1.0)]
 ```
 
+### accompy.bass_pitch(root, chord_notes, pitch_offset)
+
+The bass note a pattern’s `pitch_offset` plays over a chord.
+
+The chord’s root is moved to C2-B2, then the offset is resolved against the chord
+([`resolve_pitch_offset()`](_autosummary/accompy.html.md#accompy.resolve_pitch_offset)), so a pattern’s “3rd” follows the chord’s quality.
+
+```pycon
+>>> bass_pitch(57, [57, 60, 64], 4), bass_pitch(48, [48, 52, 55], 4)
+(48, 40)
+```
+
+* **Return type:**
+  [`int`](https://docs.python.org/3/builtins/functions.html#int)
+
 ### accompy.check_dependencies()
 
 Check which dependencies are available.
@@ -3098,6 +3117,20 @@ Parse a chord string into a ChordSequence.
 >>> cs.tempo
 140
 ```
+
+### accompy.comp_voicing(chord_notes)
+
+The notes the piano plays for a chord: its first four notes moved into C4-B4.
+
+A chord with no notes is voiced as a C major triad.
+
+```pycon
+>>> comp_voicing([50, 53, 57, 60, 64]), comp_voicing([])
+([62, 65, 69, 60], [60, 64, 67])
+```
+
+* **Return type:**
+  [`list`](https://docs.python.org/3/builtins/stdtypes.html#list)[[`int`](https://docs.python.org/3/builtins/functions.html#int)]
 
 ### accompy.convert(source, target_type, , via=None)
 
@@ -3616,6 +3649,13 @@ Tries pyRealParser’s `parse_ireal_url` first, then falls back to
 constructing a `Tune` directly (handles URLs with empty `==` fields),
 and finally to a no-dependency best-effort parser.
 
+### accompy.pitch_classes(notes)
+
+Return unique pitch classes (0-11) as a tuple.
+
+* **Return type:**
+  [`tuple`](https://docs.python.org/3/builtins/stdtypes.html#tuple)[[`int`](https://docs.python.org/3/builtins/functions.html#int), [`...`](https://docs.python.org/3/builtins/constants.html#Ellipsis)]
+
 ### accompy.play_audio(audio_path)
 
 Play an audio file using the system’s default audio player.
@@ -3757,6 +3797,22 @@ Example:
 ... ]
 >>> paths = render_chords_batch(configs, ai_enhance=False)
 ```
+
+### accompy.resolve_pitch_offset(, root_pc, chord_pcs, target_offset)
+
+Resolve a pitch offset against a chord.
+
+The patterns use semitone offsets (0=root, 7=5th, etc.). When an offset
+represents a chord tone which varies by quality (e.g. 3rd), we prefer a
+matching chord tone from `chord_pcs`.
+
+### Examples
+
+For a minor chord, a pattern might request offset 4 (“3rd”); this
+function will choose 3 if the chord contains a minor 3rd.
+
+* **Return type:**
+  [`int`](https://docs.python.org/3/builtins/functions.html#int)
 
 ### accompy.resolve_skeleton(skeleton)
 
@@ -5234,10 +5290,29 @@ This module provides different backends for generating MIDI from scores:
 
 | [`chord_events`](_autosummary/accompy.renderers.html.md#accompy.renderers.chord_events)(chord_notes, \*[, style, ...])        | The drum, bass and piano events `style` plays over one chord.                      |
 |-----------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------|
+| [`bass_pitch`](_autosummary/accompy.renderers.html.md#accompy.renderers.bass_pitch)(root, chord_notes, pitch_offset)        | The bass note a pattern's `pitch_offset` plays over a chord.                       |
+| [`comp_voicing`](_autosummary/accompy.renderers.html.md#accompy.renderers.comp_voicing)(chord_notes)                          | The notes the piano plays for a chord: its first four notes moved into C4-B4.      |
+| [`pitch_classes`](_autosummary/accompy.renderers.html.md#accompy.renderers.pitch_classes)(notes)                               | Return unique pitch classes (0-11) as a tuple.                                     |
+| [`resolve_pitch_offset`](_autosummary/accompy.renderers.html.md#accompy.renderers.resolve_pitch_offset)(\*, root_pc, chord_pcs, ...)  | Resolve a pitch offset against a chord.                                            |
 | [`generate_events`](_autosummary/accompy.renderers.html.md#accompy.renderers.generate_events)(chords, \*[, style, repeats, ...]) | The note events the builtin backend plays for `chords`, without writing a file.    |
 | [`select_patterns`](_autosummary/accompy.renderers.html.md#accompy.renderers.select_patterns)(patterns, beats_per_bar)           | The `(drum, bass, comp)` patterns the renderer plays from a style's pattern lists. |
 | [`generate_midi_events`](_autosummary/accompy.renderers.html.md#accompy.renderers.generate_midi_events)(score, config, \*, ...)       | Generate MIDI events from score.                                                   |
 | [`events_to_midi_file`](_autosummary/accompy.renderers.html.md#accompy.renderers.events_to_midi_file)(events, path, tempo[, ...])    | Write MIDI events to a MIDI file.                                                  |
+
+### accompy.renderers.bass_pitch(root, chord_notes, pitch_offset)
+
+The bass note a pattern’s `pitch_offset` plays over a chord.
+
+The chord’s root is moved to C2-B2, then the offset is resolved against the chord
+([`resolve_pitch_offset()`](_autosummary/accompy.renderers.html.md#accompy.renderers.resolve_pitch_offset)), so a pattern’s “3rd” follows the chord’s quality.
+
+```pycon
+>>> bass_pitch(57, [57, 60, 64], 4), bass_pitch(48, [48, 52, 55], 4)
+(48, 40)
+```
+
+* **Return type:**
+  [`int`](https://docs.python.org/3/builtins/functions.html#int)
 
 ### accompy.renderers.chord_events(chord_notes, , style='swing', start_beat=0, duration=4, beats_per_bar=4, instruments=None, volumes=None, pattern_source=None)
 
@@ -5257,6 +5332,20 @@ beats it lasts. It reads no tempo and keeps no state between chords.
 
 * **Return type:**
   [`list`](https://docs.python.org/3/builtins/stdtypes.html#list)[[`MidiEvent`](_autosummary/accompy.base.html.md#accompy.base.MidiEvent)]
+
+### accompy.renderers.comp_voicing(chord_notes)
+
+The notes the piano plays for a chord: its first four notes moved into C4-B4.
+
+A chord with no notes is voiced as a C major triad.
+
+```pycon
+>>> comp_voicing([50, 53, 57, 60, 64]), comp_voicing([])
+([62, 65, 69, 60], [60, 64, 67])
+```
+
+* **Return type:**
+  [`list`](https://docs.python.org/3/builtins/stdtypes.html#list)[[`int`](https://docs.python.org/3/builtins/functions.html#int)]
 
 ### accompy.renderers.events_to_midi_file(events, path, tempo, time_signature=(4, 4))
 
@@ -5327,6 +5416,29 @@ This enables real-time streaming or batch file creation.
 >>> first_event = next(events)
 ```
 
+### accompy.renderers.pitch_classes(notes)
+
+Return unique pitch classes (0-11) as a tuple.
+
+* **Return type:**
+  [`tuple`](https://docs.python.org/3/builtins/stdtypes.html#tuple)[[`int`](https://docs.python.org/3/builtins/functions.html#int), [`...`](https://docs.python.org/3/builtins/constants.html#Ellipsis)]
+
+### accompy.renderers.resolve_pitch_offset(, root_pc, chord_pcs, target_offset)
+
+Resolve a pitch offset against a chord.
+
+The patterns use semitone offsets (0=root, 7=5th, etc.). When an offset
+represents a chord tone which varies by quality (e.g. 3rd), we prefer a
+matching chord tone from `chord_pcs`.
+
+### Examples
+
+For a minor chord, a pattern might request offset 4 (“3rd”); this
+function will choose 3 if the chord contains a minor 3rd.
+
+* **Return type:**
+  [`int`](https://docs.python.org/3/builtins/functions.html#int)
+
 ### accompy.renderers.select_patterns(patterns, beats_per_bar)
 
 The `(drum, bass, comp)` patterns the renderer plays from a style’s pattern lists.
@@ -5371,13 +5483,17 @@ Key functions:
 
 ### Functions
 
-| [`chord_events`](_autosummary/accompy.renderers.midi.html.md#accompy.renderers.midi.chord_events)(chord_notes, \*[, style, ...])        | The drum, bass and piano events `style` plays over one chord.                             |
+| [`bass_pitch`](_autosummary/accompy.renderers.midi.html.md#accompy.renderers.midi.bass_pitch)(root, chord_notes, pitch_offset)        | The bass note a pattern's `pitch_offset` plays over a chord.                              |
 |-----------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------|
+| [`chord_events`](_autosummary/accompy.renderers.midi.html.md#accompy.renderers.midi.chord_events)(chord_notes, \*[, style, ...])        | The drum, bass and piano events `style` plays over one chord.                             |
+| [`comp_voicing`](_autosummary/accompy.renderers.midi.html.md#accompy.renderers.midi.comp_voicing)(chord_notes)                          | The notes the piano plays for a chord: its first four notes moved into C4-B4.             |
 | [`events_to_midi_file`](_autosummary/accompy.renderers.midi.html.md#accompy.renderers.midi.events_to_midi_file)(events, path, tempo[, ...])    | Write MIDI events to a MIDI file.                                                         |
 | [`fallback_chord_notes`](_autosummary/accompy.renderers.midi.html.md#accompy.renderers.midi.fallback_chord_notes)(symbol)                       | What the renderer plays for a symbol its resolver cannot read: a major triad on its root. |
 | [`generate_builtin_midi`](_autosummary/accompy.renderers.midi.html.md#accompy.renderers.midi.generate_builtin_midi)(score, config, \*, ...)      | Generate a MIDI file using the built-in renderer.                                         |
 | [`generate_events`](_autosummary/accompy.renderers.midi.html.md#accompy.renderers.midi.generate_events)(chords, \*[, style, repeats, ...]) | The note events the builtin backend plays for `chords`, without writing a file.           |
 | [`generate_midi_events`](_autosummary/accompy.renderers.midi.html.md#accompy.renderers.midi.generate_midi_events)(score, config, \*, ...)       | Generate MIDI events from score.                                                          |
+| [`pitch_classes`](_autosummary/accompy.renderers.midi.html.md#accompy.renderers.midi.pitch_classes)(notes)                               | Return unique pitch classes (0-11) as a tuple.                                            |
+| [`resolve_pitch_offset`](_autosummary/accompy.renderers.midi.html.md#accompy.renderers.midi.resolve_pitch_offset)(\*, root_pc, chord_pcs, ...)  | Resolve a pitch offset against a chord.                                                   |
 | [`select_patterns`](_autosummary/accompy.renderers.midi.html.md#accompy.renderers.midi.select_patterns)(patterns, beats_per_bar)           | The `(drum, bass, comp)` patterns the renderer plays from a style's pattern lists.        |
 
 ### accompy.renderers.midi.FALLBACK_CHORD_NOTES *= (48, 52, 55)*
@@ -5394,6 +5510,21 @@ the renderer leaves their beats silent.
 
 * **Type:**
   Chord symbols that mean “no chord here”
+
+### accompy.renderers.midi.bass_pitch(root, chord_notes, pitch_offset)
+
+The bass note a pattern’s `pitch_offset` plays over a chord.
+
+The chord’s root is moved to C2-B2, then the offset is resolved against the chord
+([`resolve_pitch_offset()`](_autosummary/accompy.renderers.midi.html.md#accompy.renderers.midi.resolve_pitch_offset)), so a pattern’s “3rd” follows the chord’s quality.
+
+```pycon
+>>> bass_pitch(57, [57, 60, 64], 4), bass_pitch(48, [48, 52, 55], 4)
+(48, 40)
+```
+
+* **Return type:**
+  [`int`](https://docs.python.org/3/builtins/functions.html#int)
 
 ### accompy.renderers.midi.chord_events(chord_notes, , style='swing', start_beat=0, duration=4, beats_per_bar=4, instruments=None, volumes=None, pattern_source=None)
 
@@ -5413,6 +5544,20 @@ beats it lasts. It reads no tempo and keeps no state between chords.
 
 * **Return type:**
   [`list`](https://docs.python.org/3/builtins/stdtypes.html#list)[[`MidiEvent`](_autosummary/accompy.base.html.md#accompy.base.MidiEvent)]
+
+### accompy.renderers.midi.comp_voicing(chord_notes)
+
+The notes the piano plays for a chord: its first four notes moved into C4-B4.
+
+A chord with no notes is voiced as a C major triad.
+
+```pycon
+>>> comp_voicing([50, 53, 57, 60, 64]), comp_voicing([])
+([62, 65, 69, 60], [60, 64, 67])
+```
+
+* **Return type:**
+  [`list`](https://docs.python.org/3/builtins/stdtypes.html#list)[[`int`](https://docs.python.org/3/builtins/functions.html#int)]
 
 ### accompy.renderers.midi.events_to_midi_file(events, path, tempo, time_signature=(4, 4))
 
@@ -5513,6 +5658,29 @@ This enables real-time streaming or batch file creation.
 ...     chord_resolver=chord_to_notes)
 >>> first_event = next(events)
 ```
+
+### accompy.renderers.midi.pitch_classes(notes)
+
+Return unique pitch classes (0-11) as a tuple.
+
+* **Return type:**
+  [`tuple`](https://docs.python.org/3/builtins/stdtypes.html#tuple)[[`int`](https://docs.python.org/3/builtins/functions.html#int), [`...`](https://docs.python.org/3/builtins/constants.html#Ellipsis)]
+
+### accompy.renderers.midi.resolve_pitch_offset(, root_pc, chord_pcs, target_offset)
+
+Resolve a pitch offset against a chord.
+
+The patterns use semitone offsets (0=root, 7=5th, etc.). When an offset
+represents a chord tone which varies by quality (e.g. 3rd), we prefer a
+matching chord tone from `chord_pcs`.
+
+### Examples
+
+For a minor chord, a pattern might request offset 4 (“3rd”); this
+function will choose 3 if the chord contains a minor 3rd.
+
+* **Return type:**
+  [`int`](https://docs.python.org/3/builtins/functions.html#int)
 
 ### accompy.renderers.midi.select_patterns(patterns, beats_per_bar)
 
@@ -6589,18 +6757,18 @@ Backward-compat shim. Use `accompy.converters` instead.
 
 # About this build
 
-This documentation was built on **2026-11-10 17:48 UTC** from commit <a href="https://github.com/thorwhalen/accompy/commit/bc1e8b177641e6bfe28579c77f03b1d461f45323"><code>bc1e8b1</code></a> on branch <code>main</code>, for **accompy 0.3.14** (from <code>pyproject.toml</code>).
+This documentation was built on **2026-11-10 17:57 UTC** from commit <a href="https://github.com/thorwhalen/accompy/commit/adc9bb9119e6f3e25a9efd6a3ecc06f0418d2fb9"><code>adc9bb9</code></a> on branch <code>main</code>, for **accompy 0.3.15** (from <code>pyproject.toml</code>).
 
 #### WARNING
 The documentation and the package may be misaligned:
 
-- The documented version (0.3.14) is behind the latest release on PyPI (0.3.15): `pip install accompy` gives newer code than these docs describe.
+- The documented version (0.3.15) is behind the latest release on PyPI (0.3.16): `pip install accompy` gives newer code than these docs describe.
 
 ## Source
 
 |                     |                                                                                                                                                           |
 |---------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Commit              | <a href="https://github.com/thorwhalen/accompy/commit/bc1e8b177641e6bfe28579c77f03b1d461f45323"><code>bc1e8b177641e6bfe28579c77f03b1d461f45323</code></a> |
+| Commit              | <a href="https://github.com/thorwhalen/accompy/commit/adc9bb9119e6f3e25a9efd6a3ecc06f0418d2fb9"><code>adc9bb9119e6f3e25a9efd6a3ecc06f0418d2fb9</code></a> |
 | Branch              | <code>main</code>                                                                                                                                         |
 | Tags at this commit | none                                                                                                                                                      |
 | Working tree        | clean                                                                                                                                                     |
@@ -6611,9 +6779,9 @@ The documentation and the package may be misaligned:
 |              |                                                                                            |
 |--------------|--------------------------------------------------------------------------------------------|
 | Repository   | <code>thorwhalen/accompy</code>                                                            |
-| Run          | <a href="https://github.com/thorwhalen/accompy/actions/runs/42868443159">42868443159</a>   |
+| Run          | <a href="https://github.com/thorwhalen/accompy/actions/runs/42869902323">42869902323</a>   |
 | Ref          | <code>refs/heads/main</code>                                                               |
-| Event commit | <code>bc1e8b177641e6bfe28579c77f03b1d461f45323</code> (in the history of the built commit) |
+| Event commit | <code>adc9bb9119e6f3e25a9efd6a3ecc06f0418d2fb9</code> (in the history of the built commit) |
 
 ## Tools
 
@@ -6638,13 +6806,13 @@ The documentation and the package may be misaligned:
 
 ## Package on PyPI
 
-Latest release: <a href="https://pypi.org/project/accompy/0.3.15/">0.3.15</a>, newer than the documented version (0.3.14).
+Latest release: <a href="https://pypi.org/project/accompy/0.3.16/">0.3.16</a>, newer than the documented version (0.3.15).
 
 ## Reproduce
 
 ```bash
 git clone https://github.com/thorwhalen/accompy && cd accompy
-git checkout bc1e8b177641e6bfe28579c77f03b1d461f45323
+git checkout adc9bb9119e6f3e25a9efd6a3ecc06f0418d2fb9
 pip install "epythet==0.2.22"
 epythet quickstart . --ignore tests/ scrap/ examples/
 ```

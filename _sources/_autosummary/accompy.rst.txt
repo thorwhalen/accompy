@@ -12,6 +12,10 @@
       generate_events
       chord_events
       select_patterns
+      pitch_classes
+      resolve_pitch_offset
+      bass_pitch
+      comp_voicing
       ensure_score
       play_audio
       check_dependencies

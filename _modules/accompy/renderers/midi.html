@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=75c7c72ae941e8b558d8" />
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=75c7c72ae941e8b558d8" />
 
-    <script src="../../../_static/documentation_options.js?v=6307bca3"></script>
+    <script src="../../../_static/documentation_options.js?v=c77f38ba"></script>
     <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -411,7 +411,7 @@ window.runMermaid = runMermaid;</script>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="color-scheme" content="light dark"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="0.3.14" />
+  <meta name="docsearch:version" content="0.3.15" />
   
     
     <script src="../../../_static/searchtools.js"></script>
@@ -728,7 +728,7 @@ window.runMermaid = runMermaid;</script>
 <span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">tempfile</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Iterator</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">Mapping</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Collection</span><span class="p">,</span> <span class="n">Iterator</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">Mapping</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">..base</span><span class="w"> </span><span class="kn">import</span> <span class="n">Score</span><span class="p">,</span> <span class="n">AccompanimentConfig</span><span class="p">,</span> <span class="n">MidiEvent</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">..patterns.dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">DrumPattern</span><span class="p">,</span> <span class="n">BassPattern</span><span class="p">,</span> <span class="n">CompingPattern</span>
@@ -989,19 +989,11 @@ window.runMermaid = runMermaid;</script>
 <span class="w">    </span><span class="sd">"""Generate bass MIDI events."""</span>
     <span class="n">channel</span> <span class="o">=</span> <span class="mi">0</span>  <span class="c1"># Bass channel</span>
 
-    <span class="c1"># Adjust to bass range (octave 2-3)</span>
-    <span class="n">bass_root</span> <span class="o">=</span> <span class="p">(</span><span class="n">root</span> <span class="o">%</span> <span class="mi">12</span><span class="p">)</span> <span class="o">+</span> <span class="mi">36</span>
-    <span class="n">root_pc</span> <span class="o">=</span> <span class="n">bass_root</span> <span class="o">%</span> <span class="mi">12</span>
-    <span class="n">chord_pcs</span> <span class="o">=</span> <span class="n">_pitch_classes</span><span class="p">(</span><span class="n">chord_notes</span><span class="p">)</span>
-
     <span class="k">for</span> <span class="n">note</span> <span class="ow">in</span> <span class="n">pattern</span><span class="o">.</span><span class="n">notes</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">note</span><span class="o">.</span><span class="n">beat</span> <span class="o">&gt;=</span> <span class="n">duration</span><span class="p">:</span>
             <span class="k">continue</span>
 
-        <span class="n">resolved</span> <span class="o">=</span> <span class="n">_resolve_pitch_offset</span><span class="p">(</span>
-            <span class="n">root_pc</span><span class="o">=</span><span class="n">root_pc</span><span class="p">,</span> <span class="n">chord_pcs</span><span class="o">=</span><span class="n">chord_pcs</span><span class="p">,</span> <span class="n">target_offset</span><span class="o">=</span><span class="n">note</span><span class="o">.</span><span class="n">pitch_offset</span>
-        <span class="p">)</span>
-        <span class="n">pitch</span> <span class="o">=</span> <span class="n">bass_root</span> <span class="o">+</span> <span class="n">resolved</span>
+        <span class="n">pitch</span> <span class="o">=</span> <span class="n">bass_pitch</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">chord_notes</span><span class="p">,</span> <span class="n">note</span><span class="o">.</span><span class="n">pitch_offset</span><span class="p">)</span>
         <span class="n">vel</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">note</span><span class="o">.</span><span class="n">velocity</span> <span class="o">*</span> <span class="n">volume</span><span class="p">)</span>
         <span class="n">dur</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">note</span><span class="o">.</span><span class="n">duration</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">duration</span> <span class="o">-</span> <span class="n">note</span><span class="o">.</span><span class="n">beat</span><span class="p">))</span>
         <span class="k">if</span> <span class="n">dur</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
@@ -1026,8 +1018,7 @@ window.runMermaid = runMermaid;</script>
 <span class="w">    </span><span class="sd">"""Generate piano/comping MIDI events."""</span>
     <span class="n">channel</span> <span class="o">=</span> <span class="mi">1</span>  <span class="c1"># Piano channel</span>
 
-    <span class="c1"># Move to mid-range</span>
-    <span class="n">notes</span> <span class="o">=</span> <span class="p">[(</span><span class="n">n</span> <span class="o">%</span> <span class="mi">12</span><span class="p">)</span> <span class="o">+</span> <span class="mi">60</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">chord_notes</span><span class="p">[:</span><span class="mi">4</span><span class="p">]]</span> <span class="k">if</span> <span class="n">chord_notes</span> <span class="k">else</span> <span class="p">[</span><span class="mi">60</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">67</span><span class="p">]</span>
+    <span class="n">notes</span> <span class="o">=</span> <span class="n">comp_voicing</span><span class="p">(</span><span class="n">chord_notes</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">pattern</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">pattern</span><span class="o">.</span><span class="n">hits</span><span class="p">:</span>
         <span class="c1"># Default: block chords on each beat</span>
@@ -1062,13 +1053,52 @@ window.runMermaid = runMermaid;</script>
             <span class="p">)</span>
 
 
-<span class="k">def</span><span class="w"> </span><span class="nf">_pitch_classes</span><span class="p">(</span><span class="n">notes</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">int</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="o">...</span><span class="p">]:</span>
+<div class="viewcode-block" id="comp_voicing">
+<a class="viewcode-back" href="../../../_autosummary/accompy.renderers.midi.html#accompy.comp_voicing">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">comp_voicing</span><span class="p">(</span><span class="n">chord_notes</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">int</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">"""The notes the piano plays for a chord: its first four notes moved into C4-B4.</span>
+
+<span class="sd">    A chord with no notes is voiced as a C major triad.</span>
+
+<span class="sd">    &gt;&gt;&gt; comp_voicing([50, 53, 57, 60, 64]), comp_voicing([])</span>
+<span class="sd">    ([62, 65, 69, 60], [60, 64, 67])</span>
+<span class="sd">    """</span>
+    <span class="k">return</span> <span class="p">[(</span><span class="n">n</span> <span class="o">%</span> <span class="mi">12</span><span class="p">)</span> <span class="o">+</span> <span class="mi">60</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">chord_notes</span><span class="p">[:</span><span class="mi">4</span><span class="p">]]</span> <span class="k">if</span> <span class="n">chord_notes</span> <span class="k">else</span> <span class="p">[</span><span class="mi">60</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">67</span><span class="p">]</span></div>
+
+
+
+<div class="viewcode-block" id="bass_pitch">
+<a class="viewcode-back" href="../../../_autosummary/accompy.renderers.midi.html#accompy.bass_pitch">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">bass_pitch</span><span class="p">(</span><span class="n">root</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">chord_notes</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span> <span class="n">pitch_offset</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""The bass note a pattern's ``pitch_offset`` plays over a chord.</span>
+
+<span class="sd">    The chord's root is moved to C2-B2, then the offset is resolved against the chord</span>
+<span class="sd">    (:func:`resolve_pitch_offset`), so a pattern's "3rd" follows the chord's quality.</span>
+
+<span class="sd">    &gt;&gt;&gt; bass_pitch(57, [57, 60, 64], 4), bass_pitch(48, [48, 52, 55], 4)</span>
+<span class="sd">    (48, 40)</span>
+<span class="sd">    """</span>
+    <span class="n">bass_root</span> <span class="o">=</span> <span class="p">(</span><span class="n">root</span> <span class="o">%</span> <span class="mi">12</span><span class="p">)</span> <span class="o">+</span> <span class="mi">36</span>
+    <span class="k">return</span> <span class="n">bass_root</span> <span class="o">+</span> <span class="n">resolve_pitch_offset</span><span class="p">(</span>
+        <span class="n">root_pc</span><span class="o">=</span><span class="n">bass_root</span> <span class="o">%</span> <span class="mi">12</span><span class="p">,</span>
+        <span class="n">chord_pcs</span><span class="o">=</span><span class="n">pitch_classes</span><span class="p">(</span><span class="n">chord_notes</span><span class="p">),</span>
+        <span class="n">target_offset</span><span class="o">=</span><span class="n">pitch_offset</span><span class="p">,</span>
+    <span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="pitch_classes">
+<a class="viewcode-back" href="../../../_autosummary/accompy.renderers.midi.html#accompy.pitch_classes">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">pitch_classes</span><span class="p">(</span><span class="n">notes</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">int</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="o">...</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">"""Return unique pitch classes (0-11) as a tuple."""</span>
-    <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="nb">sorted</span><span class="p">({</span><span class="n">n</span> <span class="o">%</span> <span class="mi">12</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">notes</span><span class="p">}))</span>
+    <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="nb">sorted</span><span class="p">({</span><span class="n">n</span> <span class="o">%</span> <span class="mi">12</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">notes</span><span class="p">}))</span></div>
 
 
-<span class="k">def</span><span class="w"> </span><span class="nf">_resolve_pitch_offset</span><span class="p">(</span>
-    <span class="o">*</span><span class="p">,</span> <span class="n">root_pc</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">chord_pcs</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="o">...</span><span class="p">],</span> <span class="n">target_offset</span><span class="p">:</span> <span class="nb">int</span>
+
+<div class="viewcode-block" id="resolve_pitch_offset">
+<a class="viewcode-back" href="../../../_autosummary/accompy.renderers.midi.html#accompy.resolve_pitch_offset">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">resolve_pitch_offset</span><span class="p">(</span>
+    <span class="o">*</span><span class="p">,</span> <span class="n">root_pc</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">chord_pcs</span><span class="p">:</span> <span class="n">Collection</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span> <span class="n">target_offset</span><span class="p">:</span> <span class="nb">int</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Resolve a pitch offset against a chord.</span>
@@ -1095,12 +1125,8 @@ window.runMermaid = runMermaid;</script>
         <span class="k">if</span> <span class="mi">4</span> <span class="ow">in</span> <span class="n">chord_intervals</span><span class="p">:</span>
             <span class="k">return</span> <span class="mi">4</span>
 
-    <span class="c1"># Special case: perfect 5th</span>
-    <span class="k">if</span> <span class="n">target_offset</span> <span class="o">==</span> <span class="mi">7</span> <span class="ow">and</span> <span class="n">chord_intervals</span><span class="p">:</span>
-        <span class="k">if</span> <span class="mi">7</span> <span class="ow">in</span> <span class="n">chord_intervals</span><span class="p">:</span>
-            <span class="k">return</span> <span class="mi">7</span>
+    <span class="k">return</span> <span class="n">target_offset</span></div>
 
-    <span class="k">return</span> <span class="n">target_offset</span>
 
 
 <div class="viewcode-block" id="events_to_midi_file">

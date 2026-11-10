@@ -18,13 +18,17 @@ Key functions:
 
 ### Functions
 
-| [`chord_events`](#accompy.renderers.midi.chord_events)(chord_notes, \*[, style, ...])        | The drum, bass and piano events `style` plays over one chord.                             |
+| [`bass_pitch`](#accompy.renderers.midi.bass_pitch)(root, chord_notes, pitch_offset)        | The bass note a pattern's `pitch_offset` plays over a chord.                              |
 |-----------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------|
+| [`chord_events`](#accompy.renderers.midi.chord_events)(chord_notes, \*[, style, ...])        | The drum, bass and piano events `style` plays over one chord.                             |
+| [`comp_voicing`](#accompy.renderers.midi.comp_voicing)(chord_notes)                          | The notes the piano plays for a chord: its first four notes moved into C4-B4.             |
 | [`events_to_midi_file`](#accompy.renderers.midi.events_to_midi_file)(events, path, tempo[, ...])    | Write MIDI events to a MIDI file.                                                         |
 | [`fallback_chord_notes`](#accompy.renderers.midi.fallback_chord_notes)(symbol)                       | What the renderer plays for a symbol its resolver cannot read: a major triad on its root. |
 | [`generate_builtin_midi`](#accompy.renderers.midi.generate_builtin_midi)(score, config, \*, ...)      | Generate a MIDI file using the built-in renderer.                                         |
 | [`generate_events`](#accompy.renderers.midi.generate_events)(chords, \*[, style, repeats, ...]) | The note events the builtin backend plays for `chords`, without writing a file.           |
 | [`generate_midi_events`](#accompy.renderers.midi.generate_midi_events)(score, config, \*, ...)       | Generate MIDI events from score.                                                          |
+| [`pitch_classes`](#accompy.renderers.midi.pitch_classes)(notes)                               | Return unique pitch classes (0-11) as a tuple.                                            |
+| [`resolve_pitch_offset`](#accompy.renderers.midi.resolve_pitch_offset)(\*, root_pc, chord_pcs, ...)  | Resolve a pitch offset against a chord.                                                   |
 | [`select_patterns`](#accompy.renderers.midi.select_patterns)(patterns, beats_per_bar)           | The `(drum, bass, comp)` patterns the renderer plays from a style's pattern lists.        |
 
 ### accompy.renderers.midi.FALLBACK_CHORD_NOTES *= (48, 52, 55)*
@@ -41,6 +45,21 @@ the renderer leaves their beats silent.
 
 * **Type:**
   Chord symbols that mean “no chord here”
+
+### accompy.renderers.midi.bass_pitch(root, chord_notes, pitch_offset)
+
+The bass note a pattern’s `pitch_offset` plays over a chord.
+
+The chord’s root is moved to C2-B2, then the offset is resolved against the chord
+([`resolve_pitch_offset()`](#accompy.renderers.midi.resolve_pitch_offset)), so a pattern’s “3rd” follows the chord’s quality.
+
+```pycon
+>>> bass_pitch(57, [57, 60, 64], 4), bass_pitch(48, [48, 52, 55], 4)
+(48, 40)
+```
+
+* **Return type:**
+  [`int`](https://docs.python.org/3/builtins/functions.html#int)
 
 ### accompy.renderers.midi.chord_events(chord_notes, , style='swing', start_beat=0, duration=4, beats_per_bar=4, instruments=None, volumes=None, pattern_source=None)
 
@@ -60,6 +79,20 @@ beats it lasts. It reads no tempo and keeps no state between chords.
 
 * **Return type:**
   [`list`](https://docs.python.org/3/builtins/stdtypes.html#list)[[`MidiEvent`](accompy.base.html.md#accompy.base.MidiEvent)]
+
+### accompy.renderers.midi.comp_voicing(chord_notes)
+
+The notes the piano plays for a chord: its first four notes moved into C4-B4.
+
+A chord with no notes is voiced as a C major triad.
+
+```pycon
+>>> comp_voicing([50, 53, 57, 60, 64]), comp_voicing([])
+([62, 65, 69, 60], [60, 64, 67])
+```
+
+* **Return type:**
+  [`list`](https://docs.python.org/3/builtins/stdtypes.html#list)[[`int`](https://docs.python.org/3/builtins/functions.html#int)]
 
 ### accompy.renderers.midi.events_to_midi_file(events, path, tempo, time_signature=(4, 4))
 
@@ -160,6 +193,29 @@ This enables real-time streaming or batch file creation.
 ...     chord_resolver=chord_to_notes)
 >>> first_event = next(events)
 ```
+
+### accompy.renderers.midi.pitch_classes(notes)
+
+Return unique pitch classes (0-11) as a tuple.
+
+* **Return type:**
+  [`tuple`](https://docs.python.org/3/builtins/stdtypes.html#tuple)[[`int`](https://docs.python.org/3/builtins/functions.html#int), [`...`](https://docs.python.org/3/builtins/constants.html#Ellipsis)]
+
+### accompy.renderers.midi.resolve_pitch_offset(, root_pc, chord_pcs, target_offset)
+
+Resolve a pitch offset against a chord.
+
+The patterns use semitone offsets (0=root, 7=5th, etc.). When an offset
+represents a chord tone which varies by quality (e.g. 3rd), we prefer a
+matching chord tone from `chord_pcs`.
+
+### Examples
+
+For a minor chord, a pattern might request offset 4 (“3rd”); this
+function will choose 3 if the chord contains a minor 3rd.
+
+* **Return type:**
+  [`int`](https://docs.python.org/3/builtins/functions.html#int)
 
 ### accompy.renderers.midi.select_patterns(patterns, beats_per_bar)
 

@@ -15,11 +15,15 @@ accompy.renderers.midi
 
    .. autosummary::
    
+      bass_pitch
       chord_events
+      comp_voicing
       events_to_midi_file
       fallback_chord_notes
       generate_builtin_midi
       generate_events
       generate_midi_events
+      pitch_classes
+      resolve_pitch_offset
       select_patterns
    

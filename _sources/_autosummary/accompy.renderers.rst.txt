@@ -9,6 +9,10 @@ accompy.renderers
    .. autosummary::
    
       chord_events
+      bass_pitch
+      comp_voicing
+      pitch_classes
+      resolve_pitch_offset
       generate_events
       select_patterns
       generate_midi_events

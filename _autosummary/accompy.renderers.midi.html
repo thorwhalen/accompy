@@ -44,7 +44,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=75c7c72ae941e8b558d8" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=75c7c72ae941e8b558d8" />
 
-    <script src="../_static/documentation_options.js?v=6307bca3"></script>
+    <script src="../_static/documentation_options.js?v=c77f38ba"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -58,7 +58,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="color-scheme" content="light dark"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="0.3.14" />
+  <meta name="docsearch:version" content="0.3.15" />
   
     
     <script src="../_static/searchtools.js"></script>
@@ -453,8 +453,14 @@ from file writing, enabling both batch file creation and future real-time stream
 <p class="rubric">Functions</p>
 <div class="pst-scrollable-table-container"><table class="autosummary longtable table">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#accompy.renderers.midi.chord_events" title="accompy.renderers.midi.chord_events"><code class="xref py py-obj docutils literal notranslate"><span class="pre">chord_events</span></code></a>(chord_notes, *[, style, ...])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#accompy.renderers.midi.bass_pitch" title="accompy.renderers.midi.bass_pitch"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bass_pitch</span></code></a>(root, chord_notes, pitch_offset)</p></td>
+<td><p>The bass note a pattern's <code class="docutils literal notranslate"><span class="pre">pitch_offset</span></code> plays over a chord.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#accompy.renderers.midi.chord_events" title="accompy.renderers.midi.chord_events"><code class="xref py py-obj docutils literal notranslate"><span class="pre">chord_events</span></code></a>(chord_notes, *[, style, ...])</p></td>
 <td><p>The drum, bass and piano events <code class="docutils literal notranslate"><span class="pre">style</span></code> plays over one chord.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#accompy.renderers.midi.comp_voicing" title="accompy.renderers.midi.comp_voicing"><code class="xref py py-obj docutils literal notranslate"><span class="pre">comp_voicing</span></code></a>(chord_notes)</p></td>
+<td><p>The notes the piano plays for a chord: its first four notes moved into C4-B4.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#accompy.renderers.midi.events_to_midi_file" title="accompy.renderers.midi.events_to_midi_file"><code class="xref py py-obj docutils literal notranslate"><span class="pre">events_to_midi_file</span></code></a>(events, path, tempo[, ...])</p></td>
 <td><p>Write MIDI events to a MIDI file.</p></td>
@@ -470,6 +476,12 @@ from file writing, enabling both batch file creation and future real-time stream
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#accompy.renderers.midi.generate_midi_events" title="accompy.renderers.midi.generate_midi_events"><code class="xref py py-obj docutils literal notranslate"><span class="pre">generate_midi_events</span></code></a>(score, config, *, ...)</p></td>
 <td><p>Generate MIDI events from score.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#accompy.renderers.midi.pitch_classes" title="accompy.renderers.midi.pitch_classes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pitch_classes</span></code></a>(notes)</p></td>
+<td><p>Return unique pitch classes (0-11) as a tuple.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#accompy.renderers.midi.resolve_pitch_offset" title="accompy.renderers.midi.resolve_pitch_offset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">resolve_pitch_offset</span></code></a>(*, root_pc, chord_pcs, ...)</p></td>
+<td><p>Resolve a pitch offset against a chord.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#accompy.renderers.midi.select_patterns" title="accompy.renderers.midi.select_patterns"><code class="xref py py-obj docutils literal notranslate"><span class="pre">select_patterns</span></code></a>(patterns, beats_per_bar)</p></td>
 <td><p>The <code class="docutils literal notranslate"><span class="pre">(drum,</span> <span class="pre">bass,</span> <span class="pre">comp)</span></code> patterns the renderer plays from a style's pattern lists.</p></td>
@@ -501,6 +513,23 @@ moved to the symbol’s root when it has a readable one (see <a class="reference
 </dd></dl>
 
 <dl class="py function">
+<dt class="sig sig-object py" id="accompy.renderers.midi.bass_pitch">
+<span class="sig-prename descclassname"><span class="pre">accompy.renderers.midi.</span></span><span class="sig-name descname"><span class="pre">bass_pitch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">root</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chord_notes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pitch_offset</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/accompy/renderers/midi.html#bass_pitch"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#accompy.renderers.midi.bass_pitch" title="Link to this definition">#</a></dt>
+<dd><p>The bass note a pattern’s <code class="docutils literal notranslate"><span class="pre">pitch_offset</span></code> plays over a chord.</p>
+<p>The chord’s root is moved to C2-B2, then the offset is resolved against the chord
+(<a class="reference internal" href="#accompy.renderers.midi.resolve_pitch_offset" title="accompy.renderers.midi.resolve_pitch_offset"><code class="xref py py-func docutils literal notranslate"><span class="pre">resolve_pitch_offset()</span></code></a>), so a pattern’s “3rd” follows the chord’s quality.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">bass_pitch</span><span class="p">(</span><span class="mi">57</span><span class="p">,</span> <span class="p">[</span><span class="mi">57</span><span class="p">,</span> <span class="mi">60</span><span class="p">,</span> <span class="mi">64</span><span class="p">],</span> <span class="mi">4</span><span class="p">),</span> <span class="n">bass_pitch</span><span class="p">(</span><span class="mi">48</span><span class="p">,</span> <span class="p">[</span><span class="mi">48</span><span class="p">,</span> <span class="mi">52</span><span class="p">,</span> <span class="mi">55</span><span class="p">],</span> <span class="mi">4</span><span class="p">)</span>
+<span class="go">(48, 40)</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#int" title="(in Python v3.15)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
 <dt class="sig sig-object py" id="accompy.renderers.midi.chord_events">
 <span class="sig-prename descclassname"><span class="pre">accompy.renderers.midi.</span></span><span class="sig-name descname"><span class="pre">chord_events</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">chord_notes</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">style</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'swing'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start_beat</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">duration</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">4</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">beats_per_bar</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">4</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">instruments</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">volumes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pattern_source</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/accompy/renderers/midi.html#chord_events"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#accompy.renderers.midi.chord_events" title="Link to this definition">#</a></dt>
 <dd><p>The drum, bass and piano events <code class="docutils literal notranslate"><span class="pre">style</span></code> plays over one chord.</p>
@@ -517,6 +546,22 @@ beats it lasts. It reads no tempo and keeps no state between chords.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#list" title="(in Python v3.15)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a>[<a class="reference internal" href="accompy.base.html#accompy.base.MidiEvent" title="accompy.base.MidiEvent"><code class="xref py py-class docutils literal notranslate"><span class="pre">MidiEvent</span></code></a>]</span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="accompy.renderers.midi.comp_voicing">
+<span class="sig-prename descclassname"><span class="pre">accompy.renderers.midi.</span></span><span class="sig-name descname"><span class="pre">comp_voicing</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">chord_notes</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/accompy/renderers/midi.html#comp_voicing"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#accompy.renderers.midi.comp_voicing" title="Link to this definition">#</a></dt>
+<dd><p>The notes the piano plays for a chord: its first four notes moved into C4-B4.</p>
+<p>A chord with no notes is voiced as a C major triad.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">comp_voicing</span><span class="p">([</span><span class="mi">50</span><span class="p">,</span> <span class="mi">53</span><span class="p">,</span> <span class="mi">57</span><span class="p">,</span> <span class="mi">60</span><span class="p">,</span> <span class="mi">64</span><span class="p">]),</span> <span class="n">comp_voicing</span><span class="p">([])</span>
+<span class="go">([62, 65, 69, 60], [60, 64, 67])</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#list" title="(in Python v3.15)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a>[<a class="reference external" href="https://docs.python.org/3/builtins/functions.html#int" title="(in Python v3.15)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>]</span></p>
 </dd>
 </dl>
 </dd></dl>
@@ -647,6 +692,34 @@ This enables real-time streaming or batch file creation.</p>
 </dd></dl>
 
 <dl class="py function">
+<dt class="sig sig-object py" id="accompy.renderers.midi.pitch_classes">
+<span class="sig-prename descclassname"><span class="pre">accompy.renderers.midi.</span></span><span class="sig-name descname"><span class="pre">pitch_classes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">notes</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/accompy/renderers/midi.html#pitch_classes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#accompy.renderers.midi.pitch_classes" title="Link to this definition">#</a></dt>
+<dd><p>Return unique pitch classes (0-11) as a tuple.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#tuple" title="(in Python v3.15)"><code class="xref py py-class docutils literal notranslate"><span class="pre">tuple</span></code></a>[<a class="reference external" href="https://docs.python.org/3/builtins/functions.html#int" title="(in Python v3.15)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, <a class="reference external" href="https://docs.python.org/3/builtins/constants.html#Ellipsis" title="(in Python v3.15)"><code class="xref py py-data docutils literal notranslate"><span class="pre">...</span></code></a>]</span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="accompy.renderers.midi.resolve_pitch_offset">
+<span class="sig-prename descclassname"><span class="pre">accompy.renderers.midi.</span></span><span class="sig-name descname"><span class="pre">resolve_pitch_offset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">root_pc</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chord_pcs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_offset</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/accompy/renderers/midi.html#resolve_pitch_offset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#accompy.renderers.midi.resolve_pitch_offset" title="Link to this definition">#</a></dt>
+<dd><p>Resolve a pitch offset against a chord.</p>
+<p>The patterns use semitone offsets (0=root, 7=5th, etc.). When an offset
+represents a chord tone which varies by quality (e.g. 3rd), we prefer a
+matching chord tone from <code class="code docutils literal notranslate"><span class="pre">chord_pcs</span></code>.</p>
+<p class="rubric">Examples</p>
+<p>For a minor chord, a pattern might request offset 4 (“3rd”); this
+function will choose 3 if the chord contains a minor 3rd.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#int" title="(in Python v3.15)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
 <dt class="sig sig-object py" id="accompy.renderers.midi.select_patterns">
 <span class="sig-prename descclassname"><span class="pre">accompy.renderers.midi.</span></span><span class="sig-name descname"><span class="pre">select_patterns</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">patterns</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">beats_per_bar</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/accompy/renderers/midi.html#select_patterns"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#accompy.renderers.midi.select_patterns" title="Link to this definition">#</a></dt>
 <dd><p>The <code class="docutils literal notranslate"><span class="pre">(drum,</span> <span class="pre">bass,</span> <span class="pre">comp)</span></code> patterns the renderer plays from a style’s pattern lists.</p>
@@ -715,12 +788,16 @@ bass and comping take the first of their list. A missing one is <code class="doc
     <ul class="pst-show_toc_level nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#accompy.renderers.midi.FALLBACK_CHORD_NOTES"><code class="docutils literal notranslate"><span class="pre">FALLBACK_CHORD_NOTES</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#accompy.renderers.midi.NO_CHORD_SYMBOLS"><code class="docutils literal notranslate"><span class="pre">NO_CHORD_SYMBOLS</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#accompy.renderers.midi.bass_pitch"><code class="docutils literal notranslate"><span class="pre">bass_pitch()</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#accompy.renderers.midi.chord_events"><code class="docutils literal notranslate"><span class="pre">chord_events()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#accompy.renderers.midi.comp_voicing"><code class="docutils literal notranslate"><span class="pre">comp_voicing()</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#accompy.renderers.midi.events_to_midi_file"><code class="docutils literal notranslate"><span class="pre">events_to_midi_file()</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#accompy.renderers.midi.fallback_chord_notes"><code class="docutils literal notranslate"><span class="pre">fallback_chord_notes()</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#accompy.renderers.midi.generate_builtin_midi"><code class="docutils literal notranslate"><span class="pre">generate_builtin_midi()</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#accompy.renderers.midi.generate_events"><code class="docutils literal notranslate"><span class="pre">generate_events()</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#accompy.renderers.midi.generate_midi_events"><code class="docutils literal notranslate"><span class="pre">generate_midi_events()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#accompy.renderers.midi.pitch_classes"><code class="docutils literal notranslate"><span class="pre">pitch_classes()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#accompy.renderers.midi.resolve_pitch_offset"><code class="docutils literal notranslate"><span class="pre">resolve_pitch_offset()</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#accompy.renderers.midi.select_patterns"><code class="docutils literal notranslate"><span class="pre">select_patterns()</span></code></a></li>
 </ul>
   </nav></div>

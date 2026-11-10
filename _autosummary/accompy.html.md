@@ -54,6 +54,10 @@ Advanced Usage (Extensibility):
 | [`generate_events`](#accompy.generate_events)(chords, \*[, style, repeats, ...]) | The note events the builtin backend plays for `chords`, without writing a file.                                                        |
 | [`chord_events`](#accompy.chord_events)(chord_notes, \*[, style, ...])        | The drum, bass and piano events `style` plays over one chord.                                                                          |
 | [`select_patterns`](#accompy.select_patterns)(patterns, beats_per_bar)           | The `(drum, bass, comp)` patterns the renderer plays from a style's pattern lists.                                                     |
+| [`pitch_classes`](#accompy.pitch_classes)(notes)                               | Return unique pitch classes (0-11) as a tuple.                                                                                         |
+| [`resolve_pitch_offset`](#accompy.resolve_pitch_offset)(\*, root_pc, chord_pcs, ...)  | Resolve a pitch offset against a chord.                                                                                                |
+| [`bass_pitch`](#accompy.bass_pitch)(root, chord_notes, pitch_offset)        | The bass note a pattern's `pitch_offset` plays over a chord.                                                                           |
+| [`comp_voicing`](#accompy.comp_voicing)(chord_notes)                          | The notes the piano plays for a chord: its first four notes moved into C4-B4.                                                          |
 | [`ensure_score`](#accompy.ensure_score)(chords, \*[, title, key, ...])        | Coerce common chord-progression formats into a `Score`.                                                                                |
 | [`play_audio`](#accompy.play_audio)(audio_path)                             | Play an audio file using the system's default audio player.                                                                            |
 | [`check_dependencies`](#accompy.check_dependencies)()                               | Check which dependencies are available.                                                                                                |
@@ -898,6 +902,21 @@ respected.
 [('Dm7', 1.5), ('Dm7', 0.5), ('G7', 1.0), ('G7', 1.0)]
 ```
 
+### accompy.bass_pitch(root, chord_notes, pitch_offset)
+
+The bass note a pattern’s `pitch_offset` plays over a chord.
+
+The chord’s root is moved to C2-B2, then the offset is resolved against the chord
+([`resolve_pitch_offset()`](#accompy.resolve_pitch_offset)), so a pattern’s “3rd” follows the chord’s quality.
+
+```pycon
+>>> bass_pitch(57, [57, 60, 64], 4), bass_pitch(48, [48, 52, 55], 4)
+(48, 40)
+```
+
+* **Return type:**
+  [`int`](https://docs.python.org/3/builtins/functions.html#int)
+
 ### accompy.check_dependencies()
 
 Check which dependencies are available.
@@ -1045,6 +1064,20 @@ Parse a chord string into a ChordSequence.
 >>> cs.tempo
 140
 ```
+
+### accompy.comp_voicing(chord_notes)
+
+The notes the piano plays for a chord: its first four notes moved into C4-B4.
+
+A chord with no notes is voiced as a C major triad.
+
+```pycon
+>>> comp_voicing([50, 53, 57, 60, 64]), comp_voicing([])
+([62, 65, 69, 60], [60, 64, 67])
+```
+
+* **Return type:**
+  [`list`](https://docs.python.org/3/builtins/stdtypes.html#list)[[`int`](https://docs.python.org/3/builtins/functions.html#int)]
 
 ### accompy.convert(source, target_type, , via=None)
 
@@ -1563,6 +1596,13 @@ Tries pyRealParser’s `parse_ireal_url` first, then falls back to
 constructing a `Tune` directly (handles URLs with empty `==` fields),
 and finally to a no-dependency best-effort parser.
 
+### accompy.pitch_classes(notes)
+
+Return unique pitch classes (0-11) as a tuple.
+
+* **Return type:**
+  [`tuple`](https://docs.python.org/3/builtins/stdtypes.html#tuple)[[`int`](https://docs.python.org/3/builtins/functions.html#int), [`...`](https://docs.python.org/3/builtins/constants.html#Ellipsis)]
+
 ### accompy.play_audio(audio_path)
 
 Play an audio file using the system’s default audio player.
@@ -1704,6 +1744,22 @@ Example:
 ... ]
 >>> paths = render_chords_batch(configs, ai_enhance=False)
 ```
+
+### accompy.resolve_pitch_offset(, root_pc, chord_pcs, target_offset)
+
+Resolve a pitch offset against a chord.
+
+The patterns use semitone offsets (0=root, 7=5th, etc.). When an offset
+represents a chord tone which varies by quality (e.g. 3rd), we prefer a
+matching chord tone from `chord_pcs`.
+
+### Examples
+
+For a minor chord, a pattern might request offset 4 (“3rd”); this
+function will choose 3 if the chord contains a minor 3rd.
+
+* **Return type:**
+  [`int`](https://docs.python.org/3/builtins/functions.html#int)
 
 ### accompy.resolve_skeleton(skeleton)
 
