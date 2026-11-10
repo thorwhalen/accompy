@@ -1,6 +1,6 @@
 {
   "name": "accompy",
-  "version": "0.3.13",
+  "version": "0.3.14",
   "description": "Chord charts to accompaniment note events (drums, bass, piano) in the browser: TypeScript twin of the Python package accompy",
   "type": "module",
   "main": "./dist/index.cjs",
