@@ -11,6 +11,7 @@ Key functions:
 
 from __future__ import annotations
 
+import re
 import tempfile
 from pathlib import Path
 from typing import Iterator, Sequence, Optional, Iterable, Mapping
@@ -77,7 +78,7 @@ def generate_midi_events(
                 try:
                     notes = list(chord_resolver(chord_symbol))
                 except Exception:
-                    notes = list(FALLBACK_CHORD_NOTES)
+                    notes = fallback_chord_notes(chord_symbol)
 
                 yield from _chord_events(
                     notes,
@@ -96,8 +97,25 @@ def generate_midi_events(
 #: Chord symbols that mean "no chord here": the renderer leaves their beats silent.
 NO_CHORD_SYMBOLS = ("", "n", "N.C.", "NC")
 
-#: The notes used when the chord resolver cannot read a symbol (a C major triad).
+#: The notes used when the chord resolver cannot read a symbol: a major triad on C3,
+#: moved to the symbol's root when it has a readable one (see :func:`fallback_chord_notes`).
 FALLBACK_CHORD_NOTES = (48, 52, 55)
+
+
+def fallback_chord_notes(symbol: str) -> list[int]:
+    """What the renderer plays for a symbol its resolver cannot read: a major triad on its root.
+
+    The root is the leading note name (``C``, ``F#``, ``Bb``); without one, the triad is
+    on C.
+
+    >>> fallback_chord_notes("G#13(b9)"), fallback_chord_notes("?")
+    ([56, 60, 63], [48, 52, 55])
+    """
+    from ..util import _NOTE_TO_SEMITONE
+
+    match = re.match(r"[A-G][#b]?", symbol)
+    shift = _NOTE_TO_SEMITONE.get(match.group(0), 0) if match else 0
+    return [n + shift for n in FALLBACK_CHORD_NOTES]
 
 
 def _style_patterns(pattern_source, style: str) -> dict:

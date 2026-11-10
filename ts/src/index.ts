@@ -48,6 +48,7 @@ export {
   beatsToSeconds,
   CHANNELS,
   chordEvents,
+  fallbackChordNotes,
   generateEvents,
   type ChordEventsOptions,
   type GenerateOptions,
