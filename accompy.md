@@ -1,4 +1,4 @@
-> built 2026-11-10 17:57 UTC from adc9bb9 (main) · accompy 0.3.15. Details: build_info.json
+> built 2026-11-10 18:57 UTC from dcf395f (main) · accompy 0.3.16. Details: build_info.json
 
 # index.html.md
 
@@ -22,7 +22,7 @@ print(f"Generated: {audio}")  # -> /tmp/xxx.wav
 - **Multiple styles**: Swing, bossa nova, rock, funk, ballad, latin, waltz, blues
 - **Flexible chord inputs**: Strings, `Score`, iReal URLs, or `(chord, beats)` tuples
 - **Backend selector**: `backend="auto"|"mma"|"builtin"` (with backwards-compatible `use_mma`)
-- **iReal Pro compatible**: Parse iReal Pro URLs directly (with optional `pyRealParser`)
+- **iReal Pro compatible**: Parse iReal Pro URLs (`irealb://` and `irealbook://`) directly
 - **Multi-instrument**: Drums, bass, piano with style-appropriate patterns
 - **Audio output**: WAV, MP3, FLAC via FluidSynth
 - **MIDI output**: Save `.mid` directly (skip audio rendering)
@@ -278,8 +278,7 @@ score = Score.from_ireal_url(url)
 audio = generate_accompaniment(score, style="swing", tempo=140)
 ```
 
-**Note:** `pyRealParser` is optional. If installed, `Score.from_ireal_url(...)` will use it.
-If not installed, accompy uses a best-effort built-in parser.
+**Note:** iReal decoding is built in (`accompy.ireal`); no extra package is needed.
 
 ### Advanced Configuration
 
@@ -551,12 +550,11 @@ Required:
 Recommended:
 
 - `mingus` — Music theory (better chord parsing)
-- `pyRealParser` — iReal Pro URL parsing
 - `midi2audio` — Optional Python wrapper for FluidSynth (can improve portability)
 - `pydub` — Audio format conversion (if no ffmpeg)
 
 ```bash
-pip install midiutil mingus pyRealParser midi2audio pydub
+pip install midiutil mingus midi2audio pydub
 ```
 
 ## API Reference
@@ -830,7 +828,7 @@ MIT
 
 - [MMA - Musical MIDI Accompaniment](https://www.mellowood.ca/mma/) by Bob van der Poel
 - [FluidSynth](https://www.fluidsynth.org/) team
-- [pyRealParser](https://github.com/drs251/pyRealParser) for iReal Pro format parsing
+- [pyRealParser](https://github.com/drs251/pyRealParser) (MIT), the starting point of `accompy.ireal`’s iReal Pro decoding
 - [iReal Pro](https://www.irealpro.com/) for inspiration
 
 <p class="epythet-aggregates">This documentation as a single file: <a href="accompy.md">accompy.md</a> (Markdown, for agents).</p>
@@ -1283,18 +1281,21 @@ cs = convert(ChordSheet("| Dm7 | G7 | Cmaj7 |"), ChordSequence)
 
 ### Functions
 
-| [`parse_chord_sheet`](_autosummary/accompy.chord_parsers.html.md#accompy.chord_parsers.parse_chord_sheet)(sheet, \*[, beats_per_bar, ...])   | Auto-detect format and parse a chord sheet into ChordSequence.             |
-|-------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------|
-| [`parse_chordpro`](_autosummary/accompy.chord_parsers.html.md#accompy.chord_parsers.parse_chordpro)(sheet, \*[, beats_per_bar, tempo])    | Parse ChordPro format into a ChordSequence, keeping the section structure. |
-| [`parse_ireal_url`](_autosummary/accompy.chord_parsers.html.md#accompy.chord_parsers.parse_ireal_url)(url, \*[, beats_per_bar])            | Parse an iReal Pro URL into a ChordSequence.                               |
-| [`parse_musicgen_chord_format`](_autosummary/accompy.chord_parsers.html.md#accompy.chord_parsers.parse_musicgen_chord_format)(sheet, \*[, ...])        | Parse MusicGen-Chord text format into ChordSequence.                       |
-| [`parse_nashville`](_autosummary/accompy.chord_parsers.html.md#accompy.chord_parsers.parse_nashville)(sheet, \*[, key, ...])               | Parse Nashville number system notation into a ChordSequence.               |
-| [`parse_plain_text`](_autosummary/accompy.chord_parsers.html.md#accompy.chord_parsers.parse_plain_text)(sheet, \*[, beats_per_bar, ...])    | Parse a plain-text chord sheet into a ChordSequence.                       |
-| [`parse_roman_numeral`](_autosummary/accompy.chord_parsers.html.md#accompy.chord_parsers.parse_roman_numeral)(sheet, \*[, key, ...])           | Parse Roman numeral notation into a ChordSequence.                         |
+| [`parse_chord_sheet`](_autosummary/accompy.chord_parsers.html.md#accompy.chord_parsers.parse_chord_sheet)(sheet, \*[, beats_per_bar, ...])   | Auto-detect format and parse a chord sheet into ChordSequence.               |
+|-------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------|
+| [`parse_chordpro`](_autosummary/accompy.chord_parsers.html.md#accompy.chord_parsers.parse_chordpro)(sheet, \*[, beats_per_bar, tempo])    | Parse ChordPro format into a ChordSequence, keeping the section structure.   |
+| [`parse_ireal_url`](_autosummary/accompy.chord_parsers.html.md#accompy.chord_parsers.parse_ireal_url)(url, \*[, beats_per_bar])            | Parse an iReal Pro URL into a ChordSequence; a bar's chords share it evenly. |
+| [`parse_musicgen_chord_format`](_autosummary/accompy.chord_parsers.html.md#accompy.chord_parsers.parse_musicgen_chord_format)(sheet, \*[, ...])        | Parse MusicGen-Chord text format into ChordSequence.                         |
+| [`parse_nashville`](_autosummary/accompy.chord_parsers.html.md#accompy.chord_parsers.parse_nashville)(sheet, \*[, key, ...])               | Parse Nashville number system notation into a ChordSequence.                 |
+| [`parse_plain_text`](_autosummary/accompy.chord_parsers.html.md#accompy.chord_parsers.parse_plain_text)(sheet, \*[, beats_per_bar, ...])    | Parse a plain-text chord sheet into a ChordSequence.                         |
+| [`parse_roman_numeral`](_autosummary/accompy.chord_parsers.html.md#accompy.chord_parsers.parse_roman_numeral)(sheet, \*[, key, ...])           | Parse Roman numeral notation into a ChordSequence.                           |
 
-### accompy.chord_parsers.parse_chord_sheet(sheet, , beats_per_bar=4, tempo=120, title='', key='C', time_signature=(4, 4))
+### accompy.chord_parsers.parse_chord_sheet(sheet, , beats_per_bar=None, tempo=120, title='', key='C', time_signature=(4, 4))
 
 Auto-detect format and parse a chord sheet into ChordSequence.
+
+`beats_per_bar` defaults to the tune’s time signature for an iReal URL, and to 4
+for the other formats.
 
 Detects:
 
@@ -1344,14 +1345,18 @@ Extracts the chord symbols, one per bar by default. Sections come from the
 * **Return type:**
   [`ChordSequence`](_autosummary/accompy.converters.html.md#accompy.converters.ChordSequence)
 
-### accompy.chord_parsers.parse_ireal_url(url, , beats_per_bar=4)
+### accompy.chord_parsers.parse_ireal_url(url, , beats_per_bar=None)
 
-Parse an iReal Pro URL into a ChordSequence.
+Parse an iReal Pro URL into a ChordSequence; a bar’s chords share it evenly.
 
-Uses pyRealParser if available, falls back to basic extraction.
+Decoding is [`accompy.ireal.decode_ireal_url()`](_autosummary/accompy.ireal.html.md#accompy.ireal.decode_ireal_url); the first tune with chords is
+used. Bars last `beats_per_bar` beats, by default the tune’s time-signature
+numerator. Raises `ValueError` when no tune has chords.
 
 ```pycon
->>> # Can't test without real URL, but structure is tested
+>>> cs = parse_ireal_url("irealbook://Blues=Me=Swing=F=n=[T34F7 |Bb7 Bo7 Z")
+>>> cs.chords, cs.time_signature
+([('F7', 3.0), ('Bb7', 1.5), ('Bo7', 1.5)], (3, 4))
 ```
 
 * **Return type:**
@@ -2132,7 +2137,7 @@ Advanced Usage (Extensibility):
 | [`register_skeleton`](_autosummary/accompy.html.md#accompy.register_skeleton)(key, pattern, \*[, name, ...])   | Register a custom rhythmic skeleton.                                                                                                   |
 | [`list_skeletons`](_autosummary/accompy.html.md#accompy.list_skeletons)(\*[, beats_per_measure, style])     | List available skeleton keys, optionally filtered.                                                                                     |
 | [`parse_ireal_html`](_autosummary/accompy.html.md#accompy.parse_ireal_html)(html_path)                        | Extract a Score from an iReal Pro HTML export file.                                                                                    |
-| [`parse_ireal_url`](_autosummary/accompy.html.md#accompy.parse_ireal_url)(url)                               | Parse an iReal Pro URL into a Score object.                                                                                            |
+| [`parse_ireal_url`](_autosummary/accompy.html.md#accompy.parse_ireal_url)(url)                               | Parse an iReal Pro URL (`irealb://` or `irealbook://`) into a Score.                                                                   |
 | [`transpose_score`](_autosummary/accompy.html.md#accompy.transpose_score)(score, target_key)                 | Transpose a [`Score`](_autosummary/accompy.html.md#accompy.Score) to a new key.                                                       |
 | [`transpose_chord`](_autosummary/accompy.html.md#accompy.transpose_chord)(chord, semitones, \*[, use_flat])  | Transpose a chord symbol by *semitones*.                                                                                               |
 | [`transpose_note`](_autosummary/accompy.html.md#accompy.transpose_note)(name, semitones, \*[, use_flat])    | Transpose a single note name by *semitones*.                                                                                           |
@@ -3643,11 +3648,17 @@ Example:
 
 ### accompy.parse_ireal_url(url)
 
-Parse an iReal Pro URL into a Score object.
+Parse an iReal Pro URL (`irealb://` or `irealbook://`) into a Score.
 
-Tries pyRealParser’s `parse_ireal_url` first, then falls back to
-constructing a `Tune` directly (handles URLs with empty `==` fields),
-and finally to a no-dependency best-effort parser.
+Decoding is [`accompy.ireal.decode_ireal_url()`](_autosummary/accompy.ireal.html.md#accompy.ireal.decode_ireal_url); the Score is the first tune of
+the URL that has chords, each bar the list of its chords as written (iReal chord
+notation). Raises `ValueError` when no tune has chords.
+
+```pycon
+>>> score = parse_ireal_url("irealbook://Blues=Me=Swing=F=n=[T34F7 |Bb7 Bo7 |C7 Z")
+>>> score.measures, score.time_signature
+([['F7'], ['Bb7', 'Bo7'], ['C7']], (3, 4))
+```
 
 ### accompy.pitch_classes(notes)
 
@@ -4104,6 +4115,7 @@ Verify all dependencies and optionally auto-configure.
 | [`chord_resolvers`](_autosummary/accompy.chord_resolvers.html.md#module-accompy.chord_resolvers)       | Chord resolvers — convert chord symbols to MIDI note numbers.                   |
 | [`converters`](_autosummary/accompy.converters.html.md#module-accompy.converters)                 | Core types for the chord-to-audio pipeline.                                     |
 | [`data_access`](_autosummary/accompy.data_access.html.md#module-accompy.data_access)               | Per-user data directory management for accompy.                                 |
+| [`ireal`](_autosummary/accompy.ireal.html.md#module-accompy.ireal)                           | Decode iReal Pro URLs (`irealb://` and `irealbook://`) into tunes and bars.     |
 | [`main`](_autosummary/accompy.main.html.md#module-accompy.main)                             | Main accompaniment generation module.                                           |
 | [`midi_generators`](_autosummary/accompy.midi_generators.html.md#module-accompy.midi_generators)       | MIDI generators — convert NoteSequence to MidiData.                             |
 | [`patterns`](_autosummary/accompy.patterns.html.md#module-accompy.patterns)                     | Pattern registry and access for accompany patterns.                             |
@@ -4119,6 +4131,166 @@ Verify all dependencies and optionally auto-configure.
 | [`tools`](_autosummary/accompy.tools.html.md#module-accompy.tools)                           | Tools for generating accompaniment audio from Score objects.                    |
 | [`util`](_autosummary/accompy.util.html.md#module-accompy.util)                             | Utility functions for chord parsing and normalization.                          |
 | [`wips`](_autosummary/accompy.wips.html.md#module-accompy.wips)                             | Backward-compatibility shim — wips modules have moved to accompy top level.     |
+
+
+# _autosummary/accompy.ireal.html.md
+
+# accompy.ireal
+
+Decode iReal Pro URLs (`irealb://` and `irealbook://`) into tunes and bars.
+
+accompy owns this decoding; the TypeScript twin (`ts/src/ireal.ts`) is its exact
+counterpart. The unscrambling and the chord-string cleanup started as a copy of the parts
+of pyRealParser ([https://github.com/drs251/pyRealParser](https://github.com/drs251/pyRealParser), MIT licence, notice below) that
+accompy used. Changes from it:
+
+- `T12` is 12/8; every other time-signature code `T<a><b>` is a/b;
+- the chart is read bar by bar in one linear pass: every `{...}` repeat is written out
+  with its own endings (`}N2`, `}` then `[N2`, three endings; a `}` closing the
+  last ending replays nothing), a `}` with no `{` repeats from the last `[`, the
+  previous `}` or the top, a `{` inside an open repeat restarts it (iReal has no
+  nesting), and the `}` stays a barline;
+- a D.C./D.S. al Coda replays from the segno `S` (or the top) to the first `Q`, as
+  whole bars, then plays the coda;
+- `r` (repeat the previous two bars) makes two bars and keeps the bar after it;
+- `p` (the previous chord again) and `W` (an invisible root) with no chord before
+  them are dropped; `x` or `r` with nothing to repeat is dropped;
+- backslashes in chord text are literal text;
+- song fields are read by position, so an empty field (an empty composer) shifts nothing;
+- each bar is a list of its chords (pyRealParser glued them into one string per bar), and
+  end, segno and coda marks are left out of the chords;
+- the `l` (large print) mark is removed without eating the `l` of `alt`;
+- `Z` (final double bar) is a barline.
+
+Regex digit and word classes follow Python’s Unicode tables; the twin’s JavaScript ones can
+be a version newer (characters added in Unicode 15.1/16 differ; iReal uses none of them).
+
+The URL layout. `irealb://` holds songs joined by `===`, then an optional playlist
+name; a song is ten `=`-separated fields, `title=composer=(unused)=style=key=transpose=
+music=comp_style=bpm=repeats`, whose music starts with [`SCRAMBLE_PREFIX`](_autosummary/accompy.ireal.html.md#accompy.ireal.SCRAMBLE_PREFIX) and is
+scrambled. Empty fields can make `===` inside a song, so songs are found by their music
+field, not by splitting on `===`. `irealbook://` (the older format) holds six-field
+songs, `title=composer=style=key=n=music`, with the music in plain text.
+
+```pycon
+>>> [t.measures for t in decode_ireal_url("irealbook://Blues=Me=Swing=F=n=[T34F7 |Bb7 p|r| |C7 Z")]
+[[['F7'], ['Bb7', 'Bb7'], ['F7'], ['Bb7', 'Bb7'], ['C7']]]
+```
+
+### Module Attributes
+
+| [`SCRAMBLE_PREFIX`](_autosummary/accompy.ireal.html.md#accompy.ireal.SCRAMBLE_PREFIX)           | The start of a scrambled (`irealb://`) music field.                           |
+|----------------------------------------------------------------------------|-------------------------------------------------------------------------------|
+| [`TIME_SIGNATURE_EXCEPTIONS`](_autosummary/accompy.ireal.html.md#accompy.ireal.TIME_SIGNATURE_EXCEPTIONS) | Time-signature codes that are not `T<numerator><denominator>`.                |
+| [`PLAIN_SONG_FIELDS`](_autosummary/accompy.ireal.html.md#accompy.ireal.PLAIN_SONG_FIELDS)         | Number of fields in an `irealbook://` song, and the index of its music field. |
+| [`PLAIN_MUSIC_INDEX`](_autosummary/accompy.ireal.html.md#accompy.ireal.PLAIN_MUSIC_INDEX)         | Number of fields in an `irealbook://` song, and the index of its music field. |
+
+### Functions
+
+| [`cleanup_chord_string`](_autosummary/accompy.ireal.html.md#accompy.ireal.cleanup_chord_string)(chord_string)   | Unify bar lines (`Z`, the final double bar, is one too) and repeat signs; drop spacers and empty bars.                                                                   |
+|---------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| [`decode_ireal_url`](_autosummary/accompy.ireal.html.md#accompy.ireal.decode_ireal_url)(url)                | The tunes of an iReal URL (a playlist has several), skipping those that do not decode.                                                                                   |
+| [`flatten_measures`](_autosummary/accompy.ireal.html.md#accompy.ireal.flatten_measures)(chord_string)       | The bars of an (unscrambled) chord string, each a list of its chords, with repeats, endings, codas and signs written out (a `p` repeats the previous chord on its beat). |
+| [`time_signature`](_autosummary/accompy.ireal.html.md#accompy.ireal.time_signature)(chord_string)         | The first time signature (`T44`, `T34`, `T12` = 12/8, ...), else 4/4.                                                                                                    |
+| [`unscramble`](_autosummary/accompy.ireal.html.md#accompy.ireal.unscramble)(scrambled)                | Undo iReal's scrambling of a music field (after [`SCRAMBLE_PREFIX`](_autosummary/accompy.ireal.html.md#accompy.ireal.SCRAMBLE_PREFIX)).                                                       |
+
+### Classes
+
+| [`IrealTune`](_autosummary/accompy.ireal.html.md#accompy.ireal.IrealTune)([title, composer, style, key, ...])   | One song of an iReal URL: its metadata, cleaned chord string and flattened bars.   |
+|--------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------|
+
+### *class* accompy.ireal.IrealTune(title='', composer='', style='', key='', transpose='', comp_style='', bpm='', repeats='', chord_string='', time_signature=(4, 4), measures=list())
+
+Bases: [`object`](https://docs.python.org/3/builtins/functions.html#object)
+
+One song of an iReal URL: its metadata, cleaned chord string and flattened bars.
+
+`measures` holds one list of chords per bar (e.g. `['D-7', 'G7']`), with
+repeats, endings, codas and repeat signs written out.
+
+#### chord_specs(, beats_per_bar=None)
+
+`(chord, beats)` pairs: each bar shared evenly by its chords. Bars last
+`beats_per_bar` beats, by default the time signature’s numerator.
+
+```pycon
+>>> IrealTune(measures=[["C"], ["D-7", "G7"]], time_signature=(3, 4)).chord_specs()
+[('C', 3.0), ('D-7', 1.5), ('G7', 1.5)]
+```
+
+* **Return type:**
+  [`list`](https://docs.python.org/3/builtins/stdtypes.html#list)[[`tuple`](https://docs.python.org/3/builtins/stdtypes.html#tuple)[[`str`](https://docs.python.org/3/builtins/stdtypes.html#str), [`float`](https://docs.python.org/3/builtins/functions.html#float)]]
+
+#### *property* tempo *: [int](https://docs.python.org/3/builtins/functions.html#int) | [None](https://docs.python.org/3/builtins/constants.html#None)*
+
+The tempo in BPM, or None when unset (empty, not a number, or not above 0).
+
+### accompy.ireal.PLAIN_MUSIC_INDEX *= 5*
+
+Number of fields in an `irealbook://` song, and the index of its music field.
+
+### accompy.ireal.PLAIN_SONG_FIELDS *= 6*
+
+Number of fields in an `irealbook://` song, and the index of its music field.
+
+### accompy.ireal.SCRAMBLE_PREFIX *= '1r34LbKcu7'*
+
+The start of a scrambled (`irealb://`) music field.
+
+### accompy.ireal.TIME_SIGNATURE_EXCEPTIONS *= {(1, 2): (12, 8)}*
+
+Time-signature codes that are not `T<numerator><denominator>`.
+
+### accompy.ireal.cleanup_chord_string(chord_string)
+
+Unify bar lines (`Z`, the final double bar, is one too) and repeat signs; drop
+spacers and empty bars.
+
+* **Return type:**
+  [`str`](https://docs.python.org/3/builtins/stdtypes.html#str)
+
+### accompy.ireal.decode_ireal_url(url)
+
+The tunes of an iReal URL (a playlist has several), skipping those that do not decode.
+
+The URL ends at its first raw `"` (as when cut out of an HTML `href`; a `%22`
+is a quote inside a title or comment) and is then percent-decoded; the `irealb://` / `irealbook://` scheme is optional. Music fields that
+start with [`SCRAMBLE_PREFIX`](_autosummary/accompy.ireal.html.md#accompy.ireal.SCRAMBLE_PREFIX) are read as `irealb` songs; a URL with none is
+read as `irealbook` six-field songs.
+
+* **Return type:**
+  [`list`](https://docs.python.org/3/builtins/stdtypes.html#list)[[`IrealTune`](_autosummary/accompy.ireal.html.md#accompy.ireal.IrealTune)]
+
+### accompy.ireal.flatten_measures(chord_string)
+
+The bars of an (unscrambled) chord string, each a list of its chords, with repeats,
+endings, codas and signs written out (a `p` repeats the previous chord on its beat).
+
+```pycon
+>>> flatten_measures("{C^7 p|A-7 D7 |N1D-7,G7 }N2G-7 C7 F7 |F^7 Z")
+[['C^7', 'C^7'], ['A-7', 'D7'], ['D-7', 'G7'], ['C^7', 'C^7'], ['A-7', 'D7'], ['G-7', 'C7', 'F7'], ['F^7']]
+```
+
+* **Return type:**
+  [`list`](https://docs.python.org/3/builtins/stdtypes.html#list)[[`list`](https://docs.python.org/3/builtins/stdtypes.html#list)[[`str`](https://docs.python.org/3/builtins/stdtypes.html#str)]]
+
+### accompy.ireal.time_signature(chord_string)
+
+The first time signature (`T44`, `T34`, `T12` = 12/8, …), else 4/4.
+
+* **Return type:**
+  [`tuple`](https://docs.python.org/3/builtins/stdtypes.html#tuple)[[`int`](https://docs.python.org/3/builtins/functions.html#int), [`int`](https://docs.python.org/3/builtins/functions.html#int)]
+
+### accompy.ireal.unscramble(scrambled)
+
+Undo iReal’s scrambling of a music field (after [`SCRAMBLE_PREFIX`](_autosummary/accompy.ireal.html.md#accompy.ireal.SCRAMBLE_PREFIX)).
+
+Every full 50-character block that is not the last (or followed by fewer than 2
+characters) has characters 0-4 and 10-23 swapped with their mirror (49 - i). The
+operation is its own inverse.
+
+* **Return type:**
+  [`str`](https://docs.python.org/3/builtins/stdtypes.html#str)
 
 
 # _autosummary/accompy.main.html.md
@@ -6482,17 +6654,16 @@ and iReal URL parsing.
 
 ### Functions
 
-| [`normalize_chord_symbol`](_autosummary/accompy.util.html.md#accompy.util.normalize_chord_symbol)(symbol)                    | Normalize chord symbols to a standard format.                      |
-|----------------------------------------------------------------------------------------------------|--------------------------------------------------------------------|
-| [`parse_chord_string`](_autosummary/accompy.util.html.md#accompy.util.parse_chord_string)(chord_string)                  | Parse a chord string into measures, each containing chord symbols. |
-| [`parse_ireal_html`](_autosummary/accompy.util.html.md#accompy.util.parse_ireal_html)(html_path)                       | Extract a Score from an iReal Pro HTML export file.                |
-| [`parse_ireal_url`](_autosummary/accompy.util.html.md#accompy.util.parse_ireal_url)(url)                              | Parse an iReal Pro URL into a Score object.                        |
-| [`parse_ireal_url_fallback`](_autosummary/accompy.util.html.md#accompy.util.parse_ireal_url_fallback)(url)                     | Best-effort iReal Pro URL parser (no external dependencies).       |
-| [`parse_time_sig`](_autosummary/accompy.util.html.md#accompy.util.parse_time_sig)(ts_str)                            | Parse time signature string like '4/4' into tuple.                 |
-| [`score_from_chord_specs`](_autosummary/accompy.util.html.md#accompy.util.score_from_chord_specs)(chords, \*[, title, ...])  | Create a `Score` from `(chord, beats)` pairs.                      |
-| [`transpose_chord`](_autosummary/accompy.util.html.md#accompy.util.transpose_chord)(chord, semitones, \*[, use_flat]) | Transpose a chord symbol by *semitones*.                           |
-| [`transpose_note`](_autosummary/accompy.util.html.md#accompy.util.transpose_note)(name, semitones, \*[, use_flat])   | Transpose a single note name by *semitones*.                       |
-| [`transpose_score`](_autosummary/accompy.util.html.md#accompy.util.transpose_score)(score, target_key)                | Transpose a `Score` to a new key.                                  |
+| [`normalize_chord_symbol`](_autosummary/accompy.util.html.md#accompy.util.normalize_chord_symbol)(symbol)                    | Normalize chord symbols to a standard format.                        |
+|----------------------------------------------------------------------------------------------------|----------------------------------------------------------------------|
+| [`parse_chord_string`](_autosummary/accompy.util.html.md#accompy.util.parse_chord_string)(chord_string)                  | Parse a chord string into measures, each containing chord symbols.   |
+| [`parse_ireal_html`](_autosummary/accompy.util.html.md#accompy.util.parse_ireal_html)(html_path)                       | Extract a Score from an iReal Pro HTML export file.                  |
+| [`parse_ireal_url`](_autosummary/accompy.util.html.md#accompy.util.parse_ireal_url)(url)                              | Parse an iReal Pro URL (`irealb://` or `irealbook://`) into a Score. |
+| [`parse_time_sig`](_autosummary/accompy.util.html.md#accompy.util.parse_time_sig)(ts_str)                            | Parse time signature string like '4/4' into tuple.                   |
+| [`score_from_chord_specs`](_autosummary/accompy.util.html.md#accompy.util.score_from_chord_specs)(chords, \*[, title, ...])  | Create a `Score` from `(chord, beats)` pairs.                        |
+| [`transpose_chord`](_autosummary/accompy.util.html.md#accompy.util.transpose_chord)(chord, semitones, \*[, use_flat]) | Transpose a chord symbol by *semitones*.                             |
+| [`transpose_note`](_autosummary/accompy.util.html.md#accompy.util.transpose_note)(name, semitones, \*[, use_flat])   | Transpose a single note name by *semitones*.                         |
+| [`transpose_score`](_autosummary/accompy.util.html.md#accompy.util.transpose_score)(score, target_key)                | Transpose a `Score` to a new key.                                    |
 
 ### accompy.util.CHORD_SYMBOL_REPLACEMENTS *= (('maj7', '^7'), ('maj9', '^9'), ('maj', '^'), ('min7', '-7'), ('min', '-'), ('m7', '-7'), ('m9', '-9'), ('m', '-'), ('dim7', 'o7'), ('dim', 'o'), ('m7b5', 'h7'), ('ø7', 'h7'), ('ø', 'h'), ('sus4', 'sus'), ('sus2', 'sus2'), ('add9', 'add9'), ('add2', 'add2'))*
 
@@ -6579,18 +6750,17 @@ Example:
 
 ### accompy.util.parse_ireal_url(url)
 
-Parse an iReal Pro URL into a Score object.
+Parse an iReal Pro URL (`irealb://` or `irealbook://`) into a Score.
 
-Tries pyRealParser’s `parse_ireal_url` first, then falls back to
-constructing a `Tune` directly (handles URLs with empty `==` fields),
-and finally to a no-dependency best-effort parser.
+Decoding is [`accompy.ireal.decode_ireal_url()`](_autosummary/accompy.ireal.html.md#accompy.ireal.decode_ireal_url); the Score is the first tune of
+the URL that has chords, each bar the list of its chords as written (iReal chord
+notation). Raises `ValueError` when no tune has chords.
 
-### accompy.util.parse_ireal_url_fallback(url)
-
-Best-effort iReal Pro URL parser (no external dependencies).
-
-This is intentionally conservative: it extracts a usable chord progression but
-does not attempt to perfectly replicate iReal Pro’s full encoding.
+```pycon
+>>> score = parse_ireal_url("irealbook://Blues=Me=Swing=F=n=[T34F7 |Bb7 Bo7 |C7 Z")
+>>> score.measures, score.time_signature
+([['F7'], ['Bb7', 'Bo7'], ['C7']], (3, 4))
+```
 
 ### accompy.util.parse_time_sig(ts_str)
 
@@ -6757,18 +6927,16 @@ Backward-compat shim. Use `accompy.converters` instead.
 
 # About this build
 
-This documentation was built on **2026-11-10 17:57 UTC** from commit <a href="https://github.com/thorwhalen/accompy/commit/adc9bb9119e6f3e25a9efd6a3ecc06f0418d2fb9"><code>adc9bb9</code></a> on branch <code>main</code>, for **accompy 0.3.15** (from <code>pyproject.toml</code>).
+This documentation was built on **2026-11-10 18:57 UTC** from commit <a href="https://github.com/thorwhalen/accompy/commit/dcf395f7547857b2cac2248be0ed41118aaa0c97"><code>dcf395f</code></a> on branch <code>main</code>, for **accompy 0.3.16** (from <code>pyproject.toml</code>).
 
-#### WARNING
-The documentation and the package may be misaligned:
-
-- The documented version (0.3.15) is behind the latest release on PyPI (0.3.16): `pip install accompy` gives newer code than these docs describe.
+#### NOTE
+Nothing suggests a mismatch: the tree was clean at the commit above, and the documented version is the one on PyPI.
 
 ## Source
 
 |                     |                                                                                                                                                           |
 |---------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Commit              | <a href="https://github.com/thorwhalen/accompy/commit/adc9bb9119e6f3e25a9efd6a3ecc06f0418d2fb9"><code>adc9bb9119e6f3e25a9efd6a3ecc06f0418d2fb9</code></a> |
+| Commit              | <a href="https://github.com/thorwhalen/accompy/commit/dcf395f7547857b2cac2248be0ed41118aaa0c97"><code>dcf395f7547857b2cac2248be0ed41118aaa0c97</code></a> |
 | Branch              | <code>main</code>                                                                                                                                         |
 | Tags at this commit | none                                                                                                                                                      |
 | Working tree        | clean                                                                                                                                                     |
@@ -6779,9 +6947,9 @@ The documentation and the package may be misaligned:
 |              |                                                                                            |
 |--------------|--------------------------------------------------------------------------------------------|
 | Repository   | <code>thorwhalen/accompy</code>                                                            |
-| Run          | <a href="https://github.com/thorwhalen/accompy/actions/runs/42869902323">42869902323</a>   |
+| Run          | <a href="https://github.com/thorwhalen/accompy/actions/runs/42880059982">42880059982</a>   |
 | Ref          | <code>refs/heads/main</code>                                                               |
-| Event commit | <code>adc9bb9119e6f3e25a9efd6a3ecc06f0418d2fb9</code> (in the history of the built commit) |
+| Event commit | <code>dcf395f7547857b2cac2248be0ed41118aaa0c97</code> (in the history of the built commit) |
 
 ## Tools
 
@@ -6806,13 +6974,13 @@ The documentation and the package may be misaligned:
 
 ## Package on PyPI
 
-Latest release: <a href="https://pypi.org/project/accompy/0.3.16/">0.3.16</a>, newer than the documented version (0.3.15).
+Latest release: <a href="https://pypi.org/project/accompy/0.3.16/">0.3.16</a>, the same as the documented version.
 
 ## Reproduce
 
 ```bash
 git clone https://github.com/thorwhalen/accompy && cd accompy
-git checkout adc9bb9119e6f3e25a9efd6a3ecc06f0418d2fb9
+git checkout dcf395f7547857b2cac2248be0ed41118aaa0c97
 pip install "epythet==0.2.22"
 epythet quickstart . --ignore tests/ scrap/ examples/
 ```

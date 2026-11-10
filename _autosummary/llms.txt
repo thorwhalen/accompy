@@ -13,6 +13,7 @@
 - [accompy.chord_resolvers](accompy.chord_resolvers.html.md): Chord resolvers — convert chord symbols to MIDI note numbers.
 - [accompy.converters](accompy.converters.html.md): Core types for the chord-to-audio pipeline.
 - [accompy.data_access](accompy.data_access.html.md): Per-user data directory management for accompy.
+- [accompy.ireal](accompy.ireal.html.md): Decode iReal Pro URLs (&#96;irealb://&#96; and &#96;irealbook://&#96;) into tunes and bars.
 - [accompy.main](accompy.main.html.md): Main accompaniment generation module.
 - [accompy.midi_generators](accompy.midi_generators.html.md): MIDI generators — convert NoteSequence to MidiData.
 - [accompy.patterns](accompy.patterns.html.md): Pattern registry and access for accompany patterns.

@@ -104,6 +104,7 @@
    chord_resolvers
    converters
    data_access
+   ireal
    main
    midi_generators
    patterns

@@ -13,17 +13,16 @@ and iReal URL parsing.
 
 ### Functions
 
-| [`normalize_chord_symbol`](#accompy.util.normalize_chord_symbol)(symbol)                    | Normalize chord symbols to a standard format.                      |
-|----------------------------------------------------------------------------------------------------|--------------------------------------------------------------------|
-| [`parse_chord_string`](#accompy.util.parse_chord_string)(chord_string)                  | Parse a chord string into measures, each containing chord symbols. |
-| [`parse_ireal_html`](#accompy.util.parse_ireal_html)(html_path)                       | Extract a Score from an iReal Pro HTML export file.                |
-| [`parse_ireal_url`](#accompy.util.parse_ireal_url)(url)                              | Parse an iReal Pro URL into a Score object.                        |
-| [`parse_ireal_url_fallback`](#accompy.util.parse_ireal_url_fallback)(url)                     | Best-effort iReal Pro URL parser (no external dependencies).       |
-| [`parse_time_sig`](#accompy.util.parse_time_sig)(ts_str)                            | Parse time signature string like '4/4' into tuple.                 |
-| [`score_from_chord_specs`](#accompy.util.score_from_chord_specs)(chords, \*[, title, ...])  | Create a `Score` from `(chord, beats)` pairs.                      |
-| [`transpose_chord`](#accompy.util.transpose_chord)(chord, semitones, \*[, use_flat]) | Transpose a chord symbol by *semitones*.                           |
-| [`transpose_note`](#accompy.util.transpose_note)(name, semitones, \*[, use_flat])   | Transpose a single note name by *semitones*.                       |
-| [`transpose_score`](#accompy.util.transpose_score)(score, target_key)                | Transpose a `Score` to a new key.                                  |
+| [`normalize_chord_symbol`](#accompy.util.normalize_chord_symbol)(symbol)                    | Normalize chord symbols to a standard format.                        |
+|----------------------------------------------------------------------------------------------------|----------------------------------------------------------------------|
+| [`parse_chord_string`](#accompy.util.parse_chord_string)(chord_string)                  | Parse a chord string into measures, each containing chord symbols.   |
+| [`parse_ireal_html`](#accompy.util.parse_ireal_html)(html_path)                       | Extract a Score from an iReal Pro HTML export file.                  |
+| [`parse_ireal_url`](#accompy.util.parse_ireal_url)(url)                              | Parse an iReal Pro URL (`irealb://` or `irealbook://`) into a Score. |
+| [`parse_time_sig`](#accompy.util.parse_time_sig)(ts_str)                            | Parse time signature string like '4/4' into tuple.                   |
+| [`score_from_chord_specs`](#accompy.util.score_from_chord_specs)(chords, \*[, title, ...])  | Create a `Score` from `(chord, beats)` pairs.                        |
+| [`transpose_chord`](#accompy.util.transpose_chord)(chord, semitones, \*[, use_flat]) | Transpose a chord symbol by *semitones*.                             |
+| [`transpose_note`](#accompy.util.transpose_note)(name, semitones, \*[, use_flat])   | Transpose a single note name by *semitones*.                         |
+| [`transpose_score`](#accompy.util.transpose_score)(score, target_key)                | Transpose a `Score` to a new key.                                    |
 
 ### accompy.util.CHORD_SYMBOL_REPLACEMENTS *= (('maj7', '^7'), ('maj9', '^9'), ('maj', '^'), ('min7', '-7'), ('min', '-'), ('m7', '-7'), ('m9', '-9'), ('m', '-'), ('dim7', 'o7'), ('dim', 'o'), ('m7b5', 'h7'), ('ø7', 'h7'), ('ø', 'h'), ('sus4', 'sus'), ('sus2', 'sus2'), ('add9', 'add9'), ('add2', 'add2'))*
 
@@ -110,18 +109,17 @@ Example:
 
 ### accompy.util.parse_ireal_url(url)
 
-Parse an iReal Pro URL into a Score object.
+Parse an iReal Pro URL (`irealb://` or `irealbook://`) into a Score.
 
-Tries pyRealParser’s `parse_ireal_url` first, then falls back to
-constructing a `Tune` directly (handles URLs with empty `==` fields),
-and finally to a no-dependency best-effort parser.
+Decoding is [`accompy.ireal.decode_ireal_url()`](accompy.ireal.html.md#accompy.ireal.decode_ireal_url); the Score is the first tune of
+the URL that has chords, each bar the list of its chords as written (iReal chord
+notation). Raises `ValueError` when no tune has chords.
 
-### accompy.util.parse_ireal_url_fallback(url)
-
-Best-effort iReal Pro URL parser (no external dependencies).
-
-This is intentionally conservative: it extracts a usable chord progression but
-does not attempt to perfectly replicate iReal Pro’s full encoding.
+```pycon
+>>> score = parse_ireal_url("irealbook://Blues=Me=Swing=F=n=[T34F7 |Bb7 Bo7 |C7 Z")
+>>> score.measures, score.time_signature
+([['F7'], ['Bb7', 'Bo7'], ['C7']], (3, 4))
+```
 
 ### accompy.util.parse_time_sig(ts_str)
 

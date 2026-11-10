@@ -1,0 +1,31 @@
+accompy.ireal
+=============
+
+.. automodule:: accompy.ireal
+
+   
+   .. rubric:: Module Attributes
+
+   .. autosummary::
+   
+      SCRAMBLE_PREFIX
+      TIME_SIGNATURE_EXCEPTIONS
+      PLAIN_SONG_FIELDS
+      PLAIN_MUSIC_INDEX
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+   
+      cleanup_chord_string
+      decode_ireal_url
+      flatten_measures
+      time_signature
+      unscramble
+   
+   .. rubric:: Classes
+
+   .. autosummary::
+   
+      IrealTune
+   

@@ -19,7 +19,6 @@ accompy.util
       parse_chord_string
       parse_ireal_html
       parse_ireal_url
-      parse_ireal_url_fallback
       parse_time_sig
       score_from_chord_specs
       transpose_chord

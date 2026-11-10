@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=75c7c72ae941e8b558d8" />
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=75c7c72ae941e8b558d8" />
 
-    <script src="../../_static/documentation_options.js?v=c77f38ba"></script>
+    <script src="../../_static/documentation_options.js?v=f087b2d0"></script>
     <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -411,7 +411,7 @@ window.runMermaid = runMermaid;</script>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="color-scheme" content="light dark"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="0.3.15" />
+  <meta name="docsearch:version" content="0.3.16" />
   
     
     <script src="../../_static/searchtools.js"></script>
@@ -732,7 +732,6 @@ window.runMermaid = runMermaid;</script>
 <span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Optional</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">.converters</span><span class="w"> </span><span class="kn">import</span> <span class="n">ChordSequence</span><span class="p">,</span> <span class="n">ChordSheet</span><span class="p">,</span> <span class="n">converter</span>
 
@@ -813,6 +812,10 @@ window.runMermaid = runMermaid;</script>
 
 
 
+<span class="c1">#: Beats per bar for chord sheets that do not say (an iReal URL carries its own meter).</span>
+<span class="n">_DEFAULT_BEATS_PER_BAR</span> <span class="o">=</span> <span class="mi">4</span>
+
+
 <span class="c1"># ---------------------------------------------------------------------------</span>
 <span class="c1"># iReal Pro URL parser</span>
 <span class="c1"># ---------------------------------------------------------------------------</span>
@@ -823,86 +826,32 @@ window.runMermaid = runMermaid;</script>
 <span class="k">def</span><span class="w"> </span><span class="nf">parse_ireal_url</span><span class="p">(</span>
     <span class="n">url</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">ChordSheet</span><span class="p">,</span>
     <span class="o">*</span><span class="p">,</span>
-    <span class="n">beats_per_bar</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span>
+    <span class="n">beats_per_bar</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ChordSequence</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">"""Parse an iReal Pro URL into a ChordSequence.</span>
+<span class="w">    </span><span class="sd">"""Parse an iReal Pro URL into a ChordSequence; a bar's chords share it evenly.</span>
 
-<span class="sd">    Uses pyRealParser if available, falls back to basic extraction.</span>
+<span class="sd">    Decoding is :func:`accompy.ireal.decode_ireal_url`; the first tune with chords is</span>
+<span class="sd">    used. Bars last ``beats_per_bar`` beats, by default the tune's time-signature</span>
+<span class="sd">    numerator. Raises ``ValueError`` when no tune has chords.</span>
 
-<span class="sd">    &gt;&gt;&gt; # Can't test without real URL, but structure is tested</span>
+<span class="sd">    &gt;&gt;&gt; cs = parse_ireal_url("irealbook://Blues=Me=Swing=F=n=[T34F7 |Bb7 Bo7 Z")</span>
+<span class="sd">    &gt;&gt;&gt; cs.chords, cs.time_signature</span>
+<span class="sd">    ([('F7', 3.0), ('Bb7', 1.5), ('Bo7', 1.5)], (3, 4))</span>
 <span class="sd">    """</span>
-    <span class="n">url</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
-    <span class="k">try</span><span class="p">:</span>
-        <span class="kn">from</span><span class="w"> </span><span class="nn">pyRealParser</span><span class="w"> </span><span class="kn">import</span> <span class="n">Tune</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">.ireal</span><span class="w"> </span><span class="kn">import</span> <span class="n">decode_ireal_url</span>
 
-        <span class="n">tunes</span> <span class="o">=</span> <span class="n">Tune</span><span class="o">.</span><span class="n">parse_ireal_url</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">tunes</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"No songs found in URL"</span><span class="p">)</span>
-        <span class="n">tune</span> <span class="o">=</span> <span class="n">tunes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-        <span class="n">measures</span> <span class="o">=</span> <span class="n">tune</span><span class="o">.</span><span class="n">measures_as_strings</span>
-        <span class="n">chords</span> <span class="o">=</span> <span class="p">[</span>
-            <span class="p">(</span><span class="n">chord</span><span class="p">,</span> <span class="nb">float</span><span class="p">(</span><span class="n">beats_per_bar</span><span class="p">))</span>
-            <span class="k">for</span> <span class="n">chord</span> <span class="ow">in</span> <span class="n">measures</span>
-            <span class="k">if</span> <span class="n">chord</span> <span class="ow">and</span> <span class="n">chord</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
-        <span class="p">]</span>
-        <span class="n">ts</span> <span class="o">=</span> <span class="n">_parse_ts_string</span><span class="p">(</span><span class="n">tune</span><span class="o">.</span><span class="n">time_signature</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">ChordSequence</span><span class="p">(</span>
-            <span class="n">chords</span><span class="o">=</span><span class="n">chords</span><span class="p">,</span>
-            <span class="n">title</span><span class="o">=</span><span class="n">tune</span><span class="o">.</span><span class="n">title</span> <span class="ow">or</span> <span class="s2">""</span><span class="p">,</span>
-            <span class="n">key</span><span class="o">=</span><span class="n">tune</span><span class="o">.</span><span class="n">key</span> <span class="ow">or</span> <span class="s2">"C"</span><span class="p">,</span>
-            <span class="n">tempo</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">tune</span><span class="o">.</span><span class="n">bpm</span><span class="p">)</span> <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">tune</span><span class="p">,</span> <span class="s2">"bpm"</span><span class="p">)</span> <span class="ow">and</span> <span class="n">tune</span><span class="o">.</span><span class="n">bpm</span> <span class="k">else</span> <span class="mi">120</span><span class="p">,</span>
-            <span class="n">time_signature</span><span class="o">=</span><span class="n">ts</span><span class="p">,</span>
-        <span class="p">)</span>
-    <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">_parse_ireal_url_fallback</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">beats_per_bar</span><span class="o">=</span><span class="n">beats_per_bar</span><span class="p">)</span></div>
+    <span class="k">for</span> <span class="n">tune</span> <span class="ow">in</span> <span class="n">decode_ireal_url</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">url</span><span class="p">)):</span>
+        <span class="n">chords</span> <span class="o">=</span> <span class="n">tune</span><span class="o">.</span><span class="n">chord_specs</span><span class="p">(</span><span class="n">beats_per_bar</span><span class="o">=</span><span class="n">beats_per_bar</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">chords</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">ChordSequence</span><span class="p">(</span>
+                <span class="n">chords</span><span class="o">=</span><span class="n">chords</span><span class="p">,</span>
+                <span class="n">title</span><span class="o">=</span><span class="n">tune</span><span class="o">.</span><span class="n">title</span> <span class="ow">or</span> <span class="s2">""</span><span class="p">,</span>
+                <span class="n">key</span><span class="o">=</span><span class="n">tune</span><span class="o">.</span><span class="n">key</span> <span class="ow">or</span> <span class="s2">"C"</span><span class="p">,</span>
+                <span class="n">tempo</span><span class="o">=</span><span class="n">tune</span><span class="o">.</span><span class="n">tempo</span> <span class="ow">or</span> <span class="mi">120</span><span class="p">,</span>
+                <span class="n">time_signature</span><span class="o">=</span><span class="n">tune</span><span class="o">.</span><span class="n">time_signature</span><span class="p">,</span>
+            <span class="p">)</span>
+    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"No chords found in iReal Pro URL"</span><span class="p">)</span></div>
 
-
-
-<span class="k">def</span><span class="w"> </span><span class="nf">_parse_ts_string</span><span class="p">(</span><span class="n">ts</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">"""Parse '3/4' -&gt; (3, 4), default (4, 4)."""</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">ts</span><span class="p">:</span>
-        <span class="k">return</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
-    <span class="k">try</span><span class="p">:</span>
-        <span class="n">parts</span> <span class="o">=</span> <span class="n">ts</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">"/"</span><span class="p">)</span>
-        <span class="k">return</span> <span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">parts</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="nb">int</span><span class="p">(</span><span class="n">parts</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
-    <span class="k">except</span> <span class="p">(</span><span class="ne">ValueError</span><span class="p">,</span> <span class="ne">IndexError</span><span class="p">):</span>
-        <span class="k">return</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
-
-
-<span class="k">def</span><span class="w"> </span><span class="nf">_parse_ireal_url_fallback</span><span class="p">(</span><span class="n">url</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">beats_per_bar</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">4</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ChordSequence</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">"""Minimal iReal URL parser without pyRealParser."""</span>
-    <span class="kn">from</span><span class="w"> </span><span class="nn">urllib.parse</span><span class="w"> </span><span class="kn">import</span> <span class="n">unquote</span>
-
-    <span class="n">raw</span> <span class="o">=</span> <span class="n">url</span>
-    <span class="k">if</span> <span class="n">raw</span><span class="o">.</span><span class="n">startswith</span><span class="p">((</span><span class="s2">"irealbook://"</span><span class="p">,</span> <span class="s2">"irealb://"</span><span class="p">)):</span>
-        <span class="n">raw</span> <span class="o">=</span> <span class="n">raw</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">"://"</span><span class="p">,</span> <span class="mi">1</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
-    <span class="n">raw</span> <span class="o">=</span> <span class="n">unquote</span><span class="p">(</span><span class="n">raw</span><span class="p">)</span>
-    <span class="n">parts</span> <span class="o">=</span> <span class="n">raw</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">"="</span><span class="p">)</span>
-
-    <span class="n">title</span> <span class="o">=</span> <span class="n">parts</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">if</span> <span class="n">parts</span> <span class="k">else</span> <span class="s2">"Untitled"</span>
-    <span class="n">key</span> <span class="o">=</span> <span class="n">parts</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">parts</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">3</span> <span class="ow">and</span> <span class="n">parts</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="k">else</span> <span class="s2">"C"</span>
-
-    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">parts</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">6</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"Invalid iReal Pro URL format"</span><span class="p">)</span>
-
-    <span class="n">chord_data</span> <span class="o">=</span> <span class="n">parts</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span>
-    <span class="k">for</span> <span class="n">marker</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">"{"</span><span class="p">,</span> <span class="s2">"}"</span><span class="p">,</span> <span class="s2">"["</span><span class="p">,</span> <span class="s2">"]"</span><span class="p">,</span> <span class="s2">"Z"</span><span class="p">,</span> <span class="s2">"*"</span><span class="p">,</span> <span class="s2">"Y"</span><span class="p">,</span> <span class="s2">"Q"</span><span class="p">,</span> <span class="s2">"S"</span><span class="p">,</span> <span class="s2">"T"</span><span class="p">]:</span>
-        <span class="n">chord_data</span> <span class="o">=</span> <span class="n">chord_data</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">marker</span><span class="p">,</span> <span class="s2">" "</span><span class="p">)</span>
-    <span class="n">chord_data</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s2">"\*[A-Za-z]"</span><span class="p">,</span> <span class="s2">" "</span><span class="p">,</span> <span class="n">chord_data</span><span class="p">)</span>
-    <span class="n">chord_data</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s2">"N\d"</span><span class="p">,</span> <span class="s2">" "</span><span class="p">,</span> <span class="n">chord_data</span><span class="p">)</span>
-    <span class="n">chord_data</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s2">"&lt;[^&gt;]*&gt;"</span><span class="p">,</span> <span class="s2">" "</span><span class="p">,</span> <span class="n">chord_data</span><span class="p">)</span>
-
-    <span class="n">tokens</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="sa">r</span><span class="s2">"[|\s]+"</span><span class="p">,</span> <span class="n">chord_data</span><span class="p">)</span>
-    <span class="n">chords</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="k">for</span> <span class="n">token</span> <span class="ow">in</span> <span class="n">tokens</span><span class="p">:</span>
-        <span class="n">token</span> <span class="o">=</span> <span class="n">token</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">token</span> <span class="ow">or</span> <span class="n">token</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">"n"</span><span class="p">,</span> <span class="s2">"x"</span><span class="p">,</span> <span class="s2">"r"</span><span class="p">,</span> <span class="s2">"%"</span><span class="p">,</span> <span class="s2">"p"</span><span class="p">,</span> <span class="s2">"s"</span><span class="p">,</span> <span class="s2">"l"</span><span class="p">):</span>
-            <span class="k">continue</span>
-        <span class="n">match</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="sa">r</span><span class="s2">"^([A-G][#b]?)(.*)"</span><span class="p">,</span> <span class="n">token</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">match</span><span class="p">:</span>
-            <span class="n">chords</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">match</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="nb">float</span><span class="p">(</span><span class="n">beats_per_bar</span><span class="p">)))</span>
-
-    <span class="k">return</span> <span class="n">ChordSequence</span><span class="p">(</span><span class="n">chords</span><span class="o">=</span><span class="n">chords</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="n">title</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="n">key</span><span class="p">)</span>
 
 
 <span class="c1"># ---------------------------------------------------------------------------</span>
@@ -1393,13 +1342,16 @@ window.runMermaid = runMermaid;</script>
 <span class="k">def</span><span class="w"> </span><span class="nf">parse_chord_sheet</span><span class="p">(</span>
     <span class="n">sheet</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">ChordSheet</span><span class="p">,</span>
     <span class="o">*</span><span class="p">,</span>
-    <span class="n">beats_per_bar</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span>
+    <span class="n">beats_per_bar</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">tempo</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">120</span><span class="p">,</span>
     <span class="n">title</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">""</span><span class="p">,</span>
     <span class="n">key</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"C"</span><span class="p">,</span>
     <span class="n">time_signature</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ChordSequence</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""Auto-detect format and parse a chord sheet into ChordSequence.</span>
+
+<span class="sd">    ``beats_per_bar`` defaults to the tune's time signature for an iReal URL, and to 4</span>
+<span class="sd">    for the other formats.</span>
 
 <span class="sd">    Detects:</span>
 <span class="sd">    - iReal Pro URLs (starts with 'irealb://' or 'irealbook://')</span>
@@ -1420,7 +1372,8 @@ window.runMermaid = runMermaid;</script>
     <span class="n">sheet</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">sheet</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
 
     <span class="k">if</span> <span class="n">sheet</span><span class="o">.</span><span class="n">startswith</span><span class="p">((</span><span class="s2">"irealb://"</span><span class="p">,</span> <span class="s2">"irealbook://"</span><span class="p">)):</span>
-        <span class="k">return</span> <span class="n">parse_ireal_url</span><span class="p">(</span><span class="n">sheet</span><span class="p">,</span> <span class="n">beats_per_bar</span><span class="o">=</span><span class="n">beats_per_bar</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">parse_ireal_url</span><span class="p">(</span><span class="n">sheet</span><span class="p">,</span> <span class="n">beats_per_bar</span><span class="o">=</span><span class="n">beats_per_bar</span><span class="p">)</span>  <span class="c1"># None: the tune's meter</span>
+    <span class="n">beats_per_bar</span> <span class="o">=</span> <span class="n">_DEFAULT_BEATS_PER_BAR</span> <span class="k">if</span> <span class="n">beats_per_bar</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">beats_per_bar</span>
 
     <span class="k">if</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="sa">r</span><span class="s2">"\[[A-G]"</span><span class="p">,</span> <span class="n">sheet</span><span class="p">)</span> <span class="ow">and</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="sa">r</span><span class="s2">"\][^|[\]]+\["</span><span class="p">,</span> <span class="n">sheet</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">parse_chordpro</span><span class="p">(</span><span class="n">sheet</span><span class="p">,</span> <span class="n">beats_per_bar</span><span class="o">=</span><span class="n">beats_per_bar</span><span class="p">,</span> <span class="n">tempo</span><span class="o">=</span><span class="n">tempo</span><span class="p">)</span>

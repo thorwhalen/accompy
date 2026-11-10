@@ -15,6 +15,7 @@
 - [accompy.chord_resolvers](_autosummary/accompy.chord_resolvers.html.md): Chord resolvers — convert chord symbols to MIDI note numbers.
 - [accompy.converters](_autosummary/accompy.converters.html.md): Core types for the chord-to-audio pipeline.
 - [accompy.data_access](_autosummary/accompy.data_access.html.md): Per-user data directory management for accompy.
+- [accompy.ireal](_autosummary/accompy.ireal.html.md): Decode iReal Pro URLs (&#96;irealb://&#96; and &#96;irealbook://&#96;) into tunes and bars.
 - [accompy.main](_autosummary/accompy.main.html.md): Main accompaniment generation module.
 - [accompy.midi_generators](_autosummary/accompy.midi_generators.html.md): MIDI generators — convert NoteSequence to MidiData.
 - [accompy.patterns](_autosummary/accompy.patterns.html.md): Pattern registry and access for accompany patterns.
@@ -41,7 +42,7 @@
 - [accompy.wips.pipeline](_autosummary/accompy.wips.pipeline.html.md): Backward-compat shim. Use &#96;accompy.pipeline&#96; instead.
 - [accompy.wips.types](_autosummary/accompy.wips.types.html.md): Backward-compat shim. Use &#96;accompy.converters&#96; instead.
 - [For AI agents](ai-agents.html.md): &#96;accompy&#96; ships artifacts for coding agents alongside its code. This page lists
-- [About this build](about-this-build.html.md): This documentation was built on &#42;&#42;2026-11-10 17:57 UTC&#42;&#42; from commit &lt;a href="https://github.com/tho...
+- [About this build](about-this-build.html.md): This documentation was built on &#42;&#42;2026-11-10 18:57 UTC&#42;&#42; from commit &lt;a href="https://github.com/tho...
 
 ## Optional
 

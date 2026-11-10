@@ -44,7 +44,7 @@
   <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=75c7c72ae941e8b558d8" />
 <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=75c7c72ae941e8b558d8" />
 
-    <script src="_static/documentation_options.js?v=c77f38ba"></script>
+    <script src="_static/documentation_options.js?v=f087b2d0"></script>
     <script src="_static/doctools.js?v=fd6eb6e6"></script>
     <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="_static/clipboard.min.js?v=a7894cd8"></script>
@@ -57,7 +57,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="color-scheme" content="light dark"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="0.3.15" />
+  <meta name="docsearch:version" content="0.3.16" />
   
     
     <script src="_static/searchtools.js"></script>
@@ -352,7 +352,7 @@
 <li><p><strong>Multiple styles</strong>: Swing, bossa nova, rock, funk, ballad, latin, waltz, blues</p></li>
 <li><p><strong>Flexible chord inputs</strong>: Strings, <code class="docutils literal notranslate"><span class="pre">Score</span></code>, iReal URLs, or <code class="docutils literal notranslate"><span class="pre">(chord,</span> <span class="pre">beats)</span></code> tuples</p></li>
 <li><p><strong>Backend selector</strong>: <code class="docutils literal notranslate"><span class="pre">backend=&quot;auto&quot;|&quot;mma&quot;|&quot;builtin&quot;</span></code> (with backwards-compatible <code class="docutils literal notranslate"><span class="pre">use_mma</span></code>)</p></li>
-<li><p><strong>iReal Pro compatible</strong>: Parse iReal Pro URLs directly (with optional <code class="docutils literal notranslate"><span class="pre">pyRealParser</span></code>)</p></li>
+<li><p><strong>iReal Pro compatible</strong>: Parse iReal Pro URLs (<code class="docutils literal notranslate"><span class="pre">irealb://</span></code> and <code class="docutils literal notranslate"><span class="pre">irealbook://</span></code>) directly</p></li>
 <li><p><strong>Multi-instrument</strong>: Drums, bass, piano with style-appropriate patterns</p></li>
 <li><p><strong>Audio output</strong>: WAV, MP3, FLAC via FluidSynth</p></li>
 <li><p><strong>MIDI output</strong>: Save <code class="docutils literal notranslate"><span class="pre">.mid</span></code> directly (skip audio rendering)</p></li>
@@ -655,8 +655,7 @@ accompy supports flexible chord notation:
 <span class="n">audio</span> <span class="o">=</span> <span class="n">generate_accompaniment</span><span class="p">(</span><span class="n">score</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s2">"swing"</span><span class="p">,</span> <span class="n">tempo</span><span class="o">=</span><span class="mi">140</span><span class="p">)</span>
 </pre></div>
 </div>
-<p><strong>Note:</strong> <code class="docutils literal notranslate"><span class="pre">pyRealParser</span></code> is optional. If installed, <code class="docutils literal notranslate"><span class="pre">Score.from_ireal_url(...)</span></code> will use it.
-If not installed, accompy uses a best-effort built-in parser.</p>
+<p><strong>Note:</strong> iReal decoding is built in (<code class="docutils literal notranslate"><span class="pre">accompy.ireal</span></code>); no extra package is needed.</p>
 </section>
 <section id="advanced-configuration">
 <h3>Advanced Configuration<a class="headerlink" href="#advanced-configuration" title="Link to this heading">#</a></h3>
@@ -923,11 +922,10 @@ git<span class="w"> </span>clone<span class="w"> </span>https://github.com/infoj
 <p>Recommended:</p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">mingus</span></code> — Music theory (better chord parsing)</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">pyRealParser</span></code> — iReal Pro URL parsing</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">midi2audio</span></code> — Optional Python wrapper for FluidSynth (can improve portability)</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">pydub</span></code> — Audio format conversion (if no ffmpeg)</p></li>
 </ul>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>midiutil<span class="w"> </span>mingus<span class="w"> </span>pyRealParser<span class="w"> </span>midi2audio<span class="w"> </span>pydub
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>midiutil<span class="w"> </span>mingus<span class="w"> </span>midi2audio<span class="w"> </span>pydub
 </pre></div>
 </div>
 </section>
@@ -1221,7 +1219,7 @@ one location plus a symlink serves both.</p>
 <ul class="simple">
 <li><p><a class="reference external" href="https://www.mellowood.ca/mma/">MMA - Musical MIDI Accompaniment</a> by Bob van der Poel</p></li>
 <li><p><a class="reference external" href="https://www.fluidsynth.org/">FluidSynth</a> team</p></li>
-<li><p><a class="reference external" href="https://github.com/drs251/pyRealParser">pyRealParser</a> for iReal Pro format parsing</p></li>
+<li><p><a class="reference external" href="https://github.com/drs251/pyRealParser">pyRealParser</a> (MIT), the starting point of <code class="docutils literal notranslate"><span class="pre">accompy.ireal</span></code>’s iReal Pro decoding</p></li>
 <li><p><a class="reference external" href="https://www.irealpro.com/">iReal Pro</a> for inspiration</p></li>
 </ul>
 <p class="epythet-aggregates">This documentation as a single file: <a href="accompy.md">accompy.md</a> (Markdown, for agents).</p>
@@ -1230,7 +1228,7 @@ one location plus a symlink serves both.</p>
 </section>
 </section>
 
-<p class="epythet-provenance" style="font-size:.8em;opacity:.65;margin-top:2.5em;text-align:right">built 2026-11-10 17:57 UTC from <a href="https://github.com/thorwhalen/accompy/commit/adc9bb9119e6f3e25a9efd6a3ecc06f0418d2fb9">adc9bb9</a> (main) · accompy 0.3.15 · <a href="about-this-build.html">about this build</a></p>
+<p class="epythet-provenance" style="font-size:.8em;opacity:.65;margin-top:2.5em;text-align:right">built 2026-11-10 18:57 UTC from <a href="https://github.com/thorwhalen/accompy/commit/dcf395f7547857b2cac2248be0ed41118aaa0c97">dcf395f</a> (main) · accompy 0.3.16 · <a href="about-this-build.html">about this build</a></p>
 
                 </article>
               

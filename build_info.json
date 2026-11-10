@@ -1,32 +1,32 @@
 {
   "schema_version": 1,
-  "built_at": "2026-11-10T17:57:26Z",
+  "built_at": "2026-11-10T18:57:33Z",
   "package": {
     "name": "accompy",
-    "version": "0.3.15",
+    "version": "0.3.16",
     "display_name": "accompy",
     "source": "pyproject.toml"
   },
   "git": {
     "available": true,
-    "commit": "adc9bb9119e6f3e25a9efd6a3ecc06f0418d2fb9",
-    "short_commit": "adc9bb9",
+    "commit": "dcf395f7547857b2cac2248be0ed41118aaa0c97",
+    "short_commit": "dcf395f",
     "branch": "main",
     "tags": [],
     "dirty": false,
     "remote_url": "https://github.com/thorwhalen/accompy",
-    "commit_url": "https://github.com/thorwhalen/accompy/commit/adc9bb9119e6f3e25a9efd6a3ecc06f0418d2fb9",
+    "commit_url": "https://github.com/thorwhalen/accompy/commit/dcf395f7547857b2cac2248be0ed41118aaa0c97",
     "error": null
   },
   "ci": {
     "provider": "github",
     "repository": "thorwhalen/accompy",
-    "sha": "adc9bb9119e6f3e25a9efd6a3ecc06f0418d2fb9",
+    "sha": "dcf395f7547857b2cac2248be0ed41118aaa0c97",
     "sha_in_history": true,
     "ref": "refs/heads/main",
     "ref_name": "main",
-    "run_id": "42869902323",
-    "run_url": "https://github.com/thorwhalen/accompy/actions/runs/42869902323",
+    "run_id": "42880059982",
+    "run_url": "https://github.com/thorwhalen/accompy/actions/runs/42880059982",
     "server_url": "https://github.com"
   },
   "tools": {
@@ -55,21 +55,19 @@
     "docs_dir": "docsrc"
   },
   "site": {
-    "modules_documented": 33,
-    "objects_documented": 340
+    "modules_documented": 34,
+    "objects_documented": 351
   },
   "pypi": {
     "checked": true,
     "latest": "0.3.16",
-    "relation": "behind",
+    "relation": "same",
     "error": null
   },
-  "reproduce": "git clone https://github.com/thorwhalen/accompy && cd accompy\ngit checkout adc9bb9119e6f3e25a9efd6a3ecc06f0418d2fb9\npip install \"epythet==0.2.22\"\nepythet quickstart . --ignore tests/ scrap/ examples/",
+  "reproduce": "git clone https://github.com/thorwhalen/accompy && cd accompy\ngit checkout dcf395f7547857b2cac2248be0ed41118aaa0c97\npip install \"epythet==0.2.22\"\nepythet quickstart . --ignore tests/ scrap/ examples/",
   "warnings": [],
   "alignment": {
-    "aligned": false,
-    "notes": [
-      "The documented version (0.3.15) is behind the latest release on PyPI (0.3.16): `pip install accompy` gives newer code than these docs describe."
-    ]
+    "aligned": true,
+    "notes": []
   }
 }

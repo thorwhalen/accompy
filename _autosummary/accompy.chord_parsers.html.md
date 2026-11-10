@@ -26,18 +26,21 @@ cs = convert(ChordSheet("| Dm7 | G7 | Cmaj7 |"), ChordSequence)
 
 ### Functions
 
-| [`parse_chord_sheet`](#accompy.chord_parsers.parse_chord_sheet)(sheet, \*[, beats_per_bar, ...])   | Auto-detect format and parse a chord sheet into ChordSequence.             |
-|-------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------|
-| [`parse_chordpro`](#accompy.chord_parsers.parse_chordpro)(sheet, \*[, beats_per_bar, tempo])    | Parse ChordPro format into a ChordSequence, keeping the section structure. |
-| [`parse_ireal_url`](#accompy.chord_parsers.parse_ireal_url)(url, \*[, beats_per_bar])            | Parse an iReal Pro URL into a ChordSequence.                               |
-| [`parse_musicgen_chord_format`](#accompy.chord_parsers.parse_musicgen_chord_format)(sheet, \*[, ...])        | Parse MusicGen-Chord text format into ChordSequence.                       |
-| [`parse_nashville`](#accompy.chord_parsers.parse_nashville)(sheet, \*[, key, ...])               | Parse Nashville number system notation into a ChordSequence.               |
-| [`parse_plain_text`](#accompy.chord_parsers.parse_plain_text)(sheet, \*[, beats_per_bar, ...])    | Parse a plain-text chord sheet into a ChordSequence.                       |
-| [`parse_roman_numeral`](#accompy.chord_parsers.parse_roman_numeral)(sheet, \*[, key, ...])           | Parse Roman numeral notation into a ChordSequence.                         |
+| [`parse_chord_sheet`](#accompy.chord_parsers.parse_chord_sheet)(sheet, \*[, beats_per_bar, ...])   | Auto-detect format and parse a chord sheet into ChordSequence.               |
+|-------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------|
+| [`parse_chordpro`](#accompy.chord_parsers.parse_chordpro)(sheet, \*[, beats_per_bar, tempo])    | Parse ChordPro format into a ChordSequence, keeping the section structure.   |
+| [`parse_ireal_url`](#accompy.chord_parsers.parse_ireal_url)(url, \*[, beats_per_bar])            | Parse an iReal Pro URL into a ChordSequence; a bar's chords share it evenly. |
+| [`parse_musicgen_chord_format`](#accompy.chord_parsers.parse_musicgen_chord_format)(sheet, \*[, ...])        | Parse MusicGen-Chord text format into ChordSequence.                         |
+| [`parse_nashville`](#accompy.chord_parsers.parse_nashville)(sheet, \*[, key, ...])               | Parse Nashville number system notation into a ChordSequence.                 |
+| [`parse_plain_text`](#accompy.chord_parsers.parse_plain_text)(sheet, \*[, beats_per_bar, ...])    | Parse a plain-text chord sheet into a ChordSequence.                         |
+| [`parse_roman_numeral`](#accompy.chord_parsers.parse_roman_numeral)(sheet, \*[, key, ...])           | Parse Roman numeral notation into a ChordSequence.                           |
 
-### accompy.chord_parsers.parse_chord_sheet(sheet, , beats_per_bar=4, tempo=120, title='', key='C', time_signature=(4, 4))
+### accompy.chord_parsers.parse_chord_sheet(sheet, , beats_per_bar=None, tempo=120, title='', key='C', time_signature=(4, 4))
 
 Auto-detect format and parse a chord sheet into ChordSequence.
+
+`beats_per_bar` defaults to the tune’s time signature for an iReal URL, and to 4
+for the other formats.
 
 Detects:
 
@@ -87,14 +90,18 @@ Extracts the chord symbols, one per bar by default. Sections come from the
 * **Return type:**
   [`ChordSequence`](accompy.converters.html.md#accompy.converters.ChordSequence)
 
-### accompy.chord_parsers.parse_ireal_url(url, , beats_per_bar=4)
+### accompy.chord_parsers.parse_ireal_url(url, , beats_per_bar=None)
 
-Parse an iReal Pro URL into a ChordSequence.
+Parse an iReal Pro URL into a ChordSequence; a bar’s chords share it evenly.
 
-Uses pyRealParser if available, falls back to basic extraction.
+Decoding is [`accompy.ireal.decode_ireal_url()`](accompy.ireal.html.md#accompy.ireal.decode_ireal_url); the first tune with chords is
+used. Bars last `beats_per_bar` beats, by default the tune’s time-signature
+numerator. Raises `ValueError` when no tune has chords.
 
 ```pycon
->>> # Can't test without real URL, but structure is tested
+>>> cs = parse_ireal_url("irealbook://Blues=Me=Swing=F=n=[T34F7 |Bb7 Bo7 Z")
+>>> cs.chords, cs.time_signature
+([('F7', 3.0), ('Bb7', 1.5), ('Bo7', 1.5)], (3, 4))
 ```
 
 * **Return type:**

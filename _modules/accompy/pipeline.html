@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=75c7c72ae941e8b558d8" />
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=75c7c72ae941e8b558d8" />
 
-    <script src="../../_static/documentation_options.js?v=c77f38ba"></script>
+    <script src="../../_static/documentation_options.js?v=f087b2d0"></script>
     <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -411,7 +411,7 @@ window.runMermaid = runMermaid;</script>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="color-scheme" content="light dark"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="0.3.15" />
+  <meta name="docsearch:version" content="0.3.16" />
   
     
     <script src="../../_static/searchtools.js"></script>
@@ -1127,85 +1127,21 @@ window.runMermaid = runMermaid;</script>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_parse_ireal_url_robust</span><span class="p">(</span><span class="n">url</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">tempo</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ChordSequence</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">"""Parse an iReal Pro URL, handling edge cases pyRealParser misses.</span>
+<span class="w">    </span><span class="sd">"""Parse an iReal Pro URL (first tune with chords) into a ChordSequence: bars as long</span>
+<span class="sd">    as the tune's time signature says, a bar's chords sharing it evenly."""</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">.ireal</span><span class="w"> </span><span class="kn">import</span> <span class="n">decode_ireal_url</span>
 
-<span class="sd">    Falls back to manual parsing when pyRealParser fails (e.g., URLs with</span>
-<span class="sd">    empty fields that cause == in the URL).</span>
-<span class="sd">    """</span>
-    <span class="kn">import</span><span class="w"> </span><span class="nn">re</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">_re</span>
-    <span class="kn">from</span><span class="w"> </span><span class="nn">urllib.parse</span><span class="w"> </span><span class="kn">import</span> <span class="n">unquote</span> <span class="k">as</span> <span class="n">_unquote</span>
-
-    <span class="c1"># Try pyRealParser first</span>
-    <span class="k">try</span><span class="p">:</span>
-        <span class="kn">from</span><span class="w"> </span><span class="nn">pyRealParser</span><span class="w"> </span><span class="kn">import</span> <span class="n">Tune</span>
-
-        <span class="n">tunes</span> <span class="o">=</span> <span class="n">Tune</span><span class="o">.</span><span class="n">parse_ireal_url</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">tunes</span><span class="p">:</span>
-            <span class="n">t</span> <span class="o">=</span> <span class="n">tunes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-            <span class="n">measures</span> <span class="o">=</span> <span class="p">[</span><span class="n">m</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">t</span><span class="o">.</span><span class="n">measures_as_strings</span> <span class="k">if</span> <span class="n">m</span> <span class="ow">and</span> <span class="n">m</span><span class="o">.</span><span class="n">strip</span><span class="p">()]</span>
+    <span class="k">for</span> <span class="n">tune</span> <span class="ow">in</span> <span class="n">decode_ireal_url</span><span class="p">(</span><span class="n">url</span><span class="p">):</span>
+        <span class="n">chords</span> <span class="o">=</span> <span class="n">tune</span><span class="o">.</span><span class="n">chord_specs</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">chords</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">ChordSequence</span><span class="p">(</span>
-                <span class="n">chords</span><span class="o">=</span><span class="p">[(</span><span class="n">m</span><span class="p">,</span> <span class="mf">4.0</span><span class="p">)</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">measures</span><span class="p">],</span>
-                <span class="n">title</span><span class="o">=</span><span class="n">t</span><span class="o">.</span><span class="n">title</span> <span class="ow">or</span> <span class="s2">""</span><span class="p">,</span>
-                <span class="n">key</span><span class="o">=</span><span class="n">t</span><span class="o">.</span><span class="n">key</span> <span class="ow">or</span> <span class="s2">"C"</span><span class="p">,</span>
-                <span class="n">tempo</span><span class="o">=</span><span class="n">tempo</span> <span class="ow">or</span> <span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">t</span><span class="o">.</span><span class="n">bpm</span><span class="p">)</span> <span class="k">if</span> <span class="n">t</span><span class="o">.</span><span class="n">bpm</span> <span class="k">else</span> <span class="mi">120</span><span class="p">),</span>
+                <span class="n">chords</span><span class="o">=</span><span class="n">chords</span><span class="p">,</span>
+                <span class="n">title</span><span class="o">=</span><span class="n">tune</span><span class="o">.</span><span class="n">title</span> <span class="ow">or</span> <span class="s2">""</span><span class="p">,</span>
+                <span class="n">key</span><span class="o">=</span><span class="n">tune</span><span class="o">.</span><span class="n">key</span> <span class="ow">or</span> <span class="s2">"C"</span><span class="p">,</span>
+                <span class="n">tempo</span><span class="o">=</span><span class="n">tempo</span> <span class="ow">or</span> <span class="n">tune</span><span class="o">.</span><span class="n">tempo</span> <span class="ow">or</span> <span class="mi">120</span><span class="p">,</span>
+                <span class="n">time_signature</span><span class="o">=</span><span class="n">tune</span><span class="o">.</span><span class="n">time_signature</span><span class="p">,</span>
             <span class="p">)</span>
-    <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
-        <span class="k">pass</span>
-
-    <span class="c1"># Manual fallback: handle URLs that pyRealParser chokes on</span>
-    <span class="n">decoded</span> <span class="o">=</span> <span class="n">_unquote</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
-    <span class="k">if</span> <span class="s2">"://"</span> <span class="ow">in</span> <span class="n">decoded</span><span class="p">:</span>
-        <span class="n">decoded</span> <span class="o">=</span> <span class="n">decoded</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">"://"</span><span class="p">,</span> <span class="mi">1</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
-
-    <span class="c1"># Split on single = to preserve empty fields</span>
-    <span class="n">raw_parts</span> <span class="o">=</span> <span class="n">decoded</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">"="</span><span class="p">)</span>
-    <span class="n">title</span> <span class="o">=</span> <span class="n">raw_parts</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">if</span> <span class="n">raw_parts</span> <span class="k">else</span> <span class="s2">"Untitled"</span>
-
-    <span class="c1"># Find the chord data: look for the scramble prefix</span>
-    <span class="n">prefix</span> <span class="o">=</span> <span class="s2">"1r34LbKcu7"</span>
-    <span class="n">chord_part</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="n">chord_idx</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">part</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">raw_parts</span><span class="p">):</span>
-        <span class="k">if</span> <span class="n">prefix</span> <span class="ow">in</span> <span class="n">part</span><span class="p">:</span>
-            <span class="n">chord_part</span> <span class="o">=</span> <span class="n">part</span>
-            <span class="n">chord_idx</span> <span class="o">=</span> <span class="n">i</span>
-            <span class="k">break</span>
-
-    <span class="k">if</span> <span class="n">chord_part</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Could not find chord data in iReal URL"</span><span class="p">)</span>
-
-    <span class="c1"># Extract key: typically 2 positions before chords</span>
-    <span class="n">key</span> <span class="o">=</span> <span class="n">raw_parts</span><span class="p">[</span><span class="n">chord_idx</span> <span class="o">-</span> <span class="mi">2</span><span class="p">]</span> <span class="k">if</span> <span class="n">chord_idx</span> <span class="o">&gt;=</span> <span class="mi">2</span> <span class="k">else</span> <span class="s2">"C"</span>
-    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">key</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">2</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">key</span><span class="p">:</span>  <span class="c1"># sanity check</span>
-        <span class="n">key</span> <span class="o">=</span> <span class="s2">"C"</span>
-
-    <span class="c1"># Extract tempo: typically 2 positions after chords</span>
-    <span class="n">file_tempo</span> <span class="o">=</span> <span class="mi">120</span>
-    <span class="k">if</span> <span class="n">chord_idx</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">raw_parts</span><span class="p">):</span>
-        <span class="k">try</span><span class="p">:</span>
-            <span class="n">file_tempo</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">raw_parts</span><span class="p">[</span><span class="n">chord_idx</span> <span class="o">+</span> <span class="mi">2</span><span class="p">])</span>
-        <span class="k">except</span> <span class="p">(</span><span class="ne">ValueError</span><span class="p">,</span> <span class="ne">IndexError</span><span class="p">):</span>
-            <span class="k">pass</span>
-
-    <span class="c1"># Unscramble the chord data</span>
-    <span class="n">scrambled</span> <span class="o">=</span> <span class="n">chord_part</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">prefix</span><span class="p">,</span> <span class="mi">1</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
-    <span class="k">try</span><span class="p">:</span>
-        <span class="kn">from</span><span class="w"> </span><span class="nn">pyRealParser</span><span class="w"> </span><span class="kn">import</span> <span class="n">Tune</span>
-
-        <span class="n">unscrambled</span> <span class="o">=</span> <span class="n">Tune</span><span class="o">.</span><span class="n">_unscramble_chord_string</span><span class="p">(</span><span class="n">scrambled</span><span class="p">)</span>
-        <span class="n">cleaned</span> <span class="o">=</span> <span class="n">Tune</span><span class="o">.</span><span class="n">_cleanup_chord_string</span><span class="p">(</span><span class="n">unscrambled</span><span class="p">)</span>
-        <span class="n">measures</span> <span class="o">=</span> <span class="n">Tune</span><span class="o">.</span><span class="n">_get_measures</span><span class="p">(</span><span class="n">cleaned</span><span class="p">)</span>
-    <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
-        <span class="c1"># Bare minimum fallback if pyRealParser not available</span>
-        <span class="n">measures</span> <span class="o">=</span> <span class="n">_re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="sa">r</span><span class="s2">"([A-G][#b]?[^|</span><span class="si">{}</span><span class="s2">\[\]]*?)(?:\s*\|)"</span><span class="p">,</span> <span class="n">scrambled</span><span class="p">)</span>
-
-    <span class="n">measures</span> <span class="o">=</span> <span class="p">[</span><span class="n">m</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">measures</span> <span class="k">if</span> <span class="n">m</span><span class="o">.</span><span class="n">strip</span><span class="p">()]</span>
-    <span class="k">return</span> <span class="n">ChordSequence</span><span class="p">(</span>
-        <span class="n">chords</span><span class="o">=</span><span class="p">[(</span><span class="n">m</span><span class="p">,</span> <span class="mf">4.0</span><span class="p">)</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">measures</span><span class="p">],</span>
-        <span class="n">title</span><span class="o">=</span><span class="n">title</span><span class="p">,</span>
-        <span class="n">key</span><span class="o">=</span><span class="n">key</span><span class="p">,</span>
-        <span class="n">tempo</span><span class="o">=</span><span class="n">tempo</span> <span class="ow">or</span> <span class="n">file_tempo</span><span class="p">,</span>
-    <span class="p">)</span>
+    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"No chords found in iReal Pro URL"</span><span class="p">)</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_transpose_chord_sequence</span><span class="p">(</span><span class="n">cs</span><span class="p">:</span> <span class="n">ChordSequence</span><span class="p">,</span> <span class="n">semitones</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ChordSequence</span><span class="p">:</span>

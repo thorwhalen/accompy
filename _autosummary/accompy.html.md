@@ -79,7 +79,7 @@ Advanced Usage (Extensibility):
 | [`register_skeleton`](#accompy.register_skeleton)(key, pattern, \*[, name, ...])   | Register a custom rhythmic skeleton.                                                                                                   |
 | [`list_skeletons`](#accompy.list_skeletons)(\*[, beats_per_measure, style])     | List available skeleton keys, optionally filtered.                                                                                     |
 | [`parse_ireal_html`](#accompy.parse_ireal_html)(html_path)                        | Extract a Score from an iReal Pro HTML export file.                                                                                    |
-| [`parse_ireal_url`](#accompy.parse_ireal_url)(url)                               | Parse an iReal Pro URL into a Score object.                                                                                            |
+| [`parse_ireal_url`](#accompy.parse_ireal_url)(url)                               | Parse an iReal Pro URL (`irealb://` or `irealbook://`) into a Score.                                                                   |
 | [`transpose_score`](#accompy.transpose_score)(score, target_key)                 | Transpose a [`Score`](#accompy.Score) to a new key.                                                       |
 | [`transpose_chord`](#accompy.transpose_chord)(chord, semitones, \*[, use_flat])  | Transpose a chord symbol by *semitones*.                                                                                               |
 | [`transpose_note`](#accompy.transpose_note)(name, semitones, \*[, use_flat])    | Transpose a single note name by *semitones*.                                                                                           |
@@ -1590,11 +1590,17 @@ Example:
 
 ### accompy.parse_ireal_url(url)
 
-Parse an iReal Pro URL into a Score object.
+Parse an iReal Pro URL (`irealb://` or `irealbook://`) into a Score.
 
-Tries pyRealParser’s `parse_ireal_url` first, then falls back to
-constructing a `Tune` directly (handles URLs with empty `==` fields),
-and finally to a no-dependency best-effort parser.
+Decoding is [`accompy.ireal.decode_ireal_url()`](accompy.ireal.html.md#accompy.ireal.decode_ireal_url); the Score is the first tune of
+the URL that has chords, each bar the list of its chords as written (iReal chord
+notation). Raises `ValueError` when no tune has chords.
+
+```pycon
+>>> score = parse_ireal_url("irealbook://Blues=Me=Swing=F=n=[T34F7 |Bb7 Bo7 |C7 Z")
+>>> score.measures, score.time_signature
+([['F7'], ['Bb7', 'Bo7'], ['C7']], (3, 4))
+```
 
 ### accompy.pitch_classes(notes)
 
@@ -2051,6 +2057,7 @@ Verify all dependencies and optionally auto-configure.
 | [`chord_resolvers`](accompy.chord_resolvers.html.md#module-accompy.chord_resolvers)       | Chord resolvers — convert chord symbols to MIDI note numbers.                   |
 | [`converters`](accompy.converters.html.md#module-accompy.converters)                 | Core types for the chord-to-audio pipeline.                                     |
 | [`data_access`](accompy.data_access.html.md#module-accompy.data_access)               | Per-user data directory management for accompy.                                 |
+| [`ireal`](accompy.ireal.html.md#module-accompy.ireal)                           | Decode iReal Pro URLs (`irealb://` and `irealbook://`) into tunes and bars.     |
 | [`main`](accompy.main.html.md#module-accompy.main)                             | Main accompaniment generation module.                                           |
 | [`midi_generators`](accompy.midi_generators.html.md#module-accompy.midi_generators)       | MIDI generators — convert NoteSequence to MidiData.                             |
 | [`patterns`](accompy.patterns.html.md#module-accompy.patterns)                     | Pattern registry and access for accompany patterns.                             |
