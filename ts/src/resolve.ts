@@ -8,7 +8,7 @@
  * (root near C4 = 60) moved by `transpose` (default -12, around C3 = 48).
  */
 import { DEFAULT_TRANSPOSE, TONAL_CHORD_QUALITY, TONAL_ROOT_NOTES } from "./data.generated.js";
-import { pyStrip } from "./py.js";
+import { pyStrip, ValueError } from "./py.js";
 
 /** Chord symbol -> MIDI notes, root first. The renderer's chord-resolution seam. */
 export type ChordResolver = (symbol: string) => number[];
@@ -26,13 +26,13 @@ const ROOT_RE = new RegExp(
 
 function parseRoot(chord: string): [string, number] {
   const match = ROOT_RE.exec(pyStrip(chord));
-  if (!match) throw new RangeError(`Unknown root note in chord: '${chord}'`);
+  if (!match) throw new ValueError(`Unknown root note in chord: '${chord}'`);
   const raw = match[1]!;
   if (ROOTS.has(raw)) return [raw, raw.length];
   const lower = raw.toLowerCase();
   if (ROOTS.has(lower)) return [lower, raw.length];
   for (const k of ROOTS.keys()) if (k.toLowerCase() === lower) return [k, raw.length];
-  throw new RangeError(`Unknown root note: ${raw}`);
+  throw new ValueError(`Unknown root note: ${raw}`);
 }
 
 function simplifyQuality(qualityExtension: string): string {
@@ -46,13 +46,13 @@ function simplifyQuality(qualityExtension: string): string {
   return QUALITIES.has(qe2) ? qe2 : qe;
 }
 
-/** The MIDI notes of `symbol`, root first; throws RangeError for an unknown root or quality. */
+/** The MIDI notes of `symbol`, root first; throws ValueError (a RangeError) for an unknown root or quality. */
 export function tonalResolver(symbol: string, opts: { transpose?: number } = {}): number[] {
   const transpose = opts.transpose ?? DEFAULT_TRANSPOSE;
   const [root, rootLength] = parseRoot(symbol);
   const quality = simplifyQuality(pyStrip(symbol).slice(rootLength));
   const intervals = QUALITIES.get(quality);
-  if (intervals === undefined) throw new RangeError(`Unknown quality/extension: ${quality}`);
+  if (intervals === undefined) throw new ValueError(`Unknown quality/extension: ${quality}`);
   const rootMidi = ROOTS.get(root)!;
   return intervals.map((i) => rootMidi + i + (transpose ? transpose : 0));
 }

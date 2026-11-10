@@ -37,10 +37,25 @@ def test_cases_cover_exactly_the_twin_functions():
     assert {c["fn"] for c in CASES} == set(TWIN_FUNCTIONS)
 
 
+def _dyadic(x) -> bool:
+    return not isinstance(x, float) or (x * 2**10).is_integer()
+
+
+def _numbers(value):
+    if isinstance(value, (int, float)) and not isinstance(value, bool):
+        yield value
+    elif isinstance(value, (list, tuple)):
+        for v in value:
+            yield from _numbers(v)
+
+
 @needs_fixtures
-def test_order_matters():
-    case = next(c for c in CASES if c["fn"] == "generate_events" and c["expected"])
-    assert not same(case["expected"], case["expected"][::-1])
+def test_skeleton_durations_are_dyadic():
+    """Python 3.10's sum() and 3.12's (compensated) differ on inexact floats; dyadic ones agree."""
+    for case in CASES:
+        if case["fn"] in ("apply_skeleton", "resolve_skeleton"):
+            skeleton = case["args"][-1]  # chord durations are subtracted, not sum()med
+            assert all(_dyadic(x) for x in _numbers(skeleton)), case
 
 
 @pytest.mark.skipif(

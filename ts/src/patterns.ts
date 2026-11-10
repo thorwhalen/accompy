@@ -3,6 +3,7 @@
  * `accompy.patterns`. The builtin styles are generated from the Python patterns.
  */
 import { BASS_PATTERNS, COMP_PATTERNS, DRUM_PATTERNS } from "./data.generated.js";
+import { KeyError, ValueError } from "./py.js";
 
 /** A drum hit: beat in the bar (0-based), GM percussion note, velocity 0-127. */
 export interface DrumHit {
@@ -77,11 +78,11 @@ export class PatternRegistry implements PatternSource {
     if (builtins) for (const style of Object.keys(DRUM_PATTERNS)) this.#styles.set(style, builtin(style));
   }
 
-  /** The style's patterns; throws RangeError for an unknown style (Python: KeyError). */
+  /** The style's patterns; throws KeyError (a RangeError) for an unknown style. */
   getPatterns(style: string): StylePatterns {
     const patterns = this.#styles.get(style);
     if (patterns === undefined) {
-      throw new RangeError(`Unknown style: ${style}. Available: ${this.styles().join(", ")}`);
+      throw new KeyError(`Unknown style: ${style}. Available: ${this.styles().join(", ")}`);
     }
     return patterns;
   }
@@ -89,7 +90,7 @@ export class PatternRegistry implements PatternSource {
   /** Add or replace a style. */
   register(style: string, patterns: StylePatterns): void {
     for (const key of ["drums", "bass", "comp"] as const) {
-      if (!Array.isArray(patterns[key])) throw new RangeError("Pattern dict must have keys: drums, bass, comp");
+      if (!Array.isArray(patterns[key])) throw new ValueError("Pattern dict must have keys: drums, bass, comp");
     }
     this.#styles.set(style, patterns);
   }

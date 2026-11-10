@@ -14,7 +14,7 @@ import {
   UNNORMALIZED_SYMBOLS,
 } from "./data.generated.js";
 import { parseIrealUrl } from "./ireal.js";
-import { pyFloorDiv, pyInt, pyMod, pySplit, pyStrip } from "./py.js";
+import { pyFloorDiv, pyInt, pyMod, pySplit, pyStrip, ValueError } from "./py.js";
 
 /** A chord chart: measures of chord symbols (a measure's chords share it evenly). */
 export interface Score {
@@ -96,7 +96,7 @@ export function parseTimeSig(ts: string | [number, number] | null | undefined): 
     if (parts.length < 2) return [4, 4];
     return [pyInt(parts[0]!), pyInt(parts[1]!)];
   } catch (error) {
-    if (error instanceof RangeError) return [4, 4];
+    if (error instanceof ValueError) return [4, 4];
     throw error;
   }
 }
@@ -169,9 +169,12 @@ export function ensureScore(chords: unknown, opts: ChartOptions = {}): Score {
     if (items.every((x) => typeof x === "string")) {
       return makeScore((items as string[]).map((x) => [normalizeChordSymbol(x)]), opts);
     }
+    // Python's bool is an int, so [chord, true] is [chord, 1].
     const isSpec = (x: unknown) =>
-      Array.isArray(x) && x.length === 2 && typeof x[0] === "string" && typeof x[1] === "number";
-    if (items.every(isSpec)) return scoreFromChordSpecs(items as ChordSpec[], opts);
+      Array.isArray(x) && x.length === 2 && typeof x[0] === "string" && ["number", "boolean"].includes(typeof x[1]);
+    if (items.every(isSpec)) {
+      return scoreFromChordSpecs((items as [string, number | boolean][]).map(([c, b]) => [c, Number(b)]), opts);
+    }
   }
   throw new TypeError(
     "Unsupported chords input. Expected Score, chord string, iReal URL, " +
@@ -185,6 +188,7 @@ const NOTE_INDEX = new Map<string, number>(NOTE_TO_SEMITONE as readonly (readonl
 export function transposeNote(name: string, semitones: number, opts: { useFlat?: boolean | null } = {}): string {
   const index = NOTE_INDEX.get(name);
   if (index === undefined) return name;
+  if (!Number.isInteger(semitones)) throw new TypeError("list indices must be integers or slices, not float");
   const useFlat = opts.useFlat ?? semitones < 0;
   return (useFlat ? FLAT_NOTES : SHARP_NOTES)[pyMod(index + semitones, 12)]!;
 }
@@ -196,7 +200,7 @@ export function transposeChord(chord: string, semitones: number, opts: { useFlat
   if (slash >= 0) {
     return `${transposeChord(chord.slice(0, slash), semitones, opts)}/${transposeChord(chord.slice(slash + 1), semitones, opts)}`;
   }
-  const match = /^([A-G][#b]?)(.*)/.exec(chord);
+  const match = /^([A-G][#b]?)([^\n]*)/.exec(chord); // Python's `.` stops only at \n
   if (!match) return chord;
   return transposeNote(match[1]!, semitones, opts) + match[2]!;
 }

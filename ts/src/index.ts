@@ -64,3 +64,4 @@ export {
   type Skeleton,
 } from "./skeletons.js";
 export { DRUMS } from "./data.generated.js";
+export { KeyError, ValueError, ZeroDivisionError } from "./py.js";

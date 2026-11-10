@@ -84,9 +84,6 @@ function decode(value: unknown): unknown {
 
 const camel = (snake: string) => snake.replace(/_([a-z])/g, (_, c: string) => c.toUpperCase());
 
-/** Python exception name -> the JS error the twin throws (KeyError and ValueError share one). */
-const RAISES: Record<string, string> = { ValueError: "RangeError", KeyError: "RangeError", TypeError: "TypeError" };
-
 function call(c: Case): unknown {
   const fn = FUNCTIONS[c.fn];
   if (fn === undefined) throw new Error(`no TS twin for ${c.fn}`);
@@ -99,8 +96,10 @@ function call(c: Case): unknown {
     const encode = ENCODERS[c.fn] as ((r: unknown) => unknown) | undefined;
     return encode ? encode(result) : result;
   } catch (error) {
-    const expected = (c.expected as { $raises?: string } | null)?.$raises;
-    if (expected !== undefined && RAISES[expected] === (error as Error).name) return { $raises: expected };
+    // The twin's errors carry Python's exception name (ValueError, KeyError, TypeError, ...);
+    // any other error (a stack overflow, a bug) is rethrown and fails the case.
+    const name = (error as Error).name;
+    if (["ValueError", "KeyError", "ZeroDivisionError", "TypeError"].includes(name)) return { $raises: name };
     throw error;
   }
 }

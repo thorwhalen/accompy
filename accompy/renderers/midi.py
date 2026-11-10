@@ -75,7 +75,7 @@ def generate_midi_events(
 
                 # Get chord notes
                 try:
-                    notes = chord_resolver(chord_symbol)
+                    notes = list(chord_resolver(chord_symbol))
                 except Exception:
                     notes = list(FALLBACK_CHORD_NOTES)
 
@@ -162,7 +162,7 @@ def chord_events(
     defaults = AccompanimentConfig()
     return list(
         _chord_events(
-            chord_notes,
+            list(chord_notes),
             *select_patterns(_style_patterns(pattern_source, style), beats_per_bar),
             start_beat=start_beat,
             duration=duration,
@@ -183,7 +183,6 @@ def _chord_events(
     instruments: Mapping[str, bool],
     volumes: Mapping[str, float],
 ) -> Iterator[MidiEvent]:
-    notes = list(notes)
     root = notes[0] if notes else 48
 
     if instruments.get("drums", True) and drum_pattern:
@@ -498,7 +497,11 @@ def generate_events(
         generate_midi_events(
             score,
             config,
-            pattern_source=pattern_source or get_pattern_registry(),
-            chord_resolver=chord_resolver or get_chord_resolver(),
+            pattern_source=(
+                get_pattern_registry() if pattern_source is None else pattern_source
+            ),
+            chord_resolver=(
+                get_chord_resolver() if chord_resolver is None else chord_resolver
+            ),
         )
     )

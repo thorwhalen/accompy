@@ -4,7 +4,7 @@
  */
 import { RHYTHMIC_SKELETONS as BUILTIN } from "./data.generated.js";
 import type { ChordSpec } from "./chart.js";
-import { pySum } from "./py.js";
+import { KeyError, pySum } from "./py.js";
 
 /** A skeleton's entry: its durations (beats), display name, measure length and styles. */
 export interface Skeleton {
@@ -34,7 +34,7 @@ function byStyle(style: string): string[] {
 /**
  * A skeleton's durations from a duration list (returned as is), a key (`"tresillo"`), a
  * name, case-insensitively (`"Dotted half + quarter"`), or a style (`"reggae"`: its first
- * skeleton). Throws RangeError when nothing matches (Python: KeyError), TypeError for
+ * skeleton). Throws KeyError (a RangeError) when nothing matches, TypeError for
  * anything but a string or an array.
  */
 export function resolveSkeleton(skeleton: string | readonly number[]): number[] {
@@ -47,7 +47,7 @@ export function resolveSkeleton(skeleton: string | readonly number[]): number[] 
   const lower = skeleton.toLowerCase();
   const key = byName(lower) ?? byStyle(lower)[0];
   if (key !== undefined) return [...RHYTHMIC_SKELETONS.get(key)!.pattern];
-  throw new RangeError(`Unknown skeleton: '${skeleton}'`);
+  throw new KeyError(`Unknown skeleton: '${skeleton}'`);
 }
 
 const EPSILON = 1e-9;

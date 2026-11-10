@@ -7,6 +7,29 @@ import { PY_WHITESPACE } from "./data.generated.js";
 
 const WHITESPACE = new Set<number>(PY_WHITESPACE);
 
+/** Python's `ValueError` (a RangeError whose `name` is the Python one). */
+export class ValueError extends RangeError {
+  override name = "ValueError";
+}
+
+/** Python's `KeyError`: an unknown style or skeleton (a RangeError named after Python's). */
+export class KeyError extends RangeError {
+  override name = "KeyError";
+}
+
+/** Python's `ZeroDivisionError` (a RangeError named after Python's). */
+export class ZeroDivisionError extends RangeError {
+  override name = "ZeroDivisionError";
+}
+
+/** A Unicode decimal digit's value (decimal digits come in contiguous runs from 0). */
+export function digitValue(d: string): number {
+  const cp = d.codePointAt(0)!;
+  let start = cp;
+  while (/\p{Nd}/u.test(String.fromCodePoint(start - 1))) start--;
+  return (cp - start) % 10;
+}
+
 /** `ch` is whitespace for Python's `str.isspace` (JS `\s` differs: U+FEFF, U+001C-1F, U+0085). */
 export function isPySpace(ch: string): boolean {
   return WHITESPACE.has(ch.codePointAt(0) ?? -1);
@@ -35,16 +58,18 @@ export function pySplit(s: string): string[] {
   return out;
 }
 
-/** Python `int(s)` for a string: decimal, optional sign, `_` between digits; else RangeError. */
+/** Python `int(s)` for a string: any Unicode decimal digits, optional sign, `_` between digits; else ValueError. */
 export function pyInt(s: string): number {
   const t = pyStrip(s);
-  if (!/^[+-]?[0-9]+(_[0-9]+)*$/.test(t)) throw new RangeError(`invalid literal for int(): '${s}'`);
-  return parseInt(t.replace(/_/g, ""), 10);
+  if (!/^[+-]?\p{Nd}+(_\p{Nd}+)*$/u.test(t)) throw new ValueError(`invalid literal for int(): '${s}'`);
+  let value = 0;
+  for (const ch of t.replace(/^[+-]/, "").replace(/_/g, "")) value = value * 10 + digitValue(ch);
+  return t.startsWith("-") ? -value : value;
 }
 
 /** Python `a // b` on numbers (CPython's float floor division, exact for ints too). */
 export function pyFloorDiv(a: number, b: number): number {
-  if (b === 0) throw new RangeError("division by zero");
+  if (b === 0) throw new ZeroDivisionError("division by zero");
   if (Number.isInteger(a) && Number.isInteger(b)) return Math.floor(a / b);
   let mod = a % b;
   let div = (a - mod) / b;

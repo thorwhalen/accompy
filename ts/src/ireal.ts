@@ -8,7 +8,7 @@
  * 1. pyRealParser's playlist parser (first tune that parses), measures not normalized;
  * 2. a `Tune` rebuilt from single-`=` fields (URLs whose empty fields make `===`);
  * 3. a dependency-free best-effort parser, which goes through `ensureScore` (normalized)
- *    and throws `RangeError` (Python's `ValueError`) when the URL has fewer than 6 fields.
+ *    and throws `ValueError` (a RangeError) when the URL has fewer than 6 fields.
  *
  * Python semantics are kept where JS differs: `\s`, `\d`, `\w` and `str.strip` are
  * Unicode-aware as in `re`, `.` excludes only `\n`, string indices count code points,
@@ -17,7 +17,7 @@
  */
 import { ensureScore, type Score } from "./chart.js";
 import { PY_WHITESPACE } from "./data.generated.js";
-import { isPySpace, pyStrip } from "./py.js";
+import { digitValue, isPySpace, pyStrip, ValueError } from "./py.js";
 
 const PREFIX = "1r34LbKcu7";
 /** Python's `re` `\s` (= `str.isspace`) as the body of a `u`-flag character class. */
@@ -185,14 +185,6 @@ function removeAnnotations(s: string): string {
 
 const removeMarkers = (s: string): string => sub(s, "U|S|Q|N\\d", "");
 
-/** Python Unicode decimal digit -> int (decimal digits come in contiguous runs from 0). */
-function digitValue(d: string): number {
-  const cp = d.codePointAt(0)!;
-  let start = cp;
-  while (/\p{Nd}/u.test(String.fromCodePoint(start - 1))) start--;
-  return (cp - start) % 10;
-}
-
 function fillLongRepeats(s: string): string {
   // pyRealParser recurses on simple repeats and returns after the first one with endings.
   for (;;) {
@@ -331,7 +323,7 @@ function parseIrealUrlFallback(url: string): Score {
   const title = parts[0] || "Untitled";
   const composer = parts.length > 1 ? parts[1]! : "";
   const key = parts[3] || "C";
-  if (parts.length < 6) throw new RangeError("Invalid iReal Pro URL format");
+  if (parts.length < 6) throw new ValueError("Invalid iReal Pro URL format");
   let data = parts[5]!;
   for (const marker of ["{", "}", "[", "]", "Z", "*", "Y", "Q", "S", "T"])
     data = data.replaceAll(marker, " ");
@@ -353,7 +345,7 @@ function parseIrealUrlFallback(url: string): Score {
 
 /**
  * Parse an iReal Pro URL (`irealb://` or `irealbook://`) into a Score, as
- * `accompy.util.parse_ireal_url` does. Throws `RangeError` where Python raises `ValueError`.
+ * `accompy.util.parse_ireal_url` does. Throws `ValueError` (a RangeError) where Python raises it.
  */
 export function parseIrealUrl(url: string): Score {
   for (const tier of [firstTune, tuneFromFields]) {

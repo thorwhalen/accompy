@@ -11,8 +11,9 @@ A case is ``{"fn": <name>, "args": [...], "kwargs": {...}, "expected": ...}`` in
   ``{"measures", "title", "composer", "key", "time_signature"}`` (an argument with a
   ``"measures"`` key is decoded to a Score); a ``MidiEvent`` is
   ``[time, channel, note, velocity, duration]``, to keep the file small;
-- an exception is ``{"$raises": "ValueError" | "KeyError" | "TypeError"}`` (the TypeScript
-  twin throws ``RangeError`` for the first two and ``TypeError`` for the third);
+- an exception is ``{"$raises": <Python exception name>}``: ``ValueError``, ``KeyError``,
+  ``ZeroDivisionError`` or ``TypeError``. The TypeScript twin throws errors with the same
+  ``name`` (the first three are RangeError subclasses it exports);
 - ``kwargs`` may only name keyword-only parameters, which the TypeScript twin takes as a
   trailing options object (keys in snake_case on both sides of the file; the TS runner
   converts them).
@@ -60,7 +61,7 @@ REPO_ROOT = Path(__file__).resolve().parent.parent
 CASES_PATH = Path("fixtures") / "cases.json"
 
 #: The exceptions a case may expect.
-RAISES = (ValueError, KeyError, TypeError)
+RAISES = (ValueError, KeyError, ZeroDivisionError, TypeError)
 
 
 def score_to_chord_sequence(score: Score) -> list:

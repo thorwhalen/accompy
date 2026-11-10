@@ -16,7 +16,7 @@ import {
   tonalResolver,
   type StylePatterns,
 } from "./index.js";
-import { pyFloorDiv, pyInt, pySplit, pyStrip, pySum } from "./py.js";
+import { pyFloorDiv, pyInt, pySplit, pyStrip, pySum, ValueError } from "./py.js";
 
 describe("generateEvents", () => {
   it("is deterministic and the same for every caller", () => {
@@ -53,6 +53,38 @@ describe("generateEvents", () => {
       ...chordEvents(tonalResolver("A-"), { style: "bossa", startBeat: 4 }),
     ];
     expect(whole).toEqual(byChord);
+  });
+});
+
+describe("selection rules the builtin data cannot exercise", () => {
+  it("the drum pattern matching the time signature wins over the first one", () => {
+    const hit = (drum: number) => [{ beat: 0, drum, velocity: 100 }];
+    const registry = new PatternRegistry({ builtins: false });
+    registry.register("meters", {
+      drums: [
+        { name: "four", beatsPerBar: 4, hits: hit(36) },
+        { name: "three", beatsPerBar: 3, hits: hit(38) },
+      ],
+      bass: [],
+      comp: [],
+    });
+    const drums = (ts: [number, number]) =>
+      generateEvents("| C |", { style: "meters", patternSource: registry, timeSignature: ts, instruments: { piano: false } })
+        .map((e) => e.note);
+    expect(drums([3, 4])).toEqual([38]);
+    expect(drums([4, 4])).toEqual([36]);
+    expect(drums([5, 4])).toEqual([36]); // no match: the first
+  });
+
+  it("a skeleton name shared by two keys resolves to the first registered", () => {
+    registerSkeleton("dup_a", [2, 2], { name: "Same Name" });
+    registerSkeleton("dup_b", [1, 3], { name: "Same Name" });
+    try {
+      expect(resolveSkeleton("same name")).toEqual([2, 2]);
+    } finally {
+      RHYTHMIC_SKELETONS.delete("dup_a");
+      RHYTHMIC_SKELETONS.delete("dup_b");
+    }
   });
 });
 
@@ -97,10 +129,11 @@ describe("Python semantics", () => {
   it("int, floor division and sum behave as in CPython", () => {
     expect(pyInt(" 3 ")).toBe(3);
     expect(pyInt("1_0")).toBe(10);
-    expect(() => pyInt("3.0")).toThrow(RangeError);
+    expect(() => pyInt("3.0")).toThrow(ValueError);
     expect(pyFloorDiv(-7, 2)).toBe(-4);
     expect(pyFloorDiv(4.5, 4)).toBe(1);
-    expect(pyFloorDiv(0.3, 0.1)).toBe(2); // CPython: 0.3 // 0.1 == 2.0, while Math.floor(0.3 / 0.1) is 3
+    expect(pyFloorDiv(1, 0.1)).toBe(9); // CPython: 1 // 0.1 == 9.0, while Math.floor(1 / 0.1) is 10
+    expect(pyInt("٣")).toBe(3); // Python's int() reads any Unicode decimal digit
     expect(pySum([0.1, 0.2, 0.3])).toBe(0.6); // Python 3.12+: 0.6; a plain fold gives 0.6000000000000001
   });
 });

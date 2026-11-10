@@ -208,8 +208,10 @@ export function generateEvents(chords: string | Score | unknown, opts: GenerateO
   const volumes = opts.volumes ?? DEFAULT_VOLUMES;
   const beatsPerBar = score.timeSignature[0];
   const patterns = selectPatterns(source.getPatterns(opts.style ?? "swing"), beatsPerBar);
+  const repeats = opts.repeats ?? 1;
+  if (!Number.isInteger(repeats)) throw new TypeError(`repeats must be an integer, got ${repeats}`);
   const out: NoteEvent[] = [];
-  for (let repeat = 0; repeat < (opts.repeats ?? 1); repeat++) {
+  for (let repeat = 0; repeat < repeats; repeat++) {
     let beat = repeat * score.measures.length * beatsPerBar;
     for (const measure of score.measures) {
       const perChord = measure.length ? pyFloorDiv(beatsPerBar, measure.length) : beatsPerBar;
