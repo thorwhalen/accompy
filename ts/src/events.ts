@@ -6,7 +6,13 @@
  * chords and uses no randomness: the same chart, style, repeats, instruments and volumes
  * always give the same events. Use {@link beatsToSeconds} at whatever tempo you play.
  */
-import { DEFAULT_INSTRUMENTS, DEFAULT_VOLUMES, FALLBACK_CHORD_NOTES, NO_CHORD_SYMBOLS } from "./data.generated.js";
+import {
+  DEFAULT_INSTRUMENTS,
+  DEFAULT_VOLUMES,
+  FALLBACK_CHORD_NOTES,
+  NO_CHORD_SYMBOLS,
+  NOTE_TO_SEMITONE,
+} from "./data.generated.js";
 import { ensureScore, type Score } from "./chart.js";
 import {
   getPatternRegistry,
@@ -46,6 +52,19 @@ export function beatsToSeconds(beats: number, tempo: number): number {
 }
 
 const NO_CHORD = new Set<string>(NO_CHORD_SYMBOLS);
+const SEMITONES = new Map<string, number>(NOTE_TO_SEMITONE as readonly (readonly [string, number])[]);
+
+/**
+ * What the renderer plays for a symbol its resolver cannot read: a major triad on the
+ * symbol's leading note name, either case, `#`/`b` or `♯`/`♭` (`G#13(b9)` -> G# major),
+ * or on C without one.
+ */
+export function fallbackChordNotes(symbol: string): number[] {
+  const root = /^([A-Ga-g])([#b\u266f\u266d]?)/.exec(symbol);
+  if (!root) return [...FALLBACK_CHORD_NOTES];
+  const name = root[1]!.toUpperCase() + root[2]!.replace("\u266f", "#").replace("\u266d", "b");
+  return FALLBACK_CHORD_NOTES.map((n) => n + (SEMITONES.get(name) ?? 0));
+}
 const DRUM_DURATION = 0.25;
 
 function drumEvents(pattern: DrumPattern, start: number, duration: number, volume: number): NoteEvent[] {
@@ -195,7 +214,7 @@ export interface GenerateOptions {
  * The note events of a whole chart (any form {@link ensureScore} reads), in the order the
  * builtin backend generates them: chord by chord, drums then bass then piano. Each chord
  * of a bar gets `beatsPerBar // chords` beats; no-chord symbols are silent; a symbol the
- * resolver cannot read plays a C major triad.
+ * resolver cannot read plays a major triad on its root ({@link fallbackChordNotes}).
  *
  * @example
  * const events = generateEvents("| Dm7 | G7 | C^7 |", { style: "swing" });
@@ -221,7 +240,7 @@ export function generateEvents(chords: string | Score | unknown, opts: GenerateO
         try {
           notes = resolve(symbol);
         } catch {
-          notes = FALLBACK_CHORD_NOTES;
+          notes = fallbackChordNotes(symbol);
         }
         out.push(...playChord(notes, patterns, beat + i * perChord, perChord, instruments, volumes));
       });

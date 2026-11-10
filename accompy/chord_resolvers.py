@@ -143,7 +143,10 @@ def _make_sequence_converter(
             try:
                 midi_notes = resolver(symbol)
             except Exception:
-                midi_notes = [60, 64, 67]  # C major fallback
+                from .renderers.midi import fallback_chord_notes
+
+                # A major triad on the symbol's root, an octave above the renderer's.
+                midi_notes = [n + 12 for n in fallback_chord_notes(symbol)]
             notes.append((midi_notes, duration))
         return NoteSequence(
             notes=notes,

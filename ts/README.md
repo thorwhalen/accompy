@@ -75,7 +75,7 @@ A chart box, a style menu and a Play button, with a tiny Web Audio synth (oscill
 
 - The tables (patterns, skeletons, chord spellings, tonal's chord qualities) are generated from Python into `src/data.generated.ts` by `python -m accompy._codegen`; a Python test fails when that file is stale.
 - The golden cases in `../fixtures/cases.json` (about 740 calls over every function above, errors and odd meters included) are recorded from Python by `python -m accompy._fixtures` and run by both `pytest` and `vitest`, compared as JSON text.
-- Python quirks are kept on purpose, so both sides agree: for example `Cdim` normalises to `Cdi-` and then plays the fallback C major triad. Fixes go to the Python side first, then both twins.
+- Python quirks are kept on purpose, so both sides agree; fixes go to the Python side first, then both twins. A symbol the resolver cannot read plays a major triad on its root (`fallbackChordNotes`).
 - Out of scope: the MMA backend, audio rendering, and the Python converter pipeline's ChordPro, Roman-numeral and Nashville parsers and its pychord/music21/mingus resolvers.
 
 Names are camelCase; Python's keyword arguments are a trailing options object. Errors carry Python's exception name: `ValueError`, `KeyError` and `ZeroDivisionError` (exported; all subclasses of `RangeError`) and `TypeError`.

@@ -502,3 +502,16 @@ class TestIntegration:
 
         assert result.exists()
         assert result.stat().st_size > 100
+
+
+def test_unreadable_chord_falls_back_to_a_triad_on_its_root():
+    """accompy#10: an unreadable symbol keeps its root, in the renderer and the pipeline."""
+    from accompy import chords_to_notes, generate_events
+    from accompy.renderers.midi import fallback_chord_notes
+
+    assert fallback_chord_notes("G#13(b9,#11)") == [56, 60, 63]
+    assert fallback_chord_notes("?") == [48, 52, 55]
+    ((notes, _),) = chords_to_notes("| G#13(b9,#11) |", resolver="tonal").notes
+    assert notes == [68, 72, 75]
+    bass = [e.note for e in generate_events("| Ddim |", style="rock") if e.channel == 0]
+    assert bass and all(n % 12 == 2 for n in bass)  # D diminished, not C

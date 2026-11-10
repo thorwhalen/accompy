@@ -35,6 +35,7 @@ const FUNCTIONS: Record<string, AnyFn> = {
   get_patterns: accompy.getPatterns,
   chord_events: accompy.chordEvents,
   generate_events: accompy.generateEvents,
+  fallback_chord_notes: accompy.fallbackChordNotes,
   resolve_skeleton: accompy.resolveSkeleton,
   apply_skeleton: accompy.applySkeleton,
   list_skeletons: accompy.listSkeletons,

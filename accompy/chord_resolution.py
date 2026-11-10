@@ -7,6 +7,7 @@ Implements dependency injection pattern for flexibility.
 
 from __future__ import annotations
 
+import re
 from typing import Callable
 
 # Type alias for chord resolvers
@@ -45,10 +46,38 @@ def tonal_resolver(
     """
     from tonal.chords import chord_to_notes
 
-    notes = list(chord_to_notes(symbol))
+    notes = _letter_root_notes(symbol)
+    if notes is None:
+        notes = list(chord_to_notes(symbol))
     if transpose:
         notes = [n + transpose for n in notes]
     return notes
+
+
+_LETTER_ROOT = re.compile(r"([A-G][#b]?)(.*)", re.DOTALL)
+
+
+def _letter_root_notes(symbol: str):
+    """``symbol``'s notes read with a letter-name root (``D`` + ``o7``), else None.
+
+    tonal tries its longest root name first, case-insensitively, so ``Do7`` (accompy's
+    spelling of D diminished 7) would read as solfege ``do`` (C) + ``7``, and ``Fadd9``
+    as ``fa`` + ``dd9``. A chart symbol starting with an upper-case letter name is read
+    with that letter as its root whenever the rest is a quality tonal knows.
+
+    >>> _letter_root_notes("Do7"), _letter_root_notes("Fadd9"), _letter_root_notes("sol7")
+    ([62, 65, 68, 71], [65, 69, 72, 79], None)
+    """
+    from tonal.chords import _simplify_quality_extension
+    from tonal.notes import chord_quality, root_notes
+
+    match = _LETTER_ROOT.match(symbol.strip())
+    if not match or match.group(1) not in root_notes:
+        return None
+    intervals = chord_quality.get(_simplify_quality_extension(match.group(2)))
+    if intervals is None:
+        return None
+    return [root_notes[match.group(1)] + int(i) for i in intervals]
 
 
 def music21_resolver(

@@ -13,8 +13,8 @@ from typing import Iterable, Optional
 from urllib.parse import unquote
 
 
-#: The suffix rewrites :func:`normalize_chord_symbol` applies, in order: each ``old``
-#: becomes ``new`` at the end of the symbol or before a slash.
+#: The suffix rewrites :func:`normalize_chord_symbol` applies: each ``old`` becomes
+#: ``new`` at the end of the symbol or of a part before a slash (longest ``old`` wins).
 CHORD_SYMBOL_REPLACEMENTS = (
     ("maj7", "^7"),
     ("maj9", "^9"),
@@ -35,6 +35,11 @@ CHORD_SYMBOL_REPLACEMENTS = (
     ("add2", "add2"),
 )
 
+# Longest first (a stable sort: equal lengths keep the table's order).
+_REPLACEMENTS_LONGEST_FIRST = sorted(
+    CHORD_SYMBOL_REPLACEMENTS, key=lambda pair: len(pair[0]), reverse=True
+)
+
 #: Symbols :func:`normalize_chord_symbol` returns unchanged (no chord, or a repeat sign).
 UNNORMALIZED_SYMBOLS = ("", "n", "N.C.", "NC", "%", "x")
 
@@ -49,25 +54,30 @@ def normalize_chord_symbol(symbol: str) -> str:
     - Cdim -> Co
     - Cm7b5 -> Ch7 (half-diminished)
 
+    Each ``/``-separated part of the symbol has its longest matching suffix from
+    :data:`CHORD_SYMBOL_REPLACEMENTS` rewritten, once (so ``dim`` is never read as a
+    word ending in ``m``).
+
     Example:
         >>> normalize_chord_symbol("Cmaj7")
         'C^7'
         >>> normalize_chord_symbol("Dm7b5")
         'Dh7'
+        >>> normalize_chord_symbol("Cdim7"), normalize_chord_symbol("Bbm7/F")
+        ('Co7', 'Bb-7/F')
     """
     symbol = symbol.strip()
     if not symbol or symbol in UNNORMALIZED_SYMBOLS:
         return symbol
+    return "/".join(_rewrite_suffix(part) for part in symbol.split("/"))
 
-    result = symbol
-    for old, new in CHORD_SYMBOL_REPLACEMENTS:
-        # Only replace if it's at the end or followed by a slash
-        if result.endswith(old):
-            result = result[: -len(old)] + new
-        elif f"{old}/" in result:
-            result = result.replace(f"{old}/", f"{new}/")
 
-    return result
+def _rewrite_suffix(part: str) -> str:
+    """``part`` with its longest suffix in :data:`CHORD_SYMBOL_REPLACEMENTS` rewritten."""
+    for old, new in _REPLACEMENTS_LONGEST_FIRST:
+        if part.endswith(old):
+            return part[: -len(old)] + new
+    return part
 
 
 def parse_chord_string(chord_string: str) -> list[list[str]]:

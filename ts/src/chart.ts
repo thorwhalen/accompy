@@ -45,21 +45,25 @@ function makeScore(measures: string[][], opts: ChartOptions = {}, composer = "")
   };
 }
 
+// Longest first (a stable sort: equal lengths keep the table's order), as in Python.
+const REPLACEMENTS_LONGEST_FIRST = [...CHORD_SYMBOL_REPLACEMENTS].sort((a, b) => b[0].length - a[0].length);
+
+function rewriteSuffix(part: string): string {
+  for (const [old, replacement] of REPLACEMENTS_LONGEST_FIRST) {
+    if (part.endsWith(old)) return part.slice(0, part.length - old.length) + replacement;
+  }
+  return part;
+}
+
 /**
- * Rewrite a chord symbol to iReal spelling (`Cmaj7` -> `C^7`, `Dm7b5` -> `Dh7`).
- *
- * Each rewrite in `CHORD_SYMBOL_REPLACEMENTS` applies, in order, at the end of the symbol
- * or before a slash. (Python quirk kept for parity: `Cdim` becomes `Cdi-`.)
+ * Rewrite a chord symbol to iReal spelling (`Cmaj7` -> `C^7`, `Dm7b5` -> `Dh7`,
+ * `Cdim7` -> `Co7`): each `/`-separated part has its longest matching suffix from
+ * `CHORD_SYMBOL_REPLACEMENTS` rewritten, once.
  */
 export function normalizeChordSymbol(symbol: string): string {
   const s = pyStrip(symbol);
   if (!s || (UNNORMALIZED_SYMBOLS as readonly string[]).includes(s)) return s;
-  let result = s;
-  for (const [old, replacement] of CHORD_SYMBOL_REPLACEMENTS) {
-    if (result.endsWith(old)) result = result.slice(0, result.length - old.length) + replacement;
-    else if (result.includes(`${old}/`)) result = result.split(`${old}/`).join(`${replacement}/`);
-  }
-  return result;
+  return s.split("/").map(rewriteSuffix).join("/");
 }
 
 /**
