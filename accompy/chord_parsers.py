@@ -103,29 +103,28 @@ def parse_plain_text(
 def parse_ireal_url(
     url: str | ChordSheet,
     *,
-    beats_per_bar: int = 4,
+    beats_per_bar: int | None = None,
 ) -> ChordSequence:
     """Parse an iReal Pro URL into a ChordSequence; a bar's chords share it evenly.
 
     Decoding is :func:`accompy.ireal.decode_ireal_url`; the first tune with chords is
-    used. Raises ``ValueError`` when no tune has chords.
+    used. Bars last ``beats_per_bar`` beats, by default the tune's time-signature
+    numerator. Raises ``ValueError`` when no tune has chords.
 
     >>> cs = parse_ireal_url("irealbook://Blues=Me=Swing=F=n=[T34F7 |Bb7 Bo7 Z")
     >>> cs.chords, cs.time_signature
-    ([('F7', 4.0), ('Bb7', 2.0), ('Bo7', 2.0)], (3, 4))
+    ([('F7', 3.0), ('Bb7', 1.5), ('Bo7', 1.5)], (3, 4))
     """
     from .ireal import decode_ireal_url
 
     for tune in decode_ireal_url(str(url)):
-        chords = [
-            (chord, beats_per_bar / len(bar)) for bar in tune.measures for chord in bar
-        ]
+        chords = tune.chord_specs(beats_per_bar=beats_per_bar)
         if chords:
             return ChordSequence(
                 chords=chords,
                 title=tune.title or "",
                 key=tune.key or "C",
-                tempo=int(tune.bpm) if tune.bpm.isdigit() else 120,
+                tempo=tune.tempo or 120,
                 time_signature=tune.time_signature,
             )
     raise ValueError("No chords found in iReal Pro URL")

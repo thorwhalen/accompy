@@ -1,21 +1,29 @@
 """Decode iReal Pro URLs (``irealb://`` and ``irealbook://``) into tunes and bars.
 
 accompy owns this decoding; the TypeScript twin (``ts/src/ireal.ts``) is its exact
-counterpart. The unscrambling and the bar flattening started as a copy of the parts of
-pyRealParser (MIT licence, by its authors: https://github.com/drs251/pyRealParser) that
-accompy used, with these changes:
+counterpart. The unscrambling and the chord-string cleanup started as a copy of the parts
+of pyRealParser (https://github.com/drs251/pyRealParser, MIT licence, notice below) that
+accompy used. Changes from it:
 
 - ``T12`` is 12/8; every other time-signature code ``T<a><b>`` is a/b;
+- the chart is read bar by bar in one linear pass: every ``{...}`` repeat is written out
+  with its own endings (``}N2``, ``}`` then ``N2``, three endings), a ``}`` with no ``{``
+  repeats from the last ``[``, the previous ``}`` or the top, a ``{`` inside an open
+  repeat restarts it (iReal has no nesting), and the ``}`` stays a barline;
+- a D.C./D.S. al Coda replays from the segno ``S`` (or the top) to the first ``Q``, as
+  whole bars, then plays the coda;
 - ``r`` (repeat the previous two bars) makes two bars and keeps the bar after it;
-- ``p`` (repeat the previous chord) with no chord before it is dropped, in any bar;
-- ``x`` or ``r`` with nothing to repeat is dropped;
+- ``p`` (the previous chord again) and ``W`` (an invisible root) with no chord before
+  them are dropped; ``x`` or ``r`` with nothing to repeat is dropped;
 - backslashes in chord text are literal text;
-- long runs of ``{...}`` repeats are expanded in a loop (no recursion limit);
 - song fields are read by position, so an empty field (an empty composer) shifts nothing;
-- each bar is a list of its chords (pyRealParser glued them into one string per bar), a
-  ``p`` within a bar is the previous chord again, ``W`` an invisible root, and end, segno
-  and coda marks are left out of the chords;
-- the ``l`` (large print) mark is removed without eating the ``l`` of ``alt``.
+- each bar is a list of its chords (pyRealParser glued them into one string per bar), and
+  end, segno and coda marks are left out of the chords;
+- the ``l`` (large print) mark is removed without eating the ``l`` of ``alt``;
+- ``Z`` (final double bar) is a barline.
+
+Regex digit and word classes follow Python's Unicode tables; the twin's JavaScript ones can
+be a version newer (characters added in Unicode 15.1/16 differ; iReal uses none of them).
 
 The URL layout. ``irealb://`` holds songs joined by ``===``, then an optional playlist
 name; a song is ten ``=``-separated fields, ``title=composer=(unused)=style=key=transpose=
@@ -28,6 +36,30 @@ songs, ``title=composer=style=key=n=music``, with the music in plain text.
 [[['F7'], ['Bb7', 'Bb7'], ['F7'], ['Bb7', 'Bb7'], ['C7']]]
 """
 
+# Parts of this module derive from pyRealParser, under this licence:
+#
+# MIT License
+#
+# Copyright (c) 2018 Daniel Stephan
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+
 from __future__ import annotations
 
 import re
@@ -39,6 +71,9 @@ SCRAMBLE_PREFIX = "1r34LbKcu7"
 
 #: Time-signature codes that are not ``T<numerator><denominator>``.
 TIME_SIGNATURE_EXCEPTIONS = {(1, 2): (12, 8)}
+
+#: The most endings (``N1`` ... ``N9``) a repeat can have.
+_MAX_ENDINGS = 9
 
 #: Number of fields in an ``irealbook://`` song, and the index of its music field.
 PLAIN_SONG_FIELDS, PLAIN_MUSIC_INDEX = 6, 5
@@ -72,6 +107,22 @@ class IrealTune:
     time_signature: tuple[int, int] = (4, 4)
     measures: list[list[str]] = field(default_factory=list)
 
+    @property
+    def tempo(self) -> int | None:
+        """The tempo in BPM, or None when unset (empty, not a number, or not above 0)."""
+        bpm = self.bpm.strip()
+        return int(bpm) if bpm.isdecimal() and int(bpm) > 0 else None
+
+    def chord_specs(self, *, beats_per_bar: float | None = None) -> list[tuple[str, float]]:
+        """``(chord, beats)`` pairs: each bar shared evenly by its chords. Bars last
+        ``beats_per_bar`` beats, by default the time signature's numerator.
+
+        >>> IrealTune(measures=[["C"], ["D-7", "G7"]], time_signature=(3, 4)).chord_specs()
+        [('C', 3.0), ('D-7', 1.5), ('G7', 1.5)]
+        """
+        beats = float(beats_per_bar or self.time_signature[0])
+        return [(chord, beats / len(bar)) for bar in self.measures for chord in bar]
+
 
 def unscramble(scrambled: str) -> str:
     """Undo iReal's scrambling of a music field (after :data:`SCRAMBLE_PREFIX`).
@@ -93,15 +144,15 @@ def unscramble(scrambled: str) -> str:
 
 
 def cleanup_chord_string(chord_string: str) -> str:
-    """Unify bar lines and repeat signs, drop spacers, empty bars and end marks."""
+    """Unify bar lines (``Z``, the final double bar, is one too) and repeat signs; drop
+    spacers and empty bars."""
     for pattern, repl in (
-        (r"LZ|K", "|"),
+        (r"LZ|K|Z", "|"),
         (r"cl", "x"),
         (r"\*\s*\*", ""),
         (r"Y+", ""),
         (r"XyQ|,", " "),
         (r"\|\s*\|", "|"),
-        (r"Z", ""),
         (r"\|\s+", "|"),
         (r"\s+", " "),
     ):
@@ -109,12 +160,28 @@ def cleanup_chord_string(chord_string: str) -> str:
     return chord_string.rstrip()
 
 
+def _drop_spans(text: str, start: str, end: str, *, stop: str = "") -> str:
+    """Remove each ``start...end`` span (no ``stop`` inside), in one left-to-right pass.
+
+    The linear equivalent of ``re.sub(f"{start}[^{stop}]*?{end}", "", text)``: a regex
+    retries from every unclosed ``start``, which is quadratic on text like ``<<<<...``.
+    """
+    out, i = [], 0
+    while (j := text.find(start, i)) >= 0 and (k := text.find(end, j + 1)) >= 0:
+        cut = text.find(stop, j + 1, k) if stop else -1
+        if cut >= 0:  # no span starts before the stop character
+            out.append(text[i : cut + 1])
+            i = cut + 1
+        else:
+            out.append(text[i:j])
+            i = k + 1
+    return "".join(out) + text[i:]
+
+
 def _remove_annotations(chord_string: str) -> str:
+    chord_string = _drop_spans(chord_string, "<", ">", stop="\n")  # comments
+    chord_string = _drop_spans(chord_string, "(", ")")  # alternate chords
     for pattern, repl in (
-        (r"[\[\]]", "|"),
-        (r"\|\s*\|", "|"),
-        (r"<.*?>", ""),  # comments
-        (r"\([^)]*\)", ""),  # alternate chords
         (r"(?<!a)l(?!t)|f", ""),  # large print (not the l of alt), fermata
         (r"(?<!su)s(?!us)", ""),  # small print (not the s of sus)
         (r"\*\w", ""),  # section marks
@@ -129,48 +196,102 @@ def _remove_markers(chord_string: str) -> str:
     return re.sub(r"U|S|Q|N\d", "", chord_string)
 
 
-def _fill_long_repeats(chord_string: str) -> str:
-    """Write out ``{...}`` repeats; stops after the first repeat that has endings.
+@dataclass
+class _Bar:
+    """A bar of the chart as written: its text (chords and marks) and the barlines around it."""
 
-    A repeat's body holds no ``{`` (with unbalanced braces, the innermost one is taken),
-    so each pass removes one ``{`` and the expansion cannot grow without bound.
+    text: str
+    opener: str  # "{" (repeat start), "[" (section start) or ""
+    closes: bool  # ends with a repeat sign "}"
+    ending: int | None  # the ending (volta) number it starts, from ``N<digit>``
+
+
+def _split_bars(chord_string: str) -> list[_Bar]:
+    bars, opener, pos = [], "", 0
+
+    def bar(text: str, closes: bool) -> _Bar:
+        ending = re.search(r"N(\d)", text)
+        return _Bar(text, opener, closes, int(ending.group(1)) if ending else None)
+
+    for m in re.finditer(r"[|\[\]{}]", chord_string):
+        bars.append(bar(chord_string[pos : m.start()], m.group() == "}"))
+        opener, pos = (m.group() if m.group() in "{[" else ""), m.end()
+    bars.append(bar(chord_string[pos:], False))
+    return bars
+
+
+def _expand_repeats(bars: list[_Bar]) -> list[int | str]:
+    """The order bars are played in (indices; the text of a part-bar before an ending
+    written mid-bar), with ``{...}`` repeats and endings written out.
+
+    One pass, left to right. A ``}`` repeats from its ``{`` or, with none, from the last
+    section start ``[``, the bar after the previous ``}``, or the top. With endings
+    (``N1``, ``N2``, ...), the replay is the part before the first ending, then play goes
+    on into the next ending; an ending that closes with ``}`` again is followed by one more
+    replay. iReal has no nested repeats: a ``{`` inside an open repeat restarts it. Every
+    bar is replayed at most once per ending, so the output stays linear in the input.
     """
-    while (repeat := re.search(r"{([^{\n]+?)}", chord_string)) is not None:
-        body = repeat.group(1)
-        before, after = chord_string[: repeat.start()], chord_string[repeat.end() :]
-        if re.search(r"N(\d)", body) is None:
-            chord_string = (
-                before + "|" + body + " |" + _remove_markers(body) + after + "|"
-            )
+    order: list[int | str] = []
+    region, opened = 0, None  # where a lone "}" repeats from; the open "{"
+    body: list[int | str] = []  # what a later ending's "}" replays
+    last_close, replays = -1, 0
+    for i, bar in enumerate(bars):
+        if bar.opener:
+            region, body = i, []
+            opened = i if bar.opener == "{" else opened
+        order.append(i)
+        if not bar.closes:
             continue
-        # First time through: the body with its first ending; each later ending
-        # (``|N2...``) is preceded by the body up to the first ending.
-        out = before + "|" + re.sub(r"N\d", "", body) + after
-        head = re.search(r"([^N]+)N\d", body)
-        if head is None:
-            raise ValueError(f"Repeat with an ending but no body: {body!r}")
-        replay = "|" + _remove_markers(head.group(1))
-        while re.search(r"\|\s*N(\d)", out) is not None:
-            out = re.sub(r"\|\s*N(\d)", lambda _: replay, out)
-        return out
-    return chord_string
+        later_ending = opened is None and body and any(
+            bars[j].ending is not None for j in range(last_close + 1, i + 1)
+        )
+        if later_ending and replays < _MAX_ENDINGS:
+            order += body
+            replays += 1
+        elif not later_ending:
+            start = opened if opened is not None else region
+            first = next((j for j in range(start, i + 1) if bars[j].ending is not None), None)
+            replay: list[int | str] = list(range(start, i + 1 if first is None else first))
+            if first is not None:  # an ending written mid-bar: replay the bar's start too
+                head = bars[first].text[: re.search(r"N\d", bars[first].text).start()]
+                replay += [head] if _remove_markers(head).strip() else []
+            order += replay
+            body, replays = (replay, 1) if first is not None else ([], 0)
+        region, opened, last_close = i + 1, None, i
+    return order
 
 
-def _fill_codas(chord_string: str) -> str:
-    """Write out a D.C./D.S. al Coda (two ``Q``s); a single ``Q`` is just dropped."""
-    qs = chord_string.count("Q")
+def _fill_codas(bars: list[_Bar], order: list[int | str]) -> list[str]:
+    """The played bars' texts, with a D.C./D.S. al Coda (two ``Q``s) written out.
+
+    At the second ``Q`` (the coda), play goes back to the segno ``S`` (or the top) and on
+    to the first ``Q``, then into the coda. One ``Q`` alone is just dropped.
+    """
+    texts = [bars[i].text if isinstance(i, int) else i for i in order]
+    qs = sum(bar.text.count("Q") for bar in bars)
     if qs > 2:
         raise ValueError(f"Could not parse codas: expected 0, 1 or 2 Qs, not {qs}")
-    if qs == 1:
-        return chord_string.replace("Q", "")
-    if qs == 2:
-        q1 = chord_string.index("Q")
-        q2 = chord_string.index("Q", q1 + 1)
-        segno = chord_string.find("S")  # from after it, else after the first character
-        repeat = chord_string[segno + 1 if segno >= 0 else 1 : q1]
-        out = chord_string[:q2] + repeat + " |" + chord_string[q2 + 1 :]
-        return re.sub(r"[QS]", "", out)
-    return chord_string
+    q_bars = [i for i, bar in enumerate(bars) if "Q" in bar.text]
+    if qs < 2 or len(q_bars) < 2:
+        return texts
+    p1, p2 = order.index(q_bars[0]), order.index(q_bars[1])
+    if p1 >= p2:
+        return texts
+    segno = next((order.index(i) for i, b in enumerate(bars) if "S" in b.text), None)
+
+    def cut(text: str, mark: str) -> tuple[str, str]:
+        k = text.find(mark)
+        return (text[:k], text[k + 1 :]) if k >= 0 else (text, "")
+
+    to_coda = cut(texts[p1], "Q")[0]
+    if segno is None or segno > p1:
+        replay = texts[:p1] + [to_coda]
+    elif segno < p1:
+        replay = [cut(texts[segno], "S")[1]] + texts[segno + 1 : p1] + [to_coda]
+    else:
+        replay = [cut(cut(texts[p1], "S")[1], "Q")[0]]
+    before, coda = cut(texts[p2], "Q")
+    return texts[:p2] + [before] + replay + [coda] + texts[p2 + 1 :]
 
 
 def _fill_repeat_signs(bars: list[list[str]]) -> list[list[str]]:
@@ -218,16 +339,15 @@ def _fill_slashes(bars: list[list[str]]) -> list[list[str]]:
 
 def flatten_measures(chord_string: str) -> list[list[str]]:
     """The bars of an (unscrambled) chord string, each a list of its chords, with repeats,
-    codas and signs written out (a ``p`` repeats the previous chord on its beat).
+    endings, codas and signs written out (a ``p`` repeats the previous chord on its beat).
 
-    >>> flatten_measures("{C^7 p|A-7 D7 |N1D-7,G7 }|N2G-7 C7 F7 |F^7 Z")
+    >>> flatten_measures("{C^7 p|A-7 D7 |N1D-7,G7 }N2G-7 C7 F7 |F^7 Z")
     [['C^7', 'C^7'], ['A-7', 'D7'], ['D-7', 'G7'], ['C^7', 'C^7'], ['A-7', 'D7'], ['G-7', 'C7', 'F7'], ['F^7']]
     """
-    chord_string = cleanup_chord_string(chord_string)
-    chord_string = _remove_annotations(chord_string)
-    chord_string = _remove_markers(_fill_codas(_fill_long_repeats(chord_string)))
-    bars = [_bar_tokens(bar) for bar in re.split(r"\||LZ|K|Z|{|}|\[|\]", chord_string)]
-    return _fill_slashes(_fill_repeat_signs([bar for bar in bars if bar]))
+    bars = _split_bars(_remove_annotations(cleanup_chord_string(chord_string)))
+    texts = _fill_codas(bars, _expand_repeats(bars))
+    tokens = [_bar_tokens(_remove_markers(text)) for text in texts]
+    return _fill_slashes(_fill_repeat_signs([bar for bar in tokens if bar]))
 
 
 def time_signature(chord_string: str) -> tuple[int, int]:
@@ -287,12 +407,12 @@ def _plain_songs(fields: list[str]):
 def decode_ireal_url(url: str) -> list[IrealTune]:
     """The tunes of an iReal URL (a playlist has several), skipping those that do not decode.
 
-    The URL is percent-decoded and ends at its first ``"`` (as when cut out of an HTML
-    ``href``); the ``irealb://`` / ``irealbook://`` scheme is optional. Music fields that
+    The URL ends at its first raw ``"`` (as when cut out of an HTML ``href``; a ``%22``
+    is a quote inside a title or comment) and is then percent-decoded; the ``irealb://`` / ``irealbook://`` scheme is optional. Music fields that
     start with :data:`SCRAMBLE_PREFIX` are read as ``irealb`` songs; a URL with none is
     read as ``irealbook`` six-field songs.
     """
-    body = unquote(url).split('"', 1)[0]
+    body = unquote(url.split('"', 1)[0])
     for scheme in ("irealbook://", "irealb://"):
         if body.startswith(scheme):
             body = body[len(scheme) :]

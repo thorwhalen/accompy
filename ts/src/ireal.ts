@@ -1,15 +1,39 @@
 /**
  * iReal Pro URL decoding: the twin of `accompy.ireal` (and of `accompy.util.parse_ireal_url`
- * on top of it). Its unscrambling and bar flattening started from pyRealParser (MIT, by its
- * authors), with the fixes listed in `accompy/ireal.py`'s docstring.
+ * on top of it). Its unscrambling and chord-string cleanup started from pyRealParser (MIT,
+ * notice below), with the changes listed in `accompy/ireal.py`'s docstring.
  *
  * Python semantics are kept where JS differs: `\s`, `\d`, `\w` and `str.strip` are
  * Unicode-aware as in `re`, `.` excludes only `\n`, string indices count code points, and
  * `urllib.parse.unquote` is lenient (bad escapes stay literal, bad UTF-8 becomes U+FFFD).
  */
+/*! Parts of accompy's iReal decoding derive from pyRealParser, under this licence:
+
+MIT License
+
+Copyright (c) 2018 Daniel Stephan
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+*/
 import type { Score } from "./chart.js";
 import { PY_WHITESPACE } from "./data.generated.js";
-import { digitValue, isPySpace, pySplit, ValueError } from "./py.js";
+import { digitValue, isPySpace, pySplit, pyStrip, ValueError } from "./py.js";
 
 /** The start of a scrambled (`irealb://`) music field. */
 const SCRAMBLE_PREFIX = "1r34LbKcu7";
@@ -32,6 +56,8 @@ const py = (src: string, flags = ""): RegExp =>
 const sub = (s: string, src: string, rep: string): string => s.replace(py(src, "g"), () => rep);
 /** First characters of a chord (`n` is no chord, N.C.), which a `p` or `W` can repeat. */
 const ROOTS = "ABCDEFGn";
+/** The most endings (`N1` ... `N9`) a repeat can have. */
+const MAX_ENDINGS = 9;
 // --------------------------------------------------------------------------------------
 // urllib.parse.unquote (UTF-8, errors="replace")
 
@@ -115,8 +141,8 @@ function unscramble(scrambled: string): string {
 
 function cleanupChordString(s: string): string {
   const steps: Array<[string, string]> = [
-    ["LZ|K", "|"], ["cl", "x"], ["\\*\\s*\\*", ""], ["Y+", ""], ["XyQ|,", " "],
-    ["\\|\\s*\\|", "|"], ["Z", ""], ["\\|\\s+", "|"], ["\\s+", " "],
+    ["LZ|K|Z", "|"], ["cl", "x"], ["\\*\\s*\\*", ""], ["Y+", ""], ["XyQ|,", " "],
+    ["\\|\\s*\\|", "|"], ["\\|\\s+", "|"], ["\\s+", " "],
   ];
   for (const [src, rep] of steps) s = sub(s, src, rep);
   let end = s.length;
@@ -124,9 +150,26 @@ function cleanupChordString(s: string): string {
   return s.slice(0, end);
 }
 
+/** Remove each `start...end` span (no `stop` inside) in one linear pass (a regex is quadratic on `<<<<...`). */
+function dropSpans(text: string, start: string, end: string, stop = ""): string {
+  let out = "", i = 0;
+  for (let j: number, k: number; (j = text.indexOf(start, i)) >= 0 && (k = text.indexOf(end, j + 1)) >= 0; ) {
+    const inside = stop ? text.slice(j + 1, k).indexOf(stop) : -1;
+    if (inside >= 0) {
+      const cut = j + 1 + inside;
+      out += text.slice(i, cut + 1);
+      i = cut + 1;
+    } else {
+      out += text.slice(i, j);
+      i = k + 1;
+    }
+  }
+  return out + text.slice(i);
+}
+
 function removeAnnotations(s: string): string {
+  s = dropSpans(dropSpans(s, "<", ">", "\n"), "(", ")");
   const steps: Array<[string, string]> = [
-    ["[\\[\\]]", "|"], ["\\|\\s*\\|", "|"], ["<[^\\n]*?>", ""], ["\\([^)]*\\)", ""],
     ["(?<!a)l(?!t)|f", ""], ["(?<!su)s(?!us)", ""], ["\\*\\w", ""], ["T\\d+", ""],
   ];
   for (const [src, rep] of steps) s = sub(s, src, rep);
@@ -135,35 +178,87 @@ function removeAnnotations(s: string): string {
 
 const removeMarkers = (s: string): string => sub(s, "U|S|Q|N\\d", "");
 
-function fillLongRepeats(s: string): string {
-  for (let m; (m = py("\\{([^{\\n]+?)\\}").exec(s)); ) {
-    const body = m[1]!, before = s.slice(0, m.index), after = s.slice(m.index + m[0].length);
-    if (!py("N(\\d)").test(body)) {
-      s = before + "|" + body + " |" + removeMarkers(body) + after + "|";
-      continue;
-    }
-    let out = before + "|" + sub(body, "N\\d", "") + after;
-    const head = py("([^N]+)N\\d").exec(body);
-    if (!head) throw new ValueError(`Repeat with an ending but no body: ${body}`);
-    const replay = "|" + removeMarkers(head[1]!);
-    while (py("\\|\\s*N(\\d)").test(out)) out = sub(out, "\\|\\s*N(\\d)", replay);
-    return out;
-  }
-  return s;
+/** A bar as written: its text (chords and marks) and the barlines around it. */
+interface Bar {
+  text: string;
+  opener: string; // "{" (repeat start), "[" (section start) or ""
+  closes: boolean; // ends with "}"
+  ending: number | null; // the ending (volta) it starts, from `N<digit>`
 }
 
-function fillCodas(s: string): string {
-  const qs = [...s].filter((c) => c === "Q").length;
-  if (qs > 2) throw new ValueError(`Could not parse codas: expected 0, 1 or 2 Qs, not ${qs}`);
-  if (qs === 1) return s.replaceAll("Q", "");
-  if (qs === 2) {
-    const q1 = s.indexOf("Q"), q2 = s.indexOf("Q", q1 + 1);
-    // From after the segno, else after the first character (a code point, as in Python).
-    const segno = s.indexOf("S");
-    const from = segno >= 0 ? segno + 1 : [...s][0]!.length;
-    return (s.slice(0, q2) + s.slice(from, q1) + " |" + s.slice(q2 + 1)).replace(/[QS]/g, "");
+function splitBars(s: string): Bar[] {
+  const bars: Bar[] = [];
+  let opener = "", pos = 0;
+  const bar = (text: string, closes: boolean): Bar => {
+    const ending = py("N(\\d)").exec(text);
+    return { text, opener, closes, ending: ending ? digitValue(ending[1]!) : null };
+  };
+  for (const m of s.matchAll(/[|[\]{}]/g)) {
+    bars.push(bar(s.slice(pos, m.index), m[0] === "}"));
+    [opener, pos] = [m[0] === "{" || m[0] === "[" ? m[0] : "", m.index + 1];
   }
-  return s;
+  bars.push(bar(s.slice(pos), false));
+  return bars;
+}
+
+/** The order bars are played in (Python `_expand_repeats`: indices, or the text of a part-bar before a mid-bar ending), one linear pass. */
+function expandRepeats(bars: Bar[]): Array<number | string> {
+  const order: Array<number | string> = [];
+  let region = 0, opened: number | null = null, body: Array<number | string> = [], lastClose = -1;
+  let replays = 0;
+  bars.forEach((bar, i) => {
+    if (bar.opener) {
+      [region, body] = [i, []];
+      if (bar.opener === "{") opened = i;
+    }
+    order.push(i);
+    if (!bar.closes) return;
+    let laterEnding = opened === null && body.length > 0;
+    if (laterEnding) laterEnding = bars.slice(lastClose + 1, i + 1).some((b) => b.ending !== null);
+    if (laterEnding && replays < MAX_ENDINGS) {
+      order.push(...body);
+      replays++;
+    } else if (!laterEnding) {
+      const start = opened ?? region;
+      let first: number | null = null;
+      for (let j = start; j <= i && first === null; j++) if (bars[j]!.ending !== null) first = j;
+      const replay: Array<number | string> = [];
+      for (let j = start; j < (first ?? i + 1); j++) replay.push(j);
+      if (first !== null) {
+        // An ending written mid-bar: replay the bar's start too.
+        const text = bars[first]!.text, head = text.slice(0, py("N\\d").exec(text)!.index);
+        if (pyStrip(removeMarkers(head))) replay.push(head);
+      }
+      order.push(...replay);
+      [body, replays] = first !== null ? [replay, 1] : [[], 0];
+    }
+    [region, opened, lastClose] = [i + 1, null, i];
+  });
+  return order;
+}
+
+/** The played bars' texts, with a D.C./D.S. al Coda (two `Q`s) written out (Python `_fill_codas`). */
+function fillCodas(bars: Bar[], order: Array<number | string>): string[] {
+  const texts = order.map((i) => (typeof i === "number" ? bars[i]!.text : i));
+  const qs = bars.reduce((n, b) => n + [...b.text].filter((c) => c === "Q").length, 0);
+  if (qs > 2) throw new ValueError(`Could not parse codas: expected 0, 1 or 2 Qs, not ${qs}`);
+  const qBars = bars.flatMap((b, i) => (b.text.includes("Q") ? [i] : []));
+  if (qs < 2 || qBars.length < 2) return texts;
+  const [p1, p2] = [order.indexOf(qBars[0]!), order.indexOf(qBars[1]!)];
+  if (p1 >= p2) return texts;
+  const segnoBar = bars.findIndex((b) => b.text.includes("S"));
+  const segno = segnoBar >= 0 ? order.indexOf(segnoBar) : null;
+  const cut = (text: string, mark: string): [string, string] => {
+    const k = text.indexOf(mark);
+    return k >= 0 ? [text.slice(0, k), text.slice(k + 1)] : [text, ""];
+  };
+  const toCoda = cut(texts[p1]!, "Q")[0];
+  let replay: string[];
+  if (segno === null || segno > p1) replay = [...texts.slice(0, p1), toCoda];
+  else if (segno < p1) replay = [cut(texts[segno]!, "S")[1], ...texts.slice(segno + 1, p1), toCoda];
+  else replay = [cut(cut(texts[p1]!, "S")[1], "Q")[0]];
+  const [before, coda] = cut(texts[p2]!, "Q");
+  return [...texts.slice(0, p2), before, ...replay, coda, ...texts.slice(p2 + 1)];
 }
 
 function fillRepeatSigns(bars: string[][]): string[][] {
@@ -197,9 +292,9 @@ function fillSlashes(bars: string[][]): string[][] {
 }
 
 function flattenMeasures(chordString: string): string[][] {
-  const s = removeMarkers(fillCodas(fillLongRepeats(removeAnnotations(cleanupChordString(chordString)))));
-  const bars = s.split(/\||LZ|K|Z|\{|\}|\[|\]/u).map(barTokens);
-  return fillSlashes(fillRepeatSigns(bars.filter((bar) => bar.length)));
+  const bars = splitBars(removeAnnotations(cleanupChordString(chordString)));
+  const tokens = fillCodas(bars, expandRepeats(bars)).map((text) => barTokens(removeMarkers(text)));
+  return fillSlashes(fillRepeatSigns(tokens.filter((bar) => bar.length)));
 }
 
 function timeSignature(chordString: string): [number, number] {
@@ -239,7 +334,7 @@ function* plainSongs(fields: string[]): Generator<[string, Meta]> {
 
 /** Python `accompy.ireal.decode_ireal_url`: the tunes that decode, in order. */
 function decodeIrealUrl(url: string): IrealTune[] {
-  let body = unquote(url).split('"', 1)[0]!;
+  let body = unquote(url.split('"', 1)[0]!); // a raw `"` ends the URL; `%22` is a quote in it
   for (const scheme of ["irealbook://", "irealb://"])
     if (body.startsWith(scheme)) {
       body = body.slice(scheme.length);

@@ -392,19 +392,19 @@ def _parse_file(filepath: str, *, tempo: int | None = None) -> ChordSequence:
 
 
 def _parse_ireal_url_robust(url: str, *, tempo: int | None = None) -> ChordSequence:
-    """Parse an iReal Pro URL (first tune with chords) into a ChordSequence of 4-beat
-    bars, a bar's chords sharing it evenly."""
+    """Parse an iReal Pro URL (first tune with chords) into a ChordSequence: bars as long
+    as the tune's time signature says, a bar's chords sharing it evenly."""
     from .ireal import decode_ireal_url
 
     for tune in decode_ireal_url(url):
-        chords = [(c, 4.0 / len(bar)) for bar in tune.measures for c in bar]
+        chords = tune.chord_specs()
         if chords:
-            file_tempo = int(tune.bpm) if tune.bpm.isdigit() else 120
             return ChordSequence(
                 chords=chords,
                 title=tune.title or "",
                 key=tune.key or "C",
-                tempo=tempo or file_tempo,
+                tempo=tempo or tune.tempo or 120,
+                time_signature=tune.time_signature,
             )
     raise ValueError("No chords found in iReal Pro URL")
 

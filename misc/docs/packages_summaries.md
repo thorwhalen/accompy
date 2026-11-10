@@ -31,7 +31,7 @@ Key features: Simple API, flexible inputs (strings/Score/tuples/URLs), custom pa
 
 ## Usage Tips
 - Imports: from accompy import generate_accompaniment, Score.
-- Dependencies: fluidsynth (audio), midiutil/mingus (MIDI), pyRealParser (optional iReal URLs). System: FluidSynth/SoundFont.
+- Dependencies: fluidsynth (audio), midiutil/mingus (MIDI); iReal URLs are decoded by the built-in `accompy.ireal`. System: FluidSynth/SoundFont.
 - Patterns: Extend with custom styles/patterns. Use backend='mma' if MMA installed for advanced.
 - Notes: Chord notation: ^7=maj7, -7=min7, % repeat. Tests cover patterns/validation.
 
