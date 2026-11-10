@@ -10,7 +10,6 @@ from __future__ import annotations
 import re
 from pathlib import Path
 from typing import Iterable, Optional
-from urllib.parse import unquote
 
 
 #: The suffix rewrites :func:`normalize_chord_symbol` applies: each ``old`` becomes
@@ -147,192 +146,30 @@ def parse_time_sig(ts_str: Optional[str]) -> tuple[int, int]:
 
 def parse_ireal_url(url: str):
     """
-    Parse an iReal Pro URL into a Score object.
+    Parse an iReal Pro URL (``irealb://`` or ``irealbook://``) into a Score.
 
-    Tries pyRealParser's ``parse_ireal_url`` first, then falls back to
-    constructing a ``Tune`` directly (handles URLs with empty ``==`` fields),
-    and finally to a no-dependency best-effort parser.
+    Decoding is :func:`accompy.ireal.decode_ireal_url`; the Score is the first tune of
+    the URL that has chords, its bars kept as written (iReal chord notation, e.g.
+    ``'D-7G7'`` for a bar of two chords). Raises ``ValueError`` when no tune has chords.
+
+    >>> score = parse_ireal_url("irealbook://Blues=Me=Swing=F=n=[T34F7 |Bb7 |C7 Z")
+    >>> score.measures, score.time_signature
+    ([['F7'], ['Bb7'], ['C7']], (3, 4))
     """
     from .base import Score
+    from .ireal import decode_ireal_url
 
-    try:
-        from pyRealParser import Tune
-    except ImportError:
-        return parse_ireal_url_fallback(url)
-
-    # --- Tier 1: pyRealParser.parse_ireal_url (standard path) ---
-    try:
-        tunes = Tune.parse_ireal_url(url)
-        if tunes:
-            tune = tunes[0]
-            measures = [[chord] for chord in tune.measures_as_strings if chord]
-            if measures:
-                return Score(
-                    measures=measures,
-                    title=tune.title or "Untitled",
-                    composer=tune.composer or "",
-                    key=tune.key or "C",
-                    time_signature=parse_time_sig(tune.time_signature),
-                )
-    except Exception:
-        pass
-
-    # --- Tier 2: construct Tune directly from URL fields ---
-    # Some iReal URLs (especially single-song HTML exports) have empty fields
-    # that cause ``==`` in the URL, which pyRealParser.parse_ireal_url can't
-    # handle.  We decode the URL ourselves and construct a Tune manually.
-    try:
-        tune = _tune_from_ireal_url(url)
-        measures = [[chord] for chord in tune.measures_as_strings if chord]
+    for tune in decode_ireal_url(url):
+        measures = [[chord] for chord in tune.measures if chord]
         if measures:
             return Score(
                 measures=measures,
                 title=tune.title or "Untitled",
-                composer=getattr(tune, "composer", "") or "",
+                composer=tune.composer,
                 key=tune.key or "C",
-                time_signature=parse_time_sig(getattr(tune, "time_signature", None)),
+                time_signature=tune.time_signature,
             )
-    except Exception:
-        pass
-
-    # --- Tier 3: no-dependency fallback ---
-    return parse_ireal_url_fallback(url)
-
-
-def _tune_from_ireal_url(url: str):
-    """Construct a ``pyRealParser.Tune`` directly from an iReal URL.
-
-    The iReal single-song URL format (after decoding) is::
-
-        title=composer==style=key=??=chorddata=compstyle=bpm=repeats
-
-    ``parse_ireal_url`` splits on ``==`` (playlist separator) and chokes when
-    an empty field produces ``==`` inside a single song.  This helper splits
-    on single ``=`` and reconstructs the tune string that the ``Tune()``
-    constructor expects.
-    """
-    from pyRealParser import Tune
-
-    raw = url
-    if raw.startswith(("irealbook://", "irealb://")):
-        raw = raw.split("://", 1)[1]
-    raw = unquote(raw)
-
-    # Split on *single* '=' to preserve empty-field boundaries
-    parts = raw.split("=")
-
-    # Find the chord-data part: it contains the scramble prefix
-    prefix = "1r34LbKcu7"
-    chord_idx = None
-    for i, part in enumerate(parts):
-        if prefix in part:
-            chord_idx = i
-            break
-
-    if chord_idx is None:
-        raise ValueError("Could not locate chord data in iReal URL")
-
-    # Resolve fields relative to chord_idx
-    title = parts[0] if parts[0] else "Untitled"
-    composer = parts[1] if len(parts) > 1 else ""
-    # key is 2 positions before chord data
-    key = (
-        parts[chord_idx - 2]
-        if chord_idx >= 2 and len(parts[chord_idx - 2]) <= 2
-        else "C"
-    )
-    # style is 1 position before key
-    style = parts[chord_idx - 3] if chord_idx >= 3 else ""
-
-    chord_data = parts[chord_idx]
-
-    # Fields after chord data: comp_style, bpm, repeats
-    comp_style = parts[chord_idx + 1] if chord_idx + 1 < len(parts) else ""
-    bpm_str = parts[chord_idx + 2] if chord_idx + 2 < len(parts) else ""
-    repeats_str = parts[chord_idx + 3] if chord_idx + 3 < len(parts) else ""
-
-    # Reconstruct the tune string for pyRealParser.Tune()
-    # Expected format: title=composer=style=key=chorddata=compstyle=bpm=repeats
-    tune_str = "=".join(
-        [title, composer, style, key, chord_data, comp_style, bpm_str, repeats_str]
-    )
-    return Tune(tune_str)
-
-
-def parse_ireal_url_fallback(url: str):
-    """
-    Best-effort iReal Pro URL parser (no external dependencies).
-
-    This is intentionally conservative: it extracts a usable chord progression but
-    does not attempt to perfectly replicate iReal Pro's full encoding.
-    """
-    from .base import Score, ChordSpec
-
-    raw = url
-    if raw.startswith("irealbook://") or raw.startswith("irealb://"):
-        raw = raw.split("://", 1)[1]
-
-    raw = unquote(raw)
-    parts = raw.split("=")
-
-    title = parts[0] if len(parts) > 0 and parts[0] else "Untitled"
-    composer = parts[1] if len(parts) > 1 else ""
-    key = parts[3] if len(parts) > 3 and parts[3] else "C"
-
-    if len(parts) < 6:
-        raise ValueError("Invalid iReal Pro URL format")
-
-    chord_data = parts[5]
-
-    # Clean up structural markers
-    for marker in ["{", "}", "[", "]", "Z", "*", "Y", "Q", "S", "T"]:
-        chord_data = chord_data.replace(marker, " ")
-
-    # Remove section markers like *A, *B, N1, N2
-    chord_data = re.sub(r"\*[A-Za-z]", " ", chord_data)
-    chord_data = re.sub(r"N\d", " ", chord_data)
-    chord_data = re.sub(r"<[^>]*>", " ", chord_data)
-
-    # Split by barlines/whitespace
-    tokens = re.split(r"[|\s]+", chord_data)
-
-    chords: list[ChordSpec] = []
-    for token in tokens:
-        token = token.strip()
-        if not token or token in ("n", "x", "r", "%", "p", "s", "l"):
-            continue
-
-        match = re.match(r"^([A-G][#b]?)(.*)", token)
-        if not match:
-            continue
-
-        root = match.group(1)
-        suffix = match.group(2)
-
-        # Convert iReal notation to more standard symbols
-        suffix = suffix.replace("^", "maj")
-        suffix = suffix.replace("-", "m")
-        suffix = suffix.replace("h", "m7b5")
-        suffix = suffix.replace("o", "dim")
-        suffix = suffix.replace("+", "aug")
-
-        # Handle slash chords (ignore bass note)
-        if "/" in suffix:
-            suffix = suffix.split("/")[0]
-
-        # Handle commas (multiple chords per bar) - take first
-        if "," in suffix:
-            suffix = suffix.split(",")[0]
-
-        chord = root + suffix
-        if chord:
-            chords.append((chord, 4))
-
-    from .base import ensure_score
-
-    score = ensure_score(chords, title=title, key=key)
-    score.composer = composer
-    return score
+    raise ValueError("No chords found in iReal Pro URL")
 
 
 def parse_ireal_html(html_path: str) -> "Score":

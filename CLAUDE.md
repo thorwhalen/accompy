@@ -44,7 +44,8 @@ chord input → Score → pattern application → MIDI events → audio synthesi
 | `converters.py` | Pipeline types: ChordSequence, NoteSequence, MidiData, AudioData |
 | `rhythmic_skeletons.py` | Duration-only measure patterns: resolve, apply, register skeletons |
 | `pipeline.py` | High-level: chords_to_sequence/notes/midi/audio, rhythm_to_midi/audio |
-| `util.py` | Chord parsing, normalization, iReal URL parsing |
+| `util.py` | Chord parsing, normalization, iReal URL parsing (on top of `ireal.py`) |
+| `ireal.py` | iReal Pro URL decoding (`irealb://`, `irealbook://`): unscrambling, bar flattening |
 | `setup_utils.py` | verify_and_setup(), diagnose_issues(), SoundFont management |
 | `tools.py` | MMA tools, variation generation |
 | `_fixtures.py` | Golden cases (`fixtures/cases.json`) shared with the TS twin: runner + recorder (`python -m accompy._fixtures`) |

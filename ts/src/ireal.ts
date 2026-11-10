@@ -1,25 +1,25 @@
 /**
- * iReal Pro URL parsing: the twin of `accompy.util.parse_ireal_url`, and of the parts of
- * pyRealParser (MIT, by its authors) that it reaches (`Tune.parse_ireal_url`, the
- * "1r34LbKcu7" unscrambling and the chord-string flattening behind
- * `Tune.measures_as_strings`).
- *
- * Three tiers, each falling through to the next on any error, exactly as in Python:
- * 1. pyRealParser's playlist parser (first tune that parses), measures not normalized;
- * 2. a `Tune` rebuilt from single-`=` fields (URLs whose empty fields make `===`);
- * 3. a dependency-free best-effort parser, which goes through `ensureScore` (normalized)
- *    and throws `ValueError` (a RangeError) when the URL has fewer than 6 fields.
+ * iReal Pro URL decoding: the twin of `accompy.ireal` (and of `accompy.util.parse_ireal_url`
+ * on top of it). Its unscrambling and bar flattening started from pyRealParser (MIT, by its
+ * authors), with the fixes listed in `accompy/ireal.py`'s docstring.
  *
  * Python semantics are kept where JS differs: `\s`, `\d`, `\w` and `str.strip` are
- * Unicode-aware as in `re`, `.` excludes only `\n`, string indices count code points,
- * `urllib.parse.unquote` is lenient (bad escapes stay literal, bad UTF-8 becomes U+FFFD),
- * and `re.sub` replacement strings are expanded as Python templates (`\1`, `\n`, ...).
+ * Unicode-aware as in `re`, `.` excludes only `\n`, string indices count code points, and
+ * `urllib.parse.unquote` is lenient (bad escapes stay literal, bad UTF-8 becomes U+FFFD).
  */
-import { ensureScore, type Score } from "./chart.js";
+import type { Score } from "./chart.js";
 import { PY_WHITESPACE } from "./data.generated.js";
 import { digitValue, isPySpace, pyStrip, ValueError } from "./py.js";
 
-const PREFIX = "1r34LbKcu7";
+/** The start of a scrambled (`irealb://`) music field. */
+const SCRAMBLE_PREFIX = "1r34LbKcu7";
+/** Time-signature codes that are not `T<numerator><denominator>` (Python's TIME_SIGNATURE_EXCEPTIONS). */
+const TIME_SIGNATURE_EXCEPTIONS: Record<string, [number, number]> = { "1,2": [12, 8] };
+/** Fields of an `irealbook://` song, and the index of its music. */
+const [PLAIN_SONG_FIELDS, PLAIN_MUSIC_INDEX] = [6, 5];
+/** Offset from a scrambled song's music field to its key; the fields before its music. */
+const [KEY, FIELDS_BEFORE_MUSIC] = [-2, 6];
+
 /** Python's `re` `\s` (= `str.isspace`) as the body of a `u`-flag character class. */
 const WS = PY_WHITESPACE.map((cp) => `\\u{${cp.toString(16)}}`).join("");
 
@@ -30,7 +30,7 @@ const py = (src: string, flags = ""): RegExp =>
     "u" + flags,
   );
 const sub = (s: string, src: string, rep: string): string => s.replace(py(src, "g"), () => rep);
-
+const CHORD = /(?<!\/)([A-Gn][^A-G/]*(?:\/[A-G][#b]?)?)/gu;
 // --------------------------------------------------------------------------------------
 // urllib.parse.unquote (UTF-8, errors="replace")
 
@@ -84,57 +84,12 @@ function unquote(s: string): string {
   });
 }
 
-// --------------------------------------------------------------------------------------
-// re.sub replacement templates (patterns here have exactly one group)
-
-const TEMPLATE_ESCAPES: Record<string, string> = {
-  a: "\x07", b: "\b", f: "\f", n: "\n", r: "\r", t: "\t", v: "\v", "\\": "\\",
-};
-
-function pyTemplate(tpl: string, groups: [string, string]): string {
-  const ch = Array.from(tpl);
-  const bad = (): never => {
-    throw new Error(`bad replacement template ${JSON.stringify(tpl)}`);
-  };
-  const group = (n: string): string => (Number(n) <= 1 ? groups[Number(n) as 0 | 1] : bad());
-  const isIn = (set: string, c: string | undefined) => c !== undefined && set.includes(c);
-  let out = "";
-  for (let i = 0; i < ch.length; i++) {
-    if (ch[i] !== "\\") {
-      out += ch[i];
-      continue;
-    }
-    const c = ch[++i] ?? bad();
-    if (c === "g") {
-      const end = ch[i + 1] === "<" ? ch.indexOf(">", i + 2) : -1;
-      const name = end < 0 ? bad() : ch.slice(i + 2, end).join("");
-      out += /^[0-9]+$/.test(name) ? group(name) : bad();
-      i = end;
-    } else if (c === "0") {
-      let oct = c;
-      while (oct.length < 3 && isIn("01234567", ch[i + 1])) oct += ch[++i];
-      out += String.fromCharCode(parseInt(oct, 8));
-    } else if (isIn("0123456789", c)) {
-      let num = c;
-      if (isIn("0123456789", ch[i + 1])) {
-        num += ch[++i];
-        if (isIn("01234567", c) && isIn("01234567", num[1]) && isIn("01234567", ch[i + 1])) {
-          const v = parseInt(num + ch[++i], 8);
-          out += v > 0o377 ? bad() : String.fromCharCode(v);
-          continue;
-        }
-      }
-      out += group(num);
-    } else if (c in TEMPLATE_ESCAPES) out += TEMPLATE_ESCAPES[c];
-    else out += /[A-Za-z]/.test(c) ? bad() : "\\" + c;
-  }
-  return out;
-}
 
 // --------------------------------------------------------------------------------------
-// pyRealParser.Tune
+// accompy.ireal
 
-interface Tune {
+/** One song of an iReal URL (Python's `IrealTune`; the fields the twin needs). */
+interface IrealTune {
   title: string;
   composer: string;
   key: string;
@@ -157,39 +112,30 @@ function unscramble(scrambled: string): string {
   return out + rest.join("");
 }
 
-function cleanup(s: string): string {
-  s = sub(s, "LZ|K", "|");
-  s = sub(s, "cl", "x");
-  s = sub(s, "\\*\\s*\\*", "");
-  s = sub(s, "Y+", "");
-  s = sub(s, "XyQ|,", " ");
-  s = sub(s, "\\|\\s*\\|", "|");
-  s = sub(s, "Z", "");
-  s = sub(s, "\\|\\s+", "|");
-  s = sub(s, "\\s+", " ");
+function cleanupChordString(s: string): string {
+  const steps: Array<[string, string]> = [
+    ["LZ|K", "|"], ["cl", "x"], ["\\*\\s*\\*", ""], ["Y+", ""], ["XyQ|,", " "],
+    ["\\|\\s*\\|", "|"], ["Z", ""], ["\\|\\s+", "|"], ["\\s+", " "],
+  ];
+  for (const [src, rep] of steps) s = sub(s, src, rep);
   let end = s.length;
   while (end && isPySpace(s[end - 1]!)) end--;
   return s.slice(0, end);
 }
 
 function removeAnnotations(s: string): string {
-  s = sub(s, "[\\[\\]]", "|");
-  s = sub(s, "\\|\\s*\\|", "|");
-  s = sub(s, "<[^\\n]*?>", "");
-  s = sub(s, "\\([^)]*\\)", "");
-  s = sub(s, "[lf]", "");
-  s = sub(s, "(?<!su)s(?!us)", "");
-  s = sub(s, "\\*\\w", "");
-  return sub(s, "T\\d+", "");
+  const steps: Array<[string, string]> = [
+    ["[\\[\\]]", "|"], ["\\|\\s*\\|", "|"], ["<[^\\n]*?>", ""], ["\\([^)]*\\)", ""],
+    ["[lf]", ""], ["(?<!su)s(?!us)", ""], ["\\*\\w", ""], ["T\\d+", ""],
+  ];
+  for (const [src, rep] of steps) s = sub(s, src, rep);
+  return s;
 }
 
 const removeMarkers = (s: string): string => sub(s, "U|S|Q|N\\d", "");
 
 function fillLongRepeats(s: string): string {
-  // pyRealParser recurses on simple repeats and returns after the first one with endings.
-  for (;;) {
-    const m = py("\\{([^\\n]+?)\\}").exec(s);
-    if (!m) return s;
+  for (let m; (m = py("\\{([^{\\n]+?)\\}").exec(s)); ) {
     const body = m[1]!, before = s.slice(0, m.index), after = s.slice(m.index + m[0].length);
     if (!py("N(\\d)").test(body)) {
       s = before + "|" + body + " |" + removeMarkers(body) + after + "|";
@@ -197,164 +143,136 @@ function fillLongRepeats(s: string): string {
     }
     let out = before + "|" + sub(body, "N\\d", "") + after;
     const head = py("([^N]+)N\\d").exec(body);
-    if (!head) throw new Error("repeat ending without a body");
-    const tpl = "|" + removeMarkers(head[1]!);
-    const ending = py("\\|\\s*N(\\d)", "g");
-    while (py("\\|\\s*N(\\d)").test(out))
-      out = out.replace(ending, (m0: string, g1: string) => pyTemplate(tpl, [m0, g1]));
+    if (!head) throw new ValueError(`Repeat with an ending but no body: ${body}`);
+    const replay = "|" + removeMarkers(head[1]!);
+    while (py("\\|\\s*N(\\d)").test(out)) out = sub(out, "\\|\\s*N(\\d)", replay);
     return out;
-  }
-}
-
-function fillCodas(s: string): string {
-  const qs = [...s].filter((c) => c === "Q").length;
-  if (qs > 2) throw new Error(`Could not parse codas: ${qs} Qs`);
-  if (qs === 1) return s.replaceAll("Q", "");
-  if (qs === 2) {
-    const q1 = s.indexOf("Q"), q2 = s.indexOf("Q", q1 + 1);
-    const segno = Math.max(s.indexOf("S"), 0);
-    const out = s.slice(0, q2) + s.slice(segno + 1, q1) + " |" + s.slice(q2 + 1);
-    return out.replace(/[QS]/g, "");
   }
   return s;
 }
 
-function lastChord(s: string): string {
-  const all = [...s.matchAll(/(?<!\/)([A-Gn][^A-G/]*(?:\/[A-G][#b]?)?)/gu)];
-  if (!all.length) throw new Error("no chord before slash");
-  return all[all.length - 1]![1]!;
+function fillCodas(s: string): string {
+  const qs = [...s].filter((c) => c === "Q").length;
+  if (qs > 2) throw new ValueError(`Could not parse codas: expected 0, 1 or 2 Qs, not ${qs}`);
+  if (qs === 1) return s.replaceAll("Q", "");
+  if (qs === 2) {
+    const q1 = s.indexOf("Q"), q2 = s.indexOf("Q", q1 + 1);
+    // From after the segno, else after the first character (a code point, as in Python).
+    const segno = s.indexOf("S");
+    const from = segno >= 0 ? segno + 1 : [...s][0]!.length;
+    return (s.slice(0, q2) + s.slice(from, q1) + " |" + s.slice(q2 + 1)).replace(/[QS]/g, "");
+  }
+  return s;
 }
 
-function getMeasures(s: string): string[] {
-  s = fillCodas(fillLongRepeats(removeAnnotations(cleanup(s))));
-  const ms = s
-    .split(/\||LZ|K|Z|\{|\}|\[|\]/u)
-    .filter((m) => pyStrip(m) !== "")
-    .map((m) => m.replaceAll(" ", ""));
-  const n = ms.length;
-  for (let i = 1; i < n; i++) if (ms[i] === "x") ms[i] = removeMarkers(ms[i - 1]!);
-  for (let i = 2; i < n - 1; i++)
-    if (ms[i] === "r") {
-      ms[i] = removeMarkers(ms[i - 2]!);
-      ms[i + 1] = removeMarkers(ms[i - 1]!);
+function fillRepeatSigns(measures: string[]): string[] {
+  const out: string[] = [];
+  for (const m of measures) {
+    if (m === "x") out.push(...out.slice(-1).map(removeMarkers));
+    else if (m === "r") out.push(...(out.length >= 2 ? out.slice(-2).map(removeMarkers) : []));
+    else out.push(m);
+  }
+  return out;
+}
+
+const lastChord = (s: string, fallback: string): string =>
+  [...s.matchAll(CHORD)].map((m) => m[1]!).pop() ?? fallback;
+
+function fillSlashes(measures: string[]): string[] {
+  let last = "";
+  return measures.map((measure) => {
+    let done = "";
+    measure.split("p").forEach((part, i) => {
+      if (i) done += lastChord(done, last);
+      done += part;
+    });
+    last = lastChord(done, last);
+    return done;
+  });
+}
+
+function flattenMeasures(chordString: string): string[] {
+  const s = fillCodas(fillLongRepeats(removeAnnotations(cleanupChordString(chordString))));
+  const bars = s.split(/\||LZ|K|Z|\{|\}|\[|\]/u).filter((b) => pyStrip(b) !== "");
+  return fillSlashes(fillRepeatSigns(bars.map((b) => b.replaceAll(" ", ""))));
+}
+
+function timeSignature(chordString: string): [number, number] {
+  const m = py("T(\\d)(\\d)").exec(chordString);
+  if (!m) return [4, 4];
+  const ts: [number, number] = [digitValue(m[1]!), digitValue(m[2]!)];
+  return TIME_SIGNATURE_EXCEPTIONS[ts.join(",")] ?? ts;
+}
+
+type Meta = { title: string; composer: string; key: string };
+
+function* scrambledSongs(fields: string[]): Generator<[string, Meta]> {
+  const at = (i: number) => (i >= 0 && i < fields.length ? fields[i]! : "");
+  let previous = -1;
+  for (const [m, music] of fields.entries()) {
+    if (!music.startsWith(SCRAMBLE_PREFIX)) continue;
+    // A song starts right after the previous one, or at the standard offset when a `===`
+    // separator (two empty fields) comes just before that offset.
+    const standard = m - FIELDS_BEFORE_MUSIC;
+    const start = standard > previous + 1 && at(standard - 1) === "" && at(standard - 2) === "" ? standard : previous + 1;
+    previous = m;
+    const before = fields.slice(start, m);
+    let meta: Meta;
+    if (before.length >= FIELDS_BEFORE_MUSIC) meta = { title: at(start), composer: at(start + 1), key: at(m + KEY) };
+    else {
+      const [title = "", composer = "", , key = ""] = before.filter((f) => f);
+      meta = { title, composer, key };
     }
-  for (let i = 1; i < n; i++) {
-    for (let slash = ms[i]!.indexOf("p"); slash !== -1; slash = ms[i]!.indexOf("p")) {
-      const m = ms[i]!;
-      if (slash === 0) {
-        const prev = lastChord(ms[i - 1]!);
-        // Python then runs re.sub(r'^(p+)', prev, ...): a no-op (the measure now starts with
-        // prev, a chord), except that compiling `prev` as a template can raise.
-        pyTemplate(prev, ["", ""]);
-        ms[i] = prev + m.slice(1);
-      } else ms[i] = m.slice(0, slash) + lastChord(m.slice(0, slash)) + m.slice(slash + 1);
+    yield [unscramble(music.slice(SCRAMBLE_PREFIX.length)), meta];
+  }
+}
+
+function* plainSongs(fields: string[]): Generator<[string, Meta]> {
+  for (let s = 0; s + PLAIN_SONG_FIELDS <= fields.length; s += PLAIN_SONG_FIELDS)
+    yield [fields[s + PLAIN_MUSIC_INDEX]!, { title: fields[s]!, composer: fields[s + 1]!, key: fields[s + 3]! }];
+}
+
+/** Python `accompy.ireal.decode_ireal_url`: the tunes that decode, in order. */
+function decodeIrealUrl(url: string): IrealTune[] {
+  let body = unquote(url).split('"', 1)[0]!;
+  for (const scheme of ["irealbook://", "irealb://"])
+    if (body.startsWith(scheme)) {
+      body = body.slice(scheme.length);
+      break;
+    }
+  const fields = body.split("=");
+  const songs = fields.some((f) => f.startsWith(SCRAMBLE_PREFIX)) ? scrambledSongs(fields) : plainSongs(fields);
+  const tunes: IrealTune[] = [];
+  for (const [music, meta] of songs) {
+    const chordString = cleanupChordString(music);
+    try {
+      tunes.push({ ...meta, timeSignature: timeSignature(chordString), measures: flattenMeasures(chordString) });
+    } catch (error) {
+      if (!(error instanceof ValueError)) throw error;
     }
   }
-  return ms;
-}
-
-function parseTune(tuneString: string): Tune {
-  const parts = tuneString.split(/=+/);
-  // Python raises unless parts[4] starts with the prefix (the transpose branch's int() of a
-  // string containing the prefix always fails).
-  if (parts.length < 5 || !parts[4]!.startsWith(PREFIX)) throw new Error("not a tune");
-  const chords = cleanup(unscramble(parts[4]!.split(PREFIX)[1]!));
-  const ts = py("T(\\d)(\\d)").exec(chords);
-  return {
-    title: parts[0]!,
-    composer: parts[1]!,
-    key: parts[3]!,
-    timeSignature: ts ? [digitValue(ts[1]!), digitValue(ts[2]!)] : [4, 4],
-    measures: getMeasures(chords),
-  };
+  return tunes;
 }
 
 // --------------------------------------------------------------------------------------
 // accompy.util
 
-/** Score from a parsed tune, or null when it has no measures (Python falls through). */
-function scoreFromTune(t: Tune): Score | null {
-  const measures = t.measures.filter((c) => c).map((c) => [c]);
-  if (!measures.length) return null;
-  return {
-    measures,
-    title: t.title || "Untitled",
-    composer: t.composer || "",
-    key: t.key || "C",
-    timeSignature: t.timeSignature,
-  };
-}
-
-function stripScheme(url: string): string {
-  return url.startsWith("irealbook://") || url.startsWith("irealb://")
-    ? url.slice(url.indexOf("://") + 3)
-    : url;
-}
-
-/** pyRealParser's `Tune.parse_ireal_url(url)[0]`. */
-function firstTune(url: string): Tune {
-  const m = /^irealb:\/\/([^"]+)/u.exec(unquote(url));
-  if (!m) throw new Error("Provided string is not a valid iReal url!");
-  for (const song of m[1]!.split("==="))
-    if (song !== "")
-      try {
-        return parseTune(song);
-      } catch {
-        /* pyRealParser skips songs it cannot import */
-      }
-  throw new Error("no tunes");
-}
-
-/** accompy.util._tune_from_ireal_url */
-function tuneFromFields(url: string): Tune {
-  const parts = unquote(stripScheme(url)).split("=");
-  const ci = parts.findIndex((p) => p.includes(PREFIX));
-  if (ci < 0) throw new Error("Could not locate chord data in iReal URL");
-  const at = (i: number) => parts[i] ?? "";
-  const key = ci >= 2 && Array.from(at(ci - 2)).length <= 2 ? at(ci - 2) : "C";
-  const style = ci >= 3 ? at(ci - 3) : "";
-  const fields = [at(0) || "Untitled", parts.length > 1 ? at(1) : "", style, key];
-  return parseTune([...fields, at(ci), at(ci + 1), at(ci + 2), at(ci + 3)].join("="));
-}
-
-/** accompy.util.parse_ireal_url_fallback */
-function parseIrealUrlFallback(url: string): Score {
-  const parts = unquote(stripScheme(url)).split("=");
-  const title = parts[0] || "Untitled";
-  const composer = parts.length > 1 ? parts[1]! : "";
-  const key = parts[3] || "C";
-  if (parts.length < 6) throw new ValueError("Invalid iReal Pro URL format");
-  let data = parts[5]!;
-  for (const marker of ["{", "}", "[", "]", "Z", "*", "Y", "Q", "S", "T"])
-    data = data.replaceAll(marker, " ");
-  data = sub(sub(sub(data, "\\*[A-Za-z]", " "), "N\\d", " "), "<[^>]*>", " ");
-  const chords: Array<[string, number]> = [];
-  for (let token of data.split(new RegExp(`[|${WS}]+`, "u"))) {
-    token = pyStrip(token);
-    if (!token || ["n", "x", "r", "%", "p", "s", "l"].includes(token)) continue;
-    const m = /^([A-G][#b]?)([^\n]*)/u.exec(token);
-    if (!m) continue;
-    let suffix = m[2]!;
-    for (const [a, b] of [["^", "maj"], ["-", "m"], ["h", "m7b5"], ["o", "dim"], ["+", "aug"]])
-      suffix = suffix.replaceAll(a!, b!);
-    suffix = suffix.split("/")[0]!.split(",")[0]!;
-    chords.push([m[1]! + suffix, 4]);
-  }
-  return { ...ensureScore(chords, { title, key }), composer };
-}
-
 /**
  * Parse an iReal Pro URL (`irealb://` or `irealbook://`) into a Score, as
- * `accompy.util.parse_ireal_url` does. Throws `ValueError` (a RangeError) where Python raises it.
+ * `accompy.util.parse_ireal_url` does: the first tune with chords, bars as written.
+ * Throws `ValueError` when no tune has chords.
  */
 export function parseIrealUrl(url: string): Score {
-  for (const tier of [firstTune, tuneFromFields]) {
-    try {
-      const score = scoreFromTune(tier(url));
-      if (score) return score;
-    } catch {
-      /* fall through to the next tier, as Python does */
-    }
+  for (const tune of decodeIrealUrl(url)) {
+    const measures = tune.measures.filter((c) => c).map((c) => [c]);
+    if (measures.length)
+      return {
+        measures,
+        title: tune.title || "Untitled",
+        composer: tune.composer,
+        key: tune.key || "C",
+        timeSignature: tune.timeSignature,
+      };
   }
-  return parseIrealUrlFallback(url);
+  throw new ValueError("No chords found in iReal Pro URL");
 }

@@ -1,10 +1,12 @@
 import { describe, expect, test } from "vitest";
 import { parseIrealUrl } from "./ireal.js";
+import { ValueError } from "./py.js";
 
 const PREFIX = "1r34LbKcu7";
+const song = (music: string, title = "T") => `irealb://${title}=X==Swing=C==${PREFIX}${music}=Jazz=120=1`;
 
 describe("parseIrealUrl", () => {
-  test("tier 1: irealb song, repeats flattened, time signature read, symbols kept as written", () => {
+  test("irealb song: repeat signs written out, time signature read, symbols kept as written", () => {
     const url = "irealb://Waltz=Roe%20Jane==Jazz%20Waltz=D-==" + PREFIX + "[T34D-7XyQKcl LZG7XyQ|C^7 Z==Jazz=120=1";
     expect(parseIrealUrl(url)).toEqual({
       measures: [["D-7"], ["D-7"], ["G7"], ["C^7"]],
@@ -15,29 +17,41 @@ describe("parseIrealUrl", () => {
     });
   });
 
-  test("tier 1: a playlist yields its first tune that parses", () => {
+  test("a playlist yields its first tune with chords", () => {
     const url = "irealb://Broken=Song===Second=C%20D==Bossa=G==" + PREFIX + "[C^7 A-7|D-7 G7 Z===My%20Playlist";
     const score = parseIrealUrl(url);
     expect(score.title).toBe("Second");
     expect(score.measures).toEqual([["C^7A-7"], ["D-7G7"]]);
   });
 
-  test("tier 1: endings and an empty title", () => {
-    const url = "irealb://=Anon==Swing=C==" + PREFIX + "{C^7XyQ|N1D-7 G7}XyQ|N2E-7 A7 Z";
-    const score = parseIrealUrl(url);
+  test("endings and an empty title", () => {
+    const score = parseIrealUrl(song("{C^7XyQ|N1D-7 G7}XyQ|N2E-7 A7 Z", ""));
     expect(score.title).toBe("Untitled");
     expect(score.measures).toEqual([["C^7"], ["D-7G7"], ["C^7"], ["E-7A7"]]);
   });
 
-  test("tier 2: empty fields that make '===' inside one song", () => {
-    const url = "irealb://Empty=Somebody===Swing=Bb==" + PREFIX + "[F7 |Bb7 Z=Jazz=120=2";
-    expect(parseIrealUrl(url)).toMatchObject({ measures: [["F7"], ["Bb7"]], title: "Empty", key: "Bb" });
+  test("T12 is 12/8", () => {
+    expect(parseIrealUrl(song("[T12C7 |F7 Z")).timeSignature).toEqual([12, 8]);
   });
 
-  test("tier 3: unscrambled irealbook URL, symbols normalized", () => {
-    const url = "irealbook://Old=Comp=Swing=G-=n=[C-7 |Bb^7 |Gm |Dm7 Z";
+  test("r repeats the previous two bars and keeps the next one", () => {
+    expect(parseIrealUrl(song("[C |D |r| |E7 Z")).measures).toEqual([["C"], ["D"], ["C"], ["D"], ["E7"]]);
+  });
+
+  test("p with no chord before it is dropped; backslashes are literal", () => {
+    expect(parseIrealUrl(song("[p C7|F7 p Z")).measures).toEqual([["C7"], ["F7F7"]]);
+    expect(parseIrealUrl(song("{C7\\1D7 N1E7 }|N2F7 Z")).measures).toEqual([["C7\\1D7E7"], ["C7\\1D7F7"]]);
+  });
+
+  test("an empty composer shifts no field", () => {
+    const url = "irealb://No%20Composer===Bossa=C-==" + PREFIX + "[C-7 |F7 Z=Latin=140=1";
+    expect(parseIrealUrl(url)).toMatchObject({ title: "No Composer", composer: "", key: "C-" });
+  });
+
+  test("irealbook (plain) URL: bars as written, no normalization", () => {
+    const url = "irealbook://Old=Comp=Swing=G-=n=[T44C-7 F7 |*AC^7 |Ah7 |Fo7 Z";
     expect(parseIrealUrl(url)).toEqual({
-      measures: [["C-7"], ["Bb^7"], ["G-"], ["D-7"]],
+      measures: [["C-7F7"], ["C^7"], ["Ah7"], ["Fo7"]],
       title: "Old",
       composer: "Comp",
       key: "G-",
@@ -51,8 +65,8 @@ describe("parseIrealUrl", () => {
     expect(score.composer).toBe("Bad�");
   });
 
-  test("too few fields throws RangeError (Python ValueError)", () => {
-    for (const url of ["", "irealb://", "hello", "irealbook://Song=Composer=Style"])
-      expect(() => parseIrealUrl(url)).toThrow(RangeError);
+  test("no chords throws ValueError", () => {
+    for (const url of ["", "irealb://", "hello", "irealbook://Song=Composer=Style", song("Z ")])
+      expect(() => parseIrealUrl(url)).toThrow(ValueError);
   });
 });

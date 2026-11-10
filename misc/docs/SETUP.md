@@ -93,8 +93,6 @@ pip install midiutil
 # Recommended (better chord parsing)
 pip install mingus
 
-# Optional (for iReal Pro support)
-pip install pyRealParser
 ```
 
 ### 4. Verify Installation
