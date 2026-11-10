@@ -1,4 +1,4 @@
-> built 2026-11-10 17:31 UTC from 3b6554c (main) · accompy 0.3.13. Details: build_info.json
+> built 2026-11-10 17:48 UTC from bc1e8b1 (main) · accompy 0.3.14. Details: build_info.json
 
 # index.html.md
 
@@ -5365,23 +5365,28 @@ Key functions:
 
 ### Module Attributes
 
-| [`NO_CHORD_SYMBOLS`](_autosummary/accompy.renderers.midi.html.md#accompy.renderers.midi.NO_CHORD_SYMBOLS)     | the renderer leaves their beats silent.                                        |
-|-----------------------------------------------------------------------|--------------------------------------------------------------------------------|
-| [`FALLBACK_CHORD_NOTES`](_autosummary/accompy.renderers.midi.html.md#accompy.renderers.midi.FALLBACK_CHORD_NOTES) | The notes used when the chord resolver cannot read a symbol (a C major triad). |
+| [`NO_CHORD_SYMBOLS`](_autosummary/accompy.renderers.midi.html.md#accompy.renderers.midi.NO_CHORD_SYMBOLS)     | the renderer leaves their beats silent.                                                                                                                   |
+|-----------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------|
+| [`FALLBACK_CHORD_NOTES`](_autosummary/accompy.renderers.midi.html.md#accompy.renderers.midi.FALLBACK_CHORD_NOTES) | a major triad on C3, moved to the symbol's root when it has a readable one (see [`fallback_chord_notes()`](_autosummary/accompy.renderers.midi.html.md#accompy.renderers.midi.fallback_chord_notes)). |
 
 ### Functions
 
-| [`chord_events`](_autosummary/accompy.renderers.midi.html.md#accompy.renderers.midi.chord_events)(chord_notes, \*[, style, ...])        | The drum, bass and piano events `style` plays over one chord.                      |
-|-----------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------|
-| [`events_to_midi_file`](_autosummary/accompy.renderers.midi.html.md#accompy.renderers.midi.events_to_midi_file)(events, path, tempo[, ...])    | Write MIDI events to a MIDI file.                                                  |
-| [`generate_builtin_midi`](_autosummary/accompy.renderers.midi.html.md#accompy.renderers.midi.generate_builtin_midi)(score, config, \*, ...)      | Generate a MIDI file using the built-in renderer.                                  |
-| [`generate_events`](_autosummary/accompy.renderers.midi.html.md#accompy.renderers.midi.generate_events)(chords, \*[, style, repeats, ...]) | The note events the builtin backend plays for `chords`, without writing a file.    |
-| [`generate_midi_events`](_autosummary/accompy.renderers.midi.html.md#accompy.renderers.midi.generate_midi_events)(score, config, \*, ...)       | Generate MIDI events from score.                                                   |
-| [`select_patterns`](_autosummary/accompy.renderers.midi.html.md#accompy.renderers.midi.select_patterns)(patterns, beats_per_bar)           | The `(drum, bass, comp)` patterns the renderer plays from a style's pattern lists. |
+| [`chord_events`](_autosummary/accompy.renderers.midi.html.md#accompy.renderers.midi.chord_events)(chord_notes, \*[, style, ...])        | The drum, bass and piano events `style` plays over one chord.                             |
+|-----------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------|
+| [`events_to_midi_file`](_autosummary/accompy.renderers.midi.html.md#accompy.renderers.midi.events_to_midi_file)(events, path, tempo[, ...])    | Write MIDI events to a MIDI file.                                                         |
+| [`fallback_chord_notes`](_autosummary/accompy.renderers.midi.html.md#accompy.renderers.midi.fallback_chord_notes)(symbol)                       | What the renderer plays for a symbol its resolver cannot read: a major triad on its root. |
+| [`generate_builtin_midi`](_autosummary/accompy.renderers.midi.html.md#accompy.renderers.midi.generate_builtin_midi)(score, config, \*, ...)      | Generate a MIDI file using the built-in renderer.                                         |
+| [`generate_events`](_autosummary/accompy.renderers.midi.html.md#accompy.renderers.midi.generate_events)(chords, \*[, style, repeats, ...]) | The note events the builtin backend plays for `chords`, without writing a file.           |
+| [`generate_midi_events`](_autosummary/accompy.renderers.midi.html.md#accompy.renderers.midi.generate_midi_events)(score, config, \*, ...)       | Generate MIDI events from score.                                                          |
+| [`select_patterns`](_autosummary/accompy.renderers.midi.html.md#accompy.renderers.midi.select_patterns)(patterns, beats_per_bar)           | The `(drum, bass, comp)` patterns the renderer plays from a style's pattern lists.        |
 
 ### accompy.renderers.midi.FALLBACK_CHORD_NOTES *= (48, 52, 55)*
 
-The notes used when the chord resolver cannot read a symbol (a C major triad).
+a major triad on C3,
+moved to the symbol’s root when it has a readable one (see [`fallback_chord_notes()`](_autosummary/accompy.renderers.midi.html.md#accompy.renderers.midi.fallback_chord_notes)).
+
+* **Type:**
+  The notes used when the chord resolver cannot read a symbol
 
 ### accompy.renderers.midi.NO_CHORD_SYMBOLS *= ('', 'n', 'N.C.', 'NC')*
 
@@ -5425,6 +5430,21 @@ Write MIDI events to a MIDI file.
 
 #### NOTE
 Requires midiutil: pip install midiutil
+
+### accompy.renderers.midi.fallback_chord_notes(symbol)
+
+What the renderer plays for a symbol its resolver cannot read: a major triad on its root.
+
+The root is the leading note name, in either case and with `#`/`b` or `♯`/`♭`
+(`C`, `F#`, `B♭`, `eb`); without one, the triad is on C.
+
+```pycon
+>>> fallback_chord_notes("G#13(b9)"), fallback_chord_notes("?")
+([56, 60, 63], [48, 52, 55])
+```
+
+* **Return type:**
+  [`list`](https://docs.python.org/3/builtins/stdtypes.html#list)[[`int`](https://docs.python.org/3/builtins/functions.html#int)]
 
 ### accompy.renderers.midi.generate_builtin_midi(score, config, , pattern_source, chord_resolver)
 
@@ -6288,7 +6308,7 @@ and iReal URL parsing.
 
 ### Module Attributes
 
-| [`CHORD_SYMBOL_REPLACEMENTS`](_autosummary/accompy.util.html.md#accompy.util.CHORD_SYMBOL_REPLACEMENTS)   | each `old` becomes `new` at the end of the symbol or before a slash.                                                              |
+| [`CHORD_SYMBOL_REPLACEMENTS`](_autosummary/accompy.util.html.md#accompy.util.CHORD_SYMBOL_REPLACEMENTS)   | each `old` becomes `new` at the end of the symbol or of a part before a slash (longest `old` wins).                               |
 |------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------|
 | [`UNNORMALIZED_SYMBOLS`](_autosummary/accompy.util.html.md#accompy.util.UNNORMALIZED_SYMBOLS)        | Symbols [`normalize_chord_symbol()`](_autosummary/accompy.util.html.md#accompy.util.normalize_chord_symbol) returns unchanged (no chord, or a repeat sign). |
 
@@ -6308,11 +6328,11 @@ and iReal URL parsing.
 
 ### accompy.util.CHORD_SYMBOL_REPLACEMENTS *= (('maj7', '^7'), ('maj9', '^9'), ('maj', '^'), ('min7', '-7'), ('min', '-'), ('m7', '-7'), ('m9', '-9'), ('m', '-'), ('dim7', 'o7'), ('dim', 'o'), ('m7b5', 'h7'), ('ø7', 'h7'), ('ø', 'h'), ('sus4', 'sus'), ('sus2', 'sus2'), ('add9', 'add9'), ('add2', 'add2'))*
 
-each `old`
-becomes `new` at the end of the symbol or before a slash.
+each `old` becomes
+`new` at the end of the symbol or of a part before a slash (longest `old` wins).
 
 * **Type:**
-  The suffix rewrites [`normalize_chord_symbol()`](_autosummary/accompy.util.html.md#accompy.util.normalize_chord_symbol) applies, in order
+  The suffix rewrites [`normalize_chord_symbol()`](_autosummary/accompy.util.html.md#accompy.util.normalize_chord_symbol) applies
 
 ### accompy.util.UNNORMALIZED_SYMBOLS *= ('', 'n', 'N.C.', 'NC', '%', 'x')*
 
@@ -6329,6 +6349,10 @@ Handles conversions like:
 - Cdim -> Co
 - Cm7b5 -> Ch7 (half-diminished)
 
+Each `/`-separated part of the symbol has its longest matching suffix from
+[`CHORD_SYMBOL_REPLACEMENTS`](_autosummary/accompy.util.html.md#accompy.util.CHORD_SYMBOL_REPLACEMENTS) rewritten, once (so `dim` is never read as a
+word ending in `m`).
+
 ### Example
 
 ```pycon
@@ -6336,6 +6360,8 @@ Handles conversions like:
 'C^7'
 >>> normalize_chord_symbol("Dm7b5")
 'Dh7'
+>>> normalize_chord_symbol("Cdim7"), normalize_chord_symbol("Bbm7/F")
+('Co7', 'Bb-7/F')
 ```
 
 * **Return type:**
@@ -6563,18 +6589,18 @@ Backward-compat shim. Use `accompy.converters` instead.
 
 # About this build
 
-This documentation was built on **2026-11-10 17:31 UTC** from commit <a href="https://github.com/thorwhalen/accompy/commit/3b6554cb6d91ca9897be6e9642f1db04ec0068f2"><code>3b6554c</code></a> on branch <code>main</code>, for **accompy 0.3.13** (from <code>pyproject.toml</code>).
+This documentation was built on **2026-11-10 17:48 UTC** from commit <a href="https://github.com/thorwhalen/accompy/commit/bc1e8b177641e6bfe28579c77f03b1d461f45323"><code>bc1e8b1</code></a> on branch <code>main</code>, for **accompy 0.3.14** (from <code>pyproject.toml</code>).
 
 #### WARNING
 The documentation and the package may be misaligned:
 
-- The documented version (0.3.13) is behind the latest release on PyPI (0.3.14): `pip install accompy` gives newer code than these docs describe.
+- The documented version (0.3.14) is behind the latest release on PyPI (0.3.15): `pip install accompy` gives newer code than these docs describe.
 
 ## Source
 
 |                     |                                                                                                                                                           |
 |---------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Commit              | <a href="https://github.com/thorwhalen/accompy/commit/3b6554cb6d91ca9897be6e9642f1db04ec0068f2"><code>3b6554cb6d91ca9897be6e9642f1db04ec0068f2</code></a> |
+| Commit              | <a href="https://github.com/thorwhalen/accompy/commit/bc1e8b177641e6bfe28579c77f03b1d461f45323"><code>bc1e8b177641e6bfe28579c77f03b1d461f45323</code></a> |
 | Branch              | <code>main</code>                                                                                                                                         |
 | Tags at this commit | none                                                                                                                                                      |
 | Working tree        | clean                                                                                                                                                     |
@@ -6585,9 +6611,9 @@ The documentation and the package may be misaligned:
 |              |                                                                                            |
 |--------------|--------------------------------------------------------------------------------------------|
 | Repository   | <code>thorwhalen/accompy</code>                                                            |
-| Run          | <a href="https://github.com/thorwhalen/accompy/actions/runs/42865509664">42865509664</a>   |
+| Run          | <a href="https://github.com/thorwhalen/accompy/actions/runs/42868443159">42868443159</a>   |
 | Ref          | <code>refs/heads/main</code>                                                               |
-| Event commit | <code>3b6554cb6d91ca9897be6e9642f1db04ec0068f2</code> (in the history of the built commit) |
+| Event commit | <code>bc1e8b177641e6bfe28579c77f03b1d461f45323</code> (in the history of the built commit) |
 
 ## Tools
 
@@ -6612,13 +6638,13 @@ The documentation and the package may be misaligned:
 
 ## Package on PyPI
 
-Latest release: <a href="https://pypi.org/project/accompy/0.3.14/">0.3.14</a>, newer than the documented version (0.3.13).
+Latest release: <a href="https://pypi.org/project/accompy/0.3.15/">0.3.15</a>, newer than the documented version (0.3.14).
 
 ## Reproduce
 
 ```bash
 git clone https://github.com/thorwhalen/accompy && cd accompy
-git checkout 3b6554cb6d91ca9897be6e9642f1db04ec0068f2
+git checkout bc1e8b177641e6bfe28579c77f03b1d461f45323
 pip install "epythet==0.2.22"
 epythet quickstart . --ignore tests/ scrap/ examples/
 ```

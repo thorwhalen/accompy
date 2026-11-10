@@ -44,7 +44,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=75c7c72ae941e8b558d8" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=75c7c72ae941e8b558d8" />
 
-    <script src="../_static/documentation_options.js?v=a88e2c6e"></script>
+    <script src="../_static/documentation_options.js?v=6307bca3"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -58,7 +58,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="color-scheme" content="light dark"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="0.3.13" />
+  <meta name="docsearch:version" content="0.3.14" />
   
     
     <script src="../_static/searchtools.js"></script>
@@ -434,7 +434,7 @@ and iReal URL parsing.</p>
 <div class="pst-scrollable-table-container"><table class="autosummary longtable table">
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#accompy.util.CHORD_SYMBOL_REPLACEMENTS" title="accompy.util.CHORD_SYMBOL_REPLACEMENTS"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CHORD_SYMBOL_REPLACEMENTS</span></code></a></p></td>
-<td><p>each <code class="docutils literal notranslate"><span class="pre">old</span></code> becomes <code class="docutils literal notranslate"><span class="pre">new</span></code> at the end of the symbol or before a slash.</p></td>
+<td><p>each <code class="docutils literal notranslate"><span class="pre">old</span></code> becomes <code class="docutils literal notranslate"><span class="pre">new</span></code> at the end of the symbol or of a part before a slash (longest <code class="docutils literal notranslate"><span class="pre">old</span></code> wins).</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#accompy.util.UNNORMALIZED_SYMBOLS" title="accompy.util.UNNORMALIZED_SYMBOLS"><code class="xref py py-obj docutils literal notranslate"><span class="pre">UNNORMALIZED_SYMBOLS</span></code></a></p></td>
 <td><p>Symbols <a class="reference internal" href="#accompy.util.normalize_chord_symbol" title="accompy.util.normalize_chord_symbol"><code class="xref py py-func docutils literal notranslate"><span class="pre">normalize_chord_symbol()</span></code></a> returns unchanged (no chord, or a repeat sign).</p></td>
@@ -481,11 +481,11 @@ and iReal URL parsing.</p>
 <dl class="py data">
 <dt class="sig sig-object py" id="accompy.util.CHORD_SYMBOL_REPLACEMENTS">
 <span class="sig-prename descclassname"><span class="pre">accompy.util.</span></span><span class="sig-name descname"><span class="pre">CHORD_SYMBOL_REPLACEMENTS</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">(('maj7',</span> <span class="pre">'^7'),</span> <span class="pre">('maj9',</span> <span class="pre">'^9'),</span> <span class="pre">('maj',</span> <span class="pre">'^'),</span> <span class="pre">('min7',</span> <span class="pre">'-7'),</span> <span class="pre">('min',</span> <span class="pre">'-'),</span> <span class="pre">('m7',</span> <span class="pre">'-7'),</span> <span class="pre">('m9',</span> <span class="pre">'-9'),</span> <span class="pre">('m',</span> <span class="pre">'-'),</span> <span class="pre">('dim7',</span> <span class="pre">'o7'),</span> <span class="pre">('dim',</span> <span class="pre">'o'),</span> <span class="pre">('m7b5',</span> <span class="pre">'h7'),</span> <span class="pre">('ø7',</span> <span class="pre">'h7'),</span> <span class="pre">('ø',</span> <span class="pre">'h'),</span> <span class="pre">('sus4',</span> <span class="pre">'sus'),</span> <span class="pre">('sus2',</span> <span class="pre">'sus2'),</span> <span class="pre">('add9',</span> <span class="pre">'add9'),</span> <span class="pre">('add2',</span> <span class="pre">'add2'))</span></span><a class="headerlink" href="#accompy.util.CHORD_SYMBOL_REPLACEMENTS" title="Link to this definition">#</a></dt>
-<dd><p>each <code class="docutils literal notranslate"><span class="pre">old</span></code>
-becomes <code class="docutils literal notranslate"><span class="pre">new</span></code> at the end of the symbol or before a slash.</p>
+<dd><p>each <code class="docutils literal notranslate"><span class="pre">old</span></code> becomes
+<code class="docutils literal notranslate"><span class="pre">new</span></code> at the end of the symbol or of a part before a slash (longest <code class="docutils literal notranslate"><span class="pre">old</span></code> wins).</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>The suffix rewrites <a class="reference internal" href="#accompy.util.normalize_chord_symbol" title="accompy.util.normalize_chord_symbol"><code class="xref py py-func docutils literal notranslate"><span class="pre">normalize_chord_symbol()</span></code></a> applies, in order</p>
+<dd class="field-odd"><p>The suffix rewrites <a class="reference internal" href="#accompy.util.normalize_chord_symbol" title="accompy.util.normalize_chord_symbol"><code class="xref py py-func docutils literal notranslate"><span class="pre">normalize_chord_symbol()</span></code></a> applies</p>
 </dd>
 </dl>
 </dd></dl>
@@ -507,11 +507,16 @@ becomes <code class="docutils literal notranslate"><span class="pre">new</span><
 <li><p>Cdim -&gt; Co</p></li>
 <li><p>Cm7b5 -&gt; Ch7 (half-diminished)</p></li>
 </ul>
+<p>Each <code class="docutils literal notranslate"><span class="pre">/</span></code>-separated part of the symbol has its longest matching suffix from
+<a class="reference internal" href="#accompy.util.CHORD_SYMBOL_REPLACEMENTS" title="accompy.util.CHORD_SYMBOL_REPLACEMENTS"><code class="xref py py-data docutils literal notranslate"><span class="pre">CHORD_SYMBOL_REPLACEMENTS</span></code></a> rewritten, once (so <code class="docutils literal notranslate"><span class="pre">dim</span></code> is never read as a
+word ending in <code class="docutils literal notranslate"><span class="pre">m</span></code>).</p>
 <p class="rubric">Example</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">normalize_chord_symbol</span><span class="p">(</span><span class="s2">"Cmaj7"</span><span class="p">)</span>
 <span class="go">'C^7'</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">normalize_chord_symbol</span><span class="p">(</span><span class="s2">"Dm7b5"</span><span class="p">)</span>
 <span class="go">'Dh7'</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">normalize_chord_symbol</span><span class="p">(</span><span class="s2">"Cdim7"</span><span class="p">),</span> <span class="n">normalize_chord_symbol</span><span class="p">(</span><span class="s2">"Bbm7/F"</span><span class="p">)</span>
+<span class="go">('Co7', 'Bb-7/F')</span>
 </pre></div>
 </div>
 <dl class="field-list simple">

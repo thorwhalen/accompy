@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=75c7c72ae941e8b558d8" />
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=75c7c72ae941e8b558d8" />
 
-    <script src="../../_static/documentation_options.js?v=a88e2c6e"></script>
+    <script src="../../_static/documentation_options.js?v=6307bca3"></script>
     <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -411,7 +411,7 @@ window.runMermaid = runMermaid;</script>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="color-scheme" content="light dark"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="0.3.13" />
+  <meta name="docsearch:version" content="0.3.14" />
   
     
     <script src="../../_static/searchtools.js"></script>
@@ -727,8 +727,8 @@ window.runMermaid = runMermaid;</script>
 <span class="kn">from</span><span class="w"> </span><span class="nn">urllib.parse</span><span class="w"> </span><span class="kn">import</span> <span class="n">unquote</span>
 
 
-<span class="c1">#: The suffix rewrites :func:`normalize_chord_symbol` applies, in order: each ``old``</span>
-<span class="c1">#: becomes ``new`` at the end of the symbol or before a slash.</span>
+<span class="c1">#: The suffix rewrites :func:`normalize_chord_symbol` applies: each ``old`` becomes</span>
+<span class="c1">#: ``new`` at the end of the symbol or of a part before a slash (longest ``old`` wins).</span>
 <span class="n">CHORD_SYMBOL_REPLACEMENTS</span> <span class="o">=</span> <span class="p">(</span>
     <span class="p">(</span><span class="s2">"maj7"</span><span class="p">,</span> <span class="s2">"^7"</span><span class="p">),</span>
     <span class="p">(</span><span class="s2">"maj9"</span><span class="p">,</span> <span class="s2">"^9"</span><span class="p">),</span>
@@ -749,6 +749,11 @@ window.runMermaid = runMermaid;</script>
     <span class="p">(</span><span class="s2">"add2"</span><span class="p">,</span> <span class="s2">"add2"</span><span class="p">),</span>
 <span class="p">)</span>
 
+<span class="c1"># Longest first (a stable sort: equal lengths keep the table's order).</span>
+<span class="n">_REPLACEMENTS_LONGEST_FIRST</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span>
+    <span class="n">CHORD_SYMBOL_REPLACEMENTS</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">pair</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">pair</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span>
+<span class="p">)</span>
+
 <span class="c1">#: Symbols :func:`normalize_chord_symbol` returns unchanged (no chord, or a repeat sign).</span>
 <span class="n">UNNORMALIZED_SYMBOLS</span> <span class="o">=</span> <span class="p">(</span><span class="s2">""</span><span class="p">,</span> <span class="s2">"n"</span><span class="p">,</span> <span class="s2">"N.C."</span><span class="p">,</span> <span class="s2">"NC"</span><span class="p">,</span> <span class="s2">"%"</span><span class="p">,</span> <span class="s2">"x"</span><span class="p">)</span>
 
@@ -765,26 +770,31 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">    - Cdim -&gt; Co</span>
 <span class="sd">    - Cm7b5 -&gt; Ch7 (half-diminished)</span>
 
+<span class="sd">    Each ``/``-separated part of the symbol has its longest matching suffix from</span>
+<span class="sd">    :data:`CHORD_SYMBOL_REPLACEMENTS` rewritten, once (so ``dim`` is never read as a</span>
+<span class="sd">    word ending in ``m``).</span>
+
 <span class="sd">    Example:</span>
 <span class="sd">        &gt;&gt;&gt; normalize_chord_symbol("Cmaj7")</span>
 <span class="sd">        'C^7'</span>
 <span class="sd">        &gt;&gt;&gt; normalize_chord_symbol("Dm7b5")</span>
 <span class="sd">        'Dh7'</span>
+<span class="sd">        &gt;&gt;&gt; normalize_chord_symbol("Cdim7"), normalize_chord_symbol("Bbm7/F")</span>
+<span class="sd">        ('Co7', 'Bb-7/F')</span>
 <span class="sd">    """</span>
     <span class="n">symbol</span> <span class="o">=</span> <span class="n">symbol</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">symbol</span> <span class="ow">or</span> <span class="n">symbol</span> <span class="ow">in</span> <span class="n">UNNORMALIZED_SYMBOLS</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">symbol</span>
+    <span class="k">return</span> <span class="s2">"/"</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">_rewrite_suffix</span><span class="p">(</span><span class="n">part</span><span class="p">)</span> <span class="k">for</span> <span class="n">part</span> <span class="ow">in</span> <span class="n">symbol</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">"/"</span><span class="p">))</span></div>
 
-    <span class="n">result</span> <span class="o">=</span> <span class="n">symbol</span>
-    <span class="k">for</span> <span class="n">old</span><span class="p">,</span> <span class="n">new</span> <span class="ow">in</span> <span class="n">CHORD_SYMBOL_REPLACEMENTS</span><span class="p">:</span>
-        <span class="c1"># Only replace if it's at the end or followed by a slash</span>
-        <span class="k">if</span> <span class="n">result</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="n">old</span><span class="p">):</span>
-            <span class="n">result</span> <span class="o">=</span> <span class="n">result</span><span class="p">[:</span> <span class="o">-</span><span class="nb">len</span><span class="p">(</span><span class="n">old</span><span class="p">)]</span> <span class="o">+</span> <span class="n">new</span>
-        <span class="k">elif</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">old</span><span class="si">}</span><span class="s2">/"</span> <span class="ow">in</span> <span class="n">result</span><span class="p">:</span>
-            <span class="n">result</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">old</span><span class="si">}</span><span class="s2">/"</span><span class="p">,</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">new</span><span class="si">}</span><span class="s2">/"</span><span class="p">)</span>
 
-    <span class="k">return</span> <span class="n">result</span></div>
 
+<span class="k">def</span><span class="w"> </span><span class="nf">_rewrite_suffix</span><span class="p">(</span><span class="n">part</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""``part`` with its longest suffix in :data:`CHORD_SYMBOL_REPLACEMENTS` rewritten."""</span>
+    <span class="k">for</span> <span class="n">old</span><span class="p">,</span> <span class="n">new</span> <span class="ow">in</span> <span class="n">_REPLACEMENTS_LONGEST_FIRST</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">part</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="n">old</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">part</span><span class="p">[:</span> <span class="o">-</span><span class="nb">len</span><span class="p">(</span><span class="n">old</span><span class="p">)]</span> <span class="o">+</span> <span class="n">new</span>
+    <span class="k">return</span> <span class="n">part</span>
 
 
 <div class="viewcode-block" id="parse_chord_string">

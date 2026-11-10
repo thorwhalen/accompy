@@ -7,7 +7,7 @@ and iReal URL parsing.
 
 ### Module Attributes
 
-| [`CHORD_SYMBOL_REPLACEMENTS`](#accompy.util.CHORD_SYMBOL_REPLACEMENTS)   | each `old` becomes `new` at the end of the symbol or before a slash.                                                              |
+| [`CHORD_SYMBOL_REPLACEMENTS`](#accompy.util.CHORD_SYMBOL_REPLACEMENTS)   | each `old` becomes `new` at the end of the symbol or of a part before a slash (longest `old` wins).                               |
 |------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------|
 | [`UNNORMALIZED_SYMBOLS`](#accompy.util.UNNORMALIZED_SYMBOLS)        | Symbols [`normalize_chord_symbol()`](#accompy.util.normalize_chord_symbol) returns unchanged (no chord, or a repeat sign). |
 
@@ -27,11 +27,11 @@ and iReal URL parsing.
 
 ### accompy.util.CHORD_SYMBOL_REPLACEMENTS *= (('maj7', '^7'), ('maj9', '^9'), ('maj', '^'), ('min7', '-7'), ('min', '-'), ('m7', '-7'), ('m9', '-9'), ('m', '-'), ('dim7', 'o7'), ('dim', 'o'), ('m7b5', 'h7'), ('ø7', 'h7'), ('ø', 'h'), ('sus4', 'sus'), ('sus2', 'sus2'), ('add9', 'add9'), ('add2', 'add2'))*
 
-each `old`
-becomes `new` at the end of the symbol or before a slash.
+each `old` becomes
+`new` at the end of the symbol or of a part before a slash (longest `old` wins).
 
 * **Type:**
-  The suffix rewrites [`normalize_chord_symbol()`](#accompy.util.normalize_chord_symbol) applies, in order
+  The suffix rewrites [`normalize_chord_symbol()`](#accompy.util.normalize_chord_symbol) applies
 
 ### accompy.util.UNNORMALIZED_SYMBOLS *= ('', 'n', 'N.C.', 'NC', '%', 'x')*
 
@@ -48,6 +48,10 @@ Handles conversions like:
 - Cdim -> Co
 - Cm7b5 -> Ch7 (half-diminished)
 
+Each `/`-separated part of the symbol has its longest matching suffix from
+[`CHORD_SYMBOL_REPLACEMENTS`](#accompy.util.CHORD_SYMBOL_REPLACEMENTS) rewritten, once (so `dim` is never read as a
+word ending in `m`).
+
 ### Example
 
 ```pycon
@@ -55,6 +59,8 @@ Handles conversions like:
 'C^7'
 >>> normalize_chord_symbol("Dm7b5")
 'Dh7'
+>>> normalize_chord_symbol("Cdim7"), normalize_chord_symbol("Bbm7/F")
+('Co7', 'Bb-7/F')
 ```
 
 * **Return type:**

@@ -5,19 +5,19 @@ orphan: true
 
 # About this build
 
-This documentation was built on **2026-11-10 17:31 UTC** from commit <a href="https://github.com/thorwhalen/accompy/commit/3b6554cb6d91ca9897be6e9642f1db04ec0068f2"><code>3b6554c</code></a> on branch <code>main</code>, for **accompy 0.3.13** (from <code>pyproject.toml</code>).
+This documentation was built on **2026-11-10 17:48 UTC** from commit <a href="https://github.com/thorwhalen/accompy/commit/bc1e8b177641e6bfe28579c77f03b1d461f45323"><code>bc1e8b1</code></a> on branch <code>main</code>, for **accompy 0.3.14** (from <code>pyproject.toml</code>).
 
 :::{warning}
 The documentation and the package may be misaligned:
 
-- The documented version (0.3.13) is behind the latest release on PyPI (0.3.14): `pip install accompy` gives newer code than these docs describe.
+- The documented version (0.3.14) is behind the latest release on PyPI (0.3.15): `pip install accompy` gives newer code than these docs describe.
 :::
 
 ## Source
 
 | | |
 |---|---|
-| Commit | <a href="https://github.com/thorwhalen/accompy/commit/3b6554cb6d91ca9897be6e9642f1db04ec0068f2"><code>3b6554cb6d91ca9897be6e9642f1db04ec0068f2</code></a> |
+| Commit | <a href="https://github.com/thorwhalen/accompy/commit/bc1e8b177641e6bfe28579c77f03b1d461f45323"><code>bc1e8b177641e6bfe28579c77f03b1d461f45323</code></a> |
 | Branch | <code>main</code> |
 | Tags at this commit | none |
 | Working tree | clean |
@@ -28,9 +28,9 @@ The documentation and the package may be misaligned:
 | | |
 |---|---|
 | Repository | <code>thorwhalen/accompy</code> |
-| Run | <a href="https://github.com/thorwhalen/accompy/actions/runs/42865509664">42865509664</a> |
+| Run | <a href="https://github.com/thorwhalen/accompy/actions/runs/42868443159">42868443159</a> |
 | Ref | <code>refs/heads/main</code> |
-| Event commit | <code>3b6554cb6d91ca9897be6e9642f1db04ec0068f2</code> (in the history of the built commit) |
+| Event commit | <code>bc1e8b177641e6bfe28579c77f03b1d461f45323</code> (in the history of the built commit) |
 
 ## Tools
 
@@ -55,13 +55,13 @@ The documentation and the package may be misaligned:
 
 ## Package on PyPI
 
-Latest release: <a href="https://pypi.org/project/accompy/0.3.14/">0.3.14</a>, newer than the documented version (0.3.13).
+Latest release: <a href="https://pypi.org/project/accompy/0.3.15/">0.3.15</a>, newer than the documented version (0.3.14).
 
 ## Reproduce
 
 ```bash
 git clone https://github.com/thorwhalen/accompy && cd accompy
-git checkout 3b6554cb6d91ca9897be6e9642f1db04ec0068f2
+git checkout bc1e8b177641e6bfe28579c77f03b1d461f45323
 pip install "epythet==0.2.22"
 epythet quickstart . --ignore tests/ scrap/ examples/
 ```

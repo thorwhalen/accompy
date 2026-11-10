@@ -17,6 +17,7 @@ accompy.renderers.midi
    
       chord_events
       events_to_midi_file
+      fallback_chord_notes
       generate_builtin_midi
       generate_events
       generate_midi_events

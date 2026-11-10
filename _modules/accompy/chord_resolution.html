@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=75c7c72ae941e8b558d8" />
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=75c7c72ae941e8b558d8" />
 
-    <script src="../../_static/documentation_options.js?v=a88e2c6e"></script>
+    <script src="../../_static/documentation_options.js?v=6307bca3"></script>
     <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -411,7 +411,7 @@ window.runMermaid = runMermaid;</script>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="color-scheme" content="light dark"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="0.3.13" />
+  <meta name="docsearch:version" content="0.3.14" />
   
     
     <script src="../../_static/searchtools.js"></script>
@@ -721,6 +721,7 @@ window.runMermaid = runMermaid;</script>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 
+<span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Callable</span>
 
 <span class="c1"># Type alias for chord resolvers</span>
@@ -761,11 +762,39 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">    """</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">tonal.chords</span><span class="w"> </span><span class="kn">import</span> <span class="n">chord_to_notes</span>
 
-    <span class="n">notes</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">chord_to_notes</span><span class="p">(</span><span class="n">symbol</span><span class="p">))</span>
+    <span class="n">notes</span> <span class="o">=</span> <span class="n">_letter_root_notes</span><span class="p">(</span><span class="n">symbol</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">notes</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">notes</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">chord_to_notes</span><span class="p">(</span><span class="n">symbol</span><span class="p">))</span>
     <span class="k">if</span> <span class="n">transpose</span><span class="p">:</span>
         <span class="n">notes</span> <span class="o">=</span> <span class="p">[</span><span class="n">n</span> <span class="o">+</span> <span class="n">transpose</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">notes</span><span class="p">]</span>
     <span class="k">return</span> <span class="n">notes</span></div>
 
+
+
+<span class="n">_LETTER_ROOT</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s2">"([A-G][#b]?)(.*)"</span><span class="p">,</span> <span class="n">re</span><span class="o">.</span><span class="n">DOTALL</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_letter_root_notes</span><span class="p">(</span><span class="n">symbol</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""``symbol``'s notes read with a letter-name root (``D`` + ``o7``), else None.</span>
+
+<span class="sd">    tonal tries its longest root name first, case-insensitively, so ``Do7`` (accompy's</span>
+<span class="sd">    spelling of D diminished 7) would read as solfege ``do`` (C) + ``7``, and ``Fadd9``</span>
+<span class="sd">    as ``fa`` + ``dd9``. A chart symbol starting with an upper-case letter name is read</span>
+<span class="sd">    with that letter as its root whenever the rest is a quality tonal knows.</span>
+
+<span class="sd">    &gt;&gt;&gt; _letter_root_notes("Do7"), _letter_root_notes("Fadd9"), _letter_root_notes("sol7")</span>
+<span class="sd">    ([62, 65, 68, 71], [65, 69, 72, 79], None)</span>
+<span class="sd">    """</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">tonal.chords</span><span class="w"> </span><span class="kn">import</span> <span class="n">_simplify_quality_extension</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">tonal.notes</span><span class="w"> </span><span class="kn">import</span> <span class="n">chord_quality</span><span class="p">,</span> <span class="n">root_notes</span>
+
+    <span class="n">match</span> <span class="o">=</span> <span class="n">_LETTER_ROOT</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">symbol</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">match</span> <span class="ow">or</span> <span class="n">match</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">root_notes</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">None</span>
+    <span class="n">intervals</span> <span class="o">=</span> <span class="n">chord_quality</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">_simplify_quality_extension</span><span class="p">(</span><span class="n">match</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">2</span><span class="p">)))</span>
+    <span class="k">if</span> <span class="n">intervals</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">None</span>
+    <span class="k">return</span> <span class="p">[</span><span class="n">root_notes</span><span class="p">[</span><span class="n">match</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">)]</span> <span class="o">+</span> <span class="nb">int</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">intervals</span><span class="p">]</span>
 
 
 <div class="viewcode-block" id="music21_resolver">

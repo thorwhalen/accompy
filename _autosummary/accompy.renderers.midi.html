@@ -44,7 +44,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=75c7c72ae941e8b558d8" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=75c7c72ae941e8b558d8" />
 
-    <script src="../_static/documentation_options.js?v=a88e2c6e"></script>
+    <script src="../_static/documentation_options.js?v=6307bca3"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -58,7 +58,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="color-scheme" content="light dark"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="0.3.13" />
+  <meta name="docsearch:version" content="0.3.14" />
   
     
     <script src="../_static/searchtools.js"></script>
@@ -445,7 +445,7 @@ from file writing, enabling both batch file creation and future real-time stream
 <td><p>the renderer leaves their beats silent.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#accompy.renderers.midi.FALLBACK_CHORD_NOTES" title="accompy.renderers.midi.FALLBACK_CHORD_NOTES"><code class="xref py py-obj docutils literal notranslate"><span class="pre">FALLBACK_CHORD_NOTES</span></code></a></p></td>
-<td><p>The notes used when the chord resolver cannot read a symbol (a C major triad).</p></td>
+<td><p>a major triad on C3, moved to the symbol's root when it has a readable one (see <a class="reference internal" href="#accompy.renderers.midi.fallback_chord_notes" title="accompy.renderers.midi.fallback_chord_notes"><code class="xref py py-func docutils literal notranslate"><span class="pre">fallback_chord_notes()</span></code></a>).</p></td>
 </tr>
 </tbody>
 </table>
@@ -459,16 +459,19 @@ from file writing, enabling both batch file creation and future real-time stream
 <tr class="row-even"><td><p><a class="reference internal" href="#accompy.renderers.midi.events_to_midi_file" title="accompy.renderers.midi.events_to_midi_file"><code class="xref py py-obj docutils literal notranslate"><span class="pre">events_to_midi_file</span></code></a>(events, path, tempo[, ...])</p></td>
 <td><p>Write MIDI events to a MIDI file.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#accompy.renderers.midi.generate_builtin_midi" title="accompy.renderers.midi.generate_builtin_midi"><code class="xref py py-obj docutils literal notranslate"><span class="pre">generate_builtin_midi</span></code></a>(score, config, *, ...)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#accompy.renderers.midi.fallback_chord_notes" title="accompy.renderers.midi.fallback_chord_notes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fallback_chord_notes</span></code></a>(symbol)</p></td>
+<td><p>What the renderer plays for a symbol its resolver cannot read: a major triad on its root.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#accompy.renderers.midi.generate_builtin_midi" title="accompy.renderers.midi.generate_builtin_midi"><code class="xref py py-obj docutils literal notranslate"><span class="pre">generate_builtin_midi</span></code></a>(score, config, *, ...)</p></td>
 <td><p>Generate a MIDI file using the built-in renderer.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#accompy.renderers.midi.generate_events" title="accompy.renderers.midi.generate_events"><code class="xref py py-obj docutils literal notranslate"><span class="pre">generate_events</span></code></a>(chords, *[, style, repeats, ...])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#accompy.renderers.midi.generate_events" title="accompy.renderers.midi.generate_events"><code class="xref py py-obj docutils literal notranslate"><span class="pre">generate_events</span></code></a>(chords, *[, style, repeats, ...])</p></td>
 <td><p>The note events the builtin backend plays for <code class="docutils literal notranslate"><span class="pre">chords</span></code>, without writing a file.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#accompy.renderers.midi.generate_midi_events" title="accompy.renderers.midi.generate_midi_events"><code class="xref py py-obj docutils literal notranslate"><span class="pre">generate_midi_events</span></code></a>(score, config, *, ...)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#accompy.renderers.midi.generate_midi_events" title="accompy.renderers.midi.generate_midi_events"><code class="xref py py-obj docutils literal notranslate"><span class="pre">generate_midi_events</span></code></a>(score, config, *, ...)</p></td>
 <td><p>Generate MIDI events from score.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#accompy.renderers.midi.select_patterns" title="accompy.renderers.midi.select_patterns"><code class="xref py py-obj docutils literal notranslate"><span class="pre">select_patterns</span></code></a>(patterns, beats_per_bar)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#accompy.renderers.midi.select_patterns" title="accompy.renderers.midi.select_patterns"><code class="xref py py-obj docutils literal notranslate"><span class="pre">select_patterns</span></code></a>(patterns, beats_per_bar)</p></td>
 <td><p>The <code class="docutils literal notranslate"><span class="pre">(drum,</span> <span class="pre">bass,</span> <span class="pre">comp)</span></code> patterns the renderer plays from a style's pattern lists.</p></td>
 </tr>
 </tbody>
@@ -477,7 +480,13 @@ from file writing, enabling both batch file creation and future real-time stream
 <dl class="py data">
 <dt class="sig sig-object py" id="accompy.renderers.midi.FALLBACK_CHORD_NOTES">
 <span class="sig-prename descclassname"><span class="pre">accompy.renderers.midi.</span></span><span class="sig-name descname"><span class="pre">FALLBACK_CHORD_NOTES</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">(48,</span> <span class="pre">52,</span> <span class="pre">55)</span></span><a class="headerlink" href="#accompy.renderers.midi.FALLBACK_CHORD_NOTES" title="Link to this definition">#</a></dt>
-<dd><p>The notes used when the chord resolver cannot read a symbol (a C major triad).</p>
+<dd><p>a major triad on C3,
+moved to the symbol’s root when it has a readable one (see <a class="reference internal" href="#accompy.renderers.midi.fallback_chord_notes" title="accompy.renderers.midi.fallback_chord_notes"><code class="xref py py-func docutils literal notranslate"><span class="pre">fallback_chord_notes()</span></code></a>).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The notes used when the chord resolver cannot read a symbol</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py data">
@@ -536,6 +545,23 @@ beats it lasts. It reads no tempo and keeps no state between chords.</p>
 <p class="admonition-title">Note</p>
 <p>Requires midiutil: pip install midiutil</p>
 </div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="accompy.renderers.midi.fallback_chord_notes">
+<span class="sig-prename descclassname"><span class="pre">accompy.renderers.midi.</span></span><span class="sig-name descname"><span class="pre">fallback_chord_notes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">symbol</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/accompy/renderers/midi.html#fallback_chord_notes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#accompy.renderers.midi.fallback_chord_notes" title="Link to this definition">#</a></dt>
+<dd><p>What the renderer plays for a symbol its resolver cannot read: a major triad on its root.</p>
+<p>The root is the leading note name, in either case and with <code class="docutils literal notranslate"><span class="pre">#</span></code>/<code class="docutils literal notranslate"><span class="pre">b</span></code> or <code class="docutils literal notranslate"><span class="pre">♯</span></code>/<code class="docutils literal notranslate"><span class="pre">♭</span></code>
+(<code class="docutils literal notranslate"><span class="pre">C</span></code>, <code class="docutils literal notranslate"><span class="pre">F#</span></code>, <code class="docutils literal notranslate"><span class="pre">B♭</span></code>, <code class="docutils literal notranslate"><span class="pre">eb</span></code>); without one, the triad is on C.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">fallback_chord_notes</span><span class="p">(</span><span class="s2">"G#13(b9)"</span><span class="p">),</span> <span class="n">fallback_chord_notes</span><span class="p">(</span><span class="s2">"?"</span><span class="p">)</span>
+<span class="go">([56, 60, 63], [48, 52, 55])</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#list" title="(in Python v3.15)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a>[<a class="reference external" href="https://docs.python.org/3/builtins/functions.html#int" title="(in Python v3.15)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>]</span></p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py function">
@@ -691,6 +717,7 @@ bass and comping take the first of their list. A missing one is <code class="doc
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#accompy.renderers.midi.NO_CHORD_SYMBOLS"><code class="docutils literal notranslate"><span class="pre">NO_CHORD_SYMBOLS</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#accompy.renderers.midi.chord_events"><code class="docutils literal notranslate"><span class="pre">chord_events()</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#accompy.renderers.midi.events_to_midi_file"><code class="docutils literal notranslate"><span class="pre">events_to_midi_file()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#accompy.renderers.midi.fallback_chord_notes"><code class="docutils literal notranslate"><span class="pre">fallback_chord_notes()</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#accompy.renderers.midi.generate_builtin_midi"><code class="docutils literal notranslate"><span class="pre">generate_builtin_midi()</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#accompy.renderers.midi.generate_events"><code class="docutils literal notranslate"><span class="pre">generate_events()</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#accompy.renderers.midi.generate_midi_events"><code class="docutils literal notranslate"><span class="pre">generate_midi_events()</span></code></a></li>
