@@ -111,7 +111,9 @@ class IrealTune:
         bpm = self.bpm.strip()
         return int(bpm) if bpm.isdecimal() and int(bpm) > 0 else None
 
-    def chord_specs(self, *, beats_per_bar: float | None = None) -> list[tuple[str, float]]:
+    def chord_specs(
+        self, *, beats_per_bar: float | None = None
+    ) -> list[tuple[str, float]]:
         """``(chord, beats)`` pairs: each bar shared evenly by its chords. Bars last
         ``beats_per_bar`` beats, by default the time signature's numerator.
 
@@ -267,11 +269,17 @@ def _expand_repeats(bars: list[_Bar]) -> list[int | str]:
             start = opened if opened is not None else region
             endings = [k for k in range(start, i + 1) if bars[k].ending is not None]
             body = list(range(start, endings[0] if endings else i + 1))
-            if endings:  # an ending written mid-bar: its bar's start is played each time
-                head = bars[endings[0]].text[: re.search(r"N\d", bars[endings[0]].text).start()]
+            if (
+                endings
+            ):  # an ending written mid-bar: its bar's start is played each time
+                head = bars[endings[0]].text[
+                    : re.search(r"N\d", bars[endings[0]].text).start()
+                ]
                 body += [_Head(head)] if _remove_markers(head).strip() else []
             if len(endings) > 1:  # several endings inside the braces: one pass each
-                del order[len(order) - (i + 1 - endings[1]) :]  # the first pass stops at N2
+                del order[
+                    len(order) - (i + 1 - endings[1]) :
+                ]  # the first pass stops at N2
                 for a, b in zip(endings[1:], endings[2:] + [i + 1]):
                     order += body + list(range(a, b))
             else:
@@ -355,7 +363,11 @@ def _fill_slashes(bars: list[list[str]]) -> list[list[str]]:
             if token == "p":
                 token = last
             elif token.startswith("W"):
-                token = (last.split("/")[0] + token[1:] if token[1:] else last) if last else ""
+                token = (
+                    (last.split("/")[0] + token[1:] if token[1:] else last)
+                    if last
+                    else ""
+                )
             if token[:1] in _ROOTS:
                 last = token
             chords += [token] if token else []
@@ -420,7 +432,9 @@ def _scrambled_songs(fields: list[str]):
             start = standard
         previous = m
         before = fields[start:m]
-        if len(before) >= _FIELDS_BEFORE_MUSIC:  # title, composer, ..., style, key, transpose
+        if (
+            len(before) >= _FIELDS_BEFORE_MUSIC
+        ):  # title, composer, ..., style, key, transpose
             meta = dict(title=at(start), composer=at(start + 1), style=at(m + _STYLE))
             meta.update(key=at(m + _KEY), transpose=at(m - 1))
         else:  # too few fields to place them: the non-empty ones, in order

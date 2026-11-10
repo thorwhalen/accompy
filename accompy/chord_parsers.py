@@ -638,7 +638,9 @@ def parse_chord_sheet(
     sheet = str(sheet).strip()
 
     if sheet.startswith(("irealb://", "irealbook://")):
-        return parse_ireal_url(sheet, beats_per_bar=beats_per_bar)  # None: the tune's meter
+        return parse_ireal_url(
+            sheet, beats_per_bar=beats_per_bar
+        )  # None: the tune's meter
     beats_per_bar = _DEFAULT_BEATS_PER_BAR if beats_per_bar is None else beats_per_bar
 
     if re.search(r"\[[A-G]", sheet) and re.search(r"\][^|[\]]+\[", sheet):
