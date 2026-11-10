@@ -18,7 +18,6 @@ Each parser is registered in the global converter registry so you can do::
 from __future__ import annotations
 
 import re
-from typing import Optional
 
 from .converters import ChordSequence, ChordSheet, converter
 
@@ -96,6 +95,10 @@ def parse_plain_text(
     )
 
 
+#: Beats per bar for chord sheets that do not say (an iReal URL carries its own meter).
+_DEFAULT_BEATS_PER_BAR = 4
+
+
 # ---------------------------------------------------------------------------
 # iReal Pro URL parser
 # ---------------------------------------------------------------------------
@@ -104,85 +107,31 @@ def parse_plain_text(
 def parse_ireal_url(
     url: str | ChordSheet,
     *,
-    beats_per_bar: int = 4,
+    beats_per_bar: int | None = None,
 ) -> ChordSequence:
-    """Parse an iReal Pro URL into a ChordSequence.
+    """Parse an iReal Pro URL into a ChordSequence; a bar's chords share it evenly.
 
-    Uses pyRealParser if available, falls back to basic extraction.
+    Decoding is :func:`accompy.ireal.decode_ireal_url`; the first tune with chords is
+    used. Bars last ``beats_per_bar`` beats, by default the tune's time-signature
+    numerator. Raises ``ValueError`` when no tune has chords.
 
-    >>> # Can't test without real URL, but structure is tested
+    >>> cs = parse_ireal_url("irealbook://Blues=Me=Swing=F=n=[T34F7 |Bb7 Bo7 Z")
+    >>> cs.chords, cs.time_signature
+    ([('F7', 3.0), ('Bb7', 1.5), ('Bo7', 1.5)], (3, 4))
     """
-    url = str(url)
-    try:
-        from pyRealParser import Tune
+    from .ireal import decode_ireal_url
 
-        tunes = Tune.parse_ireal_url(url)
-        if not tunes:
-            raise ValueError("No songs found in URL")
-        tune = tunes[0]
-        measures = tune.measures_as_strings
-        chords = [
-            (chord, float(beats_per_bar))
-            for chord in measures
-            if chord and chord.strip()
-        ]
-        ts = _parse_ts_string(tune.time_signature)
-        return ChordSequence(
-            chords=chords,
-            title=tune.title or "",
-            key=tune.key or "C",
-            tempo=int(tune.bpm) if hasattr(tune, "bpm") and tune.bpm else 120,
-            time_signature=ts,
-        )
-    except ImportError:
-        return _parse_ireal_url_fallback(url, beats_per_bar=beats_per_bar)
-
-
-def _parse_ts_string(ts: Optional[str]) -> tuple[int, int]:
-    """Parse '3/4' -> (3, 4), default (4, 4)."""
-    if not ts:
-        return (4, 4)
-    try:
-        parts = ts.split("/")
-        return (int(parts[0]), int(parts[1]))
-    except (ValueError, IndexError):
-        return (4, 4)
-
-
-def _parse_ireal_url_fallback(url: str, *, beats_per_bar: int = 4) -> ChordSequence:
-    """Minimal iReal URL parser without pyRealParser."""
-    from urllib.parse import unquote
-
-    raw = url
-    if raw.startswith(("irealbook://", "irealb://")):
-        raw = raw.split("://", 1)[1]
-    raw = unquote(raw)
-    parts = raw.split("=")
-
-    title = parts[0] if parts else "Untitled"
-    key = parts[3] if len(parts) > 3 and parts[3] else "C"
-
-    if len(parts) < 6:
-        raise ValueError("Invalid iReal Pro URL format")
-
-    chord_data = parts[5]
-    for marker in ["{", "}", "[", "]", "Z", "*", "Y", "Q", "S", "T"]:
-        chord_data = chord_data.replace(marker, " ")
-    chord_data = re.sub(r"\*[A-Za-z]", " ", chord_data)
-    chord_data = re.sub(r"N\d", " ", chord_data)
-    chord_data = re.sub(r"<[^>]*>", " ", chord_data)
-
-    tokens = re.split(r"[|\s]+", chord_data)
-    chords: list[tuple[str, float]] = []
-    for token in tokens:
-        token = token.strip()
-        if not token or token in ("n", "x", "r", "%", "p", "s", "l"):
-            continue
-        match = re.match(r"^([A-G][#b]?)(.*)", token)
-        if match:
-            chords.append((match.group(0), float(beats_per_bar)))
-
-    return ChordSequence(chords=chords, title=title, key=key)
+    for tune in decode_ireal_url(str(url)):
+        chords = tune.chord_specs(beats_per_bar=beats_per_bar)
+        if chords:
+            return ChordSequence(
+                chords=chords,
+                title=tune.title or "",
+                key=tune.key or "C",
+                tempo=tune.tempo or 120,
+                time_signature=tune.time_signature,
+            )
+    raise ValueError("No chords found in iReal Pro URL")
 
 
 # ---------------------------------------------------------------------------
@@ -659,13 +608,16 @@ def parse_nashville(
 def parse_chord_sheet(
     sheet: str | ChordSheet,
     *,
-    beats_per_bar: int = 4,
+    beats_per_bar: int | None = None,
     tempo: int = 120,
     title: str = "",
     key: str = "C",
     time_signature: tuple[int, int] = (4, 4),
 ) -> ChordSequence:
     """Auto-detect format and parse a chord sheet into ChordSequence.
+
+    ``beats_per_bar`` defaults to the tune's time signature for an iReal URL, and to 4
+    for the other formats.
 
     Detects:
     - iReal Pro URLs (starts with 'irealb://' or 'irealbook://')
@@ -686,7 +638,8 @@ def parse_chord_sheet(
     sheet = str(sheet).strip()
 
     if sheet.startswith(("irealb://", "irealbook://")):
-        return parse_ireal_url(sheet, beats_per_bar=beats_per_bar)
+        return parse_ireal_url(sheet, beats_per_bar=beats_per_bar)  # None: the tune's meter
+    beats_per_bar = _DEFAULT_BEATS_PER_BAR if beats_per_bar is None else beats_per_bar
 
     if re.search(r"\[[A-G]", sheet) and re.search(r"\][^|[\]]+\[", sheet):
         return parse_chordpro(sheet, beats_per_bar=beats_per_bar, tempo=tempo)

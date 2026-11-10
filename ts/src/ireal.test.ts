@@ -1,10 +1,12 @@
 import { describe, expect, test } from "vitest";
 import { parseIrealUrl } from "./ireal.js";
+import { ValueError } from "./py.js";
 
 const PREFIX = "1r34LbKcu7";
+const song = (music: string, title = "T") => `irealb://${title}=X==Swing=C==${PREFIX}${music}=Jazz=120=1`;
 
 describe("parseIrealUrl", () => {
-  test("tier 1: irealb song, repeats flattened, time signature read, symbols kept as written", () => {
+  test("irealb song: repeat signs written out, time signature read, symbols kept as written", () => {
     const url = "irealb://Waltz=Roe%20Jane==Jazz%20Waltz=D-==" + PREFIX + "[T34D-7XyQKcl LZG7XyQ|C^7 Z==Jazz=120=1";
     expect(parseIrealUrl(url)).toEqual({
       measures: [["D-7"], ["D-7"], ["G7"], ["C^7"]],
@@ -15,29 +17,48 @@ describe("parseIrealUrl", () => {
     });
   });
 
-  test("tier 1: a playlist yields its first tune that parses", () => {
+  test("a playlist yields its first tune with chords", () => {
     const url = "irealb://Broken=Song===Second=C%20D==Bossa=G==" + PREFIX + "[C^7 A-7|D-7 G7 Z===My%20Playlist";
     const score = parseIrealUrl(url);
     expect(score.title).toBe("Second");
-    expect(score.measures).toEqual([["C^7A-7"], ["D-7G7"]]);
+    expect(score.measures).toEqual([["C^7", "A-7"], ["D-7", "G7"]]);
   });
 
-  test("tier 1: endings and an empty title", () => {
-    const url = "irealb://=Anon==Swing=C==" + PREFIX + "{C^7XyQ|N1D-7 G7}XyQ|N2E-7 A7 Z";
-    const score = parseIrealUrl(url);
+  test("endings and an empty title", () => {
+    const score = parseIrealUrl(song("{C^7XyQ|N1D-7 G7}XyQ|N2E-7 A7 Z", ""));
     expect(score.title).toBe("Untitled");
-    expect(score.measures).toEqual([["C^7"], ["D-7G7"], ["C^7"], ["E-7A7"]]);
+    expect(score.measures).toEqual([["C^7"], ["D-7", "G7"], ["C^7"], ["E-7", "A7"]]);
   });
 
-  test("tier 2: empty fields that make '===' inside one song", () => {
-    const url = "irealb://Empty=Somebody===Swing=Bb==" + PREFIX + "[F7 |Bb7 Z=Jazz=120=2";
-    expect(parseIrealUrl(url)).toMatchObject({ measures: [["F7"], ["Bb7"]], title: "Empty", key: "Bb" });
+  test("T12 is 12/8", () => {
+    expect(parseIrealUrl(song("[T12C7 |F7 Z")).timeSignature).toEqual([12, 8]);
   });
 
-  test("tier 3: unscrambled irealbook URL, symbols normalized", () => {
-    const url = "irealbook://Old=Comp=Swing=G-=n=[C-7 |Bb^7 |Gm |Dm7 Z";
+  test("r repeats the previous two bars and keeps the next one", () => {
+    expect(parseIrealUrl(song("[C |D |r| |E7 Z")).measures).toEqual([["C"], ["D"], ["C"], ["D"], ["E7"]]);
+  });
+
+  test("p with no chord before it is dropped; backslashes are literal", () => {
+    expect(parseIrealUrl(song("[p C7|F7 p Z")).measures).toEqual([["C7"], ["F7", "F7"]]);
+    expect(parseIrealUrl(song("{C7\\1D7 N1E7 }|N2F7 Z")).measures).toEqual([["C7\\1", "D7", "E7"], ["C7\\1", "D7", "F7"]]);
+  });
+
+  test("each bar is the list of its chords: spaces, commas, glued roots, p and W", () => {
+    expect(parseIrealUrl(song("[C^7,A-7 D-7/FG7|p Bb7alt W/Ab Z")).measures).toEqual([
+      ["C^7", "A-7", "D-7/F", "G7"],
+      ["G7", "Bb7alt", "Bb7alt/Ab"],
+    ]);
+  });
+
+  test("an empty composer shifts no field", () => {
+    const url = "irealb://No%20Composer===Bossa=C-==" + PREFIX + "[C-7 |F7 Z=Latin=140=1";
+    expect(parseIrealUrl(url)).toMatchObject({ title: "No Composer", composer: "", key: "C-" });
+  });
+
+  test("irealbook (plain) URL: bars as written, no normalization", () => {
+    const url = "irealbook://Old=Comp=Swing=G-=n=[T44C-7 F7 |*AC^7 |Ah7 |Fo7 Z";
     expect(parseIrealUrl(url)).toEqual({
-      measures: [["C-7"], ["Bb^7"], ["G-"], ["D-7"]],
+      measures: [["C-7", "F7"], ["C^7"], ["Ah7"], ["Fo7"]],
       title: "Old",
       composer: "Comp",
       key: "G-",
@@ -51,8 +72,48 @@ describe("parseIrealUrl", () => {
     expect(score.composer).toBe("Bad�");
   });
 
-  test("too few fields throws RangeError (Python ValueError)", () => {
-    for (const url of ["", "irealb://", "hello", "irealbook://Song=Composer=Style"])
-      expect(() => parseIrealUrl(url)).toThrow(RangeError);
+  test("no chords throws ValueError", () => {
+    for (const url of ["", "irealb://", "hello", "irealbook://Song=Composer=Style", song("Z ")])
+      expect(() => parseIrealUrl(url)).toThrow(ValueError);
+  });
+
+  test("hostile charts decode in linear time (no nesting blow-up, no quadratic scans)", () => {
+    const N = 40_000;
+    const cases: Array<[string, number]> = [
+      ["{".repeat(22) + "C " + "}".repeat(22), 2],
+      ["{C }".repeat(N), 2 * N],
+      ["<".repeat(N) + "C", 1],
+      ["(".repeat(N) + "C", 1],
+      ["{".repeat(N) + "C", 1],
+      ["C }".repeat(N), 2 * N],
+      ["{C |N1D }" + "|N2E".repeat(N), N + 3],
+      ["C |r|".repeat(N), 3 * N - 2],
+      ["{C }".repeat(60_000), 120_000], // 120k bars out: no spread into push()
+    ];
+    for (const [chart, bars] of cases) {
+      const start = performance.now();
+      expect(parseIrealUrl(`irealbook://T=C=S=F=n=${chart}`).measures.length).toBe(bars);
+      expect(performance.now() - start).toBeLessThan(5000);
+    }
+  });
+
+  test("a long scrambled (irealb) URL decodes in linear time", () => {
+    const start = performance.now();
+    expect(parseIrealUrl(song("C^7 |".repeat(200_000))).measures.length).toBeGreaterThan(0);
+    expect(performance.now() - start).toBeLessThan(5000);
+  });
+
+  test("endings through [ sections; the last ending replays nothing", () => {
+    expect(parseIrealUrl(song("{A |N1B }[N2C }[N3D |E Z")).measures.flat()).toEqual("A B A C A D E".split(" "));
+    expect(parseIrealUrl(song("{A |N1B }N2C |D }E Z")).measures.flat()).toEqual("A B A C D E".split(" "));
+  });
+
+  test("repeats keep their closing barline; endings, codas and quotes", () => {
+    expect(parseIrealUrl(song("{C |D |N1E |F }N2G |A Z")).measures.flat()).toEqual("C D E F C D G A".split(" "));
+    expect(parseIrealUrl(song("[G-7 |C7 Q|F^7 ]<D.C. al Coda>Q[Bb^7 Z")).measures.flat()).toEqual(
+      "G-7 C7 F^7 G-7 C7 Bb^7".split(" "),
+    );
+    const url = `irealb://%22Round Midnight%22=Monk==Ballad=Eb-==${PREFIX}[Eb-^7 |Ab7 Z=Jazz=60=1"></a>`;
+    expect(parseIrealUrl(url).title).toBe('"Round Midnight"');
   });
 });

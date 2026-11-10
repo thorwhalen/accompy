@@ -20,7 +20,6 @@ dependencies = [
     "mido",
     "music21",
     "numpy",
-    "pyRealParser",
     "dol",
 ]
 keywords = [

@@ -16,7 +16,7 @@ print(f"Generated: {audio}")  # -> /tmp/xxx.wav
 - **Multiple styles**: Swing, bossa nova, rock, funk, ballad, latin, waltz, blues
 - **Flexible chord inputs**: Strings, `Score`, iReal URLs, or `(chord, beats)` tuples
 - **Backend selector**: `backend="auto"|"mma"|"builtin"` (with backwards-compatible `use_mma`)
-- **iReal Pro compatible**: Parse iReal Pro URLs directly (with optional `pyRealParser`)
+- **iReal Pro compatible**: Parse iReal Pro URLs (`irealb://` and `irealbook://`) directly
 - **Multi-instrument**: Drums, bass, piano with style-appropriate patterns
 - **Audio output**: WAV, MP3, FLAC via FluidSynth
 - **MIDI output**: Save `.mid` directly (skip audio rendering)
@@ -271,8 +271,7 @@ score = Score.from_ireal_url(url)
 audio = generate_accompaniment(score, style="swing", tempo=140)
 ```
 
-**Note:** `pyRealParser` is optional. If installed, `Score.from_ireal_url(...)` will use it.
-If not installed, accompy uses a best-effort built-in parser.
+**Note:** iReal decoding is built in (`accompy.ireal`); no extra package is needed.
 
 ### Advanced Configuration
 
@@ -542,12 +541,11 @@ Required:
 
 Recommended:
 - `mingus` — Music theory (better chord parsing)  
-- `pyRealParser` — iReal Pro URL parsing
 - `midi2audio` — Optional Python wrapper for FluidSynth (can improve portability)
 - `pydub` — Audio format conversion (if no ffmpeg)
 
 ```bash
-pip install midiutil mingus pyRealParser midi2audio pydub
+pip install midiutil mingus midi2audio pydub
 ```
 
 ## API Reference
@@ -827,5 +825,5 @@ MIT
 
 - [MMA - Musical MIDI Accompaniment](https://www.mellowood.ca/mma/) by Bob van der Poel
 - [FluidSynth](https://www.fluidsynth.org/) team
-- [pyRealParser](https://github.com/drs251/pyRealParser) for iReal Pro format parsing
+- [pyRealParser](https://github.com/drs251/pyRealParser) (MIT), the starting point of `accompy.ireal`'s iReal Pro decoding
 - [iReal Pro](https://www.irealpro.com/) for inspiration

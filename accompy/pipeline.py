@@ -392,85 +392,21 @@ def _parse_file(filepath: str, *, tempo: int | None = None) -> ChordSequence:
 
 
 def _parse_ireal_url_robust(url: str, *, tempo: int | None = None) -> ChordSequence:
-    """Parse an iReal Pro URL, handling edge cases pyRealParser misses.
+    """Parse an iReal Pro URL (first tune with chords) into a ChordSequence: bars as long
+    as the tune's time signature says, a bar's chords sharing it evenly."""
+    from .ireal import decode_ireal_url
 
-    Falls back to manual parsing when pyRealParser fails (e.g., URLs with
-    empty fields that cause == in the URL).
-    """
-    import re as _re
-    from urllib.parse import unquote as _unquote
-
-    # Try pyRealParser first
-    try:
-        from pyRealParser import Tune
-
-        tunes = Tune.parse_ireal_url(url)
-        if tunes:
-            t = tunes[0]
-            measures = [m for m in t.measures_as_strings if m and m.strip()]
+    for tune in decode_ireal_url(url):
+        chords = tune.chord_specs()
+        if chords:
             return ChordSequence(
-                chords=[(m, 4.0) for m in measures],
-                title=t.title or "",
-                key=t.key or "C",
-                tempo=tempo or (int(t.bpm) if t.bpm else 120),
+                chords=chords,
+                title=tune.title or "",
+                key=tune.key or "C",
+                tempo=tempo or tune.tempo or 120,
+                time_signature=tune.time_signature,
             )
-    except Exception:
-        pass
-
-    # Manual fallback: handle URLs that pyRealParser chokes on
-    decoded = _unquote(url)
-    if "://" in decoded:
-        decoded = decoded.split("://", 1)[1]
-
-    # Split on single = to preserve empty fields
-    raw_parts = decoded.split("=")
-    title = raw_parts[0] if raw_parts else "Untitled"
-
-    # Find the chord data: look for the scramble prefix
-    prefix = "1r34LbKcu7"
-    chord_part = None
-    chord_idx = None
-    for i, part in enumerate(raw_parts):
-        if prefix in part:
-            chord_part = part
-            chord_idx = i
-            break
-
-    if chord_part is None:
-        raise ValueError(f"Could not find chord data in iReal URL")
-
-    # Extract key: typically 2 positions before chords
-    key = raw_parts[chord_idx - 2] if chord_idx >= 2 else "C"
-    if len(key) > 2 or not key:  # sanity check
-        key = "C"
-
-    # Extract tempo: typically 2 positions after chords
-    file_tempo = 120
-    if chord_idx + 2 < len(raw_parts):
-        try:
-            file_tempo = int(raw_parts[chord_idx + 2])
-        except (ValueError, IndexError):
-            pass
-
-    # Unscramble the chord data
-    scrambled = chord_part.split(prefix, 1)[1]
-    try:
-        from pyRealParser import Tune
-
-        unscrambled = Tune._unscramble_chord_string(scrambled)
-        cleaned = Tune._cleanup_chord_string(unscrambled)
-        measures = Tune._get_measures(cleaned)
-    except Exception:
-        # Bare minimum fallback if pyRealParser not available
-        measures = _re.findall(r"([A-G][#b]?[^|{}\[\]]*?)(?:\s*\|)", scrambled)
-
-    measures = [m.strip() for m in measures if m.strip()]
-    return ChordSequence(
-        chords=[(m, 4.0) for m in measures],
-        title=title,
-        key=key,
-        tempo=tempo or file_tempo,
-    )
+    raise ValueError("No chords found in iReal Pro URL")
 
 
 def _transpose_chord_sequence(cs: ChordSequence, semitones: int) -> ChordSequence:
