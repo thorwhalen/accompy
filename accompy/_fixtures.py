@@ -41,7 +41,15 @@ from pathlib import Path
 from accompy.base import MidiEvent, Score, ensure_score
 from accompy.chord_resolution import tonal_resolver
 from accompy.patterns import get_patterns
-from accompy.renderers.midi import chord_events, fallback_chord_notes, generate_events
+from accompy.renderers.midi import (
+    bass_pitch,
+    chord_events,
+    comp_voicing,
+    fallback_chord_notes,
+    generate_events,
+    pitch_classes,
+    resolve_pitch_offset,
+)
 from accompy.rhythmic_skeletons import list_skeletons, resolve_skeleton
 from accompy.util import (
     normalize_chord_symbol,
@@ -96,6 +104,10 @@ TWIN_FUNCTIONS = {
         chord_events,
         generate_events,
         fallback_chord_notes,
+        pitch_classes,
+        resolve_pitch_offset,
+        bass_pitch,
+        comp_voicing,
         resolve_skeleton,
         apply_skeleton,
         list_skeletons,
