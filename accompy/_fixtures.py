@@ -40,7 +40,7 @@ from pathlib import Path
 
 from accompy.base import MidiEvent, Score, ensure_score
 from accompy.chord_resolution import tonal_resolver
-from accompy.patterns import get_patterns
+from accompy.patterns import PatternRegistry, get_patterns
 from accompy.renderers.midi import (
     bass_pitch,
     chord_events,
@@ -161,8 +161,31 @@ def _check_kwargs(name: str, func, kwargs: dict) -> None:
             )
 
 
+def _pinned_kwargs(name: str) -> dict:
+    """Keyword arguments that keep a case independent of process-global state.
+
+    ``generate_events`` and ``chord_events`` read the module-global chord resolver and pattern
+    registry, which anything in the process may replace (``set_chord_resolver``); the TS twin
+    always uses its own tonal resolver and builtin patterns. So the cases pin both.
+    """
+    registry = PatternRegistry()
+    registry.register_builtin_patterns()
+    pins = {"generate_events": {"chord_resolver": tonal_resolver}, "chord_events": {}}
+    return (
+        {"pattern_source": registry, **pins[name]} if name in pins else {}
+    )
+
+
 def run_case(case: dict):
-    """Call the case's function on its arguments; return the result in JSON form."""
+    """Call the case's function on its arguments; return the result in JSON form.
+
+    >>> from accompy.chord_resolution import get_chord_resolver, set_chord_resolver
+    >>> previous = get_chord_resolver()
+    >>> set_chord_resolver(lambda symbol: [60])
+    >>> run_case({"fn": "generate_events", "args": ["| C |"]})[0] == [0, 9, 51, 72, 0.25]
+    True
+    >>> set_chord_resolver(previous)
+    """
     name = case["fn"]
     if name not in TWIN_FUNCTIONS:
         raise ValueError(
@@ -173,7 +196,8 @@ def run_case(case: dict):
     _check_kwargs(name, func, kwargs)
     try:
         args = [_decode(a) for a in case.get("args", [])]
-        result = func(*args, **{k: _decode_kwarg(k, v) for k, v in kwargs.items()})
+        decoded = {k: _decode_kwarg(k, v) for k, v in kwargs.items()}
+        result = func(*args, **{**_pinned_kwargs(name), **decoded})
     except RAISES as error:
         return {"$raises": type(error).__name__}
     return to_json(result)

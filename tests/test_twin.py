@@ -67,3 +67,17 @@ def test_generated_ts_tables_are_current():
     assert committed == _codegen.render_ts(), (
         "ts/src/data.generated.ts is stale: run `python -m accompy._codegen`"
     )
+
+
+def test_cases_do_not_depend_on_the_global_chord_resolver():
+    from accompy import _fixtures
+    from accompy.chord_resolution import get_chord_resolver, set_chord_resolver
+
+    cases = [c for c in _fixtures.load()["cases"] if c["fn"] == "generate_events"]
+    previous = get_chord_resolver()
+    set_chord_resolver(lambda symbol: [60])
+    try:
+        for case in cases:
+            assert _fixtures.same(_fixtures.run_case(case), case["expected"]), case["args"]
+    finally:
+        set_chord_resolver(previous)

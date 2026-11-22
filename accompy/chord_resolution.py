@@ -143,7 +143,11 @@ def set_chord_resolver(resolver: ChordResolver) -> None:
         >>> def my_resolver(symbol: str) -> list[int]:
         ...     # Custom chord voicing logic
         ...     return [60, 64, 67]  # C major triad
+        >>> previous = get_chord_resolver()
         >>> set_chord_resolver(my_resolver)
+        >>> chord_to_notes("Dm7")
+        [60, 64, 67]
+        >>> set_chord_resolver(previous)  # put the default back: the setting is process-global
     """
     global _default_resolver
     _default_resolver = resolver
