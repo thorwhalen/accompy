@@ -1,32 +1,32 @@
 {
   "schema_version": 1,
-  "built_at": "2026-11-22T12:03:47Z",
+  "built_at": "2026-11-22T12:07:22Z",
   "package": {
     "name": "accompy",
-    "version": "0.3.18",
+    "version": "0.3.19",
     "display_name": "accompy",
     "source": "pyproject.toml"
   },
   "git": {
     "available": true,
-    "commit": "d58124b60c50a136cd5dc69f2c6e74692d883150",
-    "short_commit": "d58124b",
+    "commit": "1717140ce7e7555d61b83d1be72e932e7e944990",
+    "short_commit": "1717140",
     "branch": "main",
     "tags": [],
     "dirty": false,
     "remote_url": "https://github.com/thorwhalen/accompy",
-    "commit_url": "https://github.com/thorwhalen/accompy/commit/d58124b60c50a136cd5dc69f2c6e74692d883150",
+    "commit_url": "https://github.com/thorwhalen/accompy/commit/1717140ce7e7555d61b83d1be72e932e7e944990",
     "error": null
   },
   "ci": {
     "provider": "github",
     "repository": "thorwhalen/accompy",
-    "sha": "d58124b60c50a136cd5dc69f2c6e74692d883150",
+    "sha": "1717140ce7e7555d61b83d1be72e932e7e944990",
     "sha_in_history": true,
     "ref": "refs/heads/main",
     "ref_name": "main",
-    "run_id": "45020188548",
-    "run_url": "https://github.com/thorwhalen/accompy/actions/runs/45020188548",
+    "run_id": "45020491742",
+    "run_url": "https://github.com/thorwhalen/accompy/actions/runs/45020491742",
     "server_url": "https://github.com"
   },
   "tools": {
@@ -61,15 +61,13 @@
   "pypi": {
     "checked": true,
     "latest": "0.3.19",
-    "relation": "behind",
+    "relation": "same",
     "error": null
   },
-  "reproduce": "git clone https://github.com/thorwhalen/accompy && cd accompy\ngit checkout d58124b60c50a136cd5dc69f2c6e74692d883150\npip install \"epythet==0.2.23\"\nepythet quickstart . --ignore tests/ scrap/ examples/",
+  "reproduce": "git clone https://github.com/thorwhalen/accompy && cd accompy\ngit checkout 1717140ce7e7555d61b83d1be72e932e7e944990\npip install \"epythet==0.2.23\"\nepythet quickstart . --ignore tests/ scrap/ examples/",
   "warnings": [],
   "alignment": {
-    "aligned": false,
-    "notes": [
-      "The documented version (0.3.18) is behind the latest release on PyPI (0.3.19): `pip install accompy` gives newer code than these docs describe."
-    ]
+    "aligned": true,
+    "notes": []
   }
 }
