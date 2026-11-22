@@ -17,7 +17,7 @@ from typing import Any, Optional, Union, Literal
 from .base import Score, AccompanimentConfig, ensure_score, BackendType, StyleName
 from .patterns import get_pattern_registry
 from .chord_resolution import get_chord_resolver
-from .renderers.midi import generate_builtin_midi
+from .renderers.midi import generate_builtin_midi, style_time_signature
 from .synthesis import get_default_backend
 
 
@@ -114,7 +114,12 @@ def generate_accompaniment(
         config.output_format = output_format  # type: ignore[assignment]
 
     # Ensure Score object
-    score = ensure_score(chords)
+    score = ensure_score(
+        chords,
+        time_signature=style_time_signature(
+            config.pattern_source or get_pattern_registry(), config.style
+        ),
+    )
 
     # Determine output path
     if output_path is None:

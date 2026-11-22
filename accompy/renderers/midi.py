@@ -11,6 +11,7 @@ Key functions:
 
 from __future__ import annotations
 
+import math
 import re
 import tempfile
 from pathlib import Path
@@ -177,6 +178,20 @@ def _style_patterns(pattern_source, style: str) -> dict:
             if callable(pattern_source)
             else pattern_source.get(style, {})
         )
+
+
+def style_time_signature(pattern_source, style: str) -> tuple[int, int]:
+    """The meter a style implies: its first drum pattern's beats per bar over 4, else 4/4.
+
+    >>> from accompy.patterns import get_pattern_registry
+    >>> style_time_signature(get_pattern_registry(), "waltz")
+    (3, 4)
+    >>> style_time_signature(get_pattern_registry(), "swing")
+    (4, 4)
+    """
+    drums = _style_patterns(pattern_source, style).get("drums") or []
+    beats = getattr(drums[0], "beats_per_bar", None) if drums else None
+    return (beats or 4, 4)
 
 
 def select_patterns(patterns: Mapping, beats_per_bar: int) -> tuple:
@@ -473,7 +488,9 @@ def events_to_midi_file(
     # Set up tracks
     for channel, track in channel_to_track.items():
         midi.addTempo(track, 0, tempo)
-        midi.addTimeSignature(track, 0, time_signature[0], time_signature[1], 24)
+        midi.addTimeSignature(
+            track, 0, time_signature[0], int(math.log2(time_signature[1])), 24
+        )  # midiutil wants the denominator as a power of two
 
         # Set program (instrument) for the track
         if channel == 9:
@@ -542,7 +559,7 @@ def generate_events(
     *,
     style: str = "swing",
     repeats: int = 1,
-    time_signature: tuple[int, int] = (4, 4),
+    time_signature: Optional[tuple[int, int]] = None,
     instruments: Optional[Mapping[str, bool]] = None,
     volumes: Optional[Mapping[str, float]] = None,
     pattern_source=None,
@@ -552,7 +569,8 @@ def generate_events(
 
     ``chords`` is anything :func:`accompy.ensure_score` accepts (a chord string, an iReal
     URL, measures, chord symbols, ``(chord, beats)`` pairs, a Score);
-    ``time_signature`` applies to the forms that do not carry one. Times and durations
+    ``time_signature`` applies to the forms that do not carry one (default: the style's,
+    see :func:`style_time_signature`: 3/4 for ``waltz``, else 4/4). Times and durations
     are in beats: the events do not depend on tempo. ``repeats`` defaults to 1, as in
     :func:`accompy.generate_accompaniment`.
 
@@ -566,6 +584,9 @@ def generate_events(
     from ..chord_resolution import get_chord_resolver
     from ..patterns import get_pattern_registry
 
+    registry = get_pattern_registry() if pattern_source is None else pattern_source
+    if time_signature is None:
+        time_signature = style_time_signature(registry, style)
     score = ensure_score(chords, time_signature=time_signature)
     overrides = {
         k: dict(v)
@@ -577,9 +598,7 @@ def generate_events(
         generate_midi_events(
             score,
             config,
-            pattern_source=(
-                get_pattern_registry() if pattern_source is None else pattern_source
-            ),
+            pattern_source=registry,
             chord_resolver=(
                 get_chord_resolver() if chord_resolver is None else chord_resolver
             ),

@@ -229,6 +229,14 @@ export function chordEvents(chordNotes: readonly number[], opts: ChordEventsOpti
 }
 
 /**
+ * The meter a style implies: its first drum pattern's beats per bar over 4, else 4/4
+ * (3/4 for `waltz`).
+ */
+export function styleTimeSignature(source: PatternSource, style: string): [number, number] {
+  return [source.getPatterns(style).drums[0]?.beatsPerBar || 4, 4];
+}
+
+/**
  * `[offset, duration]` in beats of each of `nChords` chords sharing one bar. The bar is
  * always filled: with fewer chords than beats the remainder goes to the first chords (3 in
  * 4/4 get 2, 1, 1); with more chords than beats each gets `beatsPerBar / nChords`.
@@ -256,7 +264,7 @@ export interface GenerateOptions {
   style?: string;
   /** How many times the chart is played (default 1). */
   repeats?: number;
-  /** For chart forms that carry none (default `[4, 4]`). */
+  /** For chart forms that carry none (default: the style's, see {@link styleTimeSignature}). */
   timeSignature?: [number, number];
   instruments?: Instruments;
   volumes?: Volumes;
@@ -274,13 +282,14 @@ export interface GenerateOptions {
  * const events = generateEvents("| Dm7 | G7 | C^7 |", { style: "swing" });
  */
 export function generateEvents(chords: string | Score | unknown, opts: GenerateOptions = {}): NoteEvent[] {
-  const score = ensureScore(chords, { timeSignature: opts.timeSignature ?? [4, 4] });
   const source = opts.patternSource ?? getPatternRegistry();
+  const style = opts.style ?? "swing";
+  const score = ensureScore(chords, { timeSignature: opts.timeSignature ?? styleTimeSignature(source, style) });
   const resolve = opts.chordResolver ?? ((s: string) => tonalResolver(s));
   const instruments = opts.instruments ?? DEFAULT_INSTRUMENTS;
   const volumes = opts.volumes ?? DEFAULT_VOLUMES;
   const beatsPerBar = score.timeSignature[0];
-  const patterns = selectPatterns(source.getPatterns(opts.style ?? "swing"), beatsPerBar);
+  const patterns = selectPatterns(source.getPatterns(style), beatsPerBar);
   const repeats = opts.repeats ?? 1;
   if (!Number.isInteger(repeats)) throw new TypeError(`repeats must be an integer, got ${repeats}`);
   const out: NoteEvent[] = [];
