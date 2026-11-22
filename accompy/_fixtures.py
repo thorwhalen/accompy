@@ -171,9 +171,7 @@ def _pinned_kwargs(name: str) -> dict:
     registry = PatternRegistry()
     registry.register_builtin_patterns()
     pins = {"generate_events": {"chord_resolver": tonal_resolver}, "chord_events": {}}
-    return (
-        {"pattern_source": registry, **pins[name]} if name in pins else {}
-    )
+    return {"pattern_source": registry, **pins[name]} if name in pins else {}
 
 
 def run_case(case: dict):
