@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { prepareRenderer } from "./renderer_choice.js";
+import { closeRenderer, prepareRenderer } from "./renderer_choice.js";
 
 const context = /** @type {BaseAudioContext} */ ({});
 const oscillator = { createRenderer: () => ({ name: "oscillator", play() {}, allOff() {} }) };
@@ -30,5 +30,29 @@ describe("prepareRenderer", () => {
       expect(renderer.name).toBe("oscillator");
       expect(notice).toMatch(why);
     }
+  });
+  it("closes the injected renderer it abandons, and not the one it keeps", async () => {
+    const closed = [];
+    const rejects = named("bad", { load: async () => false, close: () => closed.push("bad") });
+    await prepareRenderer(Promise.resolve(rejects), oscillator, context);
+    expect(closed).toEqual(["bad"]);
+    const keeps = named("good", { load: async () => true, close: () => closed.push("good") });
+    await prepareRenderer(Promise.resolve(keeps), oscillator, context);
+    expect(closed).toEqual(["bad"]);
+  });
+  it("falls back even when the abandoned renderer's close throws", async () => {
+    const bad = named("bad", { load: async () => false, close: () => { throw new Error("close failed"); } });
+    const { renderer } = await prepareRenderer(Promise.resolve(bad), oscillator, context);
+    expect(renderer.name).toBe("oscillator");
+  });
+});
+
+describe("closeRenderer", () => {
+  it("calls close when there is one, and tolerates none", async () => {
+    let calls = 0;
+    await closeRenderer({ close: () => calls++ });
+    await closeRenderer({});
+    await closeRenderer(null);
+    expect(calls).toBe(1);
   });
 });

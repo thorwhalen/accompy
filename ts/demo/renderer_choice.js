@@ -10,14 +10,32 @@
  *   the renderer, loaded, and why the fallback plays instead ("" when it does not)
  */
 export async function prepareRenderer(modulePromise, fallbackModule, context) {
+  /** The injected renderer once created: released if it turns out not to be used. */
+  let abandoned = null;
   try {
     const module = await modulePromise;
     if (typeof module?.createRenderer !== "function") throw new Error("the module has no createRenderer export");
     const renderer = module.createRenderer({ context });
+    abandoned = renderer;
     // load() may be called more than once; a renderer must make it idempotent (or cache its promise).
     if (renderer.load && (await renderer.load()) === false) throw new Error(renderer.status?.message ?? "its sounds did not load");
     return { renderer, notice: "" };
   } catch (error) {
+    await closeRenderer(abandoned);
     return { renderer: fallbackModule.createRenderer({ context }), notice: ` (renderer module not used: ${error?.message ?? error}; oscillator synth)` };
+  }
+}
+
+/**
+ * Release a renderer that is no longer used (swapped out, or abandoned by the fallback): its
+ * optional close() frees what it holds (a connected synth, a decoded bank). Never throws: a
+ * renderer that fails to close must not break the swap.
+ * @param {{ close?: Function } | null | undefined} renderer
+ */
+export async function closeRenderer(renderer) {
+  try {
+    await renderer?.close?.();
+  } catch {
+    /* nothing more to release */
   }
 }

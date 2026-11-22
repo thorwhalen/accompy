@@ -1,7 +1,9 @@
 // The demo's default renderer: a tiny Web Audio oscillator synth, no samples to load.
 // A renderer is what the demo plays note events into:
-//   createRenderer({ context, destination }) -> { play(part, pitch, velocity, time, duration), allOff(), load?() }
+//   createRenderer({ context, destination }) -> { play(part, pitch, velocity, time, duration), allOff(), load?(), close?() }
 // part is "drums" | "bass" | "piano"; velocity 0..1; time and duration in AudioContext seconds.
+// close() is optional: it releases what the renderer holds (nodes, worklets, decoded banks) and is
+// called when the renderer is swapped out or abandoned (see renderer_choice.js); play() is not used after.
 // Each note's end is scheduled with its start, so the renderer keeps no per-note state.
 
 const midiToHz = (note) => 440 * 2 ** ((note - 69) / 12);
@@ -102,6 +104,10 @@ export function createRenderer({ context: ctx, destination = ctx.destination }) 
         }
       }
       sources.clear();
+    },
+    close() {
+      this.allOff();
+      master.disconnect();
     },
   };
 }
