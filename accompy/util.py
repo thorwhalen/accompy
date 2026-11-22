@@ -16,19 +16,28 @@ from typing import Iterable, Optional
 #: ``new`` at the end of the symbol or of a part before a slash (longest ``old`` wins).
 CHORD_SYMBOL_REPLACEMENTS = (
     ("maj7", "^7"),
+    ("Maj7", "^7"),
+    ("M7", "^7"),
     ("maj9", "^9"),
+    ("Maj9", "^9"),
+    ("M9", "^9"),
     ("maj", "^"),
+    ("Maj", "^"),
     ("min7", "-7"),
+    ("mi7", "-7"),
+    ("mi9", "-9"),
     ("min", "-"),
+    ("mi", "-"),
     ("m7", "-7"),
     ("m9", "-9"),
     ("m", "-"),
     ("dim7", "o7"),
     ("dim", "o"),
+    ("\u00b07", "o7"),
+    ("\u00b0", "o"),
     ("m7b5", "h7"),
     ("ø7", "h7"),
     ("ø", "h"),
-    ("sus4", "sus"),
     ("sus2", "sus2"),
     ("add9", "add9"),
     ("add2", "add2"),
@@ -50,7 +59,8 @@ def normalize_chord_symbol(symbol: str) -> str:
     Handles conversions like:
     - Cm -> C-
     - Cmaj7 -> C^7
-    - Cdim -> Co
+    - Cdim, C° -> Co
+    - CM7, CMaj7 -> C^7; Cmi7 -> C-7
     - Cm7b5 -> Ch7 (half-diminished)
 
     Each ``/``-separated part of the symbol has its longest matching suffix from
