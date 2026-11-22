@@ -31,6 +31,7 @@ Key functions:
 | [`pitch_classes`](#accompy.renderers.midi.pitch_classes)(notes)                               | Return unique pitch classes (0-11) as a tuple.                                      |
 | [`resolve_pitch_offset`](#accompy.renderers.midi.resolve_pitch_offset)(\*, root_pc, chord_pcs, ...)  | Resolve a pitch offset against a chord.                                             |
 | [`select_patterns`](#accompy.renderers.midi.select_patterns)(patterns, beats_per_bar)           | The `(drum, bass, comp)` patterns the renderer plays from a style's pattern lists.  |
+| [`style_time_signature`](#accompy.renderers.midi.style_time_signature)(pattern_source, style)        | The meter a style implies: its first drum pattern's beats per bar over 4, else 4/4. |
 
 ### accompy.renderers.midi.FALLBACK_CHORD_NOTES *= (48, 52, 55)*
 
@@ -168,13 +169,14 @@ This is a convenience function that combines event generation and file writing.
 * **Returns:**
   Path to the generated MIDI file
 
-### accompy.renderers.midi.generate_events(chords, , style='swing', repeats=1, time_signature=(4, 4), instruments=None, volumes=None, pattern_source=None, chord_resolver=None)
+### accompy.renderers.midi.generate_events(chords, , style='swing', repeats=1, time_signature=None, instruments=None, volumes=None, pattern_source=None, chord_resolver=None)
 
 The note events the builtin backend plays for `chords`, without writing a file.
 
 `chords` is anything [`accompy.ensure_score()`](accompy.html.md#accompy.ensure_score) accepts (a chord string, an iReal
 URL, measures, chord symbols, `(chord, beats)` pairs, a Score);
-`time_signature` applies to the forms that do not carry one. Times and durations
+`time_signature` applies to the forms that do not carry one (default: the style’s,
+see [`style_time_signature()`](#accompy.renderers.midi.style_time_signature): 3/4 for `waltz`, else 4/4). Times and durations
 are in beats: the events do not depend on tempo. `repeats` defaults to 1, as in
 [`accompy.generate_accompaniment()`](accompy.html.md#accompy.generate_accompaniment).
 
@@ -258,3 +260,18 @@ bass and comping take the first of their list. A missing one is `None`.
 
 * **Return type:**
   [`tuple`](https://docs.python.org/3/builtins/stdtypes.html#tuple)
+
+### accompy.renderers.midi.style_time_signature(pattern_source, style)
+
+The meter a style implies: its first drum pattern’s beats per bar over 4, else 4/4.
+
+```pycon
+>>> from accompy.patterns import get_pattern_registry
+>>> style_time_signature(get_pattern_registry(), "waltz")
+(3, 4)
+>>> style_time_signature(get_pattern_registry(), "swing")
+(4, 4)
+```
+
+* **Return type:**
+  [`tuple`](https://docs.python.org/3/builtins/stdtypes.html#tuple)[[`int`](https://docs.python.org/3/builtins/functions.html#int), [`int`](https://docs.python.org/3/builtins/functions.html#int)]

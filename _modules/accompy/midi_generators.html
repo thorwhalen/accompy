@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=75c7c72ae941e8b558d8" />
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=75c7c72ae941e8b558d8" />
 
-    <script src="../../_static/documentation_options.js?v=3226d6c8"></script>
+    <script src="../../_static/documentation_options.js?v=965e52d1"></script>
     <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -411,7 +411,7 @@ window.runMermaid = runMermaid;</script>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="color-scheme" content="light dark"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="0.3.20" />
+  <meta name="docsearch:version" content="0.3.21" />
   
     
     <script src="../../_static/searchtools.js"></script>
@@ -728,6 +728,7 @@ window.runMermaid = runMermaid;</script>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 
+<span class="kn">import</span><span class="w"> </span><span class="nn">math</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">io</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Callable</span>
 
@@ -808,7 +809,9 @@ window.runMermaid = runMermaid;</script>
     <span class="n">track</span> <span class="o">=</span> <span class="mi">0</span>
     <span class="n">channel</span> <span class="o">=</span> <span class="mi">0</span>
     <span class="n">midi</span><span class="o">.</span><span class="n">addTempo</span><span class="p">(</span><span class="n">track</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">ns</span><span class="o">.</span><span class="n">tempo</span><span class="p">)</span>
-    <span class="n">midi</span><span class="o">.</span><span class="n">addTimeSignature</span><span class="p">(</span><span class="n">track</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">ns</span><span class="o">.</span><span class="n">time_signature</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">ns</span><span class="o">.</span><span class="n">time_signature</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="mi">24</span><span class="p">)</span>
+    <span class="n">midi</span><span class="o">.</span><span class="n">addTimeSignature</span><span class="p">(</span>
+        <span class="n">track</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">ns</span><span class="o">.</span><span class="n">time_signature</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nb">int</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">log2</span><span class="p">(</span><span class="n">ns</span><span class="o">.</span><span class="n">time_signature</span><span class="p">[</span><span class="mi">1</span><span class="p">])),</span> <span class="mi">24</span>
+    <span class="p">)</span>
     <span class="n">midi</span><span class="o">.</span><span class="n">addProgramChange</span><span class="p">(</span><span class="n">track</span><span class="p">,</span> <span class="n">channel</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>  <span class="c1"># Piano</span>
 
     <span class="n">current_beat</span> <span class="o">=</span> <span class="mf">0.0</span>

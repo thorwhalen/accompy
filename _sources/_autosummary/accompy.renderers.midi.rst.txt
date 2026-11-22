@@ -27,4 +27,5 @@ accompy.renderers.midi
       pitch_classes
       resolve_pitch_offset
       select_patterns
+      style_time_signature
    

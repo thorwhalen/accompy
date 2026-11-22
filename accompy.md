@@ -1,4 +1,4 @@
-> built 2026-11-22 12:10 UTC from 67c1021 (main) · accompy 0.3.20. Details: build_info.json
+> built 2026-11-22 12:17 UTC from 5afcc3a (main) · accompy 0.3.21. Details: build_info.json
 
 # index.html.md
 
@@ -3299,13 +3299,14 @@ with bass, drums, and piano from chord progressions.
 Requires FluidSynth and a SoundFont for audio rendering.
 For MIDI-only output, use output_format=”midi”.
 
-### accompy.generate_events(chords, , style='swing', repeats=1, time_signature=(4, 4), instruments=None, volumes=None, pattern_source=None, chord_resolver=None)
+### accompy.generate_events(chords, , style='swing', repeats=1, time_signature=None, instruments=None, volumes=None, pattern_source=None, chord_resolver=None)
 
 The note events the builtin backend plays for `chords`, without writing a file.
 
 `chords` is anything [`accompy.ensure_score()`](_autosummary/accompy.html.md#accompy.ensure_score) accepts (a chord string, an iReal
 URL, measures, chord symbols, `(chord, beats)` pairs, a Score);
-`time_signature` applies to the forms that do not carry one. Times and durations
+`time_signature` applies to the forms that do not carry one (default: the style’s,
+see `style_time_signature()`: 3/4 for `waltz`, else 4/4). Times and durations
 are in beats: the events do not depend on tempo. `repeats` defaults to 1, as in
 [`accompy.generate_accompaniment()`](_autosummary/accompy.html.md#accompy.generate_accompaniment).
 
@@ -5544,13 +5545,14 @@ Write MIDI events to a MIDI file.
 #### NOTE
 Requires midiutil: pip install midiutil
 
-### accompy.renderers.generate_events(chords, , style='swing', repeats=1, time_signature=(4, 4), instruments=None, volumes=None, pattern_source=None, chord_resolver=None)
+### accompy.renderers.generate_events(chords, , style='swing', repeats=1, time_signature=None, instruments=None, volumes=None, pattern_source=None, chord_resolver=None)
 
 The note events the builtin backend plays for `chords`, without writing a file.
 
 `chords` is anything [`accompy.ensure_score()`](_autosummary/accompy.html.md#accompy.ensure_score) accepts (a chord string, an iReal
 URL, measures, chord symbols, `(chord, beats)` pairs, a Score);
-`time_signature` applies to the forms that do not carry one. Times and durations
+`time_signature` applies to the forms that do not carry one (default: the style’s,
+see `style_time_signature()`: 3/4 for `waltz`, else 4/4). Times and durations
 are in beats: the events do not depend on tempo. `repeats` defaults to 1, as in
 [`accompy.generate_accompaniment()`](_autosummary/accompy.html.md#accompy.generate_accompaniment).
 
@@ -5676,6 +5678,7 @@ Key functions:
 | [`pitch_classes`](_autosummary/accompy.renderers.midi.html.md#accompy.renderers.midi.pitch_classes)(notes)                               | Return unique pitch classes (0-11) as a tuple.                                      |
 | [`resolve_pitch_offset`](_autosummary/accompy.renderers.midi.html.md#accompy.renderers.midi.resolve_pitch_offset)(\*, root_pc, chord_pcs, ...)  | Resolve a pitch offset against a chord.                                             |
 | [`select_patterns`](_autosummary/accompy.renderers.midi.html.md#accompy.renderers.midi.select_patterns)(patterns, beats_per_bar)           | The `(drum, bass, comp)` patterns the renderer plays from a style's pattern lists.  |
+| [`style_time_signature`](_autosummary/accompy.renderers.midi.html.md#accompy.renderers.midi.style_time_signature)(pattern_source, style)        | The meter a style implies: its first drum pattern's beats per bar over 4, else 4/4. |
 
 ### accompy.renderers.midi.FALLBACK_CHORD_NOTES *= (48, 52, 55)*
 
@@ -5813,13 +5816,14 @@ This is a convenience function that combines event generation and file writing.
 * **Returns:**
   Path to the generated MIDI file
 
-### accompy.renderers.midi.generate_events(chords, , style='swing', repeats=1, time_signature=(4, 4), instruments=None, volumes=None, pattern_source=None, chord_resolver=None)
+### accompy.renderers.midi.generate_events(chords, , style='swing', repeats=1, time_signature=None, instruments=None, volumes=None, pattern_source=None, chord_resolver=None)
 
 The note events the builtin backend plays for `chords`, without writing a file.
 
 `chords` is anything [`accompy.ensure_score()`](_autosummary/accompy.html.md#accompy.ensure_score) accepts (a chord string, an iReal
 URL, measures, chord symbols, `(chord, beats)` pairs, a Score);
-`time_signature` applies to the forms that do not carry one. Times and durations
+`time_signature` applies to the forms that do not carry one (default: the style’s,
+see [`style_time_signature()`](_autosummary/accompy.renderers.midi.html.md#accompy.renderers.midi.style_time_signature): 3/4 for `waltz`, else 4/4). Times and durations
 are in beats: the events do not depend on tempo. `repeats` defaults to 1, as in
 [`accompy.generate_accompaniment()`](_autosummary/accompy.html.md#accompy.generate_accompaniment).
 
@@ -5903,6 +5907,21 @@ bass and comping take the first of their list. A missing one is `None`.
 
 * **Return type:**
   [`tuple`](https://docs.python.org/3/builtins/stdtypes.html#tuple)
+
+### accompy.renderers.midi.style_time_signature(pattern_source, style)
+
+The meter a style implies: its first drum pattern’s beats per bar over 4, else 4/4.
+
+```pycon
+>>> from accompy.patterns import get_pattern_registry
+>>> style_time_signature(get_pattern_registry(), "waltz")
+(3, 4)
+>>> style_time_signature(get_pattern_registry(), "swing")
+(4, 4)
+```
+
+* **Return type:**
+  [`tuple`](https://docs.python.org/3/builtins/stdtypes.html#tuple)[[`int`](https://docs.python.org/3/builtins/functions.html#int), [`int`](https://docs.python.org/3/builtins/functions.html#int)]
 
 
 # _autosummary/accompy.rendering.html.md
@@ -6962,16 +6981,18 @@ Backward-compat shim. Use `accompy.converters` instead.
 
 # About this build
 
-This documentation was built on **2026-11-22 12:10 UTC** from commit <a href="https://github.com/thorwhalen/accompy/commit/67c10213277fa39aaa61f9e2a6d4df8f96634378"><code>67c1021</code></a> on branch <code>main</code>, for **accompy 0.3.20** (from <code>pyproject.toml</code>).
+This documentation was built on **2026-11-22 12:17 UTC** from commit <a href="https://github.com/thorwhalen/accompy/commit/5afcc3aca9095d2545d286ac373afb4f4aa08c11"><code>5afcc3a</code></a> on branch <code>main</code>, for **accompy 0.3.21** (from <code>pyproject.toml</code>).
 
-#### NOTE
-Nothing suggests a mismatch: the tree was clean at the commit above, and the documented version is the one on PyPI.
+#### WARNING
+The documentation and the package may be misaligned:
+
+- The documented version (0.3.21) is behind the latest release on PyPI (0.3.22): `pip install accompy` gives newer code than these docs describe.
 
 ## Source
 
 |                     |                                                                                                                                                           |
 |---------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Commit              | <a href="https://github.com/thorwhalen/accompy/commit/67c10213277fa39aaa61f9e2a6d4df8f96634378"><code>67c10213277fa39aaa61f9e2a6d4df8f96634378</code></a> |
+| Commit              | <a href="https://github.com/thorwhalen/accompy/commit/5afcc3aca9095d2545d286ac373afb4f4aa08c11"><code>5afcc3aca9095d2545d286ac373afb4f4aa08c11</code></a> |
 | Branch              | <code>main</code>                                                                                                                                         |
 | Tags at this commit | none                                                                                                                                                      |
 | Working tree        | clean                                                                                                                                                     |
@@ -6982,9 +7003,9 @@ Nothing suggests a mismatch: the tree was clean at the commit above, and the doc
 |              |                                                                                            |
 |--------------|--------------------------------------------------------------------------------------------|
 | Repository   | <code>thorwhalen/accompy</code>                                                            |
-| Run          | <a href="https://github.com/thorwhalen/accompy/actions/runs/45020790272">45020790272</a>   |
+| Run          | <a href="https://github.com/thorwhalen/accompy/actions/runs/45021315823">45021315823</a>   |
 | Ref          | <code>refs/heads/main</code>                                                               |
-| Event commit | <code>67c10213277fa39aaa61f9e2a6d4df8f96634378</code> (in the history of the built commit) |
+| Event commit | <code>5afcc3aca9095d2545d286ac373afb4f4aa08c11</code> (in the history of the built commit) |
 
 ## Tools
 
@@ -7009,13 +7030,13 @@ Nothing suggests a mismatch: the tree was clean at the commit above, and the doc
 
 ## Package on PyPI
 
-Latest release: <a href="https://pypi.org/project/accompy/0.3.20/">0.3.20</a>, the same as the documented version.
+Latest release: <a href="https://pypi.org/project/accompy/0.3.22/">0.3.22</a>, newer than the documented version (0.3.21).
 
 ## Reproduce
 
 ```bash
 git clone https://github.com/thorwhalen/accompy && cd accompy
-git checkout 67c10213277fa39aaa61f9e2a6d4df8f96634378
+git checkout 5afcc3aca9095d2545d286ac373afb4f4aa08c11
 pip install "epythet==0.2.23"
 epythet quickstart . --ignore tests/ scrap/ examples/
 ```

@@ -1237,13 +1237,14 @@ with bass, drums, and piano from chord progressions.
 Requires FluidSynth and a SoundFont for audio rendering.
 For MIDI-only output, use output_format=”midi”.
 
-### accompy.generate_events(chords, , style='swing', repeats=1, time_signature=(4, 4), instruments=None, volumes=None, pattern_source=None, chord_resolver=None)
+### accompy.generate_events(chords, , style='swing', repeats=1, time_signature=None, instruments=None, volumes=None, pattern_source=None, chord_resolver=None)
 
 The note events the builtin backend plays for `chords`, without writing a file.
 
 `chords` is anything [`accompy.ensure_score()`](#accompy.ensure_score) accepts (a chord string, an iReal
 URL, measures, chord symbols, `(chord, beats)` pairs, a Score);
-`time_signature` applies to the forms that do not carry one. Times and durations
+`time_signature` applies to the forms that do not carry one (default: the style’s,
+see `style_time_signature()`: 3/4 for `waltz`, else 4/4). Times and durations
 are in beats: the events do not depend on tempo. `repeats` defaults to 1, as in
 [`accompy.generate_accompaniment()`](#accompy.generate_accompaniment).
 

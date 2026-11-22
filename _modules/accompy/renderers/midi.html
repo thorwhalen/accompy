@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=75c7c72ae941e8b558d8" />
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=75c7c72ae941e8b558d8" />
 
-    <script src="../../../_static/documentation_options.js?v=3226d6c8"></script>
+    <script src="../../../_static/documentation_options.js?v=965e52d1"></script>
     <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -411,7 +411,7 @@ window.runMermaid = runMermaid;</script>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="color-scheme" content="light dark"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="0.3.20" />
+  <meta name="docsearch:version" content="0.3.21" />
   
     
     <script src="../../../_static/searchtools.js"></script>
@@ -725,6 +725,7 @@ window.runMermaid = runMermaid;</script>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 
+<span class="kn">import</span><span class="w"> </span><span class="nn">math</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">tempfile</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
@@ -900,6 +901,23 @@ window.runMermaid = runMermaid;</script>
             <span class="k">if</span> <span class="nb">callable</span><span class="p">(</span><span class="n">pattern_source</span><span class="p">)</span>
             <span class="k">else</span> <span class="n">pattern_source</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">style</span><span class="p">,</span> <span class="p">{})</span>
         <span class="p">)</span>
+
+
+<div class="viewcode-block" id="style_time_signature">
+<a class="viewcode-back" href="../../../_autosummary/accompy.renderers.midi.html#accompy.style_time_signature">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">style_time_signature</span><span class="p">(</span><span class="n">pattern_source</span><span class="p">,</span> <span class="n">style</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">"""The meter a style implies: its first drum pattern's beats per bar over 4, else 4/4.</span>
+
+<span class="sd">    &gt;&gt;&gt; from accompy.patterns import get_pattern_registry</span>
+<span class="sd">    &gt;&gt;&gt; style_time_signature(get_pattern_registry(), "waltz")</span>
+<span class="sd">    (3, 4)</span>
+<span class="sd">    &gt;&gt;&gt; style_time_signature(get_pattern_registry(), "swing")</span>
+<span class="sd">    (4, 4)</span>
+<span class="sd">    """</span>
+    <span class="n">drums</span> <span class="o">=</span> <span class="n">_style_patterns</span><span class="p">(</span><span class="n">pattern_source</span><span class="p">,</span> <span class="n">style</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"drums"</span><span class="p">)</span> <span class="ow">or</span> <span class="p">[]</span>
+    <span class="n">beats</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">drums</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="s2">"beats_per_bar"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="k">if</span> <span class="n">drums</span> <span class="k">else</span> <span class="kc">None</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">beats</span> <span class="ow">or</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span></div>
+
 
 
 <div class="viewcode-block" id="select_patterns">
@@ -1216,7 +1234,9 @@ window.runMermaid = runMermaid;</script>
     <span class="c1"># Set up tracks</span>
     <span class="k">for</span> <span class="n">channel</span><span class="p">,</span> <span class="n">track</span> <span class="ow">in</span> <span class="n">channel_to_track</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
         <span class="n">midi</span><span class="o">.</span><span class="n">addTempo</span><span class="p">(</span><span class="n">track</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">tempo</span><span class="p">)</span>
-        <span class="n">midi</span><span class="o">.</span><span class="n">addTimeSignature</span><span class="p">(</span><span class="n">track</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">time_signature</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">time_signature</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="mi">24</span><span class="p">)</span>
+        <span class="n">midi</span><span class="o">.</span><span class="n">addTimeSignature</span><span class="p">(</span>
+            <span class="n">track</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">time_signature</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nb">int</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">log2</span><span class="p">(</span><span class="n">time_signature</span><span class="p">[</span><span class="mi">1</span><span class="p">])),</span> <span class="mi">24</span>
+        <span class="p">)</span>  <span class="c1"># midiutil wants the denominator as a power of two</span>
 
         <span class="c1"># Set program (instrument) for the track</span>
         <span class="k">if</span> <span class="n">channel</span> <span class="o">==</span> <span class="mi">9</span><span class="p">:</span>
@@ -1291,7 +1311,7 @@ window.runMermaid = runMermaid;</script>
     <span class="o">*</span><span class="p">,</span>
     <span class="n">style</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"swing"</span><span class="p">,</span>
     <span class="n">repeats</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
-    <span class="n">time_signature</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span>
+    <span class="n">time_signature</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">instruments</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">bool</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">volumes</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">pattern_source</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -1301,7 +1321,8 @@ window.runMermaid = runMermaid;</script>
 
 <span class="sd">    ``chords`` is anything :func:`accompy.ensure_score` accepts (a chord string, an iReal</span>
 <span class="sd">    URL, measures, chord symbols, ``(chord, beats)`` pairs, a Score);</span>
-<span class="sd">    ``time_signature`` applies to the forms that do not carry one. Times and durations</span>
+<span class="sd">    ``time_signature`` applies to the forms that do not carry one (default: the style's,</span>
+<span class="sd">    see :func:`style_time_signature`: 3/4 for ``waltz``, else 4/4). Times and durations</span>
 <span class="sd">    are in beats: the events do not depend on tempo. ``repeats`` defaults to 1, as in</span>
 <span class="sd">    :func:`accompy.generate_accompaniment`.</span>
 
@@ -1315,6 +1336,9 @@ window.runMermaid = runMermaid;</script>
     <span class="kn">from</span><span class="w"> </span><span class="nn">..chord_resolution</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_chord_resolver</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">..patterns</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_pattern_registry</span>
 
+    <span class="n">registry</span> <span class="o">=</span> <span class="n">get_pattern_registry</span><span class="p">()</span> <span class="k">if</span> <span class="n">pattern_source</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">pattern_source</span>
+    <span class="k">if</span> <span class="n">time_signature</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">time_signature</span> <span class="o">=</span> <span class="n">style_time_signature</span><span class="p">(</span><span class="n">registry</span><span class="p">,</span> <span class="n">style</span><span class="p">)</span>
     <span class="n">score</span> <span class="o">=</span> <span class="n">ensure_score</span><span class="p">(</span><span class="n">chords</span><span class="p">,</span> <span class="n">time_signature</span><span class="o">=</span><span class="n">time_signature</span><span class="p">)</span>
     <span class="n">overrides</span> <span class="o">=</span> <span class="p">{</span>
         <span class="n">k</span><span class="p">:</span> <span class="nb">dict</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
@@ -1326,9 +1350,7 @@ window.runMermaid = runMermaid;</script>
         <span class="n">generate_midi_events</span><span class="p">(</span>
             <span class="n">score</span><span class="p">,</span>
             <span class="n">config</span><span class="p">,</span>
-            <span class="n">pattern_source</span><span class="o">=</span><span class="p">(</span>
-                <span class="n">get_pattern_registry</span><span class="p">()</span> <span class="k">if</span> <span class="n">pattern_source</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">pattern_source</span>
-            <span class="p">),</span>
+            <span class="n">pattern_source</span><span class="o">=</span><span class="n">registry</span><span class="p">,</span>
             <span class="n">chord_resolver</span><span class="o">=</span><span class="p">(</span>
                 <span class="n">get_chord_resolver</span><span class="p">()</span> <span class="k">if</span> <span class="n">chord_resolver</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">chord_resolver</span>
             <span class="p">),</span>

@@ -44,7 +44,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=75c7c72ae941e8b558d8" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=75c7c72ae941e8b558d8" />
 
-    <script src="../_static/documentation_options.js?v=3226d6c8"></script>
+    <script src="../_static/documentation_options.js?v=965e52d1"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -58,7 +58,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="color-scheme" content="light dark"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="0.3.20" />
+  <meta name="docsearch:version" content="0.3.21" />
   
     
     <script src="../_static/searchtools.js"></script>
@@ -490,6 +490,9 @@ from file writing, enabling both batch file creation and future real-time stream
 <tr class="row-even"><td><p><a class="reference internal" href="#accompy.renderers.midi.select_patterns" title="accompy.renderers.midi.select_patterns"><code class="xref py py-obj docutils literal notranslate"><span class="pre">select_patterns</span></code></a>(patterns, beats_per_bar)</p></td>
 <td><p>The <code class="docutils literal notranslate"><span class="pre">(drum,</span> <span class="pre">bass,</span> <span class="pre">comp)</span></code> patterns the renderer plays from a style's pattern lists.</p></td>
 </tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#accompy.renderers.midi.style_time_signature" title="accompy.renderers.midi.style_time_signature"><code class="xref py py-obj docutils literal notranslate"><span class="pre">style_time_signature</span></code></a>(pattern_source, style)</p></td>
+<td><p>The meter a style implies: its first drum pattern's beats per bar over 4, else 4/4.</p></td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -665,11 +668,12 @@ unless the symbol says minor (<code class="docutils literal notranslate"><span c
 
 <dl class="py function">
 <dt class="sig sig-object py" id="accompy.renderers.midi.generate_events">
-<span class="sig-prename descclassname"><span class="pre">accompy.renderers.midi.</span></span><span class="sig-name descname"><span class="pre">generate_events</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">chords</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">style</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'swing'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">repeats</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time_signature</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(4,</span> <span class="pre">4)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">instruments</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">volumes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pattern_source</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chord_resolver</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/accompy/renderers/midi.html#generate_events"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#accompy.renderers.midi.generate_events" title="Link to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">accompy.renderers.midi.</span></span><span class="sig-name descname"><span class="pre">generate_events</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">chords</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">style</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'swing'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">repeats</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time_signature</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">instruments</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">volumes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pattern_source</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chord_resolver</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/accompy/renderers/midi.html#generate_events"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#accompy.renderers.midi.generate_events" title="Link to this definition">#</a></dt>
 <dd><p>The note events the builtin backend plays for <code class="docutils literal notranslate"><span class="pre">chords</span></code>, without writing a file.</p>
 <p><code class="docutils literal notranslate"><span class="pre">chords</span></code> is anything <a class="reference internal" href="accompy.html#accompy.ensure_score" title="accompy.ensure_score"><code class="xref py py-func docutils literal notranslate"><span class="pre">accompy.ensure_score()</span></code></a> accepts (a chord string, an iReal
 URL, measures, chord symbols, <code class="docutils literal notranslate"><span class="pre">(chord,</span> <span class="pre">beats)</span></code> pairs, a Score);
-<code class="docutils literal notranslate"><span class="pre">time_signature</span></code> applies to the forms that do not carry one. Times and durations
+<code class="docutils literal notranslate"><span class="pre">time_signature</span></code> applies to the forms that do not carry one (default: the style’s,
+see <a class="reference internal" href="#accompy.renderers.midi.style_time_signature" title="accompy.renderers.midi.style_time_signature"><code class="xref py py-func docutils literal notranslate"><span class="pre">style_time_signature()</span></code></a>: 3/4 for <code class="docutils literal notranslate"><span class="pre">waltz</span></code>, else 4/4). Times and durations
 are in beats: the events do not depend on tempo. <code class="docutils literal notranslate"><span class="pre">repeats</span></code> defaults to 1, as in
 <a class="reference internal" href="accompy.html#accompy.generate_accompaniment" title="accompy.generate_accompaniment"><code class="xref py py-func docutils literal notranslate"><span class="pre">accompy.generate_accompaniment()</span></code></a>.</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">events</span> <span class="o">=</span> <span class="n">generate_events</span><span class="p">(</span><span class="s2">"| C | G |"</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s2">"bossa"</span><span class="p">)</span>
@@ -768,6 +772,24 @@ bass and comping take the first of their list. A missing one is <code class="doc
 </dl>
 </dd></dl>
 
+<dl class="py function">
+<dt class="sig sig-object py" id="accompy.renderers.midi.style_time_signature">
+<span class="sig-prename descclassname"><span class="pre">accompy.renderers.midi.</span></span><span class="sig-name descname"><span class="pre">style_time_signature</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pattern_source</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">style</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/accompy/renderers/midi.html#style_time_signature"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#accompy.renderers.midi.style_time_signature" title="Link to this definition">#</a></dt>
+<dd><p>The meter a style implies: its first drum pattern’s beats per bar over 4, else 4/4.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">accompy.patterns</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_pattern_registry</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">style_time_signature</span><span class="p">(</span><span class="n">get_pattern_registry</span><span class="p">(),</span> <span class="s2">"waltz"</span><span class="p">)</span>
+<span class="go">(3, 4)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">style_time_signature</span><span class="p">(</span><span class="n">get_pattern_registry</span><span class="p">(),</span> <span class="s2">"swing"</span><span class="p">)</span>
+<span class="go">(4, 4)</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#tuple" title="(in Python v3.15)"><code class="xref py py-class docutils literal notranslate"><span class="pre">tuple</span></code></a>[<a class="reference external" href="https://docs.python.org/3/builtins/functions.html#int" title="(in Python v3.15)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, <a class="reference external" href="https://docs.python.org/3/builtins/functions.html#int" title="(in Python v3.15)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>]</span></p>
+</dd>
+</dl>
+</dd></dl>
+
 </section>
 
 
@@ -831,6 +853,7 @@ bass and comping take the first of their list. A missing one is <code class="doc
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#accompy.renderers.midi.pitch_classes"><code class="docutils literal notranslate"><span class="pre">pitch_classes()</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#accompy.renderers.midi.resolve_pitch_offset"><code class="docutils literal notranslate"><span class="pre">resolve_pitch_offset()</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#accompy.renderers.midi.select_patterns"><code class="docutils literal notranslate"><span class="pre">select_patterns()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#accompy.renderers.midi.style_time_signature"><code class="docutils literal notranslate"><span class="pre">style_time_signature()</span></code></a></li>
 </ul>
   </nav></div>
 

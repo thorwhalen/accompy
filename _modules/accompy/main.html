@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=75c7c72ae941e8b558d8" />
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=75c7c72ae941e8b558d8" />
 
-    <script src="../../_static/documentation_options.js?v=3226d6c8"></script>
+    <script src="../../_static/documentation_options.js?v=965e52d1"></script>
     <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -411,7 +411,7 @@ window.runMermaid = runMermaid;</script>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="color-scheme" content="light dark"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="0.3.20" />
+  <meta name="docsearch:version" content="0.3.21" />
   
     
     <script src="../../_static/searchtools.js"></script>
@@ -731,7 +731,7 @@ window.runMermaid = runMermaid;</script>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">Score</span><span class="p">,</span> <span class="n">AccompanimentConfig</span><span class="p">,</span> <span class="n">ensure_score</span><span class="p">,</span> <span class="n">BackendType</span><span class="p">,</span> <span class="n">StyleName</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.patterns</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_pattern_registry</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.chord_resolution</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_chord_resolver</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">.renderers.midi</span><span class="w"> </span><span class="kn">import</span> <span class="n">generate_builtin_midi</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.renderers.midi</span><span class="w"> </span><span class="kn">import</span> <span class="n">generate_builtin_midi</span><span class="p">,</span> <span class="n">style_time_signature</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.synthesis</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_default_backend</span>
 
 
@@ -830,7 +830,12 @@ window.runMermaid = runMermaid;</script>
         <span class="n">config</span><span class="o">.</span><span class="n">output_format</span> <span class="o">=</span> <span class="n">output_format</span>  <span class="c1"># type: ignore[assignment]</span>
 
     <span class="c1"># Ensure Score object</span>
-    <span class="n">score</span> <span class="o">=</span> <span class="n">ensure_score</span><span class="p">(</span><span class="n">chords</span><span class="p">)</span>
+    <span class="n">score</span> <span class="o">=</span> <span class="n">ensure_score</span><span class="p">(</span>
+        <span class="n">chords</span><span class="p">,</span>
+        <span class="n">time_signature</span><span class="o">=</span><span class="n">style_time_signature</span><span class="p">(</span>
+            <span class="n">config</span><span class="o">.</span><span class="n">pattern_source</span> <span class="ow">or</span> <span class="n">get_pattern_registry</span><span class="p">(),</span> <span class="n">config</span><span class="o">.</span><span class="n">style</span>
+        <span class="p">),</span>
+    <span class="p">)</span>
 
     <span class="c1"># Determine output path</span>
     <span class="k">if</span> <span class="n">output_path</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
