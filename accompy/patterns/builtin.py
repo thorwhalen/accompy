@@ -353,6 +353,14 @@ WALTZ_BASS = BassPattern(
     ],
 )
 
+WALTZ_COMP = CompingPattern(
+    name="waltz_comp",
+    hits=[
+        (1, 0.9, 70),  # the two "pah" beats after the bass's "oom"
+        (2, 0.9, 70),
+    ],
+)
+
 
 # =============================================================================
 # BLUES PATTERNS
@@ -426,6 +434,6 @@ COMP_PATTERNS = {
     "funk": [],
     "ballad": [BALLAD_COMP],
     "latin": [],
-    "waltz": [],
+    "waltz": [WALTZ_COMP],
     "blues": [],
 }

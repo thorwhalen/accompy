@@ -14,6 +14,7 @@ combine chord resolution + MIDI generation in one step.
 
 from __future__ import annotations
 
+import math
 import io
 from typing import Callable
 
@@ -89,7 +90,9 @@ def noteseq_to_midi_midiutil(ns: NoteSequence) -> MidiData:
     track = 0
     channel = 0
     midi.addTempo(track, 0, ns.tempo)
-    midi.addTimeSignature(track, 0, ns.time_signature[0], ns.time_signature[1], 24)
+    midi.addTimeSignature(
+        track, 0, ns.time_signature[0], int(math.log2(ns.time_signature[1])), 24
+    )
     midi.addProgramChange(track, channel, 0, 0)  # Piano
 
     current_beat = 0.0

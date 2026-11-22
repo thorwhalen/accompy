@@ -515,3 +515,32 @@ def test_unreadable_chord_falls_back_to_a_triad_on_its_root():
     assert notes == [68, 72, 75]
     bass = [e.note for e in generate_events("| Ddim |", style="rock") if e.channel == 0]
     assert bass and all(n % 12 == 2 for n in bass)  # D diminished, not C
+
+
+def test_midi_time_signature_denominator_is_a_power_of_two_exponent(tmp_path):
+    """midiutil wants log2 of the denominator: a 4/4 file must read back as 4/4, not 4/16."""
+    import mido
+
+    from accompy import generate_accompaniment
+
+    for chart_style, expected in (("swing", (4, 4)), ("waltz", (3, 4))):
+        path = generate_accompaniment(
+            "| G | D7 |", style=chart_style, output_path=tmp_path / f"{chart_style}.mid", use_mma=False
+        )
+        signatures = [
+            (m.numerator, m.denominator)
+            for track in mido.MidiFile(path).tracks
+            for m in track
+            if m.type == "time_signature"
+        ]
+        assert signatures and set(signatures) == {expected}
+
+
+def test_waltz_style_implies_three_four_and_plays_oom_pah_pah():
+    from accompy import generate_events
+
+    events = generate_events("| G | D7 |", style="waltz")
+    assert max(e.time for e in events) < 6
+    assert {e.time for e in events if e.channel == 0} == {0, 1, 2, 3, 4, 5}
+    assert {e.time for e in events if e.channel == 1} == {1, 2, 4, 5}
+    assert generate_events("| G | D7 |", style="waltz", time_signature=(4, 4))[-1].time >= 6
