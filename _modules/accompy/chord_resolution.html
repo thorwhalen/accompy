@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=75c7c72ae941e8b558d8" />
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=75c7c72ae941e8b558d8" />
 
-    <script src="../../_static/documentation_options.js?v=54ff36c9"></script>
+    <script src="../../_static/documentation_options.js?v=bce5950b"></script>
     <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -411,7 +411,7 @@ window.runMermaid = runMermaid;</script>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="color-scheme" content="light dark"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="0.3.17" />
+  <meta name="docsearch:version" content="0.3.18" />
   
     
     <script src="../../_static/searchtools.js"></script>
@@ -868,7 +868,11 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">        &gt;&gt;&gt; def my_resolver(symbol: str) -&gt; list[int]:</span>
 <span class="sd">        ...     # Custom chord voicing logic</span>
 <span class="sd">        ...     return [60, 64, 67]  # C major triad</span>
+<span class="sd">        &gt;&gt;&gt; previous = get_chord_resolver()</span>
 <span class="sd">        &gt;&gt;&gt; set_chord_resolver(my_resolver)</span>
+<span class="sd">        &gt;&gt;&gt; chord_to_notes("Dm7")</span>
+<span class="sd">        [60, 64, 67]</span>
+<span class="sd">        &gt;&gt;&gt; set_chord_resolver(previous)  # put the default back: the setting is process-global</span>
 <span class="sd">    """</span>
     <span class="k">global</span> <span class="n">_default_resolver</span>
     <span class="n">_default_resolver</span> <span class="o">=</span> <span class="n">resolver</span></div>

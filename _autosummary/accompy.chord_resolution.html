@@ -44,7 +44,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=75c7c72ae941e8b558d8" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=75c7c72ae941e8b558d8" />
 
-    <script src="../_static/documentation_options.js?v=54ff36c9"></script>
+    <script src="../_static/documentation_options.js?v=bce5950b"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -58,7 +58,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="color-scheme" content="light dark"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="0.3.17" />
+  <meta name="docsearch:version" content="0.3.18" />
   
     
     <script src="../_static/searchtools.js"></script>
@@ -542,7 +542,11 @@ Consider using tonal_resolver for standard accompaniment generation.</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">def</span><span class="w"> </span><span class="nf">my_resolver</span><span class="p">(</span><span class="n">symbol</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
 <span class="gp">... </span>    <span class="c1"># Custom chord voicing logic</span>
 <span class="gp">... </span>    <span class="k">return</span> <span class="p">[</span><span class="mi">60</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">67</span><span class="p">]</span>  <span class="c1"># C major triad</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">previous</span> <span class="o">=</span> <span class="n">get_chord_resolver</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">set_chord_resolver</span><span class="p">(</span><span class="n">my_resolver</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">chord_to_notes</span><span class="p">(</span><span class="s2">"Dm7"</span><span class="p">)</span>
+<span class="go">[60, 64, 67]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">set_chord_resolver</span><span class="p">(</span><span class="n">previous</span><span class="p">)</span>  <span class="c1"># put the default back: the setting is process-global</span>
 </pre></div>
 </div>
 </dd></dl>

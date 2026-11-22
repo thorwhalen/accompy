@@ -2,18 +2,18 @@
 
 # About this build
 
-This documentation was built on **2026-11-22 12:00 UTC** from commit <a href="https://github.com/thorwhalen/accompy/commit/eccb701949aa9a285f8523a9f1bc7d6e2c5d1d12"><code>eccb701</code></a> on branch <code>main</code>, for **accompy 0.3.17** (from <code>pyproject.toml</code>).
+This documentation was built on **2026-11-22 12:03 UTC** from commit <a href="https://github.com/thorwhalen/accompy/commit/d58124b60c50a136cd5dc69f2c6e74692d883150"><code>d58124b</code></a> on branch <code>main</code>, for **accompy 0.3.18** (from <code>pyproject.toml</code>).
 
 #### WARNING
 The documentation and the package may be misaligned:
 
-- The documented version (0.3.17) is behind the latest release on PyPI (0.3.18): `pip install accompy` gives newer code than these docs describe.
+- The documented version (0.3.18) is behind the latest release on PyPI (0.3.19): `pip install accompy` gives newer code than these docs describe.
 
 ## Source
 
 |                     |                                                                                                                                                           |
 |---------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Commit              | <a href="https://github.com/thorwhalen/accompy/commit/eccb701949aa9a285f8523a9f1bc7d6e2c5d1d12"><code>eccb701949aa9a285f8523a9f1bc7d6e2c5d1d12</code></a> |
+| Commit              | <a href="https://github.com/thorwhalen/accompy/commit/d58124b60c50a136cd5dc69f2c6e74692d883150"><code>d58124b60c50a136cd5dc69f2c6e74692d883150</code></a> |
 | Branch              | <code>main</code>                                                                                                                                         |
 | Tags at this commit | none                                                                                                                                                      |
 | Working tree        | clean                                                                                                                                                     |
@@ -24,9 +24,9 @@ The documentation and the package may be misaligned:
 |              |                                                                                            |
 |--------------|--------------------------------------------------------------------------------------------|
 | Repository   | <code>thorwhalen/accompy</code>                                                            |
-| Run          | <a href="https://github.com/thorwhalen/accompy/actions/runs/45019927929">45019927929</a>   |
+| Run          | <a href="https://github.com/thorwhalen/accompy/actions/runs/45020188548">45020188548</a>   |
 | Ref          | <code>refs/heads/main</code>                                                               |
-| Event commit | <code>eccb701949aa9a285f8523a9f1bc7d6e2c5d1d12</code> (in the history of the built commit) |
+| Event commit | <code>d58124b60c50a136cd5dc69f2c6e74692d883150</code> (in the history of the built commit) |
 
 ## Tools
 
@@ -51,13 +51,13 @@ The documentation and the package may be misaligned:
 
 ## Package on PyPI
 
-Latest release: <a href="https://pypi.org/project/accompy/0.3.18/">0.3.18</a>, newer than the documented version (0.3.17).
+Latest release: <a href="https://pypi.org/project/accompy/0.3.19/">0.3.19</a>, newer than the documented version (0.3.18).
 
 ## Reproduce
 
 ```bash
 git clone https://github.com/thorwhalen/accompy && cd accompy
-git checkout eccb701949aa9a285f8523a9f1bc7d6e2c5d1d12
+git checkout d58124b60c50a136cd5dc69f2c6e74692d883150
 pip install "epythet==0.2.23"
 epythet quickstart . --ignore tests/ scrap/ examples/
 ```

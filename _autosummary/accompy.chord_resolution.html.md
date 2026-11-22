@@ -90,7 +90,11 @@ This enables global customization of chord-to-notes resolution.
 >>> def my_resolver(symbol: str) -> list[int]:
 ...     # Custom chord voicing logic
 ...     return [60, 64, 67]  # C major triad
+>>> previous = get_chord_resolver()
 >>> set_chord_resolver(my_resolver)
+>>> chord_to_notes("Dm7")
+[60, 64, 67]
+>>> set_chord_resolver(previous)  # put the default back: the setting is process-global
 ```
 
 ### accompy.chord_resolution.tonal_resolver(symbol, , transpose=-12)
