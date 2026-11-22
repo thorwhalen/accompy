@@ -18,8 +18,9 @@ Key functions:
 
 ### Functions
 
-| [`bass_pitch`](#accompy.renderers.midi.bass_pitch)(root, chord_notes, pitch_offset)        | The bass note a pattern's `pitch_offset` plays over a chord.                              |
+| [`bar_chord_spans`](#accompy.renderers.midi.bar_chord_spans)(beats_per_bar, n_chords)           | `(offset, duration)` in beats of each of `n_chords` chords sharing one bar.               |
 |-----------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------|
+| [`bass_pitch`](#accompy.renderers.midi.bass_pitch)(root, chord_notes, pitch_offset)        | The bass note a pattern's `pitch_offset` plays over a chord.                              |
 | [`chord_events`](#accompy.renderers.midi.chord_events)(chord_notes, \*[, style, ...])        | The drum, bass and piano events `style` plays over one chord.                             |
 | [`comp_voicing`](#accompy.renderers.midi.comp_voicing)(chord_notes)                          | The notes the piano plays for a chord: its first four notes moved into C4-B4.             |
 | [`events_to_midi_file`](#accompy.renderers.midi.events_to_midi_file)(events, path, tempo[, ...])    | Write MIDI events to a MIDI file.                                                         |
@@ -45,6 +46,28 @@ the renderer leaves their beats silent.
 
 * **Type:**
   Chord symbols that mean “no chord here”
+
+### accompy.renderers.midi.bar_chord_spans(beats_per_bar, n_chords)
+
+`(offset, duration)` in beats of each of `n_chords` chords sharing one bar.
+
+The bar is always filled: with fewer chords than beats, the beats are split evenly and
+the remainder goes to the first chords (3 chords in 4/4 get 2, 1 and 1 beats); with more
+chords than beats, each gets `beats_per_bar / n_chords` beats.
+
+```pycon
+>>> bar_chord_spans(4, 2)
+[(0, 2), (2, 2)]
+>>> bar_chord_spans(4, 3)
+[(0, 2), (2, 1), (3, 1)]
+>>> bar_chord_spans(4, 5)[1]
+(0.8, 0.8)
+>>> bar_chord_spans(4, 0)
+[]
+```
+
+* **Return type:**
+  [`list`](https://docs.python.org/3/builtins/stdtypes.html#list)[[`tuple`](https://docs.python.org/3/builtins/stdtypes.html#tuple)[[`float`](https://docs.python.org/3/builtins/functions.html#float), [`float`](https://docs.python.org/3/builtins/functions.html#float)]]
 
 ### accompy.renderers.midi.bass_pitch(root, chord_notes, pitch_offset)
 

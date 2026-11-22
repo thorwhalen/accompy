@@ -15,6 +15,7 @@ accompy.renderers.midi
 
    .. autosummary::
    
+      bar_chord_spans
       bass_pitch
       chord_events
       comp_voicing

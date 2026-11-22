@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=75c7c72ae941e8b558d8" />
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=75c7c72ae941e8b558d8" />
 
-    <script src="../../_static/documentation_options.js?v=f087b2d0"></script>
+    <script src="../../_static/documentation_options.js?v=54ff36c9"></script>
     <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -411,7 +411,7 @@ window.runMermaid = runMermaid;</script>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="color-scheme" content="light dark"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="0.3.16" />
+  <meta name="docsearch:version" content="0.3.17" />
   
     
     <script src="../../_static/searchtools.js"></script>
@@ -1372,7 +1372,9 @@ window.runMermaid = runMermaid;</script>
     <span class="n">sheet</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">sheet</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
 
     <span class="k">if</span> <span class="n">sheet</span><span class="o">.</span><span class="n">startswith</span><span class="p">((</span><span class="s2">"irealb://"</span><span class="p">,</span> <span class="s2">"irealbook://"</span><span class="p">)):</span>
-        <span class="k">return</span> <span class="n">parse_ireal_url</span><span class="p">(</span><span class="n">sheet</span><span class="p">,</span> <span class="n">beats_per_bar</span><span class="o">=</span><span class="n">beats_per_bar</span><span class="p">)</span>  <span class="c1"># None: the tune's meter</span>
+        <span class="k">return</span> <span class="n">parse_ireal_url</span><span class="p">(</span>
+            <span class="n">sheet</span><span class="p">,</span> <span class="n">beats_per_bar</span><span class="o">=</span><span class="n">beats_per_bar</span>
+        <span class="p">)</span>  <span class="c1"># None: the tune's meter</span>
     <span class="n">beats_per_bar</span> <span class="o">=</span> <span class="n">_DEFAULT_BEATS_PER_BAR</span> <span class="k">if</span> <span class="n">beats_per_bar</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">beats_per_bar</span>
 
     <span class="k">if</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="sa">r</span><span class="s2">"\[[A-G]"</span><span class="p">,</span> <span class="n">sheet</span><span class="p">)</span> <span class="ow">and</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="sa">r</span><span class="s2">"\][^|[\]]+\["</span><span class="p">,</span> <span class="n">sheet</span><span class="p">):</span>

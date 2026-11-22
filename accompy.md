@@ -1,4 +1,4 @@
-> built 2026-11-10 18:57 UTC from dcf395f (main) · accompy 0.3.16. Details: build_info.json
+> built 2026-11-22 12:00 UTC from eccb701 (main) · accompy 0.3.17. Details: build_info.json
 
 # index.html.md
 
@@ -620,7 +620,7 @@ curl -L -o ~/.fluidsynth/default_sound_font.sf2 \
 ```
 
 A proper SoundFont should be **30–200+ MB**. See the
-[SoundFont section]() above for more
+[SoundFont section](index.html.md#soundfont-important-for-sound-quality) above for more
 options, or browse [https://musical-artifacts.com/artifacts?formats=sf2](https://musical-artifacts.com/artifacts?formats=sf2).
 
 > **Tip:** If you’re using an AI coding agent (Claude Code, Cursor, etc.),
@@ -5655,8 +5655,9 @@ Key functions:
 
 ### Functions
 
-| [`bass_pitch`](_autosummary/accompy.renderers.midi.html.md#accompy.renderers.midi.bass_pitch)(root, chord_notes, pitch_offset)        | The bass note a pattern's `pitch_offset` plays over a chord.                              |
+| [`bar_chord_spans`](_autosummary/accompy.renderers.midi.html.md#accompy.renderers.midi.bar_chord_spans)(beats_per_bar, n_chords)           | `(offset, duration)` in beats of each of `n_chords` chords sharing one bar.               |
 |-----------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------|
+| [`bass_pitch`](_autosummary/accompy.renderers.midi.html.md#accompy.renderers.midi.bass_pitch)(root, chord_notes, pitch_offset)        | The bass note a pattern's `pitch_offset` plays over a chord.                              |
 | [`chord_events`](_autosummary/accompy.renderers.midi.html.md#accompy.renderers.midi.chord_events)(chord_notes, \*[, style, ...])        | The drum, bass and piano events `style` plays over one chord.                             |
 | [`comp_voicing`](_autosummary/accompy.renderers.midi.html.md#accompy.renderers.midi.comp_voicing)(chord_notes)                          | The notes the piano plays for a chord: its first four notes moved into C4-B4.             |
 | [`events_to_midi_file`](_autosummary/accompy.renderers.midi.html.md#accompy.renderers.midi.events_to_midi_file)(events, path, tempo[, ...])    | Write MIDI events to a MIDI file.                                                         |
@@ -5682,6 +5683,28 @@ the renderer leaves their beats silent.
 
 * **Type:**
   Chord symbols that mean “no chord here”
+
+### accompy.renderers.midi.bar_chord_spans(beats_per_bar, n_chords)
+
+`(offset, duration)` in beats of each of `n_chords` chords sharing one bar.
+
+The bar is always filled: with fewer chords than beats, the beats are split evenly and
+the remainder goes to the first chords (3 chords in 4/4 get 2, 1 and 1 beats); with more
+chords than beats, each gets `beats_per_bar / n_chords` beats.
+
+```pycon
+>>> bar_chord_spans(4, 2)
+[(0, 2), (2, 2)]
+>>> bar_chord_spans(4, 3)
+[(0, 2), (2, 1), (3, 1)]
+>>> bar_chord_spans(4, 5)[1]
+(0.8, 0.8)
+>>> bar_chord_spans(4, 0)
+[]
+```
+
+* **Return type:**
+  [`list`](https://docs.python.org/3/builtins/stdtypes.html#list)[[`tuple`](https://docs.python.org/3/builtins/stdtypes.html#tuple)[[`float`](https://docs.python.org/3/builtins/functions.html#float), [`float`](https://docs.python.org/3/builtins/functions.html#float)]]
 
 ### accompy.renderers.midi.bass_pitch(root, chord_notes, pitch_offset)
 
@@ -6927,16 +6950,18 @@ Backward-compat shim. Use `accompy.converters` instead.
 
 # About this build
 
-This documentation was built on **2026-11-10 18:57 UTC** from commit <a href="https://github.com/thorwhalen/accompy/commit/dcf395f7547857b2cac2248be0ed41118aaa0c97"><code>dcf395f</code></a> on branch <code>main</code>, for **accompy 0.3.16** (from <code>pyproject.toml</code>).
+This documentation was built on **2026-11-22 12:00 UTC** from commit <a href="https://github.com/thorwhalen/accompy/commit/eccb701949aa9a285f8523a9f1bc7d6e2c5d1d12"><code>eccb701</code></a> on branch <code>main</code>, for **accompy 0.3.17** (from <code>pyproject.toml</code>).
 
-#### NOTE
-Nothing suggests a mismatch: the tree was clean at the commit above, and the documented version is the one on PyPI.
+#### WARNING
+The documentation and the package may be misaligned:
+
+- The documented version (0.3.17) is behind the latest release on PyPI (0.3.18): `pip install accompy` gives newer code than these docs describe.
 
 ## Source
 
 |                     |                                                                                                                                                           |
 |---------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Commit              | <a href="https://github.com/thorwhalen/accompy/commit/dcf395f7547857b2cac2248be0ed41118aaa0c97"><code>dcf395f7547857b2cac2248be0ed41118aaa0c97</code></a> |
+| Commit              | <a href="https://github.com/thorwhalen/accompy/commit/eccb701949aa9a285f8523a9f1bc7d6e2c5d1d12"><code>eccb701949aa9a285f8523a9f1bc7d6e2c5d1d12</code></a> |
 | Branch              | <code>main</code>                                                                                                                                         |
 | Tags at this commit | none                                                                                                                                                      |
 | Working tree        | clean                                                                                                                                                     |
@@ -6947,15 +6972,15 @@ Nothing suggests a mismatch: the tree was clean at the commit above, and the doc
 |              |                                                                                            |
 |--------------|--------------------------------------------------------------------------------------------|
 | Repository   | <code>thorwhalen/accompy</code>                                                            |
-| Run          | <a href="https://github.com/thorwhalen/accompy/actions/runs/42880059982">42880059982</a>   |
+| Run          | <a href="https://github.com/thorwhalen/accompy/actions/runs/45019927929">45019927929</a>   |
 | Ref          | <code>refs/heads/main</code>                                                               |
-| Event commit | <code>dcf395f7547857b2cac2248be0ed41118aaa0c97</code> (in the history of the built commit) |
+| Event commit | <code>eccb701949aa9a285f8523a9f1bc7d6e2c5d1d12</code> (in the history of the built commit) |
 
 ## Tools
 
 |          |         |
 |----------|---------|
-| epythet  | 0.2.22  |
+| epythet  | 0.2.23  |
 | Sphinx   | 9.1.1   |
 | docutils | 0.22.4  |
 | Python   | 3.12.16 |
@@ -6974,14 +6999,14 @@ Nothing suggests a mismatch: the tree was clean at the commit above, and the doc
 
 ## Package on PyPI
 
-Latest release: <a href="https://pypi.org/project/accompy/0.3.16/">0.3.16</a>, the same as the documented version.
+Latest release: <a href="https://pypi.org/project/accompy/0.3.18/">0.3.18</a>, newer than the documented version (0.3.17).
 
 ## Reproduce
 
 ```bash
 git clone https://github.com/thorwhalen/accompy && cd accompy
-git checkout dcf395f7547857b2cac2248be0ed41118aaa0c97
-pip install "epythet==0.2.22"
+git checkout eccb701949aa9a285f8523a9f1bc7d6e2c5d1d12
+pip install "epythet==0.2.23"
 epythet quickstart . --ignore tests/ scrap/ examples/
 ```
 

@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=75c7c72ae941e8b558d8" />
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=75c7c72ae941e8b558d8" />
 
-    <script src="../../_static/documentation_options.js?v=f087b2d0"></script>
+    <script src="../../_static/documentation_options.js?v=54ff36c9"></script>
     <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -411,7 +411,7 @@ window.runMermaid = runMermaid;</script>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="color-scheme" content="light dark"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="0.3.16" />
+  <meta name="docsearch:version" content="0.3.17" />
   
     
     <script src="../../_static/searchtools.js"></script>
@@ -829,7 +829,9 @@ window.runMermaid = runMermaid;</script>
 
 <div class="viewcode-block" id="IrealTune.chord_specs">
 <a class="viewcode-back" href="../../_autosummary/accompy.ireal.html#accompy.ireal.IrealTune.chord_specs">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">chord_specs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">beats_per_bar</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">chord_specs</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">beats_per_bar</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]:</span>
 <span class="w">        </span><span class="sd">"""``(chord, beats)`` pairs: each bar shared evenly by its chords. Bars last</span>
 <span class="sd">        ``beats_per_bar`` beats, by default the time signature's numerator.</span>
 
@@ -993,11 +995,17 @@ window.runMermaid = runMermaid;</script>
             <span class="n">start</span> <span class="o">=</span> <span class="n">opened</span> <span class="k">if</span> <span class="n">opened</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">region</span>
             <span class="n">endings</span> <span class="o">=</span> <span class="p">[</span><span class="n">k</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="k">if</span> <span class="n">bars</span><span class="p">[</span><span class="n">k</span><span class="p">]</span><span class="o">.</span><span class="n">ending</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">]</span>
             <span class="n">body</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">endings</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">if</span> <span class="n">endings</span> <span class="k">else</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
-            <span class="k">if</span> <span class="n">endings</span><span class="p">:</span>  <span class="c1"># an ending written mid-bar: its bar's start is played each time</span>
-                <span class="n">head</span> <span class="o">=</span> <span class="n">bars</span><span class="p">[</span><span class="n">endings</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span><span class="o">.</span><span class="n">text</span><span class="p">[:</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="sa">r</span><span class="s2">"N\d"</span><span class="p">,</span> <span class="n">bars</span><span class="p">[</span><span class="n">endings</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span><span class="o">.</span><span class="n">text</span><span class="p">)</span><span class="o">.</span><span class="n">start</span><span class="p">()]</span>
+            <span class="k">if</span> <span class="p">(</span>
+                <span class="n">endings</span>
+            <span class="p">):</span>  <span class="c1"># an ending written mid-bar: its bar's start is played each time</span>
+                <span class="n">head</span> <span class="o">=</span> <span class="n">bars</span><span class="p">[</span><span class="n">endings</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span><span class="o">.</span><span class="n">text</span><span class="p">[</span>
+                    <span class="p">:</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="sa">r</span><span class="s2">"N\d"</span><span class="p">,</span> <span class="n">bars</span><span class="p">[</span><span class="n">endings</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span><span class="o">.</span><span class="n">text</span><span class="p">)</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+                <span class="p">]</span>
                 <span class="n">body</span> <span class="o">+=</span> <span class="p">[</span><span class="n">_Head</span><span class="p">(</span><span class="n">head</span><span class="p">)]</span> <span class="k">if</span> <span class="n">_remove_markers</span><span class="p">(</span><span class="n">head</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">else</span> <span class="p">[]</span>
             <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">endings</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>  <span class="c1"># several endings inside the braces: one pass each</span>
-                <span class="k">del</span> <span class="n">order</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">order</span><span class="p">)</span> <span class="o">-</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">endings</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="p">:]</span>  <span class="c1"># the first pass stops at N2</span>
+                <span class="k">del</span> <span class="n">order</span><span class="p">[</span>
+                    <span class="nb">len</span><span class="p">(</span><span class="n">order</span><span class="p">)</span> <span class="o">-</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">endings</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="p">:</span>
+                <span class="p">]</span>  <span class="c1"># the first pass stops at N2</span>
                 <span class="k">for</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">endings</span><span class="p">[</span><span class="mi">1</span><span class="p">:],</span> <span class="n">endings</span><span class="p">[</span><span class="mi">2</span><span class="p">:]</span> <span class="o">+</span> <span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]):</span>
                     <span class="n">order</span> <span class="o">+=</span> <span class="n">body</span> <span class="o">+</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">))</span>
             <span class="k">else</span><span class="p">:</span>
@@ -1081,7 +1089,11 @@ window.runMermaid = runMermaid;</script>
             <span class="k">if</span> <span class="n">token</span> <span class="o">==</span> <span class="s2">"p"</span><span class="p">:</span>
                 <span class="n">token</span> <span class="o">=</span> <span class="n">last</span>
             <span class="k">elif</span> <span class="n">token</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">"W"</span><span class="p">):</span>
-                <span class="n">token</span> <span class="o">=</span> <span class="p">(</span><span class="n">last</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">"/"</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">token</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="k">if</span> <span class="n">token</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="k">else</span> <span class="n">last</span><span class="p">)</span> <span class="k">if</span> <span class="n">last</span> <span class="k">else</span> <span class="s2">""</span>
+                <span class="n">token</span> <span class="o">=</span> <span class="p">(</span>
+                    <span class="p">(</span><span class="n">last</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">"/"</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">token</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="k">if</span> <span class="n">token</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="k">else</span> <span class="n">last</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="n">last</span>
+                    <span class="k">else</span> <span class="s2">""</span>
+                <span class="p">)</span>
             <span class="k">if</span> <span class="n">token</span><span class="p">[:</span><span class="mi">1</span><span class="p">]</span> <span class="ow">in</span> <span class="n">_ROOTS</span><span class="p">:</span>
                 <span class="n">last</span> <span class="o">=</span> <span class="n">token</span>
             <span class="n">chords</span> <span class="o">+=</span> <span class="p">[</span><span class="n">token</span><span class="p">]</span> <span class="k">if</span> <span class="n">token</span> <span class="k">else</span> <span class="p">[]</span>
@@ -1152,7 +1164,9 @@ window.runMermaid = runMermaid;</script>
             <span class="n">start</span> <span class="o">=</span> <span class="n">standard</span>
         <span class="n">previous</span> <span class="o">=</span> <span class="n">m</span>
         <span class="n">before</span> <span class="o">=</span> <span class="n">fields</span><span class="p">[</span><span class="n">start</span><span class="p">:</span><span class="n">m</span><span class="p">]</span>
-        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">before</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="n">_FIELDS_BEFORE_MUSIC</span><span class="p">:</span>  <span class="c1"># title, composer, ..., style, key, transpose</span>
+        <span class="k">if</span> <span class="p">(</span>
+            <span class="nb">len</span><span class="p">(</span><span class="n">before</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="n">_FIELDS_BEFORE_MUSIC</span>
+        <span class="p">):</span>  <span class="c1"># title, composer, ..., style, key, transpose</span>
             <span class="n">meta</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="n">at</span><span class="p">(</span><span class="n">start</span><span class="p">),</span> <span class="n">composer</span><span class="o">=</span><span class="n">at</span><span class="p">(</span><span class="n">start</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span> <span class="n">style</span><span class="o">=</span><span class="n">at</span><span class="p">(</span><span class="n">m</span> <span class="o">+</span> <span class="n">_STYLE</span><span class="p">))</span>
             <span class="n">meta</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="n">at</span><span class="p">(</span><span class="n">m</span> <span class="o">+</span> <span class="n">_KEY</span><span class="p">),</span> <span class="n">transpose</span><span class="o">=</span><span class="n">at</span><span class="p">(</span><span class="n">m</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span>
         <span class="k">else</span><span class="p">:</span>  <span class="c1"># too few fields to place them: the non-empty ones, in order</span>

@@ -616,7 +616,7 @@ curl -L -o ~/.fluidsynth/default_sound_font.sf2 \
 ```
 
 A proper SoundFont should be **30–200+ MB**. See the
-[SoundFont section]() above for more
+[SoundFont section](#soundfont-important-for-sound-quality) above for more
 options, or browse [https://musical-artifacts.com/artifacts?formats=sf2](https://musical-artifacts.com/artifacts?formats=sf2).
 
 > **Tip:** If you’re using an AI coding agent (Claude Code, Cursor, etc.),
