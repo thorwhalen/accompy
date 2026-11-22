@@ -54,16 +54,22 @@ export function beatsToSeconds(beats: number, tempo: number): number {
 const NO_CHORD = new Set<string>(NO_CHORD_SYMBOLS);
 const SEMITONES = new Map<string, number>(NOTE_TO_SEMITONE as readonly (readonly [string, number])[]);
 
+/** The minor triad's third, in semitones above the root (the Python `_MINOR_THIRD`). */
+const MINOR_THIRD = 3;
+
 /**
  * What the renderer plays for a symbol its resolver cannot read: a major triad on the
- * symbol's leading note name, either case, `#`/`b` or `♯`/`♭` (`G#13(b9)` -> G# major),
- * or on C without one.
+ * symbol's leading note name, either case, `#`/`b` or `♯`/`♭` (`G#13(b9)` -> G# major), or
+ * on C without one; a minor triad when the symbol says minor (`-`, `m`, not `maj`: `E#m` -> F minor).
  */
 export function fallbackChordNotes(symbol: string): number[] {
   const root = /^([A-Ga-g])([#b\u266f\u266d]?)/.exec(symbol);
   if (!root) return [...FALLBACK_CHORD_NOTES];
   const name = root[1]!.toUpperCase() + root[2]!.replace("\u266f", "#").replace("\u266d", "b");
-  return FALLBACK_CHORD_NOTES.map((n) => n + (SEMITONES.get(name) ?? 0));
+  const quality = symbol.slice(root[0].length);
+  const minor = quality.startsWith("-") || (quality.startsWith("m") && !quality.startsWith("maj"));
+  const [r, , f] = FALLBACK_CHORD_NOTES;
+  return [r, minor ? r + MINOR_THIRD : FALLBACK_CHORD_NOTES[1], f].map((n) => n! + (SEMITONES.get(name) ?? 0));
 }
 const DRUM_DURATION = 0.25;
 

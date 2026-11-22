@@ -128,15 +128,21 @@ NO_CHORD_SYMBOLS = ("", "n", "N.C.", "NC")
 #: moved to the symbol's root when it has a readable one (see :func:`fallback_chord_notes`).
 FALLBACK_CHORD_NOTES = (48, 52, 55)
 
+#: The minor triad's third, in semitones above the root (the major third is 4).
+_MINOR_THIRD = 3
+
 
 def fallback_chord_notes(symbol: str) -> list[int]:
-    """What the renderer plays for a symbol its resolver cannot read: a major triad on its root.
+    """What the renderer plays for a symbol its resolver cannot read: a triad on its root.
 
     The root is the leading note name, in either case and with ``#``/``b`` or ``♯``/``♭``
-    (``C``, ``F#``, ``B♭``, ``eb``); without one, the triad is on C.
+    (``C``, ``F#``, ``B♭``, ``eb``); without one, the triad is on C. The triad is major
+    unless the symbol says minor (``-``, ``m``, ``min``, not ``maj``): ``E#m`` plays F minor.
 
     >>> fallback_chord_notes("G#13(b9)"), fallback_chord_notes("?")
     ([56, 60, 63], [48, 52, 55])
+    >>> fallback_chord_notes("E#-7"), fallback_chord_notes("E#maj7")
+    ([53, 56, 60], [53, 57, 60])
     """
     from ..util import _NOTE_TO_SEMITONE
 
@@ -147,7 +153,17 @@ def fallback_chord_notes(symbol: str) -> list[int]:
         "\u266d", "b"
     )
     shift = _NOTE_TO_SEMITONE.get(name, 0)
-    return [n + shift for n in FALLBACK_CHORD_NOTES]
+    root, third, fifth = FALLBACK_CHORD_NOTES
+    if _says_minor(symbol[match.end() :]):
+        third = root + _MINOR_THIRD
+    return [n + shift for n in (root, third, fifth)]
+
+
+def _says_minor(quality: str) -> bool:
+    """Whether the part of a chord symbol after its root names a minor chord."""
+    return quality.startswith("-") or (
+        quality.startswith("m") and not quality.startswith("maj")
+    )
 
 
 def _style_patterns(pattern_source, style: str) -> dict:
