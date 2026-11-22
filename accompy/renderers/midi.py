@@ -63,13 +63,10 @@ def generate_midi_events(
         current_beat = repeat * len(score.measures) * beats_per_bar
 
         for measure in score.measures:
-            chords_in_bar = measure
-            beats_per_chord = (
-                beats_per_bar // len(chords_in_bar) if chords_in_bar else beats_per_bar
-            )
+            spans = bar_chord_spans(beats_per_bar, len(measure))
 
-            for chord_idx, chord_symbol in enumerate(chords_in_bar):
-                chord_start = current_beat + (chord_idx * beats_per_chord)
+            for chord_symbol, (offset, beats_per_chord) in zip(measure, spans):
+                chord_start = current_beat + offset
 
                 if chord_symbol in NO_CHORD_SYMBOLS:
                     continue
@@ -92,6 +89,36 @@ def generate_midi_events(
                 )
 
             current_beat += beats_per_bar
+
+
+def bar_chord_spans(beats_per_bar: int, n_chords: int) -> list[tuple[float, float]]:
+    """``(offset, duration)`` in beats of each of ``n_chords`` chords sharing one bar.
+
+    The bar is always filled: with fewer chords than beats, the beats are split evenly and
+    the remainder goes to the first chords (3 chords in 4/4 get 2, 1 and 1 beats); with more
+    chords than beats, each gets ``beats_per_bar / n_chords`` beats.
+
+    >>> bar_chord_spans(4, 2)
+    [(0, 2), (2, 2)]
+    >>> bar_chord_spans(4, 3)
+    [(0, 2), (2, 1), (3, 1)]
+    >>> bar_chord_spans(4, 5)[1]
+    (0.8, 0.8)
+    >>> bar_chord_spans(4, 0)
+    []
+    """
+    if n_chords <= 0:
+        return []
+    if n_chords > beats_per_bar:
+        each = beats_per_bar / n_chords
+        return [(i * each, each) for i in range(n_chords)]
+    base, extra = divmod(beats_per_bar, n_chords)
+    spans, offset = [], 0
+    for i in range(n_chords):
+        duration = base + (1 if i < extra else 0)
+        spans.append((offset, duration))
+        offset += duration
+    return spans
 
 
 #: Chord symbols that mean "no chord here": the renderer leaves their beats silent.

@@ -22,7 +22,7 @@ import {
   type DrumPattern,
   type PatternSource,
 } from "./patterns.js";
-import { pyFloorDiv, pyTrunc } from "./py.js";
+import { pyTrunc } from "./py.js";
 import { tonalResolver, type ChordResolver } from "./resolve.js";
 
 /** One note: Python's `MidiEvent`. Channel 9 is drums, 0 bass, 1 piano. */
@@ -222,6 +222,29 @@ export function chordEvents(chordNotes: readonly number[], opts: ChordEventsOpti
   );
 }
 
+/**
+ * `[offset, duration]` in beats of each of `nChords` chords sharing one bar. The bar is
+ * always filled: with fewer chords than beats the remainder goes to the first chords (3 in
+ * 4/4 get 2, 1, 1); with more chords than beats each gets `beatsPerBar / nChords`.
+ */
+export function barChordSpans(beatsPerBar: number, nChords: number): [number, number][] {
+  if (nChords <= 0) return [];
+  if (nChords > beatsPerBar) {
+    const each = beatsPerBar / nChords;
+    return Array.from({ length: nChords }, (_, i) => [i * each, each]);
+  }
+  const base = Math.floor(beatsPerBar / nChords);
+  const extra = beatsPerBar % nChords;
+  const spans: [number, number][] = [];
+  let offset = 0;
+  for (let i = 0; i < nChords; i++) {
+    const duration = base + (i < extra ? 1 : 0);
+    spans.push([offset, duration]);
+    offset += duration;
+  }
+  return spans;
+}
+
 /** Options of {@link generateEvents}. */
 export interface GenerateOptions {
   style?: string;
@@ -237,8 +260,8 @@ export interface GenerateOptions {
 
 /**
  * The note events of a whole chart (any form {@link ensureScore} reads), in the order the
- * builtin backend generates them: chord by chord, drums then bass then piano. Each chord
- * of a bar gets `beatsPerBar // chords` beats; no-chord symbols are silent; a symbol the
+ * builtin backend generates them: chord by chord, drums then bass then piano. The chords of a
+ * bar share its beats ({@link barChordSpans}); no-chord symbols are silent; a symbol the
  * resolver cannot read plays a major triad on its root ({@link fallbackChordNotes}).
  *
  * @example
@@ -258,8 +281,9 @@ export function generateEvents(chords: string | Score | unknown, opts: GenerateO
   for (let repeat = 0; repeat < repeats; repeat++) {
     let beat = repeat * score.measures.length * beatsPerBar;
     for (const measure of score.measures) {
-      const perChord = measure.length ? pyFloorDiv(beatsPerBar, measure.length) : beatsPerBar;
+      const spans = barChordSpans(beatsPerBar, measure.length);
       measure.forEach((symbol, i) => {
+        const [offset, perChord] = spans[i]!;
         if (NO_CHORD.has(symbol)) return;
         let notes: readonly number[];
         try {
@@ -267,7 +291,7 @@ export function generateEvents(chords: string | Score | unknown, opts: GenerateO
         } catch {
           notes = fallbackChordNotes(symbol);
         }
-        out.push(...playChord(notes, patterns, beat + i * perChord, perChord, instruments, volumes));
+        out.push(...playChord(notes, patterns, beat + offset, perChord, instruments, volumes));
       });
       beat += beatsPerBar;
     }
