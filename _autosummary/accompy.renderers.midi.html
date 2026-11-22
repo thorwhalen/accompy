@@ -44,7 +44,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=75c7c72ae941e8b558d8" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=75c7c72ae941e8b558d8" />
 
-    <script src="../_static/documentation_options.js?v=189d1112"></script>
+    <script src="../_static/documentation_options.js?v=3226d6c8"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -58,7 +58,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="color-scheme" content="light dark"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="0.3.19" />
+  <meta name="docsearch:version" content="0.3.20" />
   
     
     <script src="../_static/searchtools.js"></script>
@@ -470,7 +470,7 @@ from file writing, enabling both batch file creation and future real-time stream
 <td><p>Write MIDI events to a MIDI file.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#accompy.renderers.midi.fallback_chord_notes" title="accompy.renderers.midi.fallback_chord_notes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fallback_chord_notes</span></code></a>(symbol)</p></td>
-<td><p>What the renderer plays for a symbol its resolver cannot read: a major triad on its root.</p></td>
+<td><p>What the renderer plays for a symbol its resolver cannot read: a triad on its root.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#accompy.renderers.midi.generate_builtin_midi" title="accompy.renderers.midi.generate_builtin_midi"><code class="xref py py-obj docutils literal notranslate"><span class="pre">generate_builtin_midi</span></code></a>(score, config, *, ...)</p></td>
 <td><p>Generate a MIDI file using the built-in renderer.</p></td>
@@ -623,11 +623,14 @@ beats it lasts. It reads no tempo and keeps no state between chords.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="accompy.renderers.midi.fallback_chord_notes">
 <span class="sig-prename descclassname"><span class="pre">accompy.renderers.midi.</span></span><span class="sig-name descname"><span class="pre">fallback_chord_notes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">symbol</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/accompy/renderers/midi.html#fallback_chord_notes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#accompy.renderers.midi.fallback_chord_notes" title="Link to this definition">#</a></dt>
-<dd><p>What the renderer plays for a symbol its resolver cannot read: a major triad on its root.</p>
+<dd><p>What the renderer plays for a symbol its resolver cannot read: a triad on its root.</p>
 <p>The root is the leading note name, in either case and with <code class="docutils literal notranslate"><span class="pre">#</span></code>/<code class="docutils literal notranslate"><span class="pre">b</span></code> or <code class="docutils literal notranslate"><span class="pre">♯</span></code>/<code class="docutils literal notranslate"><span class="pre">♭</span></code>
-(<code class="docutils literal notranslate"><span class="pre">C</span></code>, <code class="docutils literal notranslate"><span class="pre">F#</span></code>, <code class="docutils literal notranslate"><span class="pre">B♭</span></code>, <code class="docutils literal notranslate"><span class="pre">eb</span></code>); without one, the triad is on C.</p>
+(<code class="docutils literal notranslate"><span class="pre">C</span></code>, <code class="docutils literal notranslate"><span class="pre">F#</span></code>, <code class="docutils literal notranslate"><span class="pre">B♭</span></code>, <code class="docutils literal notranslate"><span class="pre">eb</span></code>); without one, the triad is on C. The triad is major
+unless the symbol says minor (<code class="docutils literal notranslate"><span class="pre">-</span></code>, <code class="docutils literal notranslate"><span class="pre">m</span></code>, <code class="docutils literal notranslate"><span class="pre">min</span></code>, not <code class="docutils literal notranslate"><span class="pre">maj</span></code>): <code class="docutils literal notranslate"><span class="pre">E#m</span></code> plays F minor.</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">fallback_chord_notes</span><span class="p">(</span><span class="s2">"G#13(b9)"</span><span class="p">),</span> <span class="n">fallback_chord_notes</span><span class="p">(</span><span class="s2">"?"</span><span class="p">)</span>
 <span class="go">([56, 60, 63], [48, 52, 55])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">fallback_chord_notes</span><span class="p">(</span><span class="s2">"E#-7"</span><span class="p">),</span> <span class="n">fallback_chord_notes</span><span class="p">(</span><span class="s2">"E#maj7"</span><span class="p">)</span>
+<span class="go">([53, 56, 60], [53, 57, 60])</span>
 </pre></div>
 </div>
 <dl class="field-list simple">

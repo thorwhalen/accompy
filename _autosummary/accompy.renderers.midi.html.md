@@ -18,19 +18,19 @@ Key functions:
 
 ### Functions
 
-| [`bar_chord_spans`](#accompy.renderers.midi.bar_chord_spans)(beats_per_bar, n_chords)           | `(offset, duration)` in beats of each of `n_chords` chords sharing one bar.               |
-|-----------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------|
-| [`bass_pitch`](#accompy.renderers.midi.bass_pitch)(root, chord_notes, pitch_offset)        | The bass note a pattern's `pitch_offset` plays over a chord.                              |
-| [`chord_events`](#accompy.renderers.midi.chord_events)(chord_notes, \*[, style, ...])        | The drum, bass and piano events `style` plays over one chord.                             |
-| [`comp_voicing`](#accompy.renderers.midi.comp_voicing)(chord_notes)                          | The notes the piano plays for a chord: its first four notes moved into C4-B4.             |
-| [`events_to_midi_file`](#accompy.renderers.midi.events_to_midi_file)(events, path, tempo[, ...])    | Write MIDI events to a MIDI file.                                                         |
-| [`fallback_chord_notes`](#accompy.renderers.midi.fallback_chord_notes)(symbol)                       | What the renderer plays for a symbol its resolver cannot read: a major triad on its root. |
-| [`generate_builtin_midi`](#accompy.renderers.midi.generate_builtin_midi)(score, config, \*, ...)      | Generate a MIDI file using the built-in renderer.                                         |
-| [`generate_events`](#accompy.renderers.midi.generate_events)(chords, \*[, style, repeats, ...]) | The note events the builtin backend plays for `chords`, without writing a file.           |
-| [`generate_midi_events`](#accompy.renderers.midi.generate_midi_events)(score, config, \*, ...)       | Generate MIDI events from score.                                                          |
-| [`pitch_classes`](#accompy.renderers.midi.pitch_classes)(notes)                               | Return unique pitch classes (0-11) as a tuple.                                            |
-| [`resolve_pitch_offset`](#accompy.renderers.midi.resolve_pitch_offset)(\*, root_pc, chord_pcs, ...)  | Resolve a pitch offset against a chord.                                                   |
-| [`select_patterns`](#accompy.renderers.midi.select_patterns)(patterns, beats_per_bar)           | The `(drum, bass, comp)` patterns the renderer plays from a style's pattern lists.        |
+| [`bar_chord_spans`](#accompy.renderers.midi.bar_chord_spans)(beats_per_bar, n_chords)           | `(offset, duration)` in beats of each of `n_chords` chords sharing one bar.         |
+|-----------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------|
+| [`bass_pitch`](#accompy.renderers.midi.bass_pitch)(root, chord_notes, pitch_offset)        | The bass note a pattern's `pitch_offset` plays over a chord.                        |
+| [`chord_events`](#accompy.renderers.midi.chord_events)(chord_notes, \*[, style, ...])        | The drum, bass and piano events `style` plays over one chord.                       |
+| [`comp_voicing`](#accompy.renderers.midi.comp_voicing)(chord_notes)                          | The notes the piano plays for a chord: its first four notes moved into C4-B4.       |
+| [`events_to_midi_file`](#accompy.renderers.midi.events_to_midi_file)(events, path, tempo[, ...])    | Write MIDI events to a MIDI file.                                                   |
+| [`fallback_chord_notes`](#accompy.renderers.midi.fallback_chord_notes)(symbol)                       | What the renderer plays for a symbol its resolver cannot read: a triad on its root. |
+| [`generate_builtin_midi`](#accompy.renderers.midi.generate_builtin_midi)(score, config, \*, ...)      | Generate a MIDI file using the built-in renderer.                                   |
+| [`generate_events`](#accompy.renderers.midi.generate_events)(chords, \*[, style, repeats, ...]) | The note events the builtin backend plays for `chords`, without writing a file.     |
+| [`generate_midi_events`](#accompy.renderers.midi.generate_midi_events)(score, config, \*, ...)       | Generate MIDI events from score.                                                    |
+| [`pitch_classes`](#accompy.renderers.midi.pitch_classes)(notes)                               | Return unique pitch classes (0-11) as a tuple.                                      |
+| [`resolve_pitch_offset`](#accompy.renderers.midi.resolve_pitch_offset)(\*, root_pc, chord_pcs, ...)  | Resolve a pitch offset against a chord.                                             |
+| [`select_patterns`](#accompy.renderers.midi.select_patterns)(patterns, beats_per_bar)           | The `(drum, bass, comp)` patterns the renderer plays from a style's pattern lists.  |
 
 ### accompy.renderers.midi.FALLBACK_CHORD_NOTES *= (48, 52, 55)*
 
@@ -136,14 +136,17 @@ Requires midiutil: pip install midiutil
 
 ### accompy.renderers.midi.fallback_chord_notes(symbol)
 
-What the renderer plays for a symbol its resolver cannot read: a major triad on its root.
+What the renderer plays for a symbol its resolver cannot read: a triad on its root.
 
 The root is the leading note name, in either case and with `#`/`b` or `♯`/`♭`
-(`C`, `F#`, `B♭`, `eb`); without one, the triad is on C.
+(`C`, `F#`, `B♭`, `eb`); without one, the triad is on C. The triad is major
+unless the symbol says minor (`-`, `m`, `min`, not `maj`): `E#m` plays F minor.
 
 ```pycon
 >>> fallback_chord_notes("G#13(b9)"), fallback_chord_notes("?")
 ([56, 60, 63], [48, 52, 55])
+>>> fallback_chord_notes("E#-7"), fallback_chord_notes("E#maj7")
+([53, 56, 60], [53, 57, 60])
 ```
 
 * **Return type:**

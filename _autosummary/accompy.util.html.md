@@ -24,7 +24,7 @@ and iReal URL parsing.
 | [`transpose_note`](#accompy.util.transpose_note)(name, semitones, \*[, use_flat])   | Transpose a single note name by *semitones*.                         |
 | [`transpose_score`](#accompy.util.transpose_score)(score, target_key)                | Transpose a `Score` to a new key.                                    |
 
-### accompy.util.CHORD_SYMBOL_REPLACEMENTS *= (('maj7', '^7'), ('maj9', '^9'), ('maj', '^'), ('min7', '-7'), ('min', '-'), ('m7', '-7'), ('m9', '-9'), ('m', '-'), ('dim7', 'o7'), ('dim', 'o'), ('m7b5', 'h7'), ('ø7', 'h7'), ('ø', 'h'), ('sus4', 'sus'), ('sus2', 'sus2'), ('add9', 'add9'), ('add2', 'add2'))*
+### accompy.util.CHORD_SYMBOL_REPLACEMENTS *= (('maj7', '^7'), ('Maj7', '^7'), ('M7', '^7'), ('maj9', '^9'), ('Maj9', '^9'), ('M9', '^9'), ('maj', '^'), ('Maj', '^'), ('min7', '-7'), ('mi7', '-7'), ('mi9', '-9'), ('min', '-'), ('mi', '-'), ('m7', '-7'), ('m9', '-9'), ('m', '-'), ('dim7', 'o7'), ('dim', 'o'), ('°7', 'o7'), ('°', 'o'), ('m7b5', 'h7'), ('ø7', 'h7'), ('ø', 'h'), ('sus2', 'sus2'), ('add9', 'add9'), ('add2', 'add2'))*
 
 each `old` becomes
 `new` at the end of the symbol or of a part before a slash (longest `old` wins).
@@ -44,7 +44,8 @@ Handles conversions like:
 
 - Cm -> C-
 - Cmaj7 -> C^7
-- Cdim -> Co
+- Cdim, C° -> Co
+- CM7, CMaj7 -> C^7; Cmi7 -> C-7
 - Cm7b5 -> Ch7 (half-diminished)
 
 Each `/`-separated part of the symbol has its longest matching suffix from

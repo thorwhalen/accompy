@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=75c7c72ae941e8b558d8" />
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=75c7c72ae941e8b558d8" />
 
-    <script src="../../_static/documentation_options.js?v=189d1112"></script>
+    <script src="../../_static/documentation_options.js?v=3226d6c8"></script>
     <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -411,7 +411,7 @@ window.runMermaid = runMermaid;</script>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="color-scheme" content="light dark"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="0.3.19" />
+  <meta name="docsearch:version" content="0.3.20" />
   
     
     <script src="../../_static/searchtools.js"></script>
@@ -730,19 +730,28 @@ window.runMermaid = runMermaid;</script>
 <span class="c1">#: ``new`` at the end of the symbol or of a part before a slash (longest ``old`` wins).</span>
 <span class="n">CHORD_SYMBOL_REPLACEMENTS</span> <span class="o">=</span> <span class="p">(</span>
     <span class="p">(</span><span class="s2">"maj7"</span><span class="p">,</span> <span class="s2">"^7"</span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">"Maj7"</span><span class="p">,</span> <span class="s2">"^7"</span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">"M7"</span><span class="p">,</span> <span class="s2">"^7"</span><span class="p">),</span>
     <span class="p">(</span><span class="s2">"maj9"</span><span class="p">,</span> <span class="s2">"^9"</span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">"Maj9"</span><span class="p">,</span> <span class="s2">"^9"</span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">"M9"</span><span class="p">,</span> <span class="s2">"^9"</span><span class="p">),</span>
     <span class="p">(</span><span class="s2">"maj"</span><span class="p">,</span> <span class="s2">"^"</span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">"Maj"</span><span class="p">,</span> <span class="s2">"^"</span><span class="p">),</span>
     <span class="p">(</span><span class="s2">"min7"</span><span class="p">,</span> <span class="s2">"-7"</span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">"mi7"</span><span class="p">,</span> <span class="s2">"-7"</span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">"mi9"</span><span class="p">,</span> <span class="s2">"-9"</span><span class="p">),</span>
     <span class="p">(</span><span class="s2">"min"</span><span class="p">,</span> <span class="s2">"-"</span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">"mi"</span><span class="p">,</span> <span class="s2">"-"</span><span class="p">),</span>
     <span class="p">(</span><span class="s2">"m7"</span><span class="p">,</span> <span class="s2">"-7"</span><span class="p">),</span>
     <span class="p">(</span><span class="s2">"m9"</span><span class="p">,</span> <span class="s2">"-9"</span><span class="p">),</span>
     <span class="p">(</span><span class="s2">"m"</span><span class="p">,</span> <span class="s2">"-"</span><span class="p">),</span>
     <span class="p">(</span><span class="s2">"dim7"</span><span class="p">,</span> <span class="s2">"o7"</span><span class="p">),</span>
     <span class="p">(</span><span class="s2">"dim"</span><span class="p">,</span> <span class="s2">"o"</span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">"</span><span class="se">\u00b0</span><span class="s2">7"</span><span class="p">,</span> <span class="s2">"o7"</span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">"</span><span class="se">\u00b0</span><span class="s2">"</span><span class="p">,</span> <span class="s2">"o"</span><span class="p">),</span>
     <span class="p">(</span><span class="s2">"m7b5"</span><span class="p">,</span> <span class="s2">"h7"</span><span class="p">),</span>
     <span class="p">(</span><span class="s2">"ø7"</span><span class="p">,</span> <span class="s2">"h7"</span><span class="p">),</span>
     <span class="p">(</span><span class="s2">"ø"</span><span class="p">,</span> <span class="s2">"h"</span><span class="p">),</span>
-    <span class="p">(</span><span class="s2">"sus4"</span><span class="p">,</span> <span class="s2">"sus"</span><span class="p">),</span>
     <span class="p">(</span><span class="s2">"sus2"</span><span class="p">,</span> <span class="s2">"sus2"</span><span class="p">),</span>
     <span class="p">(</span><span class="s2">"add9"</span><span class="p">,</span> <span class="s2">"add9"</span><span class="p">),</span>
     <span class="p">(</span><span class="s2">"add2"</span><span class="p">,</span> <span class="s2">"add2"</span><span class="p">),</span>
@@ -766,7 +775,8 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">    Handles conversions like:</span>
 <span class="sd">    - Cm -&gt; C-</span>
 <span class="sd">    - Cmaj7 -&gt; C^7</span>
-<span class="sd">    - Cdim -&gt; Co</span>
+<span class="sd">    - Cdim, C° -&gt; Co</span>
+<span class="sd">    - CM7, CMaj7 -&gt; C^7; Cmi7 -&gt; C-7</span>
 <span class="sd">    - Cm7b5 -&gt; Ch7 (half-diminished)</span>
 
 <span class="sd">    Each ``/``-separated part of the symbol has its longest matching suffix from</span>

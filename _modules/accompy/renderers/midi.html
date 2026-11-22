@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=75c7c72ae941e8b558d8" />
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=75c7c72ae941e8b558d8" />
 
-    <script src="../../../_static/documentation_options.js?v=189d1112"></script>
+    <script src="../../../_static/documentation_options.js?v=3226d6c8"></script>
     <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -411,7 +411,7 @@ window.runMermaid = runMermaid;</script>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="color-scheme" content="light dark"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="0.3.19" />
+  <meta name="docsearch:version" content="0.3.20" />
   
     
     <script src="../../../_static/searchtools.js"></script>
@@ -848,17 +848,23 @@ window.runMermaid = runMermaid;</script>
 <span class="c1">#: moved to the symbol's root when it has a readable one (see :func:`fallback_chord_notes`).</span>
 <span class="n">FALLBACK_CHORD_NOTES</span> <span class="o">=</span> <span class="p">(</span><span class="mi">48</span><span class="p">,</span> <span class="mi">52</span><span class="p">,</span> <span class="mi">55</span><span class="p">)</span>
 
+<span class="c1">#: The minor triad's third, in semitones above the root (the major third is 4).</span>
+<span class="n">_MINOR_THIRD</span> <span class="o">=</span> <span class="mi">3</span>
+
 
 <div class="viewcode-block" id="fallback_chord_notes">
 <a class="viewcode-back" href="../../../_autosummary/accompy.renderers.midi.html#accompy.fallback_chord_notes">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">fallback_chord_notes</span><span class="p">(</span><span class="n">symbol</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">"""What the renderer plays for a symbol its resolver cannot read: a major triad on its root.</span>
+<span class="w">    </span><span class="sd">"""What the renderer plays for a symbol its resolver cannot read: a triad on its root.</span>
 
 <span class="sd">    The root is the leading note name, in either case and with ``#``/``b`` or ``♯``/``♭``</span>
-<span class="sd">    (``C``, ``F#``, ``B♭``, ``eb``); without one, the triad is on C.</span>
+<span class="sd">    (``C``, ``F#``, ``B♭``, ``eb``); without one, the triad is on C. The triad is major</span>
+<span class="sd">    unless the symbol says minor (``-``, ``m``, ``min``, not ``maj``): ``E#m`` plays F minor.</span>
 
 <span class="sd">    &gt;&gt;&gt; fallback_chord_notes("G#13(b9)"), fallback_chord_notes("?")</span>
 <span class="sd">    ([56, 60, 63], [48, 52, 55])</span>
+<span class="sd">    &gt;&gt;&gt; fallback_chord_notes("E#-7"), fallback_chord_notes("E#maj7")</span>
+<span class="sd">    ([53, 56, 60], [53, 57, 60])</span>
 <span class="sd">    """</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">..util</span><span class="w"> </span><span class="kn">import</span> <span class="n">_NOTE_TO_SEMITONE</span>
 
@@ -869,8 +875,18 @@ window.runMermaid = runMermaid;</script>
         <span class="s2">"</span><span class="se">\u266d</span><span class="s2">"</span><span class="p">,</span> <span class="s2">"b"</span>
     <span class="p">)</span>
     <span class="n">shift</span> <span class="o">=</span> <span class="n">_NOTE_TO_SEMITONE</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
-    <span class="k">return</span> <span class="p">[</span><span class="n">n</span> <span class="o">+</span> <span class="n">shift</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">FALLBACK_CHORD_NOTES</span><span class="p">]</span></div>
+    <span class="n">root</span><span class="p">,</span> <span class="n">third</span><span class="p">,</span> <span class="n">fifth</span> <span class="o">=</span> <span class="n">FALLBACK_CHORD_NOTES</span>
+    <span class="k">if</span> <span class="n">_says_minor</span><span class="p">(</span><span class="n">symbol</span><span class="p">[</span><span class="n">match</span><span class="o">.</span><span class="n">end</span><span class="p">()</span> <span class="p">:]):</span>
+        <span class="n">third</span> <span class="o">=</span> <span class="n">root</span> <span class="o">+</span> <span class="n">_MINOR_THIRD</span>
+    <span class="k">return</span> <span class="p">[</span><span class="n">n</span> <span class="o">+</span> <span class="n">shift</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">third</span><span class="p">,</span> <span class="n">fifth</span><span class="p">)]</span></div>
 
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_says_minor</span><span class="p">(</span><span class="n">quality</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Whether the part of a chord symbol after its root names a minor chord."""</span>
+    <span class="k">return</span> <span class="n">quality</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">"-"</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span>
+        <span class="n">quality</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">"m"</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">quality</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">"maj"</span><span class="p">)</span>
+    <span class="p">)</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_style_patterns</span><span class="p">(</span><span class="n">pattern_source</span><span class="p">,</span> <span class="n">style</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>

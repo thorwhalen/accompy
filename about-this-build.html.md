@@ -2,7 +2,7 @@
 
 # About this build
 
-This documentation was built on **2026-11-22 12:07 UTC** from commit <a href="https://github.com/thorwhalen/accompy/commit/1717140ce7e7555d61b83d1be72e932e7e944990"><code>1717140</code></a> on branch <code>main</code>, for **accompy 0.3.19** (from <code>pyproject.toml</code>).
+This documentation was built on **2026-11-22 12:10 UTC** from commit <a href="https://github.com/thorwhalen/accompy/commit/67c10213277fa39aaa61f9e2a6d4df8f96634378"><code>67c1021</code></a> on branch <code>main</code>, for **accompy 0.3.20** (from <code>pyproject.toml</code>).
 
 #### NOTE
 Nothing suggests a mismatch: the tree was clean at the commit above, and the documented version is the one on PyPI.
@@ -11,7 +11,7 @@ Nothing suggests a mismatch: the tree was clean at the commit above, and the doc
 
 |                     |                                                                                                                                                           |
 |---------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Commit              | <a href="https://github.com/thorwhalen/accompy/commit/1717140ce7e7555d61b83d1be72e932e7e944990"><code>1717140ce7e7555d61b83d1be72e932e7e944990</code></a> |
+| Commit              | <a href="https://github.com/thorwhalen/accompy/commit/67c10213277fa39aaa61f9e2a6d4df8f96634378"><code>67c10213277fa39aaa61f9e2a6d4df8f96634378</code></a> |
 | Branch              | <code>main</code>                                                                                                                                         |
 | Tags at this commit | none                                                                                                                                                      |
 | Working tree        | clean                                                                                                                                                     |
@@ -22,9 +22,9 @@ Nothing suggests a mismatch: the tree was clean at the commit above, and the doc
 |              |                                                                                            |
 |--------------|--------------------------------------------------------------------------------------------|
 | Repository   | <code>thorwhalen/accompy</code>                                                            |
-| Run          | <a href="https://github.com/thorwhalen/accompy/actions/runs/45020491742">45020491742</a>   |
+| Run          | <a href="https://github.com/thorwhalen/accompy/actions/runs/45020790272">45020790272</a>   |
 | Ref          | <code>refs/heads/main</code>                                                               |
-| Event commit | <code>1717140ce7e7555d61b83d1be72e932e7e944990</code> (in the history of the built commit) |
+| Event commit | <code>67c10213277fa39aaa61f9e2a6d4df8f96634378</code> (in the history of the built commit) |
 
 ## Tools
 
@@ -49,13 +49,13 @@ Nothing suggests a mismatch: the tree was clean at the commit above, and the doc
 
 ## Package on PyPI
 
-Latest release: <a href="https://pypi.org/project/accompy/0.3.19/">0.3.19</a>, the same as the documented version.
+Latest release: <a href="https://pypi.org/project/accompy/0.3.20/">0.3.20</a>, the same as the documented version.
 
 ## Reproduce
 
 ```bash
 git clone https://github.com/thorwhalen/accompy && cd accompy
-git checkout 1717140ce7e7555d61b83d1be72e932e7e944990
+git checkout 67c10213277fa39aaa61f9e2a6d4df8f96634378
 pip install "epythet==0.2.23"
 epythet quickstart . --ignore tests/ scrap/ examples/
 ```
