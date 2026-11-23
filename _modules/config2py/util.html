@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=75c7c72ae941e8b558d8" />
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=75c7c72ae941e8b558d8" />
 
-    <script src="../../_static/documentation_options.js?v=965e52d1"></script>
+    <script src="../../_static/documentation_options.js?v=05de5ca2"></script>
     <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -411,7 +411,7 @@ window.runMermaid = runMermaid;</script>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="color-scheme" content="light dark"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="0.3.21" />
+  <meta name="docsearch:version" content="0.3.23" />
   
     
     <script src="../../_static/searchtools.js"></script>
@@ -827,7 +827,14 @@ window.runMermaid = runMermaid;</script>
     <span class="k">return</span> <span class="n">fd</span>
 
 
-<span class="k">def</span><span class="w"> </span><span class="nf">secure_open</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">"w"</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">follow_symlinks</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">beneath</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">open_kwargs</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">secure_open</span><span class="p">(</span>
+    <span class="n">path</span><span class="p">:</span> <span class="s2">"str | os.PathLike"</span><span class="p">,</span>
+    <span class="n">mode</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"w"</span><span class="p">,</span>
+    <span class="o">*</span><span class="p">,</span>
+    <span class="n">follow_symlinks</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">beneath</span><span class="p">:</span> <span class="s2">"str | os.PathLike | None"</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="o">**</span><span class="n">open_kwargs</span><span class="p">,</span>
+<span class="p">):</span>
 <span class="w">    </span><span class="sd">"""``open(path, mode, **open_kwargs)`` with owner-only (``0o600``) permissions.</span>
 
 <span class="sd">    The file is created (or re-tightened) by ``owner_only_opener``. Being the builtin</span>
@@ -875,8 +882,9 @@ window.runMermaid = runMermaid;</script>
     <span class="k">if</span> <span class="n">parts</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">os</span><span class="o">.</span><span class="n">pardir</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">os</span><span class="o">.</span><span class="n">fspath</span><span class="p">(</span><span class="n">path</span><span class="p">)</span><span class="si">!r}</span><span class="s2"> is not inside </span><span class="si">{</span><span class="n">os</span><span class="o">.</span><span class="n">fspath</span><span class="p">(</span><span class="n">beneath</span><span class="p">)</span><span class="si">!r}</span><span class="s2">"</span><span class="p">)</span>
     <span class="o">*</span><span class="n">folders</span><span class="p">,</span> <span class="n">name</span> <span class="o">=</span> <span class="n">parts</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="nb">hasattr</span><span class="p">(</span><span class="n">os</span><span class="p">,</span> <span class="s2">"O_NOFOLLOW"</span><span class="p">)</span> <span class="ow">and</span> <span class="n">os</span><span class="o">.</span><span class="n">open</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">supports_dir_fd</span><span class="p">):</span>
-        <span class="n">folder</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">beneath</span><span class="p">)</span>  <span class="c1"># no dir_fd (Windows): check, then open</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">check_then_open</span><span class="p">():</span>  <span class="c1"># no dir_fd (Windows), or no way to walk by fd: check, open</span>
+        <span class="n">folder</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">beneath</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">part</span> <span class="ow">in</span> <span class="n">folders</span><span class="p">:</span>
             <span class="n">folder</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">folder</span><span class="p">,</span> <span class="n">part</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">islink</span><span class="p">(</span><span class="n">folder</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="p">,</span> <span class="s2">"isjunction"</span><span class="p">,</span> <span class="nb">bool</span><span class="p">)(</span><span class="n">folder</span><span class="p">):</span>
@@ -887,13 +895,24 @@ window.runMermaid = runMermaid;</script>
             <span class="n">opener</span><span class="o">=</span><span class="n">partial</span><span class="p">(</span><span class="n">owner_only_opener</span><span class="p">,</span> <span class="n">follow_symlinks</span><span class="o">=</span><span class="kc">False</span><span class="p">),</span>
             <span class="o">**</span><span class="n">open_kwargs</span><span class="p">,</span>
         <span class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="nb">hasattr</span><span class="p">(</span><span class="n">os</span><span class="p">,</span> <span class="s2">"O_NOFOLLOW"</span><span class="p">)</span> <span class="ow">and</span> <span class="n">os</span><span class="o">.</span><span class="n">open</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">supports_dir_fd</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">check_then_open</span><span class="p">()</span>
     <span class="c1"># O_PATH (Linux): walking a folder needs only search permission, not read</span>
     <span class="n">dir_flags</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">os</span><span class="p">,</span> <span class="s2">"O_PATH"</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">O_RDONLY</span><span class="p">)</span> <span class="o">|</span> <span class="n">os</span><span class="o">.</span><span class="n">O_NOFOLLOW</span>
     <span class="n">dir_flags</span> <span class="o">|=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">os</span><span class="p">,</span> <span class="s2">"O_DIRECTORY"</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
     <span class="n">dir_fd</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">beneath</span><span class="p">),</span> <span class="n">dir_flags</span> <span class="o">&amp;</span> <span class="o">~</span><span class="n">os</span><span class="o">.</span><span class="n">O_NOFOLLOW</span><span class="p">)</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="k">for</span> <span class="n">part</span> <span class="ow">in</span> <span class="n">folders</span><span class="p">:</span>  <span class="c1"># ``part`` is a symlink =&gt; OSError (ELOOP / ENOTDIR)</span>
-            <span class="n">next_fd</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">part</span><span class="p">,</span> <span class="n">dir_flags</span><span class="p">,</span> <span class="n">dir_fd</span><span class="o">=</span><span class="n">dir_fd</span><span class="p">)</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">next_fd</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">part</span><span class="p">,</span> <span class="n">dir_flags</span><span class="p">,</span> <span class="n">dir_fd</span><span class="o">=</span><span class="n">dir_fd</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">PermissionError</span><span class="p">:</span>
+                <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">os</span><span class="p">,</span> <span class="s2">"O_PATH"</span><span class="p">):</span>
+                    <span class="k">raise</span>
+                <span class="c1"># No O_PATH (macOS): opening a folder needs read permission, which a</span>
+                <span class="c1"># search-only (e.g. 0o300) folder lacks. Fall back to the path check</span>
+                <span class="c1"># (https://github.com/i2mint/config2py/issues/72).</span>
+                <span class="k">return</span> <span class="n">check_then_open</span><span class="p">()</span>
             <span class="n">os</span><span class="o">.</span><span class="n">close</span><span class="p">(</span><span class="n">dir_fd</span><span class="p">)</span>
             <span class="n">dir_fd</span> <span class="o">=</span> <span class="n">next_fd</span>
         <span class="n">opener</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span><span class="n">owner_only_opener</span><span class="p">,</span> <span class="n">follow_symlinks</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">dir_fd</span><span class="o">=</span><span class="n">dir_fd</span><span class="p">)</span>
@@ -905,7 +924,7 @@ window.runMermaid = runMermaid;</script>
 <span class="n">_STALE_TMP_SECONDS</span> <span class="o">=</span> <span class="mi">3600</span>  <span class="c1"># older hidden temp files are leftovers of a killed writer</span>
 
 
-<span class="k">def</span><span class="w"> </span><span class="nf">_sweep_stale_tmp</span><span class="p">(</span><span class="n">folder</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">max_age</span><span class="o">=</span><span class="n">_STALE_TMP_SECONDS</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_sweep_stale_tmp</span><span class="p">(</span><span class="n">folder</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">max_age</span><span class="o">=</span><span class="n">_STALE_TMP_SECONDS</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""Remove ``.&lt;name&gt;.&lt;hex&gt;.tmp`` leftovers (e.g. from a SIGKILL) older than ``max_age``."""</span>
     <span class="n">pattern</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">rf</span><span class="s2">"\.</span><span class="si">{</span><span class="n">re</span><span class="o">.</span><span class="n">escape</span><span class="p">(</span><span class="n">name</span><span class="p">)</span><span class="si">}</span><span class="s2">\.[0-9a-f]</span><span class="se">{{</span><span class="s2">8</span><span class="se">}}</span><span class="s2">\.tmp"</span><span class="p">)</span>
     <span class="k">try</span><span class="p">:</span>
@@ -923,7 +942,13 @@ window.runMermaid = runMermaid;</script>
                 <span class="k">pass</span>
 
 
-<span class="k">def</span><span class="w"> </span><span class="nf">atomic_write_bytes</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="nb">bytes</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">follow_symlinks</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">beneath</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">atomic_write_bytes</span><span class="p">(</span>
+    <span class="n">path</span><span class="p">:</span> <span class="s2">"str | os.PathLike"</span><span class="p">,</span>
+    <span class="n">data</span><span class="p">:</span> <span class="nb">bytes</span><span class="p">,</span>
+    <span class="o">*</span><span class="p">,</span>
+    <span class="n">follow_symlinks</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">beneath</span><span class="p">:</span> <span class="s2">"str | os.PathLike | None"</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""Write ``data`` to ``path`` (``0o600``) so a crash never leaves it empty or partial.</span>
 
 <span class="sd">    The bytes go to a ``0o600`` temp file in the same folder (through ``secure_open``,</span>
@@ -985,7 +1010,7 @@ window.runMermaid = runMermaid;</script>
         <span class="k">raise</span>
 
 
-<span class="k">def</span><span class="w"> </span><span class="nf">tighten_mode</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">mode</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">strict</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">tighten_mode</span><span class="p">(</span><span class="n">path</span><span class="p">:</span> <span class="s2">"str | os.PathLike"</span><span class="p">,</span> <span class="n">mode</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">strict</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""Set ``path``'s permission bits to ``mode``, only if they differ. POSIX only.</span>
 
 <span class="sd">    Returns ``True`` if ``path`` ends up with ``mode``. A failing ``chmod`` (read-only</span>
@@ -1008,7 +1033,7 @@ window.runMermaid = runMermaid;</script>
         <span class="k">return</span> <span class="kc">False</span>
 
 
-<span class="k">def</span><span class="w"> </span><span class="nf">_warn_not_tightened</span><span class="p">(</span><span class="n">what</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_warn_not_tightened</span><span class="p">(</span><span class="n">what</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
     <span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">config2py.errors</span><span class="w"> </span><span class="kn">import</span> <span class="n">Config2PyWarning</span>
 
@@ -1019,7 +1044,7 @@ window.runMermaid = runMermaid;</script>
     <span class="p">)</span>
 
 
-<span class="k">def</span><span class="w"> </span><span class="nf">secure_makedirs</span><span class="p">(</span><span class="n">dirpath</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">secure_makedirs</span><span class="p">(</span><span class="n">dirpath</span><span class="p">:</span> <span class="s2">"str | os.PathLike"</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">exist_ok</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""``os.makedirs(dirpath, mode=0o700)``, re-tightening the mode if it already exists.</span>
 
 <span class="sd">    ``os.makedirs(..., mode=0o700, exist_ok=True)`` alone won't re-tighten an existing</span>
@@ -1135,7 +1160,7 @@ window.runMermaid = runMermaid;</script>
     <span class="n">stacklevel</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span>
     <span class="n">check_ancestors</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
     <span class="n">ignore_sticky</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
-<span class="p">):</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""Check ``dirpath`` with ``unsafe_folder_reason``, and act on a problem.</span>
 
 <span class="sd">    :param on_unsafe: ``"warn"`` (the default) issues an</span>
@@ -1209,11 +1234,11 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">    i2mint/config2py#16).</span>
 <span class="sd">    """</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Wrap ``os.environ`` as the (only) mapping in the chain."""</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">)</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Return a fixed, value-free label so secrets aren't printed."""</span>
         <span class="k">return</span> <span class="s2">"EnvironmentVariables"</span>
 
@@ -1406,7 +1431,7 @@ window.runMermaid = runMermaid;</script>
     <span class="k">return</span> <span class="n">env_vars</span>
 
 
-<span class="k">def</span><span class="w"> </span><span class="nf">create_directories</span><span class="p">(</span><span class="n">dirpath</span><span class="p">,</span> <span class="n">max_dirs_to_make</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">create_directories</span><span class="p">(</span><span class="n">dirpath</span><span class="p">,</span> <span class="n">max_dirs_to_make</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Create directories up to a specified limit.</span>
 
@@ -1840,7 +1865,7 @@ window.runMermaid = runMermaid;</script>
     <span class="k">return</span> <span class="n">configs_dir</span>
 
 
-<span class="k">def</span><span class="w"> </span><span class="nf">_tighten_managed_configs_folder</span><span class="p">(</span><span class="n">configs_dir</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_tighten_managed_configs_folder</span><span class="p">(</span><span class="n">configs_dir</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""Re-tighten a config2py-managed configs folder created with looser modes.</span>
 
 <span class="sd">    The folder becomes ``0o700`` and the files in it lose their group and other</span>
@@ -2042,7 +2067,7 @@ window.runMermaid = runMermaid;</script>
         <span class="o">*</span><span class="p">,</span>
         <span class="n">package_name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">seed_data_dir</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"_seed_data"</span><span class="p">,</span>
-    <span class="p">):</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""See the class docstring for each parameter."""</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">app_name</span> <span class="o">=</span> <span class="n">app_name</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">package_name</span> <span class="o">=</span> <span class="n">package_name</span> <span class="ow">or</span> <span class="n">app_name</span>
@@ -2100,14 +2125,14 @@ window.runMermaid = runMermaid;</script>
     <span class="k">return</span> <span class="s2">"get_ipython"</span> <span class="ow">in</span> <span class="nb">globals</span><span class="p">()</span>
 
 
-<span class="k">def</span><span class="w"> </span><span class="nf">_main_does_not_have_file_attribute</span><span class="p">():</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_main_does_not_have_file_attribute</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
     <span class="k">return</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">[</span><span class="s2">"__main__"</span><span class="p">],</span> <span class="s2">"__file__"</span><span class="p">)</span>
 
 
 <span class="n">_repl_conditions</span> <span class="o">=</span> <span class="p">{</span><span class="n">_get_ipython_in_globals</span><span class="p">,</span> <span class="n">_main_does_not_have_file_attribute</span><span class="p">}</span>
 
 
-<span class="k">def</span><span class="w"> </span><span class="nf">is_repl</span><span class="p">():</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">is_repl</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Determines if the Python interpreter is running in REPL.</span>
 

@@ -4,6 +4,7 @@
 
 Generate backing track audio from chord charts in Python — like iReal Pro, but scriptable.
 
+<!-- wads-docs: skip needs FluidSynth and a SoundFont -->
 ```python
 from accompy import generate_accompaniment
 
@@ -89,13 +90,9 @@ python -m accompy --check-deps
 
 #### SoundFont (important for sound quality!)
 
-FluidSynth renders MIDI using **SoundFont** sample banks (`.sf2` files).
-The SoundFont determines the quality of every instrument you hear.
-FluidSynth’s bundled SoundFont (`VintageDreamsWaves-v2.sf2`, ~300 KB) is a
-bare-minimum placeholder made of basic waveforms — **it will sound terrible**.
+FluidSynth renders MIDI using **SoundFont** sample banks (`.sf2` files). The SoundFont determines the quality of every instrument you hear. FluidSynth’s bundled SoundFont (`VintageDreamsWaves-v2.sf2`, ~300 KB) is a bare-minimum placeholder made of basic waveforms — **it will sound terrible**.
 
-For good results, install a full General MIDI SoundFont with real instrument
-samples:
+For good results, install a full General MIDI SoundFont with real instrument samples:
 
 ```bash
 mkdir -p ~/.fluidsynth
@@ -107,14 +104,12 @@ curl -L -o ~/.fluidsynth/default_sound_font.sf2 \
 
 Other recommended SoundFonts:
 
-- **GeneralUser GS** (~30 MB) — excellent bass and drums, free for commercial
-  use. Download from [https://schristiancollins.com/generaluser.php](https://schristiancollins.com/generaluser.php)
+- **GeneralUser GS** (~30 MB) — excellent bass and drums, free for commercial use. Download from [https://schristiancollins.com/generaluser.php](https://schristiancollins.com/generaluser.php)
 - **FluidR3_GM** (~140 MB) — the classic GM SoundFont, widely used.
 
 Browse more at [https://musical-artifacts.com/artifacts?formats=sf2](https://musical-artifacts.com/artifacts?formats=sf2).
 
-After downloading, place or symlink the file at
-`~/.fluidsynth/default_sound_font.sf2` (accompy looks there by default).
+After downloading, place or symlink the file at `~/.fluidsynth/default_sound_font.sf2` (accompy looks there by default).
 
 #### Check Your Setup
 
@@ -130,6 +125,7 @@ python -c "from accompy import print_diagnostic_report; print_diagnostic_report(
 
 ### Basic Usage
 
+<!-- wads-docs: skip needs FluidSynth and a SoundFont -->
 ```python
 from accompy import generate_accompaniment
 
@@ -156,6 +152,7 @@ midi = generate_accompaniment(
 
 For more control, create a `Score` object:
 
+<!-- wads-docs: skip needs FluidSynth and a SoundFont -->
 ```python
 from accompy import Score, generate_accompaniment
 
@@ -184,9 +181,7 @@ generate_accompaniment("| C | Am | F | G |")
 generate_accompaniment("irealbook://Autumn%20Leaves=...")
 
 # 3) List of (chord, beats) tuples (like `accompany`)
-chords = [("F#m7b5", 4), ("B7", 4), ("Em", 8)]
-score = ensure_score(chords, key="E")
-generate_accompaniment(score)
+chords = [("F#m7b5", 4), ("B7", 4), ("Em", 8)] score = ensure_score(chords, key="E") generate_accompaniment(score)
 ```
 
 ### Backend Selection
@@ -212,6 +207,7 @@ generate_accompaniment("| Dm7 | G7 | Cmaj7 | Am7 |", backend="mma")
 
 accompy supports flexible chord notation:
 
+<!-- wads-docs: skip needs FluidSynth and a SoundFont -->
 ```python
 # Jazz notation (iReal Pro style)
 "| C^7 | D-7 | G7 | C^7 |"   # ^7=maj7, -7=min7
@@ -263,6 +259,7 @@ Available styles with characteristic patterns:
 
 Parse and play iReal Pro chord charts:
 
+<!-- wads-docs: skip needs FluidSynth and a SoundFont -->
 ```python
 from accompy import Score, generate_accompaniment
 
@@ -280,6 +277,7 @@ audio = generate_accompaniment(score, style="swing", tempo=140)
 
 Full control with `AccompanimentConfig`:
 
+<!-- wads-docs: skip needs FluidSynth and a SoundFont -->
 ```python
 from accompy import AccompanimentConfig, generate_accompaniment
 
@@ -309,9 +307,9 @@ audio = generate_accompaniment(
 
 ### Rhythmic Skeletons
 
-For simple chord renderings (no drums or bass — just restriking chords with a
-rhythmic feel), use `rhythm_to_midi` or `rhythm_to_audio`:
+For simple chord renderings (no drums or bass — just restriking chords with a rhythmic feel), use `rhythm_to_midi` or `rhythm_to_audio`:
 
+<!-- wads-docs: skip needs FluidSynth and a SoundFont -->
 ```python
 from accompy import rhythm_to_midi, rhythm_to_audio
 
@@ -332,12 +330,9 @@ midi = rhythm_to_midi("| C | Am |", skeleton=(1.5, 0.5, 1.5, 0.5))
 audio = rhythm_to_audio("| C | Am |", skeleton="half_notes", tempo=100)
 ```
 
-A rhythmic skeleton is just a tuple of durations that sum to the measure length —
-e.g. `(1.5, 1.5, 1)` says “hit, hold for a dotted quarter; hit again, hold for
-another dotted quarter; hit once more, hold for a quarter.” No pitches, no
-voicings, no velocities. The skeleton defines *when* you strike within a measure;
-the chord progression defines *what* you play.
+A rhythmic skeleton is just a tuple of durations that sum to the measure length — e.g. `(1.5, 1.5, 1)` says “hit, hold for a dotted quarter; hit again, hold for another dotted quarter; hit once more, hold for a quarter.” No pitches, no voicings, no velocities. The skeleton defines *when* you strike within a measure; the chord progression defines *what* you play.
 
+<!-- wads-docs: skip needs FluidSynth and a SoundFont -->
 ```python
 from accompy import resolve_skeleton, list_skeletons, register_skeleton
 
@@ -363,6 +358,7 @@ register_skeleton("my_groove", (1, 0.5, 0.5, 2), name="My Groove", styles=["cust
 
 Provide your own chord-to-notes resolver:
 
+<!-- wads-docs: skip needs FluidSynth and a SoundFont -->
 ```python
 from accompy import set_chord_resolver, generate_accompaniment
 
@@ -385,6 +381,7 @@ audio = generate_accompaniment("| Dm7 | G7 | Cmaj7 |")
 
 Register your own accompaniment patterns:
 
+<!-- wads-docs: skip needs FluidSynth and a SoundFont -->
 ```python
 from accompy import (
     register_style,
@@ -433,6 +430,7 @@ audio = generate_accompaniment("| C7 | F7 | C7 | G7 |", style="my_funk")
 
 The pattern registry is a `MutableMapping`, making it Pythonic and extensible:
 
+<!-- wads-docs: skip needs FluidSynth and a SoundFont -->
 ```python
 from accompy import get_pattern_registry
 
@@ -457,6 +455,7 @@ registry["custom_groove"] = {
 
 For advanced use cases (future integration with `hum`/`pyo` for real-time synthesis):
 
+<!-- wads-docs: skip needs FluidSynth and a SoundFont -->
 ```python
 from accompy import RealtimeAccompaniment, AccompanimentConfig
 
@@ -478,6 +477,7 @@ for event in player.events():
 
 All major components implement protocols for maximum flexibility:
 
+<!-- wads-docs: skip needs FluidSynth and a SoundFont -->
 ```python
 from accompy.protocols import ChordResolver, PatternSource, SynthesizerBackend
 
@@ -593,12 +593,9 @@ Print installation instructions for missing dependencies.
 
 ### It sounds awful!
 
-**Problem:** The generated audio plays but sounds robotic, hollow, or like
-cheap ringtones from 2003.
+**Problem:** The generated audio plays but sounds robotic, hollow, or like cheap ringtones from 2003.
 
-**Cause:** You’re using a tiny placeholder SoundFont. FluidSynth ships with
-`VintageDreamsWaves-v2.sf2` (~300 KB), which is made of basic sine waves — not
-real instrument samples. This is the #1 reason accompy output sounds bad.
+**Cause:** You’re using a tiny placeholder SoundFont. FluidSynth ships with `VintageDreamsWaves-v2.sf2` (~300 KB), which is made of basic sine waves — not real instrument samples. This is the #1 reason accompy output sounds bad.
 
 **How to check:**
 
@@ -615,9 +612,7 @@ curl -L -o ~/.fluidsynth/default_sound_font.sf2 \
   "https://ftp.osuosl.org/pub/musescore/soundfont/MuseScore_General/MuseScore_General.sf2"
 ```
 
-A proper SoundFont should be **30–200+ MB**. See the
-[SoundFont section](#soundfont-important-for-sound-quality) above for more
-options, or browse [https://musical-artifacts.com/artifacts?formats=sf2](https://musical-artifacts.com/artifacts?formats=sf2).
+A proper SoundFont should be **30–200+ MB**. See the [SoundFont section](#soundfont-important-for-sound-quality) above for more options, or browse [https://musical-artifacts.com/artifacts?formats=sf2](https://musical-artifacts.com/artifacts?formats=sf2).
 
 > **Tip:** If you’re using an AI coding agent (Claude Code, Cursor, etc.),
 > just tell it:  *“the accompy output sounds bad, find and install a good
@@ -670,8 +665,7 @@ options, or browse [https://musical-artifacts.com/artifacts?formats=sf2](https:/
    sudo apt-get update
    sudo apt-get install fluidsynth
    ```
-3. **Windows:**
-   Download from [FluidSynth releases](https://github.com/FluidSynth/fluidsynth/releases) and add to PATH
+3. **Windows:** Download from [FluidSynth releases](https://github.com/FluidSynth/fluidsynth/releases) and add to PATH
 4. **Verify installation:**
    ```bash
    which fluidsynth
@@ -739,6 +733,7 @@ pip install midiutil mingus
 
 Get a comprehensive report of your setup:
 
+<!-- wads-docs: skip needs FluidSynth and a SoundFont -->
 ```python
 from accompy import print_diagnostic_report
 
@@ -754,6 +749,7 @@ This shows:
 
 #### Check Specific Issues
 
+<!-- wads-docs: skip needs FluidSynth and a SoundFont -->
 ```python
 from accompy import diagnose_issues
 
@@ -765,6 +761,7 @@ for issue, description, solution in diagnose_issues():
 
 #### Verify Individual Dependencies
 
+<!-- wads-docs: skip needs FluidSynth and a SoundFont -->
 ```python
 from accompy import check_dependencies
 
@@ -803,10 +800,7 @@ Contributions welcome! Areas of interest:
 
 ## AI agent skills
 
-Two skills ship with this repository. Their real files live in `skills/`, with a
-relative symlink per skill in `.claude/skills/` so Claude Code finds them too —
-`gh skill` discovers non-hidden `skills/` directories and skips hidden ones, so
-one location plus a symlink serves both.
+Two skills ship with this repository. Their real files live in `skills/`, with a relative symlink per skill in `.claude/skills/` so Claude Code finds them too — `gh skill` discovers non-hidden `skills/` directories and skips hidden ones, so one location plus a symlink serves both.
 
 | Skill              | What it covers                                                                             |
 |--------------------|--------------------------------------------------------------------------------------------|
